@@ -1,2070 +1,2070 @@
 {
   "regions": [
-    {
-      "id": "BLACK_MOUNTAIN",
-      "name": "Black Mountain",
-      "color": "#FFD100",
-      "tileIds": [
-        "BLACK_MOUNTAIN",
-        "CAMP_FORLORN_HOPE",
-        "CLARK_FIELD",
-        "EL_DORADO_DRY_LAKE",
-        "EL_DORADO_GAS_AND_SERVICE",
-        "GIBSON_SCRAP_YARD",
-        "HELIOS_ONE",
-        "HIDDEN_VALLEY",
-        "HIGHWAY_95_ENCAMPMENT",
-        "NELSON",
-        "NOVAC",
-        "RANGER_STATION_DELTA",
-        "REPCONN_TEST_SITE",
-        "SOUTHERN_NEVADA_WIND_FARM",
-        "TECHATTICUP_MINE",
+	{
+	  "id": "BLACK_MOUNTAIN",
+	  "name": "Black Mountain",
+	  "color": "#FFD100",
+	  "tileIds": [
+		"BLACK_MOUNTAIN",
+		"CAMP_FORLORN_HOPE",
+		"CLARK_FIELD",
+		"EL_DORADO_DRY_LAKE",
+		"EL_DORADO_GAS_AND_SERVICE",
+		"GIBSON_SCRAP_YARD",
+		"HELIOS_ONE",
+		"HIDDEN_VALLEY",
+		"HIGHWAY_95_ENCAMPMENT",
+		"NELSON",
+		"NOVAC",
+		"RANGER_STATION_DELTA",
+		"REPCONN_TEST_SITE",
+		"SOUTHERN_NEVADA_WIND_FARM",
+		"TECHATTICUP_MINE",
         "VAULT_11"
-      ]
-    },
-    {
-      "id": "HOOVER_DAM",
-      "name": "Hoover Dam",
-      "color": "FFE06B",
-      "tileIds": [
-        "188_TRADING_POST",
-        "BOULDER_CITY",
-        "CAMP_GOLF",
-        "FOLLOWERS_OUTPOST",
-        "HOOVER_DAM",
-        "LEGATES_CAMP",
-        "LEGION_CAMP",
-        "MOUNTAIN_SHADOWS_CAMPGROUND",
-        "RANGER_STATION_ALPHA",
-        "THE_FORT",
-        "VAULT_34",
-        "VISITOR_CENTRE",
+	  ]
+	},
+	{
+	  "id": "HOOVER_DAM",
+	  "name": "Hoover Dam",
+	  "color": "#FFE06B",
+	  "tileIds": [
+		"188_TRADING_POST",
+		"BOULDER_CITY",
+		"CAMP_GOLF",
+		"FOLLOWERS_OUTPOST",
+		"HOOVER_DAM",
+		"LEGATES_CAMP",
+		"LEGION_CAMP",
+		"MOUNTAIN_SHADOWS_CAMPGROUND",
+		"RANGER_STATION_ALPHA",
+		"THE_FORT",
+		"VAULT_34",
+		"VISITOR_CENTRE",
         "WILLOW_BEACH"
-      ]
-    },
-    {
-      "id": "JACOBSTOWN",
-      "name": "Jacobstown",
-      "color": "#00C343",
-      "tileIds": [
-        "CAZADOR_NEST",
-        "CHARLESTON_CAVE",
-        "JACOBSTOWN",
-        "RANGER_STATION_FOXTROT",
-        "REMNANTS_BUNKER",
-        "RUB_HILL_MINE",
+	  ]
+	},
+	{
+	  "id": "JACOBSTOWN",
+	  "name": "Jacobstown",
+	  "color": "#00C343",
+	  "tileIds": [
+		"CAZADOR_NEST",
+		"CHARLESTON_CAVE",
+		"JACOBSTOWN",
+		"RANGER_STATION_FOXTROT",
+		"REMNANTS_BUNKER",
+		"RUB_HILL_MINE",
         "SILVER_PEAK_MINE"
-      ]
-    },
-    {
-      "id": "MCCARRAN_CORRIDOR",
-      "name": "Mccarran Corridor",
-      "color": "#45A2FF",
-      "tileIds": [
-        "AEROTECH_OFFICE_PARK",
-        "ALLIED_TECH",
-        "CAMP_MCCARRAN",
-        "CRIMSON_CARAVAN",
-        "EAST_PUMP",
-        "GRUB_GULP_REST_STOP",
-        "GUN_RUNNERS",
-        "MCCARRAN_FIELD",
-        "MOLE_RAT_RANCH",
-        "REPCONN_HQ",
-        "SHARECROPPER_FARMS",
+	  ]
+	},
+	{
+	  "id": "MCCARRAN_CORRIDOR",
+	  "name": "Mccarran Corridor",
+	  "color": "#45A2FF",
+	  "tileIds": [
+		"AEROTECH_OFFICE_PARK",
+		"ALLIED_TECH",
+		"CAMP_MCCARRAN",
+		"CRIMSON_CARAVAN",
+		"EAST_PUMP",
+		"GRUB_GULP_REST_STOP",
+		"GUN_RUNNERS",
+		"MCCARRAN_FIELD",
+		"MOLE_RAT_RANCH",
+		"REPCONN_HQ",
+		"SHARECROPPER_FARMS",
         "WEST_PUMP"
-      ]
-    },
-    {
-      "id": "NELLIS",
-      "name": "Nellis",
-      "color": "#FFA0EF",
-      "tileIds": [
-        "BITTER_SPRINGS",
-        "CALLVILLE_BAY",
-        "CAMP_GUARDIAN",
-        "DANGER_ZONE",
-        "GYPSUM_TRAIN_YARD",
-        "NELLIS_ARRAY",
-        "NELLIS_HANGERS",
-        "RANGER_STATION_BRAVO",
-        "RAULS_SHACK",
+	  ]
+	},
+	{
+	  "id": "NELLIS",
+	  "name": "Nellis",
+	  "color": "#FFA0EF",
+	  "tileIds": [
+		"BITTER_SPRINGS",
+		"CALLVILLE_BAY",
+		"CAMP_GUARDIAN",
+		"DANGER_ZONE",
+		"GYPSUM_TRAIN_YARD",
+		"NELLIS_ARRAY",
+		"NELLIS_HANGERS",
+		"RANGER_STATION_BRAVO",
+		"RAULS_SHACK",
         "THE_DEVILS_THROAT"
-      ]
-    },
-    {
-      "id": "NIPTON",
-      "name": "Nipton",
-      "color": "#0024FF",
-      "tileIds": [
-        "CALIFORNIA_SUNSET_DRIVE_IN",
-        "COYOTE_DEN",
-        "CRESCENT_CANYON",
-        "EMERGENCY_SERVICE_RAILWAY",
-        "HIGHWAY_PATROL_STATION",
-        "IVANPAH_DRY_LAKE",
-        "LONE_WOLF_RADIO",
-        "LONG_15",
-        "MESQUITE_MOUNTAIN_CAMPSITE",
-        "MOJAVE_DRIVEIN",
-        "NIPTON_ROAD_PIT_STOP",
-        "NIPTON_ROAD_REST_STOP",
-        "NIPTON",
+	  ]
+	},
+	{
+	  "id": "NIPTON",
+	  "name": "Nipton",
+	  "color": "#0024FF",
+	  "tileIds": [
+		"CALIFORNIA_SUNSET_DRIVE_IN",
+		"COYOTE_DEN",
+		"CRESCENT_CANYON",
+		"EMERGENCY_SERVICE_RAILWAY",
+		"HIGHWAY_PATROL_STATION",
+		"IVANPAH_DRY_LAKE",
+		"LONE_WOLF_RADIO",
+		"LONG_15",
+		"MESQUITE_MOUNTAIN_CAMPSITE",
+		"MOJAVE_DRIVEIN",
+		"NIPTON_ROAD_PIT_STOP",
+		"NIPTON_ROAD_REST_STOP",
+		"NIPTON",
         "PRIMM"
-      ]
-    },
-    {
-      "id": "RED_ROCK",
-      "name": "Red Rock",
-      "color": "#FF005B",
-      "tileIds": [
-        "GREAT_KHAN_LONGHOUSE",
+	  ]
+	},
+	{
+	  "id": "RED_ROCK",
+	  "name": "Red Rock",
+	  "color": "#FF005B",
+	  "tileIds": [
+		"GREAT_KHAN_LONGHOUSE",
         "RED_ROCK_CANYON"
-      ]
-    },
-    {
-      "id": "SEARCHLIGHT",
-      "name": "Searchlight",
-      "color": "#FF0000",
-      "tileIds": [
-        "BLUE_PARADISE_VACATION_RENTALS",
-        "COTTONWOOD_COVE",
-        "COYOTE_MINES",
-        "MATTHEWS_ANIMAL_HUSBANDRY_FARM",
-        "NUCLEAR_TEST_SITE",
-        "RAID_CAMP",
-        "RANGER_STATION_CHARLIE",
-        "RANGER_STATION_ECHO",
-        "SEARCHLIGHT_AIRPORT",
-        "SEARCHLIGHT",
-        "WALKING_BOX_CAVERN",
+	  ]
+	},
+	{
+	  "id": "SEARCHLIGHT",
+	  "name": "Searchlight",
+	  "color": "#FF0000",
+	  "tileIds": [
+		"BLUE_PARADISE_VACATION_RENTALS",
+		"COTTONWOOD_COVE",
+		"COYOTE_MINES",
+		"MATTHEWS_ANIMAL_HUSBANDRY_FARM",
+		"NUCLEAR_TEST_SITE",
+		"RAID_CAMP",
+		"RANGER_STATION_CHARLIE",
+		"RANGER_STATION_ECHO",
+		"SEARCHLIGHT_AIRPORT",
+		"SEARCHLIGHT",
+		"WALKING_BOX_CAVERN",
         "WOLFHORN_RANCH"
-      ]
-    },
-    {
-      "id": "THE_QUARRY",
-      "name": "The Quarry",
-      "color": "#FF5300",
-      "tileIds": [
-        "BONNIE_SPRINGS",
-        "EAST_CAMP",
-        "GOODSPRINGS_SOURCE",
-        "GOODSPRINGS",
-        "HUNTERS_FARMS",
-        "JUNCTION_15_RAILWAY",
-        "NCRCF",
-        "NORTH_CAMP",
-        "QUARRY_JUNCTION",
-        "SLOAN",
-        "SOUTH_CAMP",
-        "SPRING_MT",
-        "TRIBAL_VILLAGE",
-        "VAULT_19",
-        "WEST_CAMP",
+	  ]
+	},
+	{
+	  "id": "THE_QUARRY",
+	  "name": "The Quarry",
+	  "color": "#FF5300",
+	  "tileIds": [
+		"BONNIE_SPRINGS",
+		"EAST_CAMP",
+		"GOODSPRINGS_SOURCE",
+		"GOODSPRINGS",
+		"HUNTERS_FARMS",
+		"JUNCTION_15_RAILWAY",
+		"NCRCF",
+		"NORTH_CAMP",
+		"QUARRY_JUNCTION",
+		"SLOAN",
+		"SOUTH_CAMP",
+		"SPRING_MT",
+		"TRIBAL_VILLAGE",
+		"VAULT_19",
+		"WEST_CAMP",
         "YANGTZE_MEMORIAL"
-      ]
-    },
-    {
-      "id": "THE_STRIP",
-      "name": "The Strip",
-      "color": "#FFFFFF",
-      "tileIds": [
-        "FREESIDE",
+	  ]
+	},
+	{
+	  "id": "THE_STRIP",
+	  "name": "The Strip",
+	  "color": "#FFFFFF",
+	  "tileIds": [
+		"FREESIDE",
         "THE_STRIP"
-      ]
-    },
-    {
-      "id": "VEGAS_RUINS",
-      "name": "Vegas Ruins",
-      "color": "#FFE06B",
-      "tileIds": [
-        "BREWERS_BEER_BOOTLEGGING",
-        "BROOKS_TUMBLEWEED_RANCH",
-        "HOROWITZ_FARMSTEAD",
-        "NORTH_VEGAS",
-        "NORTHERN_PASSAGE",
-        "POSEIDON_GAS_STATION",
-        "SAMSPON_ROCK_CRUSHING_PLANT",
-        "SUNSET_SARSPARILLA_HQ",
-        "VAULT_22",
-        "VAULT_3",
+	  ]
+	},
+	{
+	  "id": "VEGAS_RUINS",
+	  "name": "Vegas Ruins",
+	  "color": "#FFE06B",
+	  "tileIds": [
+		"BREWERS_BEER_BOOTLEGGING",
+		"BROOKS_TUMBLEWEED_RANCH",
+		"HOROWITZ_FARMSTEAD",
+		"NORTH_VEGAS",
+		"NORTHERN_PASSAGE",
+		"POSEIDON_GAS_STATION",
+		"SAMSPON_ROCK_CRUSHING_PLANT",
+		"SUNSET_SARSPARILLA_HQ",
+		"VAULT_22",
+		"VAULT_3",
         "WESTSIDE"
-      ]
-    }
+	  ]
+	}
   ],
   "tiles": [
-    {
-      "id": "BLACK_MOUNTAIN",
-      "name": "Black Mountain",
-      "color": "#D2FF00",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "HIDDEN_VALLEY",
-        "JUNCTION_15_RAILWAY",
+	{
+	  "id": "BLACK_MOUNTAIN",
+	  "name": "Black Mountain",
+	  "color": "#D2FF00",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"HIDDEN_VALLEY",
+		"JUNCTION_15_RAILWAY",
         "SLOAN"
-      ],
-      "centroid": {
-        "x": 280.02,
-        "y": 237.9
-      }
-    },
-    {
-      "id": "CAMP_FORLORN_HOPE",
-      "name": "Camp Forlorn Hope",
-      "color": "#90FF00",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "EL_DORADO_GAS_AND_SERVICE",
-        "NELSON",
+	  ],
+	  "centroid": {
+		"x": 280.02,
+		"y": 237.9
+	  }
+	},
+	{
+	  "id": "CAMP_FORLORN_HOPE",
+	  "name": "Camp Forlorn Hope",
+	  "color": "#90FF00",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"EL_DORADO_GAS_AND_SERVICE",
+		"NELSON",
         "RANGER_STATION_DELTA"
-      ],
-      "centroid": {
-        "x": 390.02,
-        "y": 194.06
-      }
-    },
-    {
-      "id": "CLARK_FIELD",
-      "name": "Clark Field",
-      "color": "#00FF34",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "HIGHWAY_95_ENCAMPMENT",
-        "NELSON",
-        "NOVAC",
+	  ],
+	  "centroid": {
+		"x": 390.02,
+		"y": 194.06
+	  }
+	},
+	{
+	  "id": "CLARK_FIELD",
+	  "name": "Clark Field",
+	  "color": "#00FF34",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"HIGHWAY_95_ENCAMPMENT",
+		"NELSON",
+		"NOVAC",
         "SOUTHERN_NEVADA_WIND_FARM"
-      ],
-      "centroid": {
-        "x": 340.92,
-        "y": 145.68
-      }
-    },
-    {
-      "id": "EL_DORADO_DRY_LAKE",
-      "name": "El Dorado Dry Lake",
-      "color": "#B0FF00",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "188_TRADING_POST",
-        "EL_DORADO_GAS_AND_SERVICE",
-        "GIBSON_SCRAP_YARD",
-        "HELIOS_ONE",
+	  ],
+	  "centroid": {
+		"x": 340.92,
+		"y": 145.68
+	  }
+	},
+	{
+	  "id": "EL_DORADO_DRY_LAKE",
+	  "name": "El Dorado Dry Lake",
+	  "color": "#B0FF00",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"188_TRADING_POST",
+		"EL_DORADO_GAS_AND_SERVICE",
+		"GIBSON_SCRAP_YARD",
+		"HELIOS_ONE",
         "VAULT_11"
-      ],
-      "centroid": {
-        "x": 340.06,
-        "y": 237.44
-      }
-    },
-    {
-      "id": "EL_DORADO_GAS_AND_SERVICE",
-      "name": "El Dorado Gas And Service",
-      "color": "#A6FF00",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "CAMP_FORLORN_HOPE",
-        "EL_DORADO_DRY_LAKE",
-        "GIBSON_SCRAP_YARD",
-        "RANGER_STATION_DELTA",
+	  ],
+	  "centroid": {
+		"x": 340.06,
+		"y": 237.44
+	  }
+	},
+	{
+	  "id": "EL_DORADO_GAS_AND_SERVICE",
+	  "name": "El Dorado Gas And Service",
+	  "color": "#A6FF00",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"CAMP_FORLORN_HOPE",
+		"EL_DORADO_DRY_LAKE",
+		"GIBSON_SCRAP_YARD",
+		"RANGER_STATION_DELTA",
         "SOUTHERN_NEVADA_WIND_FARM"
-      ],
-      "centroid": {
-        "x": 360.28,
-        "y": 213.37
-      }
-    },
-    {
-      "id": "GIBSON_SCRAP_YARD",
-      "name": "Gibson Scrap Yard",
-      "color": "#83FF00",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "EL_DORADO_DRY_LAKE",
-        "EL_DORADO_GAS_AND_SERVICE",
-        "HELIOS_ONE",
-        "NOVAC",
+	  ],
+	  "centroid": {
+		"x": 360.28,
+		"y": 213.37
+	  }
+	},
+	{
+	  "id": "GIBSON_SCRAP_YARD",
+	  "name": "Gibson Scrap Yard",
+	  "color": "#83FF00",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"EL_DORADO_DRY_LAKE",
+		"EL_DORADO_GAS_AND_SERVICE",
+		"HELIOS_ONE",
+		"NOVAC",
         "SOUTHERN_NEVADA_WIND_FARM"
-      ],
-      "centroid": {
-        "x": 329.66,
-        "y": 195.77
-      }
-    },
-    {
-      "id": "HELIOS_ONE",
-      "name": "Helios One",
-      "color": "#C2FF00",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "EL_DORADO_DRY_LAKE",
-        "GIBSON_SCRAP_YARD",
-        "HIDDEN_VALLEY",
+	  ],
+	  "centroid": {
+		"x": 329.66,
+		"y": 195.77
+	  }
+	},
+	{
+	  "id": "HELIOS_ONE",
+	  "name": "Helios One",
+	  "color": "#C2FF00",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"EL_DORADO_DRY_LAKE",
+		"GIBSON_SCRAP_YARD",
+		"HIDDEN_VALLEY",
         "VAULT_11"
-      ],
-      "centroid": {
-        "x": 314.0,
-        "y": 214.18
-      }
-    },
-    {
-      "id": "HIDDEN_VALLEY",
-      "name": "Hidden Valley",
-      "color": "#CAFF00",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "BLACK_MOUNTAIN",
-        "EAST_CAMP",
-        "HELIOS_ONE",
-        "NORTH_CAMP",
+	  ],
+	  "centroid": {
+		"x": 314.0,
+		"y": 214.18
+	  }
+	},
+	{
+	  "id": "HIDDEN_VALLEY",
+	  "name": "Hidden Valley",
+	  "color": "#CAFF00",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"BLACK_MOUNTAIN",
+		"EAST_CAMP",
+		"HELIOS_ONE",
+		"NORTH_CAMP",
         "SLOAN"
-      ],
-      "centroid": {
-        "x": 267.25,
-        "y": 212.75
-      }
-    },
-    {
-      "id": "HIGHWAY_95_ENCAMPMENT",
-      "name": "Highway 95 Encampment",
-      "color": "#00FF68",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "CLARK_FIELD",
-        "COYOTE_MINES",
-        "NOVAC",
-        "RAID_CAMP",
-        "RANGER_STATION_CHARLIE",
+	  ],
+	  "centroid": {
+		"x": 267.25,
+		"y": 212.75
+	  }
+	},
+	{
+	  "id": "HIGHWAY_95_ENCAMPMENT",
+	  "name": "Highway 95 Encampment",
+	  "color": "#00FF68",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"CLARK_FIELD",
+		"COYOTE_MINES",
+		"NOVAC",
+		"RAID_CAMP",
+		"RANGER_STATION_CHARLIE",
         "RANGER_STATION_ECHO"
-      ],
-      "centroid": {
-        "x": 332.39,
-        "y": 120.26
-      }
-    },
-    {
-      "id": "NELSON",
-      "name": "Nelson",
-      "color": "#62FF00",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "CAMP_FORLORN_HOPE",
-        "CLARK_FIELD",
-        "SOUTHERN_NEVADA_WIND_FARM",
+	  ],
+	  "centroid": {
+		"x": 332.39,
+		"y": 120.26
+	  }
+	},
+	{
+	  "id": "NELSON",
+	  "name": "Nelson",
+	  "color": "#62FF00",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"CAMP_FORLORN_HOPE",
+		"CLARK_FIELD",
+		"SOUTHERN_NEVADA_WIND_FARM",
         "TECHATTICUP_MINE"
-      ],
-      "centroid": {
-        "x": 378.11,
-        "y": 162.65
-      }
-    },
-    {
-      "id": "NOVAC",
-      "name": "Novac",
-      "color": "#24FF00",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "CLARK_FIELD",
-        "GIBSON_SCRAP_YARD",
-        "HIGHWAY_95_ENCAMPMENT",
-        "RANGER_STATION_CHARLIE",
-        "REPCONN_TEST_SITE",
+	  ],
+	  "centroid": {
+		"x": 378.11,
+		"y": 162.65
+	  }
+	},
+	{
+	  "id": "NOVAC",
+	  "name": "Novac",
+	  "color": "#24FF00",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"CLARK_FIELD",
+		"GIBSON_SCRAP_YARD",
+		"HIGHWAY_95_ENCAMPMENT",
+		"RANGER_STATION_CHARLIE",
+		"REPCONN_TEST_SITE",
         "SOUTHERN_NEVADA_WIND_FARM"
-      ],
-      "centroid": {
-        "x": 315.84,
-        "y": 167.37
-      }
-    },
-    {
-      "id": "RANGER_STATION_DELTA",
-      "name": "Ranger Station Delta",
-      "color": "#9CFF00",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "BOULDER_CITY",
-        "CAMP_FORLORN_HOPE",
-        "EL_DORADO_GAS_AND_SERVICE",
+	  ],
+	  "centroid": {
+		"x": 315.84,
+		"y": 167.37
+	  }
+	},
+	{
+	  "id": "RANGER_STATION_DELTA",
+	  "name": "Ranger Station Delta",
+	  "color": "#9CFF00",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"BOULDER_CITY",
+		"CAMP_FORLORN_HOPE",
+		"EL_DORADO_GAS_AND_SERVICE",
         "VISITOR_CENTRE"
-      ],
-      "centroid": {
-        "x": 390.81,
-        "y": 222.63
-      }
-    },
-    {
-      "id": "REPCONN_TEST_SITE",
-      "name": "Repconn Test Site",
-      "color": "#4BFF00",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
+	  ],
+	  "centroid": {
+		"x": 390.81,
+		"y": 222.63
+	  }
+	},
+	{
+	  "id": "REPCONN_TEST_SITE",
+	  "name": "Repconn Test Site",
+	  "color": "#4BFF00",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
         "NOVAC"
-      ],
-      "centroid": {
-        "x": 274.44,
-        "y": 160.73
-      }
-    },
-    {
-      "id": "SOUTHERN_NEVADA_WIND_FARM",
-      "name": "Southern Nevada Wind Farm",
-      "color": "#74FF00",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "CLARK_FIELD",
-        "EL_DORADO_GAS_AND_SERVICE",
-        "GIBSON_SCRAP_YARD",
-        "NELSON",
+	  ],
+	  "centroid": {
+		"x": 274.44,
+		"y": 160.73
+	  }
+	},
+	{
+	  "id": "SOUTHERN_NEVADA_WIND_FARM",
+	  "name": "Southern Nevada Wind Farm",
+	  "color": "#74FF00",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"CLARK_FIELD",
+		"EL_DORADO_GAS_AND_SERVICE",
+		"GIBSON_SCRAP_YARD",
+		"NELSON",
         "NOVAC"
-      ],
-      "centroid": {
-        "x": 351.71,
-        "y": 179.6
-      }
-    },
-    {
-      "id": "TECHATTICUP_MINE",
-      "name": "Techatticup Mine",
-      "color": "#00FF53",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "NELSON",
+	  ],
+	  "centroid": {
+		"x": 351.71,
+		"y": 179.6
+	  }
+	},
+	{
+	  "id": "TECHATTICUP_MINE",
+	  "name": "Techatticup Mine",
+	  "color": "#00FF53",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"NELSON",
         "RANGER_STATION_ECHO"
-      ],
-      "centroid": {
-        "x": 385.28,
-        "y": 139.48
-      }
-    },
-    {
-      "id": "VAULT_11",
-      "name": "Vault 11",
-      "color": "#B9FF00",
-      "regionId": "BLACK_MOUNTAIN",
-      "neighborIds": [
-        "188_TRADING_POST",
-        "EL_DORADO_DRY_LAKE",
+	  ],
+	  "centroid": {
+		"x": 385.28,
+		"y": 139.48
+	  }
+	},
+	{
+	  "id": "VAULT_11",
+	  "name": "Vault 11",
+	  "color": "#B9FF00",
+	  "regionId": "BLACK_MOUNTAIN",
+	  "neighborIds": [
+		"188_TRADING_POST",
+		"EL_DORADO_DRY_LAKE",
         "HELIOS_ONE"
-      ],
-      "centroid": {
-        "x": 318.64,
-        "y": 246.17
-      }
-    },
-    {
-      "id": "188_TRADING_POST",
-      "name": "188 Trading Post",
-      "color": "#00E3FF",
-      "regionId": "HOOVER_DAM",
-      "neighborIds": [
-        "BOULDER_CITY",
-        "EL_DORADO_DRY_LAKE",
-        "FOLLOWERS_OUTPOST",
-        "MOUNTAIN_SHADOWS_CAMPGROUND",
-        "RANGER_STATION_ALPHA",
+	  ],
+	  "centroid": {
+		"x": 318.64,
+		"y": 246.17
+	  }
+	},
+	{
+	  "id": "188_TRADING_POST",
+	  "name": "188 Trading Post",
+	  "color": "#00E3FF",
+	  "regionId": "HOOVER_DAM",
+	  "neighborIds": [
+		"BOULDER_CITY",
+		"EL_DORADO_DRY_LAKE",
+		"FOLLOWERS_OUTPOST",
+		"MOUNTAIN_SHADOWS_CAMPGROUND",
+		"RANGER_STATION_ALPHA",
         "VAULT_11"
-      ],
-      "centroid": {
-        "x": 341.86,
-        "y": 269.85
-      }
-    },
-    {
-      "id": "BOULDER_CITY",
-      "name": "Boulder City",
-      "color": "#00D4FF",
-      "regionId": "HOOVER_DAM",
-      "neighborIds": [
-        "188_TRADING_POST",
-        "RANGER_STATION_ALPHA",
-        "RANGER_STATION_DELTA",
+	  ],
+	  "centroid": {
+		"x": 341.86,
+		"y": 269.85
+	  }
+	},
+	{
+	  "id": "BOULDER_CITY",
+	  "name": "Boulder City",
+	  "color": "#00D4FF",
+	  "regionId": "HOOVER_DAM",
+	  "neighborIds": [
+		"188_TRADING_POST",
+		"RANGER_STATION_ALPHA",
+		"RANGER_STATION_DELTA",
         "VISITOR_CENTRE"
-      ],
-      "centroid": {
-        "x": 371.65,
-        "y": 248.19
-      }
-    },
-    {
-      "id": "CAMP_GOLF",
-      "name": "Camp Golf",
-      "color": "#00F6FF",
-      "regionId": "HOOVER_DAM",
-      "neighborIds": [
-        "CALLVILLE_BAY",
-        "FOLLOWERS_OUTPOST",
-        "GRUB_GULP_REST_STOP",
-        "GYPSUM_TRAIN_YARD",
-        "MOUNTAIN_SHADOWS_CAMPGROUND",
+	  ],
+	  "centroid": {
+		"x": 371.65,
+		"y": 248.19
+	  }
+	},
+	{
+	  "id": "CAMP_GOLF",
+	  "name": "Camp Golf",
+	  "color": "#00F6FF",
+	  "regionId": "HOOVER_DAM",
+	  "neighborIds": [
+		"CALLVILLE_BAY",
+		"FOLLOWERS_OUTPOST",
+		"GRUB_GULP_REST_STOP",
+		"GYPSUM_TRAIN_YARD",
+		"MOUNTAIN_SHADOWS_CAMPGROUND",
         "VAULT_34"
-      ],
-      "centroid": {
-        "x": 337.26,
-        "y": 328.21
-      }
-    },
-    {
-      "id": "FOLLOWERS_OUTPOST",
-      "name": "Follower's Outpost",
-      "color": "#00F0FF",
-      "regionId": "HOOVER_DAM",
-      "neighborIds": [
-        "188_TRADING_POST",
-        "ALLIED_TECH",
-        "CAMP_GOLF",
-        "GRUB_GULP_REST_STOP",
-        "MOUNTAIN_SHADOWS_CAMPGROUND",
+	  ],
+	  "centroid": {
+		"x": 337.26,
+		"y": 328.21
+	  }
+	},
+	{
+	  "id": "FOLLOWERS_OUTPOST",
+	  "name": "Follower's Outpost",
+	  "color": "#00F0FF",
+	  "regionId": "HOOVER_DAM",
+	  "neighborIds": [
+		"188_TRADING_POST",
+		"ALLIED_TECH",
+		"CAMP_GOLF",
+		"GRUB_GULP_REST_STOP",
+		"MOUNTAIN_SHADOWS_CAMPGROUND",
         "REPCONN_HQ"
-      ],
-      "centroid": {
-        "x": 318.85,
-        "y": 289.95
-      }
-    },
-    {
-      "id": "HOOVER_DAM",
-      "name": "Hoover Dam",
-      "color": "#00C5FF",
-      "regionId": "HOOVER_DAM",
-      "neighborIds": [
-        "VISITOR_CENTRE",
+	  ],
+	  "centroid": {
+		"x": 318.85,
+		"y": 289.95
+	  }
+	},
+	{
+	  "id": "HOOVER_DAM",
+	  "name": "Hoover Dam",
+	  "color": "#00C5FF",
+	  "regionId": "HOOVER_DAM",
+	  "neighborIds": [
+		"VISITOR_CENTRE",
         "WILLOW_BEACH"
-      ],
-      "centroid": {
-        "x": 419.8,
-        "y": 253.66
-      }
-    },
-    {
-      "id": "LEGATES_CAMP",
-      "name": "Legate's Camp",
-      "color": "#00B3FF",
-      "regionId": "HOOVER_DAM",
-      "neighborIds": [
-        "LEGION_CAMP",
+	  ],
+	  "centroid": {
+		"x": 419.8,
+		"y": 253.66
+	  }
+	},
+	{
+	  "id": "LEGATES_CAMP",
+	  "name": "Legate's Camp",
+	  "color": "#00B3FF",
+	  "regionId": "HOOVER_DAM",
+	  "neighborIds": [
+		"LEGION_CAMP",
         "WILLOW_BEACH"
-      ],
-      "centroid": {
-        "x": 460.72,
-        "y": 259.19
-      }
-    },
-    {
-      "id": "LEGION_CAMP",
-      "name": "Legion Camp",
-      "color": "#00AAFF",
-      "regionId": "HOOVER_DAM",
-      "neighborIds": [
-        "LEGATES_CAMP",
+	  ],
+	  "centroid": {
+		"x": 460.72,
+		"y": 259.19
+	  }
+	},
+	{
+	  "id": "LEGION_CAMP",
+	  "name": "Legion Camp",
+	  "color": "#00AAFF",
+	  "regionId": "HOOVER_DAM",
+	  "neighborIds": [
+		"LEGATES_CAMP",
         "THE_FORT"
-      ],
-      "centroid": {
-        "x": 455.43,
-        "y": 292.86
-      }
-    },
-    {
-      "id": "MOUNTAIN_SHADOWS_CAMPGROUND",
-      "name": "Mountain Shadows Campground",
-      "color": "#00E9FF",
-      "regionId": "HOOVER_DAM",
-      "neighborIds": [
-        "188_TRADING_POST",
-        "CAMP_GOLF",
-        "FOLLOWERS_OUTPOST",
+	  ],
+	  "centroid": {
+		"x": 455.43,
+		"y": 292.86
+	  }
+	},
+	{
+	  "id": "MOUNTAIN_SHADOWS_CAMPGROUND",
+	  "name": "Mountain Shadows Campground",
+	  "color": "#00E9FF",
+	  "regionId": "HOOVER_DAM",
+	  "neighborIds": [
+		"188_TRADING_POST",
+		"CAMP_GOLF",
+		"FOLLOWERS_OUTPOST",
         "RANGER_STATION_ALPHA"
-      ],
-      "centroid": {
-        "x": 349.46,
-        "y": 300.84
-      }
-    },
-    {
-      "id": "RANGER_STATION_ALPHA",
-      "name": "Ranger Station Alpha",
-      "color": "#00DCFF",
-      "regionId": "HOOVER_DAM",
-      "neighborIds": [
-        "188_TRADING_POST",
-        "BOULDER_CITY",
+	  ],
+	  "centroid": {
+		"x": 349.46,
+		"y": 300.84
+	  }
+	},
+	{
+	  "id": "RANGER_STATION_ALPHA",
+	  "name": "Ranger Station Alpha",
+	  "color": "#00DCFF",
+	  "regionId": "HOOVER_DAM",
+	  "neighborIds": [
+		"188_TRADING_POST",
+		"BOULDER_CITY",
         "MOUNTAIN_SHADOWS_CAMPGROUND"
-      ],
-      "centroid": {
-        "x": 368.73,
-        "y": 274.88
-      }
-    },
-    {
-      "id": "THE_FORT",
-      "name": "The Fort",
-      "color": "#009FFF",
-      "regionId": "HOOVER_DAM",
-      "neighborIds": [
+	  ],
+	  "centroid": {
+		"x": 368.73,
+		"y": 274.88
+	  }
+	},
+	{
+	  "id": "THE_FORT",
+	  "name": "The Fort",
+	  "color": "#009FFF",
+	  "regionId": "HOOVER_DAM",
+	  "neighborIds": [
         "LEGION_CAMP"
-      ],
-      "centroid": {
-        "x": 426.7,
-        "y": 295.59
-      }
-    },
-    {
-      "id": "VAULT_34",
-      "name": "Vault 34",
-      "color": "#00FCFF",
-      "regionId": "HOOVER_DAM",
-      "neighborIds": [
-        "CAMP_GOLF",
-        "GRUB_GULP_REST_STOP",
-        "GYPSUM_TRAIN_YARD",
+	  ],
+	  "centroid": {
+		"x": 426.7,
+		"y": 295.59
+	  }
+	},
+	{
+	  "id": "VAULT_34",
+	  "name": "Vault 34",
+	  "color": "#00FCFF",
+	  "regionId": "HOOVER_DAM",
+	  "neighborIds": [
+		"CAMP_GOLF",
+		"GRUB_GULP_REST_STOP",
+		"GYPSUM_TRAIN_YARD",
         "RAULS_SHACK"
-      ],
-      "centroid": {
-        "x": 323.52,
-        "y": 342.34
-      }
-    },
-    {
-      "id": "VISITOR_CENTRE",
-      "name": "Visitor Centre",
-      "color": "#00CDFF",
-      "regionId": "HOOVER_DAM",
-      "neighborIds": [
-        "BOULDER_CITY",
-        "HOOVER_DAM",
+	  ],
+	  "centroid": {
+		"x": 323.52,
+		"y": 342.34
+	  }
+	},
+	{
+	  "id": "VISITOR_CENTRE",
+	  "name": "Visitor Centre",
+	  "color": "#00CDFF",
+	  "regionId": "HOOVER_DAM",
+	  "neighborIds": [
+		"BOULDER_CITY",
+		"HOOVER_DAM",
         "RANGER_STATION_DELTA"
-      ],
-      "centroid": {
-        "x": 396.1,
-        "y": 254.11
-      }
-    },
-    {
-      "id": "WILLOW_BEACH",
-      "name": "Willow Beach",
-      "color": "#00BCFF",
-      "regionId": "HOOVER_DAM",
-      "neighborIds": [
-        "HOOVER_DAM",
+	  ],
+	  "centroid": {
+		"x": 396.1,
+		"y": 254.11
+	  }
+	},
+	{
+	  "id": "WILLOW_BEACH",
+	  "name": "Willow Beach",
+	  "color": "#00BCFF",
+	  "regionId": "HOOVER_DAM",
+	  "neighborIds": [
+		"HOOVER_DAM",
         "LEGATES_CAMP"
-      ],
-      "centroid": {
-        "x": 436.59,
-        "y": 237.2
-      }
-    },
-    {
-      "id": "CAZADOR_NEST",
-      "name": "Cazador Nest",
-      "color": "#FF008C",
-      "regionId": "JACOBSTOWN",
-      "neighborIds": [
-        "JACOBSTOWN",
-        "RED_ROCK_CANYON",
+	  ],
+	  "centroid": {
+		"x": 436.59,
+		"y": 237.2
+	  }
+	},
+	{
+	  "id": "CAZADOR_NEST",
+	  "name": "Cazador Nest",
+	  "color": "#FF008C",
+	  "regionId": "JACOBSTOWN",
+	  "neighborIds": [
+		"JACOBSTOWN",
+		"RED_ROCK_CANYON",
         "REMNANTS_BUNKER"
-      ],
-      "centroid": {
-        "x": 127.52,
-        "y": 348.74
-      }
-    },
-    {
-      "id": "CHARLESTON_CAVE",
-      "name": "Charleston Cave",
-      "color": "#FF005B",
-      "regionId": "JACOBSTOWN",
-      "neighborIds": [
-        "JACOBSTOWN",
+	  ],
+	  "centroid": {
+		"x": 127.52,
+		"y": 348.74
+	  }
+	},
+	{
+	  "id": "CHARLESTON_CAVE",
+	  "name": "Charleston Cave",
+	  "color": "#FF005B",
+	  "regionId": "JACOBSTOWN",
+	  "neighborIds": [
+		"JACOBSTOWN",
         "SILVER_PEAK_MINE"
-      ],
-      "centroid": {
-        "x": 101.39,
-        "y": 391.48
-      }
-    },
-    {
-      "id": "JACOBSTOWN",
-      "name": "Jacobstown",
-      "color": "#FF0041",
-      "regionId": "JACOBSTOWN",
-      "neighborIds": [
-        "CAZADOR_NEST",
-        "CHARLESTON_CAVE",
-        "REMNANTS_BUNKER",
+	  ],
+	  "centroid": {
+		"x": 101.39,
+		"y": 391.48
+	  }
+	},
+	{
+	  "id": "JACOBSTOWN",
+	  "name": "Jacobstown",
+	  "color": "#FF0041",
+	  "regionId": "JACOBSTOWN",
+	  "neighborIds": [
+		"CAZADOR_NEST",
+		"CHARLESTON_CAVE",
+		"REMNANTS_BUNKER",
         "SILVER_PEAK_MINE"
-      ],
-      "centroid": {
-        "x": 116.4,
-        "y": 374.23
-      }
-    },
-    {
-      "id": "RANGER_STATION_FOXTROT",
-      "name": "Ranger Station Foxtrot",
-      "color": "#FF0098",
-      "regionId": "JACOBSTOWN",
-      "neighborIds": [
-        "REMNANTS_BUNKER",
-        "RUB_HILL_MINE",
+	  ],
+	  "centroid": {
+		"x": 116.4,
+		"y": 374.23
+	  }
+	},
+	{
+	  "id": "RANGER_STATION_FOXTROT",
+	  "name": "Ranger Station Foxtrot",
+	  "color": "#FF0098",
+	  "regionId": "JACOBSTOWN",
+	  "neighborIds": [
+		"REMNANTS_BUNKER",
+		"RUB_HILL_MINE",
         "SILVER_PEAK_MINE"
-      ],
-      "centroid": {
-        "x": 168.59,
-        "y": 382.71
-      }
-    },
-    {
-      "id": "REMNANTS_BUNKER",
-      "name": "Remnants Bunker",
-      "color": "#FF006E",
-      "regionId": "JACOBSTOWN",
-      "neighborIds": [
-        "CAZADOR_NEST",
-        "JACOBSTOWN",
-        "RANGER_STATION_FOXTROT",
+	  ],
+	  "centroid": {
+		"x": 168.59,
+		"y": 382.71
+	  }
+	},
+	{
+	  "id": "REMNANTS_BUNKER",
+	  "name": "Remnants Bunker",
+	  "color": "#FF006E",
+	  "regionId": "JACOBSTOWN",
+	  "neighborIds": [
+		"CAZADOR_NEST",
+		"JACOBSTOWN",
+		"RANGER_STATION_FOXTROT",
         "SILVER_PEAK_MINE"
-      ],
-      "centroid": {
-        "x": 152.61,
-        "y": 372.89
-      }
-    },
-    {
-      "id": "RUB_HILL_MINE",
-      "name": "Rub Hill Mine",
-      "color": "#FF00A3",
-      "regionId": "JACOBSTOWN",
-      "neighborIds": [
-        "BROOKS_TUMBLEWEED_RANCH",
-        "RANGER_STATION_FOXTROT",
+	  ],
+	  "centroid": {
+		"x": 152.61,
+		"y": 372.89
+	  }
+	},
+	{
+	  "id": "RUB_HILL_MINE",
+	  "name": "Rub Hill Mine",
+	  "color": "#FF00A3",
+	  "regionId": "JACOBSTOWN",
+	  "neighborIds": [
+		"BROOKS_TUMBLEWEED_RANCH",
+		"RANGER_STATION_FOXTROT",
         "SILVER_PEAK_MINE"
-      ],
-      "centroid": {
-        "x": 156.93,
-        "y": 421.06
-      }
-    },
-    {
-      "id": "SILVER_PEAK_MINE",
-      "name": "Silver Peak Mine",
-      "color": "#FF007E",
-      "regionId": "JACOBSTOWN",
-      "neighborIds": [
-        "CHARLESTON_CAVE",
-        "JACOBSTOWN",
-        "RANGER_STATION_FOXTROT",
-        "REMNANTS_BUNKER",
+	  ],
+	  "centroid": {
+		"x": 156.93,
+		"y": 421.06
+	  }
+	},
+	{
+	  "id": "SILVER_PEAK_MINE",
+	  "name": "Silver Peak Mine",
+	  "color": "#FF007E",
+	  "regionId": "JACOBSTOWN",
+	  "neighborIds": [
+		"CHARLESTON_CAVE",
+		"JACOBSTOWN",
+		"RANGER_STATION_FOXTROT",
+		"REMNANTS_BUNKER",
         "RUB_HILL_MINE"
-      ],
-      "centroid": {
-        "x": 141.69,
-        "y": 395.62
-      }
-    },
-    {
-      "id": "AEROTECH_OFFICE_PARK",
-      "name": "Aerotech Office Park",
-      "color": "#CA00FF",
-      "regionId": "MCCARRAN_CORRIDOR",
-      "neighborIds": [
-        "CAMP_MCCARRAN",
-        "EAST_PUMP",
-        "GRUB_GULP_REST_STOP",
-        "MCCARRAN_FIELD",
+	  ],
+	  "centroid": {
+		"x": 141.69,
+		"y": 395.62
+	  }
+	},
+	{
+	  "id": "AEROTECH_OFFICE_PARK",
+	  "name": "Aerotech Office Park",
+	  "color": "#CA00FF",
+	  "regionId": "MCCARRAN_CORRIDOR",
+	  "neighborIds": [
+		"CAMP_MCCARRAN",
+		"EAST_PUMP",
+		"GRUB_GULP_REST_STOP",
+		"MCCARRAN_FIELD",
         "SHARECROPPER_FARMS"
-      ],
-      "centroid": {
-        "x": 291.81,
-        "y": 338.95
-      }
-    },
-    {
-      "id": "ALLIED_TECH",
-      "name": "Allied Tech",
-      "color": "#E000FF",
-      "regionId": "MCCARRAN_CORRIDOR",
-      "neighborIds": [
-        "CAMP_MCCARRAN",
-        "FOLLOWERS_OUTPOST",
-        "GRUB_GULP_REST_STOP",
-        "HUNTERS_FARMS",
-        "REPCONN_HQ",
+	  ],
+	  "centroid": {
+		"x": 291.81,
+		"y": 338.95
+	  }
+	},
+	{
+	  "id": "ALLIED_TECH",
+	  "name": "Allied Tech",
+	  "color": "#E000FF",
+	  "regionId": "MCCARRAN_CORRIDOR",
+	  "neighborIds": [
+		"CAMP_MCCARRAN",
+		"FOLLOWERS_OUTPOST",
+		"GRUB_GULP_REST_STOP",
+		"HUNTERS_FARMS",
+		"REPCONN_HQ",
         "WEST_PUMP"
-      ],
-      "centroid": {
-        "x": 273.2,
-        "y": 301.43
-      }
-    },
-    {
-      "id": "CAMP_MCCARRAN",
-      "name": "Camp McCarran",
-      "color": "#D200FF",
-      "regionId": "MCCARRAN_CORRIDOR",
-      "neighborIds": [
-        "AEROTECH_OFFICE_PARK",
-        "ALLIED_TECH",
-        "GRUB_GULP_REST_STOP",
-        "MCCARRAN_FIELD",
+	  ],
+	  "centroid": {
+		"x": 273.2,
+		"y": 301.43
+	  }
+	},
+	{
+	  "id": "CAMP_MCCARRAN",
+	  "name": "Camp McCarran",
+	  "color": "#D200FF",
+	  "regionId": "MCCARRAN_CORRIDOR",
+	  "neighborIds": [
+		"AEROTECH_OFFICE_PARK",
+		"ALLIED_TECH",
+		"GRUB_GULP_REST_STOP",
+		"MCCARRAN_FIELD",
         "WEST_PUMP"
-      ],
-      "centroid": {
-        "x": 266.79,
-        "y": 321.99
-      }
-    },
-    {
-      "id": "CRIMSON_CARAVAN",
-      "name": "Crimson Caravan",
-      "color": "#8300FF",
-      "regionId": "MCCARRAN_CORRIDOR",
-      "neighborIds": [
-        "EAST_PUMP",
-        "FREESIDE",
-        "GUN_RUNNERS",
-        "MOLE_RAT_RANCH",
+	  ],
+	  "centroid": {
+		"x": 266.79,
+		"y": 321.99
+	  }
+	},
+	{
+	  "id": "CRIMSON_CARAVAN",
+	  "name": "Crimson Caravan",
+	  "color": "#8300FF",
+	  "regionId": "MCCARRAN_CORRIDOR",
+	  "neighborIds": [
+		"EAST_PUMP",
+		"FREESIDE",
+		"GUN_RUNNERS",
+		"MOLE_RAT_RANCH",
         "NORTH_VEGAS"
-      ],
-      "centroid": {
-        "x": 281.57,
-        "y": 400.88
-      }
-    },
-    {
-      "id": "EAST_PUMP",
-      "name": "East Pump",
-      "color": "#A600FF",
-      "regionId": "MCCARRAN_CORRIDOR",
-      "neighborIds": [
-        "AEROTECH_OFFICE_PARK",
-        "CRIMSON_CARAVAN",
-        "GUN_RUNNERS",
-        "MOLE_RAT_RANCH",
-        "RAULS_SHACK",
+	  ],
+	  "centroid": {
+		"x": 281.57,
+		"y": 400.88
+	  }
+	},
+	{
+	  "id": "EAST_PUMP",
+	  "name": "East Pump",
+	  "color": "#A600FF",
+	  "regionId": "MCCARRAN_CORRIDOR",
+	  "neighborIds": [
+		"AEROTECH_OFFICE_PARK",
+		"CRIMSON_CARAVAN",
+		"GUN_RUNNERS",
+		"MOLE_RAT_RANCH",
+		"RAULS_SHACK",
         "SHARECROPPER_FARMS"
-      ],
-      "centroid": {
-        "x": 302.65,
-        "y": 370.39
-      }
-    },
-    {
-      "id": "GRUB_GULP_REST_STOP",
-      "name": "Grub & Gulp Rest Stop",
-      "color": "#D900FF",
-      "regionId": "MCCARRAN_CORRIDOR",
-      "neighborIds": [
-        "AEROTECH_OFFICE_PARK",
-        "ALLIED_TECH",
-        "CAMP_GOLF",
-        "CAMP_MCCARRAN",
-        "FOLLOWERS_OUTPOST",
+	  ],
+	  "centroid": {
+		"x": 302.65,
+		"y": 370.39
+	  }
+	},
+	{
+	  "id": "GRUB_GULP_REST_STOP",
+	  "name": "Grub & Gulp Rest Stop",
+	  "color": "#D900FF",
+	  "regionId": "MCCARRAN_CORRIDOR",
+	  "neighborIds": [
+		"AEROTECH_OFFICE_PARK",
+		"ALLIED_TECH",
+		"CAMP_GOLF",
+		"CAMP_MCCARRAN",
+		"FOLLOWERS_OUTPOST",
         "VAULT_34"
-      ],
-      "centroid": {
-        "x": 298.94,
-        "y": 317.4
-      }
-    },
-    {
-      "id": "GUN_RUNNERS",
-      "name": "Gun Runners",
-      "color": "#9C00FF",
-      "regionId": "MCCARRAN_CORRIDOR",
-      "neighborIds": [
-        "CRIMSON_CARAVAN",
-        "EAST_PUMP",
-        "FREESIDE",
-        "SHARECROPPER_FARMS",
+	  ],
+	  "centroid": {
+		"x": 298.94,
+		"y": 317.4
+	  }
+	},
+	{
+	  "id": "GUN_RUNNERS",
+	  "name": "Gun Runners",
+	  "color": "#9C00FF",
+	  "regionId": "MCCARRAN_CORRIDOR",
+	  "neighborIds": [
+		"CRIMSON_CARAVAN",
+		"EAST_PUMP",
+		"FREESIDE",
+		"SHARECROPPER_FARMS",
         "THE_STRIP"
-      ],
-      "centroid": {
-        "x": 275.62,
-        "y": 377.58
-      }
-    },
-    {
-      "id": "MCCARRAN_FIELD",
-      "name": "McCarran Field",
-      "color": "#C200FF",
-      "regionId": "MCCARRAN_CORRIDOR",
-      "neighborIds": [
-        "AEROTECH_OFFICE_PARK",
-        "CAMP_MCCARRAN",
-        "SHARECROPPER_FARMS",
-        "THE_STRIP",
+	  ],
+	  "centroid": {
+		"x": 275.62,
+		"y": 377.58
+	  }
+	},
+	{
+	  "id": "MCCARRAN_FIELD",
+	  "name": "McCarran Field",
+	  "color": "#C200FF",
+	  "regionId": "MCCARRAN_CORRIDOR",
+	  "neighborIds": [
+		"AEROTECH_OFFICE_PARK",
+		"CAMP_MCCARRAN",
+		"SHARECROPPER_FARMS",
+		"THE_STRIP",
         "WEST_PUMP"
-      ],
-      "centroid": {
-        "x": 262.79,
-        "y": 341.3
-      }
-    },
-    {
-      "id": "MOLE_RAT_RANCH",
-      "name": "Mole Rat Ranch",
-      "color": "#9000FF",
-      "regionId": "MCCARRAN_CORRIDOR",
-      "neighborIds": [
-        "CRIMSON_CARAVAN",
-        "DANGER_ZONE",
-        "EAST_PUMP",
-        "NORTHERN_PASSAGE",
-        "NORTH_VEGAS",
+	  ],
+	  "centroid": {
+		"x": 262.79,
+		"y": 341.3
+	  }
+	},
+	{
+	  "id": "MOLE_RAT_RANCH",
+	  "name": "Mole Rat Ranch",
+	  "color": "#9000FF",
+	  "regionId": "MCCARRAN_CORRIDOR",
+	  "neighborIds": [
+		"CRIMSON_CARAVAN",
+		"DANGER_ZONE",
+		"EAST_PUMP",
+		"NORTHERN_PASSAGE",
+		"NORTH_VEGAS",
         "RAULS_SHACK"
-      ],
-      "centroid": {
-        "x": 303.4,
-        "y": 407.62
-      }
-    },
-    {
-      "id": "REPCONN_HQ",
-      "name": "Repconn HQ",
-      "color": "#E700FF",
-      "regionId": "MCCARRAN_CORRIDOR",
-      "neighborIds": [
-        "ALLIED_TECH",
-        "FOLLOWERS_OUTPOST",
-        "HUNTERS_FARMS",
+	  ],
+	  "centroid": {
+		"x": 303.4,
+		"y": 407.62
+	  }
+	},
+	{
+	  "id": "REPCONN_HQ",
+	  "name": "Repconn HQ",
+	  "color": "#E700FF",
+	  "regionId": "MCCARRAN_CORRIDOR",
+	  "neighborIds": [
+		"ALLIED_TECH",
+		"FOLLOWERS_OUTPOST",
+		"HUNTERS_FARMS",
         "JUNCTION_15_RAILWAY"
-      ],
-      "centroid": {
-        "x": 286.62,
-        "y": 278.33
-      }
-    },
-    {
-      "id": "SHARECROPPER_FARMS",
-      "name": "Sharecropper Farms",
-      "color": "#B000FF",
-      "regionId": "MCCARRAN_CORRIDOR",
-      "neighborIds": [
-        "AEROTECH_OFFICE_PARK",
-        "EAST_PUMP",
-        "GUN_RUNNERS",
-        "MCCARRAN_FIELD",
+	  ],
+	  "centroid": {
+		"x": 286.62,
+		"y": 278.33
+	  }
+	},
+	{
+	  "id": "SHARECROPPER_FARMS",
+	  "name": "Sharecropper Farms",
+	  "color": "#B000FF",
+	  "regionId": "MCCARRAN_CORRIDOR",
+	  "neighborIds": [
+		"AEROTECH_OFFICE_PARK",
+		"EAST_PUMP",
+		"GUN_RUNNERS",
+		"MCCARRAN_FIELD",
         "THE_STRIP"
-      ],
-      "centroid": {
-        "x": 274.98,
-        "y": 357.46
-      }
-    },
-    {
-      "id": "WEST_PUMP",
-      "name": "West Pump",
-      "color": "#B900FF",
-      "regionId": "MCCARRAN_CORRIDOR",
-      "neighborIds": [
-        "ALLIED_TECH",
-        "CAMP_MCCARRAN",
-        "HUNTERS_FARMS",
-        "MCCARRAN_FIELD",
-        "SAMSPON_ROCK_CRUSHING_PLANT",
-        "THE_STRIP",
+	  ],
+	  "centroid": {
+		"x": 274.98,
+		"y": 357.46
+	  }
+	},
+	{
+	  "id": "WEST_PUMP",
+	  "name": "West Pump",
+	  "color": "#B900FF",
+	  "regionId": "MCCARRAN_CORRIDOR",
+	  "neighborIds": [
+		"ALLIED_TECH",
+		"CAMP_MCCARRAN",
+		"HUNTERS_FARMS",
+		"MCCARRAN_FIELD",
+		"SAMSPON_ROCK_CRUSHING_PLANT",
+		"THE_STRIP",
         "VAULT_3"
-      ],
-      "centroid": {
-        "x": 245.08,
-        "y": 323.95
-      }
-    },
-    {
-      "id": "BITTER_SPRINGS",
-      "name": "Bitter Springs",
-      "color": "#2400FF",
-      "regionId": "NELLIS",
-      "neighborIds": [
-        "CALLVILLE_BAY",
-        "CAMP_GUARDIAN",
-        "GYPSUM_TRAIN_YARD",
+	  ],
+	  "centroid": {
+		"x": 245.08,
+		"y": 323.95
+	  }
+	},
+	{
+	  "id": "BITTER_SPRINGS",
+	  "name": "Bitter Springs",
+	  "color": "#2400FF",
+	  "regionId": "NELLIS",
+	  "neighborIds": [
+		"CALLVILLE_BAY",
+		"CAMP_GUARDIAN",
+		"GYPSUM_TRAIN_YARD",
         "RANGER_STATION_BRAVO"
-      ],
-      "centroid": {
-        "x": 389.34,
-        "y": 364.66
-      }
-    },
-    {
-      "id": "CALLVILLE_BAY",
-      "name": "Callville Bay",
-      "color": "#0034FF",
-      "regionId": "NELLIS",
-      "neighborIds": [
-        "BITTER_SPRINGS",
-        "CAMP_GOLF",
-        "CAMP_GUARDIAN",
+	  ],
+	  "centroid": {
+		"x": 389.34,
+		"y": 364.66
+	  }
+	},
+	{
+	  "id": "CALLVILLE_BAY",
+	  "name": "Callville Bay",
+	  "color": "#0034FF",
+	  "regionId": "NELLIS",
+	  "neighborIds": [
+		"BITTER_SPRINGS",
+		"CAMP_GOLF",
+		"CAMP_GUARDIAN",
         "GYPSUM_TRAIN_YARD"
-      ],
-      "centroid": {
-        "x": 376.24,
-        "y": 334.7
-      }
-    },
-    {
-      "id": "CAMP_GUARDIAN",
-      "name": "Camp Guardian",
-      "color": "#4B00FF",
-      "regionId": "NELLIS",
-      "neighborIds": [
-        "BITTER_SPRINGS",
-        "CALLVILLE_BAY",
-        "RANGER_STATION_BRAVO",
+	  ],
+	  "centroid": {
+		"x": 376.24,
+		"y": 334.7
+	  }
+	},
+	{
+	  "id": "CAMP_GUARDIAN",
+	  "name": "Camp Guardian",
+	  "color": "#4B00FF",
+	  "regionId": "NELLIS",
+	  "neighborIds": [
+		"BITTER_SPRINGS",
+		"CALLVILLE_BAY",
+		"RANGER_STATION_BRAVO",
         "THE_DEVILS_THROAT"
-      ],
-      "centroid": {
-        "x": 427.89,
-        "y": 340.51
-      }
-    },
-    {
-      "id": "DANGER_ZONE",
-      "name": "Danger Zone",
-      "color": "#0079FF",
-      "regionId": "NELLIS",
-      "neighborIds": [
-        "GYPSUM_TRAIN_YARD",
-        "MOLE_RAT_RANCH",
-        "NELLIS_ARRAY",
+	  ],
+	  "centroid": {
+		"x": 427.89,
+		"y": 340.51
+	  }
+	},
+	{
+	  "id": "DANGER_ZONE",
+	  "name": "Danger Zone",
+	  "color": "#0079FF",
+	  "regionId": "NELLIS",
+	  "neighborIds": [
+		"GYPSUM_TRAIN_YARD",
+		"MOLE_RAT_RANCH",
+		"NELLIS_ARRAY",
         "NELLIS_HANGERS"
-      ],
-      "centroid": {
-        "x": 341.27,
-        "y": 418.75
-      }
-    },
-    {
-      "id": "GYPSUM_TRAIN_YARD",
-      "name": "Gypsum Train Yard",
-      "color": "#0053FF",
-      "regionId": "NELLIS",
-      "neighborIds": [
-        "BITTER_SPRINGS",
-        "CALLVILLE_BAY",
-        "CAMP_GOLF",
-        "DANGER_ZONE",
-        "RAULS_SHACK",
+	  ],
+	  "centroid": {
+		"x": 341.27,
+		"y": 418.75
+	  }
+	},
+	{
+	  "id": "GYPSUM_TRAIN_YARD",
+	  "name": "Gypsum Train Yard",
+	  "color": "#0053FF",
+	  "regionId": "NELLIS",
+	  "neighborIds": [
+		"BITTER_SPRINGS",
+		"CALLVILLE_BAY",
+		"CAMP_GOLF",
+		"DANGER_ZONE",
+		"RAULS_SHACK",
         "VAULT_34"
-      ],
-      "centroid": {
-        "x": 354.1,
-        "y": 364.24
-      }
-    },
-    {
-      "id": "NELLIS_ARRAY",
-      "name": "Nellis Array",
-      "color": "#0087FF",
-      "regionId": "NELLIS",
-      "neighborIds": [
-        "DANGER_ZONE",
+	  ],
+	  "centroid": {
+		"x": 354.1,
+		"y": 364.24
+	  }
+	},
+	{
+	  "id": "NELLIS_ARRAY",
+	  "name": "Nellis Array",
+	  "color": "#0087FF",
+	  "regionId": "NELLIS",
+	  "neighborIds": [
+		"DANGER_ZONE",
         "NELLIS_HANGERS"
-      ],
-      "centroid": {
-        "x": 365.87,
-        "y": 457.69
-      }
-    },
-    {
-      "id": "NELLIS_HANGERS",
-      "name": "Nellis Hangers",
-      "color": "#0094FF",
-      "regionId": "NELLIS",
-      "neighborIds": [
-        "DANGER_ZONE",
+	  ],
+	  "centroid": {
+		"x": 365.87,
+		"y": 457.69
+	  }
+	},
+	{
+	  "id": "NELLIS_HANGERS",
+	  "name": "Nellis Hangers",
+	  "color": "#0094FF",
+	  "regionId": "NELLIS",
+	  "neighborIds": [
+		"DANGER_ZONE",
         "NELLIS_ARRAY"
-      ],
-      "centroid": {
-        "x": 339.01,
-        "y": 457.96
-      }
-    },
-    {
-      "id": "RANGER_STATION_BRAVO",
-      "name": "Ranger Station Bravo",
-      "color": "#6200FF",
-      "regionId": "NELLIS",
-      "neighborIds": [
-        "BITTER_SPRINGS",
-        "CAMP_GUARDIAN",
+	  ],
+	  "centroid": {
+		"x": 339.01,
+		"y": 457.96
+	  }
+	},
+	{
+	  "id": "RANGER_STATION_BRAVO",
+	  "name": "Ranger Station Bravo",
+	  "color": "#6200FF",
+	  "regionId": "NELLIS",
+	  "neighborIds": [
+		"BITTER_SPRINGS",
+		"CAMP_GUARDIAN",
         "THE_DEVILS_THROAT"
-      ],
-      "centroid": {
-        "x": 424.22,
-        "y": 369.77
-      }
-    },
-    {
-      "id": "RAULS_SHACK",
-      "name": "Raul's Shack",
-      "color": "#0068FF",
-      "regionId": "NELLIS",
-      "neighborIds": [
-        "EAST_PUMP",
-        "GYPSUM_TRAIN_YARD",
-        "MOLE_RAT_RANCH",
+	  ],
+	  "centroid": {
+		"x": 424.22,
+		"y": 369.77
+	  }
+	},
+	{
+	  "id": "RAULS_SHACK",
+	  "name": "Raul's Shack",
+	  "color": "#0068FF",
+	  "regionId": "NELLIS",
+	  "neighborIds": [
+		"EAST_PUMP",
+		"GYPSUM_TRAIN_YARD",
+		"MOLE_RAT_RANCH",
         "VAULT_34"
-      ],
-      "centroid": {
-        "x": 329.58,
-        "y": 377.83
-      }
-    },
-    {
-      "id": "THE_DEVILS_THROAT",
-      "name": "The Devil's Throat",
-      "color": "#7400FF",
-      "regionId": "NELLIS",
-      "neighborIds": [
-        "CAMP_GUARDIAN",
+	  ],
+	  "centroid": {
+		"x": 329.58,
+		"y": 377.83
+	  }
+	},
+	{
+	  "id": "THE_DEVILS_THROAT",
+	  "name": "The Devil's Throat",
+	  "color": "#7400FF",
+	  "regionId": "NELLIS",
+	  "neighborIds": [
+		"CAMP_GUARDIAN",
         "RANGER_STATION_BRAVO"
-      ],
-      "centroid": {
-        "x": 445.13,
-        "y": 372.68
-      }
-    },
-    {
-      "id": "CALIFORNIA_SUNSET_DRIVE_IN",
-      "name": "California Sunset Drive In",
-      "color": "#FFD700",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "HIGHWAY_PATROL_STATION",
-        "LONE_WOLF_RADIO",
-        "MESQUITE_MOUNTAIN_CAMPSITE",
+	  ],
+	  "centroid": {
+		"x": 445.13,
+		"y": 372.68
+	  }
+	},
+	{
+	  "id": "CALIFORNIA_SUNSET_DRIVE_IN",
+	  "name": "California Sunset Drive In",
+	  "color": "#FFD700",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"HIGHWAY_PATROL_STATION",
+		"LONE_WOLF_RADIO",
+		"MESQUITE_MOUNTAIN_CAMPSITE",
         "PRIMM"
-      ],
-      "centroid": {
-        "x": 173.81,
-        "y": 130.91
-      }
-    },
-    {
-      "id": "COYOTE_DEN",
-      "name": "Coyote Den",
-      "color": "#FFFE00",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "EMERGENCY_SERVICE_RAILWAY",
-        "IVANPAH_DRY_LAKE",
-        "NIPTON",
+	  ],
+	  "centroid": {
+		"x": 173.81,
+		"y": 130.91
+	  }
+	},
+	{
+	  "id": "COYOTE_DEN",
+	  "name": "Coyote Den",
+	  "color": "#FFFE00",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"EMERGENCY_SERVICE_RAILWAY",
+		"IVANPAH_DRY_LAKE",
+		"NIPTON",
         "PRIMM"
-      ],
-      "centroid": {
-        "x": 239.31,
-        "y": 104.32
-      }
-    },
-    {
-      "id": "CRESCENT_CANYON",
-      "name": "Crescent Canyon",
-      "color": "#D9FF00",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "MOJAVE_DRIVEIN",
-        "NIPTON_ROAD_PIT_STOP",
+	  ],
+	  "centroid": {
+		"x": 239.31,
+		"y": 104.32
+	  }
+	},
+	{
+	  "id": "CRESCENT_CANYON",
+	  "name": "Crescent Canyon",
+	  "color": "#D9FF00",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"MOJAVE_DRIVEIN",
+		"NIPTON_ROAD_PIT_STOP",
         "NIPTON_ROAD_REST_STOP"
-      ],
-      "centroid": {
-        "x": 194.46,
-        "y": 26.87
-      }
-    },
-    {
-      "id": "EMERGENCY_SERVICE_RAILWAY",
-      "name": "Emergency Service Railway",
-      "color": "#FFE500",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "COYOTE_DEN",
-        "EAST_CAMP",
-        "RANGER_STATION_CHARLIE",
+	  ],
+	  "centroid": {
+		"x": 194.46,
+		"y": 26.87
+	  }
+	},
+	{
+	  "id": "EMERGENCY_SERVICE_RAILWAY",
+	  "name": "Emergency Service Railway",
+	  "color": "#FFE500",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"COYOTE_DEN",
+		"EAST_CAMP",
+		"RANGER_STATION_CHARLIE",
         "SOUTH_CAMP"
-      ],
-      "centroid": {
-        "x": 236.15,
-        "y": 139.87
-      }
-    },
-    {
-      "id": "HIGHWAY_PATROL_STATION",
-      "name": "Highway Patrol Station",
-      "color": "#FFF200",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "CALIFORNIA_SUNSET_DRIVE_IN",
-        "IVANPAH_DRY_LAKE",
-        "MESQUITE_MOUNTAIN_CAMPSITE",
-        "NIPTON_ROAD_REST_STOP",
+	  ],
+	  "centroid": {
+		"x": 236.15,
+		"y": 139.87
+	  }
+	},
+	{
+	  "id": "HIGHWAY_PATROL_STATION",
+	  "name": "Highway Patrol Station",
+	  "color": "#FFF200",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"CALIFORNIA_SUNSET_DRIVE_IN",
+		"IVANPAH_DRY_LAKE",
+		"MESQUITE_MOUNTAIN_CAMPSITE",
+		"NIPTON_ROAD_REST_STOP",
         "PRIMM"
-      ],
-      "centroid": {
-        "x": 172.71,
-        "y": 101.48
-      }
-    },
-    {
-      "id": "IVANPAH_DRY_LAKE",
-      "name": "Ivanpah Dry Lake",
-      "color": "#FFF800",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "COYOTE_DEN",
-        "HIGHWAY_PATROL_STATION",
-        "NIPTON",
-        "NIPTON_ROAD_PIT_STOP",
-        "NIPTON_ROAD_REST_STOP",
+	  ],
+	  "centroid": {
+		"x": 172.71,
+		"y": 101.48
+	  }
+	},
+	{
+	  "id": "IVANPAH_DRY_LAKE",
+	  "name": "Ivanpah Dry Lake",
+	  "color": "#FFF800",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"COYOTE_DEN",
+		"HIGHWAY_PATROL_STATION",
+		"NIPTON",
+		"NIPTON_ROAD_PIT_STOP",
+		"NIPTON_ROAD_REST_STOP",
         "PRIMM"
-      ],
-      "centroid": {
-        "x": 203.34,
-        "y": 92.76
-      }
-    },
-    {
-      "id": "LONE_WOLF_RADIO",
-      "name": "Lone Wolf Radio",
-      "color": "#FFCF00",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "CALIFORNIA_SUNSET_DRIVE_IN",
-        "GOODSPRINGS_SOURCE",
-        "PRIMM",
-        "SOUTH_CAMP",
+	  ],
+	  "centroid": {
+		"x": 203.34,
+		"y": 92.76
+	  }
+	},
+	{
+	  "id": "LONE_WOLF_RADIO",
+	  "name": "Lone Wolf Radio",
+	  "color": "#FFCF00",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"CALIFORNIA_SUNSET_DRIVE_IN",
+		"GOODSPRINGS_SOURCE",
+		"PRIMM",
+		"SOUTH_CAMP",
         "WEST_CAMP"
-      ],
-      "centroid": {
-        "x": 179.76,
-        "y": 168.91
-      }
-    },
-    {
-      "id": "LONG_15",
-      "name": "Long 15",
-      "color": "#FAFF00",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "MESQUITE_MOUNTAIN_CAMPSITE",
+	  ],
+	  "centroid": {
+		"x": 179.76,
+		"y": 168.91
+	  }
+	},
+	{
+	  "id": "LONG_15",
+	  "name": "Long 15",
+	  "color": "#FAFF00",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"MESQUITE_MOUNTAIN_CAMPSITE",
         "NIPTON_ROAD_REST_STOP"
-      ],
-      "centroid": {
-        "x": 149.46,
-        "y": 62.0
-      }
-    },
-    {
-      "id": "MESQUITE_MOUNTAIN_CAMPSITE",
-      "name": "Mesquite Mountain Campsite",
-      "color": "#FFEC00",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "CALIFORNIA_SUNSET_DRIVE_IN",
-        "HIGHWAY_PATROL_STATION",
-        "LONG_15",
+	  ],
+	  "centroid": {
+		"x": 149.46,
+		"y": 62.0
+	  }
+	},
+	{
+	  "id": "MESQUITE_MOUNTAIN_CAMPSITE",
+	  "name": "Mesquite Mountain Campsite",
+	  "color": "#FFEC00",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"CALIFORNIA_SUNSET_DRIVE_IN",
+		"HIGHWAY_PATROL_STATION",
+		"LONG_15",
         "NIPTON_ROAD_REST_STOP"
-      ],
-      "centroid": {
-        "x": 147.83,
-        "y": 99.08
-      }
-    },
-    {
-      "id": "MOJAVE_DRIVEIN",
-      "name": "Mojave Drive-In",
-      "color": "#E0FF00",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "CRESCENT_CANYON",
-        "NIPTON",
-        "NIPTON_ROAD_PIT_STOP",
-        "NUCLEAR_TEST_SITE",
+	  ],
+	  "centroid": {
+		"x": 147.83,
+		"y": 99.08
+	  }
+	},
+	{
+	  "id": "MOJAVE_DRIVEIN",
+	  "name": "Mojave Drive-In",
+	  "color": "#E0FF00",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"CRESCENT_CANYON",
+		"NIPTON",
+		"NIPTON_ROAD_PIT_STOP",
+		"NUCLEAR_TEST_SITE",
         "WOLFHORN_RANCH"
-      ],
-      "centroid": {
-        "x": 237.81,
-        "y": 39.98
-      }
-    },
-    {
-      "id": "NIPTON_ROAD_PIT_STOP",
-      "name": "Nipton Road Pit Stop",
-      "color": "#EEFF00",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "CRESCENT_CANYON",
-        "IVANPAH_DRY_LAKE",
-        "MOJAVE_DRIVEIN",
-        "NIPTON",
+	  ],
+	  "centroid": {
+		"x": 237.81,
+		"y": 39.98
+	  }
+	},
+	{
+	  "id": "NIPTON_ROAD_PIT_STOP",
+	  "name": "Nipton Road Pit Stop",
+	  "color": "#EEFF00",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"CRESCENT_CANYON",
+		"IVANPAH_DRY_LAKE",
+		"MOJAVE_DRIVEIN",
+		"NIPTON",
         "NIPTON_ROAD_REST_STOP"
-      ],
-      "centroid": {
-        "x": 203.94,
-        "y": 51.07
-      }
-    },
-    {
-      "id": "NIPTON_ROAD_REST_STOP",
-      "name": "Nipton Road Rest Stop",
-      "color": "#F4FF00",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "CRESCENT_CANYON",
-        "HIGHWAY_PATROL_STATION",
-        "IVANPAH_DRY_LAKE",
-        "LONG_15",
-        "MESQUITE_MOUNTAIN_CAMPSITE",
+	  ],
+	  "centroid": {
+		"x": 203.94,
+		"y": 51.07
+	  }
+	},
+	{
+	  "id": "NIPTON_ROAD_REST_STOP",
+	  "name": "Nipton Road Rest Stop",
+	  "color": "#F4FF00",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"CRESCENT_CANYON",
+		"HIGHWAY_PATROL_STATION",
+		"IVANPAH_DRY_LAKE",
+		"LONG_15",
+		"MESQUITE_MOUNTAIN_CAMPSITE",
         "NIPTON_ROAD_PIT_STOP"
-      ],
-      "centroid": {
-        "x": 178.26,
-        "y": 69.39
-      }
-    },
-    {
-      "id": "NIPTON",
-      "name": "Nipton",
-      "color": "#E7FF00",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "COYOTE_DEN",
-        "IVANPAH_DRY_LAKE",
-        "MOJAVE_DRIVEIN",
-        "NIPTON_ROAD_PIT_STOP",
-        "WALKING_BOX_CAVERN",
+	  ],
+	  "centroid": {
+		"x": 178.26,
+		"y": 69.39
+	  }
+	},
+	{
+	  "id": "NIPTON",
+	  "name": "Nipton",
+	  "color": "#E7FF00",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"COYOTE_DEN",
+		"IVANPAH_DRY_LAKE",
+		"MOJAVE_DRIVEIN",
+		"NIPTON_ROAD_PIT_STOP",
+		"WALKING_BOX_CAVERN",
         "WOLFHORN_RANCH"
-      ],
-      "centroid": {
-        "x": 238.03,
-        "y": 68.88
-      }
-    },
-    {
-      "id": "PRIMM",
-      "name": "Primm",
-      "color": "#FFDE00",
-      "regionId": "NIPTON",
-      "neighborIds": [
-        "CALIFORNIA_SUNSET_DRIVE_IN",
-        "COYOTE_DEN",
-        "HIGHWAY_PATROL_STATION",
-        "IVANPAH_DRY_LAKE",
-        "LONE_WOLF_RADIO",
-        "SOUTH_CAMP",
+	  ],
+	  "centroid": {
+		"x": 238.03,
+		"y": 68.88
+	  }
+	},
+	{
+	  "id": "PRIMM",
+	  "name": "Primm",
+	  "color": "#FFDE00",
+	  "regionId": "NIPTON",
+	  "neighborIds": [
+		"CALIFORNIA_SUNSET_DRIVE_IN",
+		"COYOTE_DEN",
+		"HIGHWAY_PATROL_STATION",
+		"IVANPAH_DRY_LAKE",
+		"LONE_WOLF_RADIO",
+		"SOUTH_CAMP",
         "WEST_CAMP"
-      ],
-      "centroid": {
-        "x": 200.28,
-        "y": 133.25
-      }
-    },
-    {
-      "id": "GREAT_KHAN_LONGHOUSE",
-      "name": "Great Khan Longhouse",
-      "color": "#FF00AD",
-      "regionId": "RED_ROCK",
-      "neighborIds": [
-        "RED_ROCK_CANYON",
+	  ],
+	  "centroid": {
+		"x": 200.28,
+		"y": 133.25
+	  }
+	},
+	{
+	  "id": "GREAT_KHAN_LONGHOUSE",
+	  "name": "Great Khan Longhouse",
+	  "color": "#FF00AD",
+	  "regionId": "RED_ROCK",
+	  "neighborIds": [
+		"RED_ROCK_CANYON",
         "SPRING_MT"
-      ],
-      "centroid": {
-        "x": 166.86,
-        "y": 325.49
-      }
-    },
-    {
-      "id": "RED_ROCK_CANYON",
-      "name": "Red Rock Canyon",
-      "color": "#FF00B6",
-      "regionId": "RED_ROCK",
-      "neighborIds": [
-        "CAZADOR_NEST",
+	  ],
+	  "centroid": {
+		"x": 166.86,
+		"y": 325.49
+	  }
+	},
+	{
+	  "id": "RED_ROCK_CANYON",
+	  "name": "Red Rock Canyon",
+	  "color": "#FF00B6",
+	  "regionId": "RED_ROCK",
+	  "neighborIds": [
+		"CAZADOR_NEST",
         "GREAT_KHAN_LONGHOUSE"
-      ],
-      "centroid": {
-        "x": 147.76,
-        "y": 337.56
-      }
-    },
-    {
-      "id": "BLUE_PARADISE_VACATION_RENTALS",
-      "name": "Blue Paradise Vacation Rentals",
-      "color": "#FFC700",
-      "regionId": "SEARCHLIGHT",
-      "neighborIds": [
+	  ],
+	  "centroid": {
+		"x": 147.76,
+		"y": 337.56
+	  }
+	},
+	{
+	  "id": "BLUE_PARADISE_VACATION_RENTALS",
+	  "name": "Blue Paradise Vacation Rentals",
+	  "color": "#FFC700",
+	  "regionId": "SEARCHLIGHT",
+	  "neighborIds": [
         "COTTONWOOD_COVE"
-      ],
-      "centroid": {
-        "x": 389.21,
-        "y": 36.48
-      }
-    },
-    {
-      "id": "COTTONWOOD_COVE",
-      "name": "Cottonwood Cove",
-      "color": "#FF8C00",
-      "regionId": "SEARCHLIGHT",
-      "neighborIds": [
-        "BLUE_PARADISE_VACATION_RENTALS",
-        "COYOTE_MINES",
-        "RANGER_STATION_ECHO",
+	  ],
+	  "centroid": {
+		"x": 389.21,
+		"y": 36.48
+	  }
+	},
+	{
+	  "id": "COTTONWOOD_COVE",
+	  "name": "Cottonwood Cove",
+	  "color": "#FF8C00",
+	  "regionId": "SEARCHLIGHT",
+	  "neighborIds": [
+		"BLUE_PARADISE_VACATION_RENTALS",
+		"COYOTE_MINES",
+		"RANGER_STATION_ECHO",
         "SEARCHLIGHT"
-      ],
-      "centroid": {
-        "x": 374.76,
-        "y": 69.02
-      }
-    },
-    {
-      "id": "COYOTE_MINES",
-      "name": "Coyote Mines",
-      "color": "#FF6E00",
-      "regionId": "SEARCHLIGHT",
-      "neighborIds": [
-        "COTTONWOOD_COVE",
-        "HIGHWAY_95_ENCAMPMENT",
-        "RAID_CAMP",
-        "RANGER_STATION_ECHO",
+	  ],
+	  "centroid": {
+		"x": 374.76,
+		"y": 69.02
+	  }
+	},
+	{
+	  "id": "COYOTE_MINES",
+	  "name": "Coyote Mines",
+	  "color": "#FF6E00",
+	  "regionId": "SEARCHLIGHT",
+	  "neighborIds": [
+		"COTTONWOOD_COVE",
+		"HIGHWAY_95_ENCAMPMENT",
+		"RAID_CAMP",
+		"RANGER_STATION_ECHO",
         "SEARCHLIGHT"
-      ],
-      "centroid": {
-        "x": 341.3,
-        "y": 87.96
-      }
-    },
-    {
-      "id": "MATTHEWS_ANIMAL_HUSBANDRY_FARM",
-      "name": "Matthews Animal Husbandry Farm",
-      "color": "#FFA300",
-      "regionId": "SEARCHLIGHT",
-      "neighborIds": [
-        "NUCLEAR_TEST_SITE",
-        "RAID_CAMP",
-        "SEARCHLIGHT",
-        "SEARCHLIGHT_AIRPORT",
+	  ],
+	  "centroid": {
+		"x": 341.3,
+		"y": 87.96
+	  }
+	},
+	{
+	  "id": "MATTHEWS_ANIMAL_HUSBANDRY_FARM",
+	  "name": "Matthews Animal Husbandry Farm",
+	  "color": "#FFA300",
+	  "regionId": "SEARCHLIGHT",
+	  "neighborIds": [
+		"NUCLEAR_TEST_SITE",
+		"RAID_CAMP",
+		"SEARCHLIGHT",
+		"SEARCHLIGHT_AIRPORT",
         "WOLFHORN_RANCH"
-      ],
-      "centroid": {
-        "x": 301.97,
-        "y": 45.46
-      }
-    },
-    {
-      "id": "NUCLEAR_TEST_SITE",
-      "name": "Nuclear Test Site",
-      "color": "#FFB600",
-      "regionId": "SEARCHLIGHT",
-      "neighborIds": [
-        "MATTHEWS_ANIMAL_HUSBANDRY_FARM",
-        "MOJAVE_DRIVEIN",
+	  ],
+	  "centroid": {
+		"x": 301.97,
+		"y": 45.46
+	  }
+	},
+	{
+	  "id": "NUCLEAR_TEST_SITE",
+	  "name": "Nuclear Test Site",
+	  "color": "#FFB600",
+	  "regionId": "SEARCHLIGHT",
+	  "neighborIds": [
+		"MATTHEWS_ANIMAL_HUSBANDRY_FARM",
+		"MOJAVE_DRIVEIN",
         "WOLFHORN_RANCH"
-      ],
-      "centroid": {
-        "x": 272.15,
-        "y": 26.08
-      }
-    },
-    {
-      "id": "RAID_CAMP",
-      "name": "Raid Camp",
-      "color": "#FF5B00",
-      "regionId": "SEARCHLIGHT",
-      "neighborIds": [
-        "COYOTE_MINES",
-        "HIGHWAY_95_ENCAMPMENT",
-        "MATTHEWS_ANIMAL_HUSBANDRY_FARM",
-        "RANGER_STATION_CHARLIE",
-        "SEARCHLIGHT",
-        "WALKING_BOX_CAVERN",
+	  ],
+	  "centroid": {
+		"x": 272.15,
+		"y": 26.08
+	  }
+	},
+	{
+	  "id": "RAID_CAMP",
+	  "name": "Raid Camp",
+	  "color": "#FF5B00",
+	  "regionId": "SEARCHLIGHT",
+	  "neighborIds": [
+		"COYOTE_MINES",
+		"HIGHWAY_95_ENCAMPMENT",
+		"MATTHEWS_ANIMAL_HUSBANDRY_FARM",
+		"RANGER_STATION_CHARLIE",
+		"SEARCHLIGHT",
+		"WALKING_BOX_CAVERN",
         "WOLFHORN_RANCH"
-      ],
-      "centroid": {
-        "x": 302.05,
-        "y": 94.36
-      }
-    },
-    {
-      "id": "RANGER_STATION_CHARLIE",
-      "name": "Ranger Station Charlie",
-      "color": "#FF0000",
-      "regionId": "SEARCHLIGHT",
-      "neighborIds": [
-        "EMERGENCY_SERVICE_RAILWAY",
-        "HIGHWAY_95_ENCAMPMENT",
-        "NOVAC",
-        "RAID_CAMP",
+	  ],
+	  "centroid": {
+		"x": 302.05,
+		"y": 94.36
+	  }
+	},
+	{
+	  "id": "RANGER_STATION_CHARLIE",
+	  "name": "Ranger Station Charlie",
+	  "color": "#FF0000",
+	  "regionId": "SEARCHLIGHT",
+	  "neighborIds": [
+		"EMERGENCY_SERVICE_RAILWAY",
+		"HIGHWAY_95_ENCAMPMENT",
+		"NOVAC",
+		"RAID_CAMP",
         "WALKING_BOX_CAVERN"
-      ],
-      "centroid": {
-        "x": 286.96,
-        "y": 131.45
-      }
-    },
-    {
-      "id": "RANGER_STATION_ECHO",
-      "name": "Ranger Station Echo",
-      "color": "#FF7E00",
-      "regionId": "SEARCHLIGHT",
-      "neighborIds": [
-        "COTTONWOOD_COVE",
-        "COYOTE_MINES",
-        "HIGHWAY_95_ENCAMPMENT",
+	  ],
+	  "centroid": {
+		"x": 286.96,
+		"y": 131.45
+	  }
+	},
+	{
+	  "id": "RANGER_STATION_ECHO",
+	  "name": "Ranger Station Echo",
+	  "color": "#FF7E00",
+	  "regionId": "SEARCHLIGHT",
+	  "neighborIds": [
+		"COTTONWOOD_COVE",
+		"COYOTE_MINES",
+		"HIGHWAY_95_ENCAMPMENT",
         "TECHATTICUP_MINE"
-      ],
-      "centroid": {
-        "x": 389.12,
-        "y": 103.58
-      }
-    },
-    {
-      "id": "SEARCHLIGHT_AIRPORT",
-      "name": "Searchlight Airport",
-      "color": "#FFBF00",
-      "regionId": "SEARCHLIGHT",
-      "neighborIds": [
-        "MATTHEWS_ANIMAL_HUSBANDRY_FARM",
+	  ],
+	  "centroid": {
+		"x": 389.12,
+		"y": 103.58
+	  }
+	},
+	{
+	  "id": "SEARCHLIGHT_AIRPORT",
+	  "name": "Searchlight Airport",
+	  "color": "#FFBF00",
+	  "regionId": "SEARCHLIGHT",
+	  "neighborIds": [
+		"MATTHEWS_ANIMAL_HUSBANDRY_FARM",
         "SEARCHLIGHT"
-      ],
-      "centroid": {
-        "x": 338.13,
-        "y": 28.2
-      }
-    },
-    {
-      "id": "SEARCHLIGHT",
-      "name": "Searchlight",
-      "color": "#FF9800",
-      "regionId": "SEARCHLIGHT",
-      "neighborIds": [
-        "COTTONWOOD_COVE",
-        "COYOTE_MINES",
-        "MATTHEWS_ANIMAL_HUSBANDRY_FARM",
-        "RAID_CAMP",
+	  ],
+	  "centroid": {
+		"x": 338.13,
+		"y": 28.2
+	  }
+	},
+	{
+	  "id": "SEARCHLIGHT",
+	  "name": "Searchlight",
+	  "color": "#FF9800",
+	  "regionId": "SEARCHLIGHT",
+	  "neighborIds": [
+		"COTTONWOOD_COVE",
+		"COYOTE_MINES",
+		"MATTHEWS_ANIMAL_HUSBANDRY_FARM",
+		"RAID_CAMP",
         "SEARCHLIGHT_AIRPORT"
-      ],
-      "centroid": {
-        "x": 331.43,
-        "y": 59.14
-      }
-    },
-    {
-      "id": "WALKING_BOX_CAVERN",
-      "name": "Walking Box Cavern",
-      "color": "#FF4100",
-      "regionId": "SEARCHLIGHT",
-      "neighborIds": [
-        "NIPTON",
-        "RAID_CAMP",
-        "RANGER_STATION_CHARLIE",
+	  ],
+	  "centroid": {
+		"x": 331.43,
+		"y": 59.14
+	  }
+	},
+	{
+	  "id": "WALKING_BOX_CAVERN",
+	  "name": "Walking Box Cavern",
+	  "color": "#FF4100",
+	  "regionId": "SEARCHLIGHT",
+	  "neighborIds": [
+		"NIPTON",
+		"RAID_CAMP",
+		"RANGER_STATION_CHARLIE",
         "WOLFHORN_RANCH"
-      ],
-      "centroid": {
-        "x": 271.42,
-        "y": 101.39
-      }
-    },
-    {
-      "id": "WOLFHORN_RANCH",
-      "name": "Wolfhorn Ranch",
-      "color": "#FFAD00",
-      "regionId": "SEARCHLIGHT",
-      "neighborIds": [
-        "MATTHEWS_ANIMAL_HUSBANDRY_FARM",
-        "MOJAVE_DRIVEIN",
-        "NIPTON",
-        "NUCLEAR_TEST_SITE",
-        "RAID_CAMP",
+	  ],
+	  "centroid": {
+		"x": 271.42,
+		"y": 101.39
+	  }
+	},
+	{
+	  "id": "WOLFHORN_RANCH",
+	  "name": "Wolfhorn Ranch",
+	  "color": "#FFAD00",
+	  "regionId": "SEARCHLIGHT",
+	  "neighborIds": [
+		"MATTHEWS_ANIMAL_HUSBANDRY_FARM",
+		"MOJAVE_DRIVEIN",
+		"NIPTON",
+		"NUCLEAR_TEST_SITE",
+		"RAID_CAMP",
         "WALKING_BOX_CAVERN"
-      ],
-      "centroid": {
-        "x": 274.67,
-        "y": 64.26
-      }
-    },
-    {
-      "id": "BONNIE_SPRINGS",
-      "name": "Bonnie Springs",
-      "color": "#00FF87",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "POSEIDON_GAS_STATION",
-        "SPRING_MT",
-        "TRIBAL_VILLAGE",
+	  ],
+	  "centroid": {
+		"x": 274.67,
+		"y": 64.26
+	  }
+	},
+	{
+	  "id": "BONNIE_SPRINGS",
+	  "name": "Bonnie Springs",
+	  "color": "#00FF87",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"POSEIDON_GAS_STATION",
+		"SPRING_MT",
+		"TRIBAL_VILLAGE",
         "VAULT_19"
-      ],
-      "centroid": {
-        "x": 191.3,
-        "y": 291.45
-      }
-    },
-    {
-      "id": "EAST_CAMP",
-      "name": "East Camp",
-      "color": "#00FFF0",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "EMERGENCY_SERVICE_RAILWAY",
-        "HIDDEN_VALLEY",
-        "NCRCF",
-        "NORTH_CAMP",
+	  ],
+	  "centroid": {
+		"x": 191.3,
+		"y": 291.45
+	  }
+	},
+	{
+	  "id": "EAST_CAMP",
+	  "name": "East Camp",
+	  "color": "#00FFF0",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"EMERGENCY_SERVICE_RAILWAY",
+		"HIDDEN_VALLEY",
+		"NCRCF",
+		"NORTH_CAMP",
         "SOUTH_CAMP"
-      ],
-      "centroid": {
-        "x": 246.8,
-        "y": 178.03
-      }
-    },
-    {
-      "id": "GOODSPRINGS_SOURCE",
-      "name": "Goodsprings Source",
-      "color": "#00FFDC",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "GOODSPRINGS",
-        "LONE_WOLF_RADIO",
-        "WEST_CAMP",
+	  ],
+	  "centroid": {
+		"x": 246.8,
+		"y": 178.03
+	  }
+	},
+	{
+	  "id": "GOODSPRINGS_SOURCE",
+	  "name": "Goodsprings Source",
+	  "color": "#00FFDC",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"GOODSPRINGS",
+		"LONE_WOLF_RADIO",
+		"WEST_CAMP",
         "YANGTZE_MEMORIAL"
-      ],
-      "centroid": {
-        "x": 184.41,
-        "y": 199.27
-      }
-    },
-    {
-      "id": "GOODSPRINGS",
-      "name": "Goodsprings",
-      "color": "#00FFCD",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "GOODSPRINGS_SOURCE",
-        "TRIBAL_VILLAGE",
+	  ],
+	  "centroid": {
+		"x": 184.41,
+		"y": 199.27
+	  }
+	},
+	{
+	  "id": "GOODSPRINGS",
+	  "name": "Goodsprings",
+	  "color": "#00FFCD",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"GOODSPRINGS_SOURCE",
+		"TRIBAL_VILLAGE",
         "YANGTZE_MEMORIAL"
-      ],
-      "centroid": {
-        "x": 170.25,
-        "y": 225.21
-      }
-    },
-    {
-      "id": "HUNTERS_FARMS",
-      "name": "Hunters Farms",
-      "color": "#00FF9F",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "ALLIED_TECH",
-        "JUNCTION_15_RAILWAY",
-        "REPCONN_HQ",
-        "SAMSPON_ROCK_CRUSHING_PLANT",
-        "VAULT_19",
+	  ],
+	  "centroid": {
+		"x": 170.25,
+		"y": 225.21
+	  }
+	},
+	{
+	  "id": "HUNTERS_FARMS",
+	  "name": "Hunters Farms",
+	  "color": "#00FF9F",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"ALLIED_TECH",
+		"JUNCTION_15_RAILWAY",
+		"REPCONN_HQ",
+		"SAMSPON_ROCK_CRUSHING_PLANT",
+		"VAULT_19",
         "WEST_PUMP"
-      ],
-      "centroid": {
-        "x": 248.72,
-        "y": 285.16
-      }
-    },
-    {
-      "id": "JUNCTION_15_RAILWAY",
-      "name": "Junction 15 Railway",
-      "color": "#00FFAA",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "BLACK_MOUNTAIN",
-        "HUNTERS_FARMS",
-        "REPCONN_HQ",
-        "SLOAN",
+	  ],
+	  "centroid": {
+		"x": 248.72,
+		"y": 285.16
+	  }
+	},
+	{
+	  "id": "JUNCTION_15_RAILWAY",
+	  "name": "Junction 15 Railway",
+	  "color": "#00FFAA",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"BLACK_MOUNTAIN",
+		"HUNTERS_FARMS",
+		"REPCONN_HQ",
+		"SLOAN",
         "VAULT_19"
-      ],
-      "centroid": {
-        "x": 255.03,
-        "y": 264.73
-      }
-    },
-    {
-      "id": "NCRCF",
-      "name": "NCRCF",
-      "color": "#00FFE3",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "EAST_CAMP",
-        "NORTH_CAMP",
-        "SOUTH_CAMP",
-        "WEST_CAMP",
+	  ],
+	  "centroid": {
+		"x": 255.03,
+		"y": 264.73
+	  }
+	},
+	{
+	  "id": "NCRCF",
+	  "name": "NCRCF",
+	  "color": "#00FFE3",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"EAST_CAMP",
+		"NORTH_CAMP",
+		"SOUTH_CAMP",
+		"WEST_CAMP",
         "YANGTZE_MEMORIAL"
-      ],
-      "centroid": {
-        "x": 226.6,
-        "y": 186.72
-      }
-    },
-    {
-      "id": "NORTH_CAMP",
-      "name": "North Camp",
-      "color": "#00FFE9",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "EAST_CAMP",
-        "HIDDEN_VALLEY",
-        "NCRCF",
-        "SLOAN",
+	  ],
+	  "centroid": {
+		"x": 226.6,
+		"y": 186.72
+	  }
+	},
+	{
+	  "id": "NORTH_CAMP",
+	  "name": "North Camp",
+	  "color": "#00FFE9",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"EAST_CAMP",
+		"HIDDEN_VALLEY",
+		"NCRCF",
+		"SLOAN",
         "YANGTZE_MEMORIAL"
-      ],
-      "centroid": {
-        "x": 236.3,
-        "y": 207.58
-      }
-    },
-    {
-      "id": "QUARRY_JUNCTION",
-      "name": "Quarry Junction",
-      "color": "#00FFBC",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "SLOAN",
+	  ],
+	  "centroid": {
+		"x": 236.3,
+		"y": 207.58
+	  }
+	},
+	{
+	  "id": "QUARRY_JUNCTION",
+	  "name": "Quarry Junction",
+	  "color": "#00FFBC",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"SLOAN",
         "VAULT_19"
-      ],
-      "centroid": {
-        "x": 221.24,
-        "y": 244.6
-      }
-    },
-    {
-      "id": "SLOAN",
-      "name": "Sloan",
-      "color": "#00FFC5",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "BLACK_MOUNTAIN",
-        "HIDDEN_VALLEY",
-        "JUNCTION_15_RAILWAY",
-        "NORTH_CAMP",
-        "QUARRY_JUNCTION",
+	  ],
+	  "centroid": {
+		"x": 221.24,
+		"y": 244.6
+	  }
+	},
+	{
+	  "id": "SLOAN",
+	  "name": "Sloan",
+	  "color": "#00FFC5",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"BLACK_MOUNTAIN",
+		"HIDDEN_VALLEY",
+		"JUNCTION_15_RAILWAY",
+		"NORTH_CAMP",
+		"QUARRY_JUNCTION",
         "YANGTZE_MEMORIAL"
-      ],
-      "centroid": {
-        "x": 241.2,
-        "y": 233.78
-      }
-    },
-    {
-      "id": "SOUTH_CAMP",
-      "name": "South Camp",
-      "color": "#00FFFC",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "EAST_CAMP",
-        "EMERGENCY_SERVICE_RAILWAY",
-        "LONE_WOLF_RADIO",
-        "NCRCF",
-        "PRIMM",
+	  ],
+	  "centroid": {
+		"x": 241.2,
+		"y": 233.78
+	  }
+	},
+	{
+	  "id": "SOUTH_CAMP",
+	  "name": "South Camp",
+	  "color": "#00FFFC",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"EAST_CAMP",
+		"EMERGENCY_SERVICE_RAILWAY",
+		"LONE_WOLF_RADIO",
+		"NCRCF",
+		"PRIMM",
         "WEST_CAMP"
-      ],
-      "centroid": {
-        "x": 214.43,
-        "y": 163.13
-      }
-    },
-    {
-      "id": "SPRING_MT",
-      "name": "Spring Mt",
-      "color": "#00FF79",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "BONNIE_SPRINGS",
-        "GREAT_KHAN_LONGHOUSE",
+	  ],
+	  "centroid": {
+		"x": 214.43,
+		"y": 163.13
+	  }
+	},
+	{
+	  "id": "SPRING_MT",
+	  "name": "Spring Mt",
+	  "color": "#00FF79",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"BONNIE_SPRINGS",
+		"GREAT_KHAN_LONGHOUSE",
         "TRIBAL_VILLAGE"
-      ],
-      "centroid": {
-        "x": 163.76,
-        "y": 295.28
-      }
-    },
-    {
-      "id": "TRIBAL_VILLAGE",
-      "name": "Tribal Village",
-      "color": "#00FFB3",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "BONNIE_SPRINGS",
-        "GOODSPRINGS",
-        "SPRING_MT",
-        "VAULT_19",
+	  ],
+	  "centroid": {
+		"x": 163.76,
+		"y": 295.28
+	  }
+	},
+	{
+	  "id": "TRIBAL_VILLAGE",
+	  "name": "Tribal Village",
+	  "color": "#00FFB3",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"BONNIE_SPRINGS",
+		"GOODSPRINGS",
+		"SPRING_MT",
+		"VAULT_19",
         "YANGTZE_MEMORIAL"
-      ],
-      "centroid": {
-        "x": 176.17,
-        "y": 259.55
-      }
-    },
-    {
-      "id": "VAULT_19",
-      "name": "Vault 19",
-      "color": "#00FF94",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "BONNIE_SPRINGS",
-        "HUNTERS_FARMS",
-        "JUNCTION_15_RAILWAY",
-        "QUARRY_JUNCTION",
-        "SAMSPON_ROCK_CRUSHING_PLANT",
+	  ],
+	  "centroid": {
+		"x": 176.17,
+		"y": 259.55
+	  }
+	},
+	{
+	  "id": "VAULT_19",
+	  "name": "Vault 19",
+	  "color": "#00FF94",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"BONNIE_SPRINGS",
+		"HUNTERS_FARMS",
+		"JUNCTION_15_RAILWAY",
+		"QUARRY_JUNCTION",
+		"SAMSPON_ROCK_CRUSHING_PLANT",
         "TRIBAL_VILLAGE"
-      ],
-      "centroid": {
-        "x": 215.02,
-        "y": 271.25
-      }
-    },
-    {
-      "id": "WEST_CAMP",
-      "name": "West Camp",
-      "color": "#00FFF6",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "GOODSPRINGS_SOURCE",
-        "LONE_WOLF_RADIO",
-        "NCRCF",
-        "PRIMM",
-        "SOUTH_CAMP",
+	  ],
+	  "centroid": {
+		"x": 215.02,
+		"y": 271.25
+	  }
+	},
+	{
+	  "id": "WEST_CAMP",
+	  "name": "West Camp",
+	  "color": "#00FFF6",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"GOODSPRINGS_SOURCE",
+		"LONE_WOLF_RADIO",
+		"NCRCF",
+		"PRIMM",
+		"SOUTH_CAMP",
         "YANGTZE_MEMORIAL"
-      ],
-      "centroid": {
-        "x": 204.78,
-        "y": 183.76
-      }
-    },
-    {
-      "id": "YANGTZE_MEMORIAL",
-      "name": "Yangtze Memorial",
-      "color": "#00FFD4",
-      "regionId": "THE_QUARRY",
-      "neighborIds": [
-        "GOODSPRINGS",
-        "GOODSPRINGS_SOURCE",
-        "NCRCF",
-        "NORTH_CAMP",
-        "SLOAN",
-        "TRIBAL_VILLAGE",
+	  ],
+	  "centroid": {
+		"x": 204.78,
+		"y": 183.76
+	  }
+	},
+	{
+	  "id": "YANGTZE_MEMORIAL",
+	  "name": "Yangtze Memorial",
+	  "color": "#00FFD4",
+	  "regionId": "THE_QUARRY",
+	  "neighborIds": [
+		"GOODSPRINGS",
+		"GOODSPRINGS_SOURCE",
+		"NCRCF",
+		"NORTH_CAMP",
+		"SLOAN",
+		"TRIBAL_VILLAGE",
         "WEST_CAMP"
-      ],
-      "centroid": {
-        "x": 202.84,
-        "y": 222.14
-      }
-    },
-    {
-      "id": "FREESIDE",
-      "name": "Freeside",
-      "color": "#FF00BF",
-      "regionId": "THE_STRIP",
-      "neighborIds": [
-        "CRIMSON_CARAVAN",
-        "GUN_RUNNERS",
-        "NORTH_VEGAS",
-        "THE_STRIP",
+	  ],
+	  "centroid": {
+		"x": 202.84,
+		"y": 222.14
+	  }
+	},
+	{
+	  "id": "FREESIDE",
+	  "name": "Freeside",
+	  "color": "#FF00BF",
+	  "regionId": "THE_STRIP",
+	  "neighborIds": [
+		"CRIMSON_CARAVAN",
+		"GUN_RUNNERS",
+		"NORTH_VEGAS",
+		"THE_STRIP",
         "WESTSIDE"
-      ],
-      "centroid": {
-        "x": 259.93,
-        "y": 393.98
-      }
-    },
-    {
-      "id": "THE_STRIP",
-      "name": "The Strip",
-      "color": "#FF00C7",
-      "regionId": "THE_STRIP",
-      "neighborIds": [
-        "FREESIDE",
-        "GUN_RUNNERS",
-        "MCCARRAN_FIELD",
-        "SHARECROPPER_FARMS",
-        "SUNSET_SARSPARILLA_HQ",
-        "WESTSIDE",
+	  ],
+	  "centroid": {
+		"x": 259.93,
+		"y": 393.98
+	  }
+	},
+	{
+	  "id": "THE_STRIP",
+	  "name": "The Strip",
+	  "color": "#FF00C7",
+	  "regionId": "THE_STRIP",
+	  "neighborIds": [
+		"FREESIDE",
+		"GUN_RUNNERS",
+		"MCCARRAN_FIELD",
+		"SHARECROPPER_FARMS",
+		"SUNSET_SARSPARILLA_HQ",
+		"WESTSIDE",
         "WEST_PUMP"
-      ],
-      "centroid": {
-        "x": 248.84,
-        "y": 368.98
-      }
-    },
-    {
-      "id": "BREWERS_BEER_BOOTLEGGING",
-      "name": "Brewer's Beer Bootlegging",
-      "color": "#FF00EC",
-      "regionId": "VEGAS_RUINS",
-      "neighborIds": [
-        "POSEIDON_GAS_STATION",
-        "SUNSET_SARSPARILLA_HQ",
-        "VAULT_22",
+	  ],
+	  "centroid": {
+		"x": 248.84,
+		"y": 368.98
+	  }
+	},
+	{
+	  "id": "BREWERS_BEER_BOOTLEGGING",
+	  "name": "Brewer's Beer Bootlegging",
+	  "color": "#FF00EC",
+	  "regionId": "VEGAS_RUINS",
+	  "neighborIds": [
+		"POSEIDON_GAS_STATION",
+		"SUNSET_SARSPARILLA_HQ",
+		"VAULT_22",
         "WESTSIDE"
-      ],
-      "centroid": {
-        "x": 203.49,
-        "y": 373.75
-      }
-    },
-    {
-      "id": "BROOKS_TUMBLEWEED_RANCH",
-      "name": "Brooks Tumbleweed Ranch",
-      "color": "#EE00FF",
-      "regionId": "VEGAS_RUINS",
-      "neighborIds": [
-        "HOROWITZ_FARMSTEAD",
-        "RUB_HILL_MINE",
+	  ],
+	  "centroid": {
+		"x": 203.49,
+		"y": 373.75
+	  }
+	},
+	{
+	  "id": "BROOKS_TUMBLEWEED_RANCH",
+	  "name": "Brooks Tumbleweed Ranch",
+	  "color": "#EE00FF",
+	  "regionId": "VEGAS_RUINS",
+	  "neighborIds": [
+		"HOROWITZ_FARMSTEAD",
+		"RUB_HILL_MINE",
         "VAULT_22"
-      ],
-      "centroid": {
-        "x": 182.34,
-        "y": 444.35
-      }
-    },
-    {
-      "id": "HOROWITZ_FARMSTEAD",
-      "name": "Horowitz Farmstead",
-      "color": "#F400FF",
-      "regionId": "VEGAS_RUINS",
-      "neighborIds": [
-        "BROOKS_TUMBLEWEED_RANCH",
-        "NORTHERN_PASSAGE",
-        "NORTH_VEGAS",
+	  ],
+	  "centroid": {
+		"x": 182.34,
+		"y": 444.35
+	  }
+	},
+	{
+	  "id": "HOROWITZ_FARMSTEAD",
+	  "name": "Horowitz Farmstead",
+	  "color": "#F400FF",
+	  "regionId": "VEGAS_RUINS",
+	  "neighborIds": [
+		"BROOKS_TUMBLEWEED_RANCH",
+		"NORTHERN_PASSAGE",
+		"NORTH_VEGAS",
         "VAULT_22"
-      ],
-      "centroid": {
-        "x": 212.48,
-        "y": 435.48
-      }
-    },
-    {
-      "id": "NORTH_VEGAS",
-      "name": "North Vegas",
-      "color": "#FF00FE",
-      "regionId": "VEGAS_RUINS",
-      "neighborIds": [
-        "CRIMSON_CARAVAN",
-        "FREESIDE",
-        "HOROWITZ_FARMSTEAD",
-        "MOLE_RAT_RANCH",
-        "NORTHERN_PASSAGE",
+	  ],
+	  "centroid": {
+		"x": 212.48,
+		"y": 435.48
+	  }
+	},
+	{
+	  "id": "NORTH_VEGAS",
+	  "name": "North Vegas",
+	  "color": "#FF00FE",
+	  "regionId": "VEGAS_RUINS",
+	  "neighborIds": [
+		"CRIMSON_CARAVAN",
+		"FREESIDE",
+		"HOROWITZ_FARMSTEAD",
+		"MOLE_RAT_RANCH",
+		"NORTHERN_PASSAGE",
         "WESTSIDE"
-      ],
-      "centroid": {
-        "x": 248.19,
-        "y": 414.67
-      }
-    },
-    {
-      "id": "NORTHERN_PASSAGE",
-      "name": "Northern Passage",
-      "color": "#FA00FF",
-      "regionId": "VEGAS_RUINS",
-      "neighborIds": [
-        "HOROWITZ_FARMSTEAD",
-        "MOLE_RAT_RANCH",
+	  ],
+	  "centroid": {
+		"x": 248.19,
+		"y": 414.67
+	  }
+	},
+	{
+	  "id": "NORTHERN_PASSAGE",
+	  "name": "Northern Passage",
+	  "color": "#FA00FF",
+	  "regionId": "VEGAS_RUINS",
+	  "neighborIds": [
+		"HOROWITZ_FARMSTEAD",
+		"MOLE_RAT_RANCH",
         "NORTH_VEGAS"
-      ],
-      "centroid": {
-        "x": 252.92,
-        "y": 433.65
-      }
-    },
-    {
-      "id": "POSEIDON_GAS_STATION",
-      "name": "Poseidon Gas Station",
-      "color": "#FF00DE",
-      "regionId": "VEGAS_RUINS",
-      "neighborIds": [
-        "BONNIE_SPRINGS",
-        "BREWERS_BEER_BOOTLEGGING",
-        "SAMSPON_ROCK_CRUSHING_PLANT",
+	  ],
+	  "centroid": {
+		"x": 252.92,
+		"y": 433.65
+	  }
+	},
+	{
+	  "id": "POSEIDON_GAS_STATION",
+	  "name": "Poseidon Gas Station",
+	  "color": "#FF00DE",
+	  "regionId": "VEGAS_RUINS",
+	  "neighborIds": [
+		"BONNIE_SPRINGS",
+		"BREWERS_BEER_BOOTLEGGING",
+		"SAMSPON_ROCK_CRUSHING_PLANT",
         "VAULT_3"
-      ],
-      "centroid": {
-        "x": 196.99,
-        "y": 335.63
-      }
-    },
-    {
-      "id": "SAMSPON_ROCK_CRUSHING_PLANT",
-      "name": "Samspon Rock Crushing Plant",
-      "color": "#FF00CF",
-      "regionId": "VEGAS_RUINS",
-      "neighborIds": [
-        "HUNTERS_FARMS",
-        "POSEIDON_GAS_STATION",
-        "VAULT_19",
-        "VAULT_3",
+	  ],
+	  "centroid": {
+		"x": 196.99,
+		"y": 335.63
+	  }
+	},
+	{
+	  "id": "SAMSPON_ROCK_CRUSHING_PLANT",
+	  "name": "Samspon Rock Crushing Plant",
+	  "color": "#FF00CF",
+	  "regionId": "VEGAS_RUINS",
+	  "neighborIds": [
+		"HUNTERS_FARMS",
+		"POSEIDON_GAS_STATION",
+		"VAULT_19",
+		"VAULT_3",
         "WEST_PUMP"
-      ],
-      "centroid": {
-        "x": 223.55,
-        "y": 305.68
-      }
-    },
-    {
-      "id": "SUNSET_SARSPARILLA_HQ",
-      "name": "Sunset Sarsparilla HQ",
-      "color": "#FF00E5",
-      "regionId": "VEGAS_RUINS",
-      "neighborIds": [
-        "BREWERS_BEER_BOOTLEGGING",
-        "THE_STRIP",
-        "VAULT_3",
+	  ],
+	  "centroid": {
+		"x": 223.55,
+		"y": 305.68
+	  }
+	},
+	{
+	  "id": "SUNSET_SARSPARILLA_HQ",
+	  "name": "Sunset Sarsparilla HQ",
+	  "color": "#FF00E5",
+	  "regionId": "VEGAS_RUINS",
+	  "neighborIds": [
+		"BREWERS_BEER_BOOTLEGGING",
+		"THE_STRIP",
+		"VAULT_3",
         "WESTSIDE"
-      ],
-      "centroid": {
-        "x": 228.39,
-        "y": 366.26
-      }
-    },
-    {
-      "id": "VAULT_22",
-      "name": "Vault 22",
-      "color": "#FF00F2",
-      "regionId": "VEGAS_RUINS",
-      "neighborIds": [
-        "BREWERS_BEER_BOOTLEGGING",
-        "BROOKS_TUMBLEWEED_RANCH",
-        "HOROWITZ_FARMSTEAD",
+	  ],
+	  "centroid": {
+		"x": 228.39,
+		"y": 366.26
+	  }
+	},
+	{
+	  "id": "VAULT_22",
+	  "name": "Vault 22",
+	  "color": "#FF00F2",
+	  "regionId": "VEGAS_RUINS",
+	  "neighborIds": [
+		"BREWERS_BEER_BOOTLEGGING",
+		"BROOKS_TUMBLEWEED_RANCH",
+		"HOROWITZ_FARMSTEAD",
         "WESTSIDE"
-      ],
-      "centroid": {
-        "x": 191.06,
-        "y": 407.7
-      }
-    },
-    {
-      "id": "VAULT_3",
-      "name": "Vault 3",
-      "color": "#FF00D7",
-      "regionId": "VEGAS_RUINS",
-      "neighborIds": [
-        "POSEIDON_GAS_STATION",
-        "SAMSPON_ROCK_CRUSHING_PLANT",
-        "SUNSET_SARSPARILLA_HQ",
+	  ],
+	  "centroid": {
+		"x": 191.06,
+		"y": 407.7
+	  }
+	},
+	{
+	  "id": "VAULT_3",
+	  "name": "Vault 3",
+	  "color": "#FF00D7",
+	  "regionId": "VEGAS_RUINS",
+	  "neighborIds": [
+		"POSEIDON_GAS_STATION",
+		"SAMSPON_ROCK_CRUSHING_PLANT",
+		"SUNSET_SARSPARILLA_HQ",
         "WEST_PUMP"
-      ],
-      "centroid": {
-        "x": 225.4,
-        "y": 333.11
-      }
-    },
-    {
-      "id": "WESTSIDE",
-      "name": "Westside",
-      "color": "#FF00F8",
-      "regionId": "VEGAS_RUINS",
-      "neighborIds": [
-        "BREWERS_BEER_BOOTLEGGING",
-        "FREESIDE",
-        "NORTH_VEGAS",
-        "SUNSET_SARSPARILLA_HQ",
-        "THE_STRIP",
+	  ],
+	  "centroid": {
+		"x": 225.4,
+		"y": 333.11
+	  }
+	},
+	{
+	  "id": "WESTSIDE",
+	  "name": "Westside",
+	  "color": "#FF00F8",
+	  "regionId": "VEGAS_RUINS",
+	  "neighborIds": [
+		"BREWERS_BEER_BOOTLEGGING",
+		"FREESIDE",
+		"NORTH_VEGAS",
+		"SUNSET_SARSPARILLA_HQ",
+		"THE_STRIP",
         "VAULT_22"
-      ],
-      "centroid": {
-        "x": 228.36,
-        "y": 397.7
-      }
-    }
+	  ],
+	  "centroid": {
+		"x": 228.36,
+		"y": 397.7
+	  }
+	}
   ]
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public partial class MapMaster : Node {
 
-	[Export] public string map_json_path = "res://data/map.json";
+	[Export] public string map_json_path = "res://Board/map_data.json";
 
 	private MapManager manager;
 	public IReadOnlyDictionary<string, Territory> Territories => manager.Territories;
