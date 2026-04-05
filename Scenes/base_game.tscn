@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://by2mch4dhmoho"]
+
+[ext_resource type="Script" uid="uid://oyog1dvwytgi" path="res://Scripts/Godot Specific/MapMaster.cs" id="1_mwygd"]
+[ext_resource type="Material" uid="uid://bomikiwvx02xg" path="res://Board.tres" id="2_syqxp"]
+[ext_resource type="Texture2D" uid="uid://c5jccimwhs8cd" path="res://Board/BG.png" id="3_e1dkd"]
+
+[node name="Base Game" type="Node2D" unique_id=1863436504]
+
+[node name="Map Master" type="Node2D" parent="." unique_id=1527464496]
+script = ExtResource("1_mwygd")
+map_json_path = "res://Board/map_data.json"
+
+[node name="Sprite2D" type="Sprite2D" parent="Map Master" unique_id=575071067]
+material = ExtResource("2_syqxp")
+texture = ExtResource("3_e1dkd")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1182572441]
+zoom = Vector2(0.275, 0.275)

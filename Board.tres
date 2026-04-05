@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bomikiwvx02xg"]
+
+[ext_resource type="Shader" uid="uid://bqabxr48x2t3v" path="res://MapShader.gdshader" id="1_1djbt"]
+[ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Board/Colour_Map.png" id="2_kcmoa"]
+
+[resource]
+shader = ExtResource("1_1djbt")
+shader_parameter/colour_map = ExtResource("2_kcmoa")
+shader_parameter/territory_count = 115
+shader_parameter/match_threshold = 0.0
