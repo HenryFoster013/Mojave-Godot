@@ -5,10 +5,12 @@ This is an online emulation of my custom Fallout themed RISK board, for use on t
 This is an ongoing passion project, a small strategy game based on RISK with a few changes. It's set on a single board and (will) support both local bot-play and multiplayer. Each playable colour is indicitive of a faction within the series, though there is no gameplay differences between them. Roleplay between players is encouraged.
 
 The board itself is based on the design by AMCAImaron on DeviantArt
-[Orginal post here](https://www.deviantart.com/amcalmaron/art/RISK-Mojave-Wasteland-Draft-723058736)
+[Original post here](https://www.deviantart.com/amcalmaron/art/RISK-Mojave-Wasteland-Draft-723058736)
 
 ## Technical
 The project was originally written for Unity version 2021.3.45f2 as it was my preferred LTS release before the changes to the input system. I also planned to use PUN2 for networking. I've made the sudden switch to Godot and I'm unsure of my networking solution as of yet.
+[Original Unity repro here](https://github.com/HenryFoster013/Mojave)
+
 
 ## A Rant on Unity ##
 I already programmed the majority of this on Unity. My usual game engine. So Henry, why the sudden switch to Godot?
@@ -23,7 +25,7 @@ So I decided to re-write the game in generic C# classes. I've tinkered with othe
 
 Hopefully this progresses further than last time.
 
-## The Original (physical) Board ##
+## The (physical) Board ##
 
 This christmas break, I had some spare time so I built a homemade RISK board based on the Fallout series. Me and a few of my (nerdier) friends all love RISK, the sessions were great even if they did get a little larpy. It was a lot of fun and it seems a shame to let the sessions end now that we've moved back out for University, so I started this as an effort to digitise the board; so we can still play the odd game despite the distance.
 
