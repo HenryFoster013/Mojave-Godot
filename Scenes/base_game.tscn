@@ -1,20 +1,33 @@
 [gd_scene format=3 uid="uid://by2mch4dhmoho"]
 
-[ext_resource type="Material" uid="uid://bomikiwvx02xg" path="res://Board.tres" id="2_syqxp"]
+[ext_resource type="Script" uid="uid://b0w7vskjljhpo" path="res://Scripts/Godot Specific/PlayerController.cs" id="1_g2637"]
+[ext_resource type="Shader" uid="uid://bqabxr48x2t3v" path="res://Scripts/Shaders/MapShader.gdshader" id="1_syqxp"]
 [ext_resource type="Texture2D" uid="uid://c5jccimwhs8cd" path="res://Board/BG.png" id="3_e1dkd"]
 [ext_resource type="Script" uid="uid://c3sj442x7gaj8" path="res://Scripts/Base Classes/MapRenderer.cs" id="4_e1dkd"]
 [ext_resource type="Texture2D" uid="uid://dtfglifh8245s" path="res://Board/Overlay.png" id="5_e1dkd"]
 [ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Board/Colour_Map.png" id="5_g2637"]
 
-[node name="Base Game" type="Node2D" unique_id=1863436504]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e1dkd"]
+shader = ExtResource("1_syqxp")
+shader_parameter/colour_map = ExtResource("5_g2637")
+shader_parameter/overlay = ExtResource("5_e1dkd")
+shader_parameter/territory_count = 115
+shader_parameter/match_threshold = 0.0
+shader_parameter/region_mode = 0
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=575071067]
-material = ExtResource("2_syqxp")
+[node name="Base Game" type="Node2D" unique_id=1909172287 node_paths=PackedStringArray("map_renderer", "camera")]
+script = ExtResource("1_g2637")
+map_renderer = NodePath("Board")
+camera = NodePath("Camera")
+
+[node name="Board" type="Sprite2D" parent="." unique_id=1842993767]
+texture_filter = 1
+texture_repeat = 1
+material = SubResource("ShaderMaterial_e1dkd")
 texture = ExtResource("3_e1dkd")
-region_rect = Rect2(1, 1, 1, 1)
 script = ExtResource("4_e1dkd")
 colour_map_texture = ExtResource("5_g2637")
 overlay_texture = ExtResource("5_e1dkd")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1182572441]
+[node name="Camera" type="Camera2D" parent="." unique_id=1237636126]
 zoom = Vector2(0.275, 0.275)

@@ -72,7 +72,7 @@ public partial class MapRenderer : Sprite2D {
         var img = Image.CreateEmpty(territory_order.Count, 1, false, Image.Format.Rgba8);
         for (int i = 0; i < territory_order.Count; i++) {
             var owner = territory_order[i].Owner;
-            img.SetPixel(i, 0, owner != null ? owner.colour : Colors.Transparent);
+            img.SetPixel(i, 0, owner != null ? owner.colour : Colors.Red);
         }
         owner_lut = ImageTexture.CreateFromImage(img);
     }
@@ -82,7 +82,7 @@ public partial class MapRenderer : Sprite2D {
         var img = Image.CreateEmpty(territory_order.Count, 1, false, Image.Format.Rgba8);
         for (int i = 0; i < territory_order.Count; i++) {
             var region = territory_order[i].Region;
-            img.SetPixel(i, 0, region != null ? region.colour : Colors.Transparent);
+            img.SetPixel(i, 0, region != null ? region.colour : Colors.Green);
         }
         region_lut = ImageTexture.CreateFromImage(img);
     }
