@@ -12,6 +12,19 @@ uniform int territory_count = 115;
 uniform float match_threshold = 0.0;
 uniform int region_mode = 0; 
 
+vec3 soft_light_effect(vec3 base, vec3 blend) {
+    return mix(
+        2.0 * base * blend + base * base * (1.0 - 2.0 * blend),
+        sqrt(base) * (2.0 * blend - 1.0) + 2.0 * base * (1.0 - blend),
+        step(0.5, blend)
+    );
+}
+
+// This is super glowy, use for selection ig?
+vec3 overlay_effect(vec3 base, vec3 blend) {
+    return mix(2.0 * base * blend, 1.0 - 2.0 * (1.0 - base) * (1.0 - blend), step(0.5, base));
+}
+
 void fragment() {
     vec4 base_colour = COLOR;
     vec4 map_colour  = texture(colour_map, UV);
@@ -48,7 +61,7 @@ void fragment() {
     if (tint.a < 0.01) {
         map_result = base_colour;
     } else {
-        map_result = base_colour * tint;
+		map_result = base_colour * tint;
     }
 
     if (over_colour.a > 0.01) {
