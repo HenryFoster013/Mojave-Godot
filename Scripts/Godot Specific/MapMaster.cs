@@ -9,6 +9,8 @@ public partial class MapMaster : Node {
 	public IReadOnlyDictionary<string, Territory> Territories => manager.Territories;
 	public IReadOnlyDictionary<string, Region> Regions => manager.Regions;
 
+	// Start //
+
 	public override void _Ready() {
 
 		manager = new MapManager();
