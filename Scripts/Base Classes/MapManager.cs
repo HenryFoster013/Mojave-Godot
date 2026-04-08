@@ -4,9 +4,11 @@ using System.Collections.Generic;
 public class MapManager {
 
 	private readonly Dictionary<string, Territory> territories = new();
+	private readonly Dictionary<string, Territory> territories_id = new();
 	private readonly Dictionary<string, Region> regions = new();
 
 	public IReadOnlyDictionary<string, Territory> Territories => territories;
+	public IReadOnlyDictionary<string, Territory> Territories_ID => territories_id;
 	public IReadOnlyDictionary<string, Region> Regions => regions;
 
 	// ----- // FUNCTIONALITY // ----- //
@@ -32,12 +34,13 @@ public class MapManager {
 
 		foreach (var entry in root["tiles"].AsGodotArray()) {
 			var territory = Territory.FromJson(entry.AsGodotDictionary());
-			territories[territory.id] = territory;
+			territories[territory.map_colour] = territory;
+			territories_id[territory.id] = territory;
 		}
 
 		foreach (var territory in territories.Values) {
 			foreach (var neighbour_id in territory.neighbour_ids) {
-				if (territories.TryGetValue(neighbour_id, out var neighbour))
+				if (territories_id.TryGetValue(neighbour_id, out var neighbour))
 					territory.AddNeighbour(neighbour);
 				else
 					throw new System.Exception($"MapLoader: territory '{territory.id}' references unknown neighbour '{neighbour_id}'.");
@@ -46,7 +49,7 @@ public class MapManager {
 
 		foreach (var region in regions.Values) {
 			foreach (var territory_id in region.territory_ids) {
-				if (territories.TryGetValue(territory_id, out var territory)) {
+				if (territories_id.TryGetValue(territory_id, out var territory)) {
 					region.AddTerritory(territory);
 					territory.SetRegion(region);
 				}
@@ -60,8 +63,15 @@ public class MapManager {
 
 	// Get Methods //
 
-	public Territory GetTerritory(string id) {
-		territories.TryGetValue(id, out var territory);
+	public Territory GetTerritoryByColour(string colour) {
+		if(colour == "#000000")
+			return null;
+		territories.TryGetValue(colour, out var territory);
+		return territory;
+	}
+
+	public Territory GetTerritoryByID(string id) {
+		territories_id.TryGetValue(id, out var territory);
 		return territory;
 	}
 

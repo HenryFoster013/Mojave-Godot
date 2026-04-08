@@ -8,7 +8,9 @@ public partial class MapRenderer : Sprite2D {
 	[Export] public LabelManager label_manager;
 
 	private List<Territory> territory_order = new();
+	Image colour_map_image;
 	private ShaderMaterial shader_material;
+	private MapMaster map_master;
 
 	private ImageTexture id_map;
 	private ImageTexture owner_lut;
@@ -27,10 +29,11 @@ public partial class MapRenderer : Sprite2D {
 	}
 
 	public override void _Ready() {
+		colour_map_image = colour_map_texture.GetImage();
 		shader_material = Material as ShaderMaterial;
 		if (shader_material == null) return;
 
-		var map_master = GetNode<MapMaster>("/root/MapMaster");
+		map_master = GetNode<MapMaster>("/root/MapMaster");
 		if (map_master == null) return;
 
 		foreach (var territory in map_master.Territories.Values) {
@@ -61,7 +64,7 @@ public partial class MapRenderer : Sprite2D {
 
 		Image idImg = Image.CreateEmpty(width, height, false, Image.Format.Rgba8);
 
-		var colorToIndex = new Dictionary<Color, int>();
+		var colorToIndex = new Dictionary<string, int>();
 		for (int i = 0; i < territory_order.Count; i++) {
 			colorToIndex[territory_order[i].map_colour] = i;
 		}
@@ -72,7 +75,7 @@ public partial class MapRenderer : Sprite2D {
 
 				bool isBlack = c.R < 0.01f && c.G < 0.01f && c.B < 0.01f;
 
-				if (!isBlack && c.A > 0.01f && colorToIndex.TryGetValue(c, out int index)) {
+				if (!isBlack && c.A > 0.01f && colorToIndex.TryGetValue(FormatColour(c), out int index)) {
 					float val = index / 255.0f;
 					idImg.SetPixel(x, y, new Color(val, 0, 0, 1.0f));
 				}
@@ -118,5 +121,19 @@ public partial class MapRenderer : Sprite2D {
 	public void RefreshAllOwnership() {
 		BuildOwnerLut();
 		shader_material.SetShaderParameter("owner_lut", owner_lut);
+	}
+
+	public Territory GetTerritoryAtCoords(Vector2 world_pos) {
+		Vector2 pixel_pos = ToLocal(world_pos) + (Vector2.One * 1024);
+		if (pixel_pos.X < 0 || pixel_pos.Y < 0 || pixel_pos.X > 2048 || pixel_pos.Y > 2048)
+			return null;
+
+		Color colour = colour_map_image.GetPixel((int)pixel_pos.X, (int)pixel_pos.Y);
+		GD.Print($"Coords: {pixel_pos}, Colour: {colour}");
+		return map_master.GetTerritoryByColour(FormatColour(colour));
+	}
+
+	string FormatColour(Color colour) {
+		return "#" + colour.ToHtml(false).ToUpper();
 	}
 }

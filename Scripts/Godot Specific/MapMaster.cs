@@ -26,6 +26,7 @@ public partial class MapMaster : Node {
 
 	// Get Methods //
 
-	public Territory GetTerritory(string id) => manager.GetTerritory(id);
+	public Territory GetTerritoryByColour(string colour) => manager.GetTerritoryByColour(colour);
+	public Territory GetTerritoryByID(string id) => manager.GetTerritoryByID(id);
 	public Region GetRegion(string id) => manager.GetRegion(id);
 }

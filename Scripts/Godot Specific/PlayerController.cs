@@ -10,13 +10,15 @@ public partial class PlayerController : Node {
 	float cam_zoom;
 	float fdelta;
 
+	Territory selected_territory;
+
 	const float cam_speed = 500f;
 	const float zoom_min = 0.275f;
 	const float zoom_max = 1.75f;
 	const float zoom_speed = 1f;
 	const float bounds_size = 1000f;
 
-	// Start //
+	// ----- // START // ----- //
 
 	public override void _Ready() {
 		SetProcessInput(true);
@@ -25,23 +27,46 @@ public partial class PlayerController : Node {
 		cam_zoom = zoom_min;
 	}
 
-	// Update //
+	// ----- // UPDATE // ----- //
 
-	// Occurs on key press, use for one time buttons
-	public override void _Input(InputEvent e) { 
+	// Occurs on key press
+	public override void _Input(InputEvent e) {
+		ToggleRegions(e);
+		WorldClicks(e);
+	}
+
+	// Occurs per frame
+	public override void _Process(double delta) {
+		fdelta = (float)delta;
+		CameraMovement();
+		CameraZoom();
+		label_manager.UpdateLabels();
+	}
+
+	// ----- // CONTROLS // ----- //
+
+	void ToggleRegions(InputEvent e) {
 		if (e.IsActionPressed("ToggleRegions")) {
 			map_renderer.region_mode = !map_renderer.region_mode;
 			GD.Print($"Region mode: {map_renderer.region_mode}");
 		}
 	}
 
-	// Occurs per frame, use for smooth movement
-	public override void _Process(double delta) { 
-		fdelta = (float)delta;
-		CameraMovement();
-		CameraZoom();
-		label_manager.UpdateLabels();
+	void WorldClicks(InputEvent e) {
+		if (e.IsActionPressed("LeftClick")) {
+			var mouse_event = (InputEventMouseButton)e;
+
+			Vector2 click_pos = cam_pos + (mouse_event.Position - GetViewport().GetVisibleRect().Size / 2f);
+			selected_territory = map_renderer.GetTerritoryAtCoords(click_pos);
+			
+			if(selected_territory != null)
+				GD.Print($"Selected {selected_territory.name}");
+			else
+				GD.Print("Unselected territories");
+		}
 	}
+
+	// ----- // CAMERA // ----- //
 
 	void CameraMovement() {
 

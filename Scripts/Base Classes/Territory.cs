@@ -9,7 +9,7 @@ public class Territory {
 
     public string id { get; init; }
     public string name { get; init; }
-    public Color map_colour { get; init; }
+    public string map_colour { get; init; }
     public string owning_region_id { get; init; }
     public Vector2 centroid { get; init; }
     public IReadOnlyList<string> neighbour_ids { get; init; }
@@ -29,8 +29,6 @@ public class Territory {
     public static Territory FromJson(Godot.Collections.Dictionary data) {
 
         var centroidData = data["centroid"].AsGodotDictionary();
-        Color mapColour = Color.FromString(data["color"].AsString(), Colors.Magenta);
-
         var neighbourIds = new List<string>();
         foreach (var id in data["neighborIds"].AsGodotArray())
             neighbourIds.Add(id.AsString());
@@ -38,7 +36,7 @@ public class Territory {
         return new Territory {
             id = data["id"].AsString(),
             name = data["name"].AsString(),
-            map_colour = mapColour,
+            map_colour = data["color"].AsString(),
             owning_region_id = data["regionId"].AsString(),
             centroid = new Vector2(
                               centroidData["x"].AsSingle(),
