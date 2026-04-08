@@ -26,7 +26,7 @@ void fragment() {
             tint = texture(owner_lut, vec2(uv_x, 0.5));
         }
         
-        base_colour.rgb *= tint.rgb;
+        base_colour.rgb *= tint.rgb * 1.5f;
     }
 
     if (over_colour.a > 0.01) {
