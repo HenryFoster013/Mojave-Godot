@@ -1,0 +1,8 @@
+[gd_resource type="Theme" format=3 uid="uid://dytvaprn0wbxw"]
+
+[ext_resource type="FontFile" uid="uid://dfexgv86yefwj" path="res://Graphics/Fonts/Cascadia_Code_Bold.ttf" id="1_0f4on"]
+
+[resource]
+default_base_scale = 1.0
+default_font = ExtResource("1_0f4on")
+default_font_size = 16

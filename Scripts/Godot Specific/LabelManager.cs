@@ -8,7 +8,7 @@ public partial class LabelManager : Node {
 	[Export] public PackedScene troop_label;
 	[Export] public PackedScene map_label;
 
-	const float zoom_limit = 0.45f;
+	const float zoom_limit = 0.6f;
 	public float camera_zoom;
 	public bool region_mode;
 
