@@ -9,10 +9,9 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e1dkd"]
 shader = ExtResource("1_syqxp")
-shader_parameter/colour_map = ExtResource("5_g2637")
+shader_parameter/selected_id = -1
 shader_parameter/overlay = ExtResource("5_e1dkd")
 shader_parameter/territory_count = 115
-shader_parameter/match_threshold = 0.0
 shader_parameter/region_mode = 0
 
 [node name="Base Game" type="Node2D" unique_id=1909172287 node_paths=PackedStringArray("map_renderer", "camera")]

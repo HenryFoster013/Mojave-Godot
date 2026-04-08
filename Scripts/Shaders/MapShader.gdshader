@@ -1,5 +1,7 @@
 shader_type canvas_item;
 
+uniform int selected_id = -1;
+
 uniform sampler2D id_map : filter_nearest, repeat_disable;
 uniform sampler2D owner_lut : filter_nearest, repeat_disable;
 uniform sampler2D region_lut : filter_nearest, repeat_disable;
@@ -26,8 +28,13 @@ void fragment() {
             tint = texture(owner_lut, vec2(uv_x, 0.5));
         }
         
-        base_colour.rgb *= tint.rgb * 1.5f;
+        base_colour.rgb *= tint.rgb;
+
+        if (match_index == selected_id) {
+            base_colour.rgb *= 1.5f;
+        }
     }
+
 
     if (over_colour.a > 0.01) {
         COLOR = mix(base_colour, over_colour, over_colour.a);
