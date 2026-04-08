@@ -26,7 +26,7 @@
 	{
 	  "id": "HOOVER_DAM",
 	  "name": "Hoover Dam",
-	  "color": "#FFE06B",
+	  "color": "#00FF77",
 	  "tileIds": [
 		"188_TRADING_POST",
 		"BOULDER_CITY",
