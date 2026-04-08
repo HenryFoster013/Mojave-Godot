@@ -36,8 +36,11 @@ public partial class MapRenderer : Sprite2D {
 		map_master = GetNode<MapMaster>("/root/MapMaster");
 		if (map_master == null) return;
 
+		int render_order = 0;
 		foreach (var territory in map_master.Territories.Values) {
 			territory_order.Add(territory);
+			territory.render_order = render_order;
+			render_order++;
 			territory.OnOwnerChanged += OnTerritoryOwnerChanged;
 		}
 
@@ -135,5 +138,13 @@ public partial class MapRenderer : Sprite2D {
 
 	string FormatColour(Color colour) {
 		return "#" + colour.ToHtml(false).ToUpper();
+	}
+
+	public void SelectTerritory(Territory territory) {
+		int render_order = -1;
+		if(territory != null)
+			render_order = territory.render_order;
+		
+		shader_material.SetShaderParameter("selected_id", render_order);
 	}
 }

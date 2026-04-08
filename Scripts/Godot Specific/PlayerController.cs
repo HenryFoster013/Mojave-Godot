@@ -55,15 +55,19 @@ public partial class PlayerController : Node {
 	void WorldClicks(InputEvent e) {
 		if (e.IsActionPressed("LeftClick")) {
 			var mouse_event = (InputEventMouseButton)e;
-
-			Vector2 click_pos = cam_pos + (mouse_event.Position - GetViewport().GetVisibleRect().Size / 2f);
-			selected_territory = map_renderer.GetTerritoryAtCoords(click_pos);
-			
-			if(selected_territory != null)
-				GD.Print($"Selected {selected_territory.name}");
-			else
-				GD.Print("Unselected territories");
+			Vector2 click_pos = GetViewport().CanvasTransform.AffineInverse() * mouse_event.Position;
+			SelectTerritory(map_renderer.GetTerritoryAtCoords(click_pos));
 		}
+	}
+
+	void SelectTerritory(Territory territory) {
+		selected_territory = territory;
+		map_renderer.SelectTerritory(selected_territory);
+
+		if (selected_territory != null)
+			GD.Print($"Selected {selected_territory.name}");
+		else
+			GD.Print("Unselected territories");
 	}
 
 	// ----- // CAMERA // ----- //

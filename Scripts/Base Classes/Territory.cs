@@ -13,6 +13,7 @@ public class Territory {
     public string owning_region_id { get; init; }
     public Vector2 centroid { get; init; }
     public IReadOnlyList<string> neighbour_ids { get; init; }
+    public int render_order;
 
     // Variable Values //
 
