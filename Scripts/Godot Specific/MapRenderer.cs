@@ -5,6 +5,7 @@ public partial class MapRenderer : Sprite2D {
 
 	[Export] public Texture2D colour_map_texture;
 	[Export] public Texture2D overlay_texture;
+	[Export] public LabelManager label_manager;
 
 	private List<Territory> territory_order = new();
 	private ShaderMaterial shader_material;
@@ -20,6 +21,7 @@ public partial class MapRenderer : Sprite2D {
 		get => _region_mode;
 		set {
 			_region_mode = value;
+			label_manager.region_mode = value;
 			shader_material?.SetShaderParameter("region_mode", value ? 1 : 0);
 		}
 	}

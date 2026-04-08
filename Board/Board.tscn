@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://v1ptmpp55jk7"]
 
-[ext_resource type="Material" uid="uid://bomikiwvx02xg" path="res://Prefabs/Board.tres" id="1_s27tx"]
+[ext_resource type="Material" path="res://Prefabs/Board.tres" id="1_s27tx"]
 [ext_resource type="Texture2D" uid="uid://c5jccimwhs8cd" path="res://Board/BG.png" id="2_iu5jy"]
-[ext_resource type="Script" uid="uid://c3sj442x7gaj8" path="res://Scripts/Base Classes/MapRenderer.cs" id="3_3hmgy"]
+[ext_resource type="Script" uid="uid://c3sj442x7gaj8" path="res://Scripts/Godot Specific/MapRenderer.cs" id="3_3hmgy"]
 [ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Board/Colour_Map.png" id="4_a02pn"]
 [ext_resource type="Texture2D" uid="uid://dtfglifh8245s" path="res://Board/Overlay.png" id="5_6kkbp"]
 
