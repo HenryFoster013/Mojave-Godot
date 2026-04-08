@@ -3,6 +3,7 @@ using Godot;
 public partial class PlayerController : Node {
 
 	[Export] public MapRenderer map_renderer;
+	[Export] public LabelManager label_manager;
 	[Export] public Camera2D camera;
 
 	Vector2 cam_pos, cam_bounds;
@@ -39,6 +40,7 @@ public partial class PlayerController : Node {
 		fdelta = (float)delta;
 		CameraMovement();
 		CameraZoom();
+		label_manager.UpdateLabels();
 	}
 
 	void CameraMovement() {
@@ -69,5 +71,6 @@ public partial class PlayerController : Node {
 		cam_zoom += zoom_speed * fdelta * zoom_mod * cam_zoom;
 		cam_zoom = float.Clamp(cam_zoom, zoom_min, zoom_max);
 		camera.Zoom = Vector2.One * cam_zoom;
+		label_manager.camera_zoom = cam_zoom;
 	}
 }

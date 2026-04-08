@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://ben2m04khisyg"]
+
+[ext_resource type="Texture2D" uid="uid://bn6jdu3y7c8ah" path="res://icon.svg" id="1_8oddb"]
+
+[node name="Map Label" type="Node2D" unique_id=672795700]
+
+[node name="Marker" type="Sprite2D" parent="." unique_id=8028267]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_8oddb")

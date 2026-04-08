@@ -7,7 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://dtfglifh8245s" path="res://Board/Overlay.png" id="5_e1dkd"]
 [ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Board/Colour_Map.png" id="5_g2637"]
 [ext_resource type="Script" uid="uid://dcwdo17g7j303" path="res://Scripts/Godot Specific/LabelManager.cs" id="7_kj5de"]
-[ext_resource type="PackedScene" uid="uid://bh046n7xsmoy7" path="res://Board/Tile_Label.tscn" id="8_r1yhm"]
+[ext_resource type="PackedScene" uid="uid://bh046n7xsmoy7" path="res://Board/Map_Label.tscn" id="8_kj5de"]
+[ext_resource type="PackedScene" uid="uid://ben2m04khisyg" path="res://Board/Troop_Label.tscn" id="8_r1yhm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e1dkd"]
 shader = ExtResource("1_syqxp")
@@ -16,9 +17,10 @@ shader_parameter/overlay = ExtResource("5_e1dkd")
 shader_parameter/territory_count = 115
 shader_parameter/region_mode = 0
 
-[node name="Base Game" type="Node2D" unique_id=1909172287 node_paths=PackedStringArray("map_renderer", "camera")]
+[node name="Base Game" type="Node2D" unique_id=1909172287 node_paths=PackedStringArray("map_renderer", "label_manager", "camera")]
 script = ExtResource("1_g2637")
 map_renderer = NodePath("Board")
+label_manager = NodePath("Board/Label Manager")
 camera = NodePath("Camera")
 
 [node name="Board" type="Sprite2D" parent="." unique_id=1842993767 node_paths=PackedStringArray("label_manager")]
@@ -31,12 +33,15 @@ colour_map_texture = ExtResource("5_g2637")
 overlay_texture = ExtResource("5_e1dkd")
 label_manager = NodePath("Label Manager")
 
-[node name="Label Manager" type="Node2D" parent="Board" unique_id=1039662336 node_paths=PackedStringArray("tile_label_holder", "region_label_holder")]
+[node name="Label Manager" type="Node2D" parent="Board" unique_id=1039662336 node_paths=PackedStringArray("troop_label_holder", "tile_label_holder", "region_label_holder")]
 script = ExtResource("7_kj5de")
+troop_label_holder = NodePath("Troop Labels")
 tile_label_holder = NodePath("Tile Labels")
 region_label_holder = NodePath("Region Labels")
-tile_label = ExtResource("8_r1yhm")
-region_label = ExtResource("8_r1yhm")
+troop_label = ExtResource("8_r1yhm")
+map_label = ExtResource("8_kj5de")
+
+[node name="Troop Labels" type="Node2D" parent="Board/Label Manager" unique_id=1053061763]
 
 [node name="Tile Labels" type="Node2D" parent="Board/Label Manager" unique_id=143110638]
 
