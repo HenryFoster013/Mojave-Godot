@@ -12,6 +12,7 @@ public class Region {
     public Color colour { get; init; }
     public Vector2 centroid { get; init; }
     public IReadOnlyList<string> territory_ids { get; init; }
+    public bool complete { get; private set; }
 
     // Variable Values //
 

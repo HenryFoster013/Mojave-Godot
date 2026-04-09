@@ -1,10 +1,9 @@
 shader_type canvas_item;
 
-uniform int selected_id = -1;
-
 uniform sampler2D id_map : filter_nearest, repeat_disable;
 uniform sampler2D owner_lut : filter_nearest, repeat_disable;
 uniform sampler2D region_lut : filter_nearest, repeat_disable;
+uniform sampler2D highlight_lut : filter_nearest, repeat_disable;
 uniform sampler2D overlay : filter_nearest, repeat_disable;
 
 uniform int territory_count = 115;
@@ -29,10 +28,7 @@ void fragment() {
         }
         
         base_colour.rgb *= tint.rgb;
-
-        if (match_index == selected_id) {
-            base_colour.rgb *= 1.5f;
-        }
+        base_colour.rgb *= (1.0 + texture(highlight_lut, vec2(uv_x, 0.5)).r);
     }
 
 

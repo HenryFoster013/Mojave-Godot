@@ -18,8 +18,7 @@ public class Territory {
     // Variable Values //
 
     private Player owner;
-    private Region region;
-    public Region Region => region;
+    public Region region  { get; private set; }
     public int troop_count { get; private set; }
 
     private List<Territory> _neighbours = new();
