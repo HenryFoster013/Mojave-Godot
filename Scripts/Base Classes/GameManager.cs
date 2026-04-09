@@ -1,7 +1,16 @@
 using Godot;
 using System.Collections.Generic;
 
-public class MapManager {
+public class GameManager {
+
+	int game_state;
+	/*
+        -1 = none, just idle
+        0 = lobby
+        1 = claimants
+        2 = primary loop
+        3 = game end
+    */
 
 	private readonly Dictionary<string, Territory> territories = new();
 	private readonly Dictionary<string, Territory> territories_id = new();
@@ -11,17 +20,19 @@ public class MapManager {
 	public IReadOnlyDictionary<string, Territory> Territories_ID => territories_id;
 	public IReadOnlyDictionary<string, Region> Regions => regions;
 
-	// ----- // FUNCTIONALITY // ----- //
-
-	// Setup //
+	// ----- // SETUP // ----- //
 
 	public void Load(string json_text) {
+		BuildMap(json_text);
+	}
 
+	// Map Creation //
+
+	void BuildMap(string json_text) {
 		var parsed = Json.ParseString(json_text);
 		if (parsed.VariantType != Variant.Type.Dictionary)
 			throw new System.Exception("MapManager: failed to parse map JSON.");
 		var root = parsed.AsGodotDictionary();
-
 		FillData(root);
 	}
 
@@ -60,12 +71,14 @@ public class MapManager {
 		}
 	}
 
+	// ----- // RUNTIME FUNCTIONALITY // ----- //
+
 	// ----- // GETTERS AND SETTERS // ----- //
 
 	// Get Methods //
 
 	public Territory GetTerritoryByColour(string colour) {
-		if(colour == "#000000")
+		if (colour == "#000000")
 			return null;
 		territories.TryGetValue(colour, out var territory);
 		return territory;

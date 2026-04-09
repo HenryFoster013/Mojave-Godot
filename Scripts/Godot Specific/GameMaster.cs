@@ -5,7 +5,7 @@ public partial class GameMaster : Node {
 
 	[Export] public string map_json_path = "res://Board/map_data.json";
 
-	private MapManager manager;
+	private GameManager manager;
 	public IReadOnlyDictionary<string, Territory> Territories => manager.Territories;
 	public IReadOnlyDictionary<string, Region> Regions => manager.Regions;
 
@@ -13,7 +13,7 @@ public partial class GameMaster : Node {
 
 	public override void _Ready() {
 
-		manager = new MapManager();
+		manager = new GameManager();
 		if (!FileAccess.FileExists(map_json_path)) {
 			GD.PrintErr($"GameMaster: map file not found at '{map_json_path}'.");
 			return;
