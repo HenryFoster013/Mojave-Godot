@@ -11,7 +11,7 @@ public partial class MapRenderer : Sprite2D {
 	private Territory selected_cache;
 	Image colour_map_image;
 	private ShaderMaterial shader_material;
-	private MapMaster map_master;
+	private GameMaster game_master;
 
 	private ImageTexture id_map;
 	private ImageTexture owner_lut;
@@ -39,11 +39,11 @@ public partial class MapRenderer : Sprite2D {
 		shader_material = Material as ShaderMaterial;
 		if (shader_material == null) return;
 
-		map_master = GetNode<MapMaster>("/root/MapMaster");
-		if (map_master == null) return;
+		game_master = GetNode<GameMaster>("/root/GameMaster");
+		if (game_master == null) return;
 
 		int render_order = 0;
-		foreach (var territory in map_master.Territories.Values) {
+		foreach (var territory in game_master.Territories.Values) {
 			territory_order.Add(territory);
 			territory.render_order = render_order;
 			render_order++;
@@ -105,7 +105,7 @@ public partial class MapRenderer : Sprite2D {
 		_ownerImage = Image.CreateEmpty(territory_order.Count, 1, false, Image.Format.Rgba8);
 		for (int i = 0; i < territory_order.Count; i++) {
 			var owner = territory_order[i].Owner;
-			_ownerImage.SetPixel(i, 0, owner != null ? owner.colour : Colors.Red);
+			_ownerImage.SetPixel(i, 0, owner != null ? owner.colour : Colors.WebGray);
 		}
 		owner_lut = ImageTexture.CreateFromImage(_ownerImage);
 	}
@@ -114,7 +114,7 @@ public partial class MapRenderer : Sprite2D {
 		var img = Image.CreateEmpty(territory_order.Count, 1, false, Image.Format.Rgba8);
 		for (int i = 0; i < territory_order.Count; i++) {
 			var region = territory_order[i].region;
-			img.SetPixel(i, 0, region != null ? region.colour : Colors.Green);
+			img.SetPixel(i, 0, region != null ? region.colour : Colors.WebGray);
 		}
 		region_lut = ImageTexture.CreateFromImage(img);
 	}
@@ -137,7 +137,7 @@ public partial class MapRenderer : Sprite2D {
 		int index = territory_order.IndexOf(territory);
 		if (index < 0 || _ownerImage == null) return;
 
-		_ownerImage.SetPixel(index, 0, territory.Owner != null ? territory.Owner.colour : Colors.Red);
+		_ownerImage.SetPixel(index, 0, territory.Owner != null ? territory.Owner.colour : Colors.WebGray);
 		owner_lut.Update(_ownerImage);
 		SetHighlights();
 	}
@@ -201,6 +201,6 @@ public partial class MapRenderer : Sprite2D {
 
 		Color colour = colour_map_image.GetPixel((int)pixel_pos.X, (int)pixel_pos.Y);
 		GD.Print($"Coords: {pixel_pos}, Colour: {colour}");
-		return map_master.GetTerritoryByColour(FormatColour(colour));
+		return game_master.GetTerritoryByColour(FormatColour(colour));
 	}
 }

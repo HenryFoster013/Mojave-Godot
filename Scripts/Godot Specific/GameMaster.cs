@@ -1,7 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 
-public partial class MapMaster : Node {
+public partial class GameMaster : Node {
 
 	[Export] public string map_json_path = "res://Board/map_data.json";
 
@@ -15,13 +15,13 @@ public partial class MapMaster : Node {
 
 		manager = new MapManager();
 		if (!FileAccess.FileExists(map_json_path)) {
-			GD.PrintErr($"MapMaster: map file not found at '{map_json_path}'.");
+			GD.PrintErr($"GameMaster: map file not found at '{map_json_path}'.");
 			return;
 		}
 
 		string json_text = FileAccess.GetFileAsString(map_json_path);
 		manager.Load(json_text);
-		GD.Print($"MapMaster: loaded {Regions.Count} regions and {Territories.Count} territories.");
+		GD.Print($"GameMaster: loaded {Regions.Count} regions and {Territories.Count} territories.");
 	}
 
 	// Get Methods //

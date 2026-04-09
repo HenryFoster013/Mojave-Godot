@@ -13,22 +13,23 @@ public partial class LabelManager : Node {
 	public bool region_mode;
 
 	public override void _Ready() {
-		var map_master = GetNode<MapMaster>("/root/MapMaster");
-		if (map_master == null) return;
+		var game_master = GetNode<GameMaster>("/root/GameMaster");
+		if (game_master == null) return;
 
-		foreach (var territory in map_master.Territories.Values) {
+		foreach (var territory in game_master.Territories.Values) {
 			var label = map_label.Instantiate<Node2D>();
 			tile_label_holder.AddChild(label);
 			label.GlobalPosition = PixelspaceToWorldspace(territory.centroid);
-			label.Scale = Vector2.One * 0.66f;
+			label.Scale = Vector2.One * 0.75f;
 			label.GetChild<Label>(0).Text = territory.name;
 
 			var label_troops = troop_label.Instantiate<Node2D>();
 			troop_label_holder.AddChild(label_troops);
 			label_troops.GlobalPosition = PixelspaceToWorldspace(territory.centroid);
+			troop_label_holder.Scale = Vector2.One * 1.2f;
 		}
 
-		foreach (var region in map_master.Regions.Values) {
+		foreach (var region in game_master.Regions.Values) {
 			var label = map_label.Instantiate<Node2D>();
 			region_label_holder.AddChild(label);
 			label.GlobalPosition = PixelspaceToWorldspace(region.centroid);

@@ -17,7 +17,7 @@ config/icon="res://Graphics/icon.svg"
 
 [autoload]
 
-MapMaster="*uid://oyog1dvwytgi"
+GameMaster="*uid://u884d6gjedc4"
 
 [dotnet]
 
