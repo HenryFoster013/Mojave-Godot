@@ -56,6 +56,7 @@ public class MapManager {
 				else
 					throw new System.Exception($"MapLoader: region '{region.id}' references unknown territory '{territory_id}'.");
 			}
+			region.CheckCompletion();
 		}
 	}
 

@@ -8,6 +8,7 @@ public partial class MapRenderer : Sprite2D {
 	[Export] public LabelManager label_manager;
 
 	private List<Territory> territory_order = new();
+	private Territory selected_cache;
 	Image colour_map_image;
 	private ShaderMaterial shader_material;
 	private MapMaster map_master;
@@ -27,6 +28,7 @@ public partial class MapRenderer : Sprite2D {
 			_region_mode = value;
 			label_manager.region_mode = value;
 			shader_material?.SetShaderParameter("region_mode", value ? 1 : 0);
+			SetHighlights();
 		}
 	}
 
@@ -122,6 +124,7 @@ public partial class MapRenderer : Sprite2D {
 		for (int i = 0; i < territory_order.Count; i++)
 			_highlightImage.SetPixel(i, 0, new Color(0f, 0f, 0f, 1f));
 		highlight_lut = ImageTexture.CreateFromImage(_highlightImage);
+		SetHighlights();
 	}
 
 	// ----- // LUT REFRESHING // ----- //
@@ -136,22 +139,41 @@ public partial class MapRenderer : Sprite2D {
 
 		_ownerImage.SetPixel(index, 0, territory.Owner != null ? territory.Owner.colour : Colors.Red);
 		owner_lut.Update(_ownerImage);
+		SetHighlights();
 	}
 
 	public void RefreshAllOwnership() {
 		BuildOwnerLut();
 		shader_material.SetShaderParameter("owner_lut", owner_lut);
+		SetHighlights();
 	}
 
+	public void SetHighlights() => SetHighlights(selected_cache);
 	public void SetHighlights(Territory selected) {
 
-		for (int i = 0; i < territory_order.Count; i++)
-			_highlightImage.SetPixel(i, 0, new Color(0f, 0f, 0f, 1f));
+		selected_cache = selected;
 
-		if (selected != null) {
-			_highlightImage.SetPixel(selected.render_order, 0, new Color(0.7f, 1f, 1f, 1f));
-			foreach (Territory territory in selected.neighbours)
-				_highlightImage.SetPixel(territory.render_order, 0, new Color(0.4f, 1f, 1f, 1f));
+		if (region_mode) {
+			for (int i = 0; i < territory_order.Count; i++)
+				_highlightImage.SetPixel(i, 0, new Color(0.5f, 0f, 0f, 1f));
+		}
+		else {
+			if (selected != null) {
+				for (int i = 0; i < territory_order.Count; i++)
+					_highlightImage.SetPixel(i, 0, new Color(0f, 0f, 0f, 1f));
+
+				_highlightImage.SetPixel(selected.render_order, 0, new Color(0.7f, 1f, 1f, 1f));
+				foreach (Territory territory in selected.neighbours)
+					_highlightImage.SetPixel(territory.render_order, 0, new Color(0.4f, 1f, 1f, 1f));
+			}
+			else {
+				for (int i = 0; i < territory_order.Count; i++) {
+					if (territory_order[i].region.complete)
+						_highlightImage.SetPixel(i, 0, new Color(0.5f, 0f, 0f, 1f));
+					else
+						_highlightImage.SetPixel(i, 0, new Color(0f, 0f, 0f, 1f));
+				}
+			}
 		}
 
 		highlight_lut.Update(_highlightImage);

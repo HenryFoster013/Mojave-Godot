@@ -42,6 +42,23 @@ public class Region {
         };
     }
 
+    public void CheckCompletion() {
+        complete = CompletionLoop();
+    }
+
+    bool CompletionLoop() {
+        if(territories.Count == 0)
+            return false;
+        Player first_owner = territories[0].Owner;
+        if(first_owner == null)
+            return false;
+        foreach (Territory territory in territories) {
+            if(territory.Owner != first_owner)
+                return false;
+        }
+        return true;
+    }
+
     // ----- // GETTERS & SETTERS // ----- //
 
     // Get Methods //
