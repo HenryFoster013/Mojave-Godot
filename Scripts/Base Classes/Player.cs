@@ -13,17 +13,10 @@ public class Player {
         colour = _colour;
     }
 
-    public void RequestTurn(int game_state) {
-        switch (game_state) {
-            case 1: RequestClaim(); break;
-            case 2: RequestPlay(); break;
-        }
-    }
-
     // Overrides //
 
-    protected virtual void RequestClaim() { }
-    protected virtual void RequestPlay() { }
+    public virtual void RequestClaim() { }
+    public virtual void RequestPlay() { }
 
     // Getters and Setters //
 
@@ -37,9 +30,9 @@ public class LocalPlayer : Player {
     public LocalPlayer(GameManager _manager, string _name, Color _colour)
         : base(_manager, _name, _colour) { }
 
-    protected override void RequestClaim() { }
+    public override void RequestClaim() { }
 
-    protected override void RequestPlay() { }
+    public override void RequestPlay() { }
 }
 
 public class BotPlayer : Player {
@@ -47,7 +40,7 @@ public class BotPlayer : Player {
     public BotPlayer(GameManager _manager, string _name, Color _colour)
         : base(_manager, _name, _colour) { }
 
-    protected override void RequestClaim() {}
+    public override void RequestClaim() {}
 
-    protected override void RequestPlay() { }
+    public override void RequestPlay() { }
 }

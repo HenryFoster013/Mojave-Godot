@@ -4,14 +4,8 @@ using System.Collections.Generic;
 public class GameManager {
 
 	private GameMaster game_master;
-	public int game_state { get; private set; }
-	/*
-        -1 = none, just idle
-        0 = lobby
-        1 = claimants
-        2 = primary loop
-        3 = game end
-    */
+	public enum state_type {NULL, LOBBY, CLAIMANTS, PRIMARY, ENDGAME}
+	public state_type game_state { get; private set; }
 
 	public int current_player_turn { get; private set; }
 	private List<Player> players = new List<Player>();
@@ -30,9 +24,10 @@ public class GameManager {
 	public GameManager(GameMaster master) {game_master = master;}
 
 	public void Load(string json_text) {
+		current_player_turn = -1;
 		BuildMap(json_text);
 		GeneratedTestPlayers();
-		LoadGameState(1);
+		LoadGameState(state_type.CLAIMANTS);
 	}
 
 	// Map Creation //
@@ -82,12 +77,16 @@ public class GameManager {
 
 	// ----- // RUNTIME FUNCTIONALITY // ----- //
 
-	void LoadGameState(int new_state) {
+	void LoadGameState(state_type new_state) {
+
 		if (new_state == game_state)
 			return;
 		game_state = new_state;
+
+		GD.Print($" --- Game state set to {game_state} --- ");
+
 		switch (game_state) {
-			case 1: LoadClaimants(); break;
+			case state_type.CLAIMANTS: LoadClaimants(); break;
 		}
 	}
 
@@ -102,18 +101,47 @@ public class GameManager {
 	void ConsolidatePlayerIds() {
 		if (players.Count == 0)
 			return;
-		for (int i = 0; i < players.Count; i++) {
+		for (int i = 0; i < players.Count; i++)
 			players[i].SetId(i);
-		}
 		GD.Print($"Players consolidated: {players}");
 	}
 
 	void LoadClaimants() {
 		ConsolidatePlayerIds();
-		current_player_turn = 0;
-		
 		if(game_master != null)
 			game_master.LoadClaimants();
+		NewTurn();
+	}
+
+	void NewTurn() {
+		if(players.Count == 0)
+			return;
+		
+		current_player_turn++;
+		if (current_player_turn >= players.Count)
+			current_player_turn = 0;
+		Player current_player = players[current_player_turn];
+
+		GD.Print($" - {current_player.name}'s turn.");
+		switch (game_state) {
+			case state_type.CLAIMANTS: current_player.RequestClaim(); break;
+		}
+	}
+
+	// ----- // SPOKEN FROM PLAYERS // ----- //
+
+	public bool GetClaim(Player player, Territory territory) {
+		if(game_state != state_type.CLAIMANTS)
+			return false;
+		if (player != players[current_player_turn])
+			return false;
+		if (territory.Owner != null)
+			return false;
+		
+		territory.Owner = player;
+		GD.Print($"{player.name} claimed {territory.name}.");
+		NewTurn();
+		return true;
 	}
 
 	// ----- // GETTERS AND SETTERS // ----- //
