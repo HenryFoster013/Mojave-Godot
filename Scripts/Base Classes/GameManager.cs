@@ -9,6 +9,7 @@ public class GameManager {
 
 	public int current_player_turn { get; private set; }
 	private List<Player> players = new List<Player>();
+	private Player current_player => players[current_player_turn];
 
 	private readonly Dictionary<string, Territory> territories = new();
 	private readonly Dictionary<string, Territory> territories_id = new();
@@ -120,15 +121,36 @@ public class GameManager {
 		current_player_turn++;
 		if (current_player_turn >= players.Count)
 			current_player_turn = 0;
-		Player current_player = players[current_player_turn];
 
 		GD.Print($" - {current_player.name}'s turn.");
 		switch (game_state) {
-			case state_type.CLAIMANTS: current_player.RequestClaim(); break;
+			case state_type.CLAIMANTS: ClaimantsTurn(); break;
 		}
 	}
 
+	void ClaimantsTurn() {
+		if (EndOfClaimants()){
+			LoadGameState(state_type.PRIMARY);
+			return;
+		}
+		current_player.RequestClaim();
+	}
+
+	bool EndOfClaimants() {
+		foreach (Territory territory in territories.Values) {
+			if(territory.Owner == null)
+				return false;
+		}
+		return true;
+	}
+
 	// ----- // SPOKEN FROM PLAYERS // ----- //
+
+	public bool LocalClaim(Territory territory) {
+		if(current_player.type != Player.player_type.LOCAL)
+			return false;
+		return GetClaim(current_player, territory);
+	}
 
 	public bool GetClaim(Player player, Territory territory) {
 		if(game_state != state_type.CLAIMANTS)

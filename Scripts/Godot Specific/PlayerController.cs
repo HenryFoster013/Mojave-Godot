@@ -2,6 +2,7 @@ using Godot;
 
 public partial class PlayerController : Node {
 
+	[Export] public GameMaster game_master;
 	[Export] public MapRenderer map_renderer;
 	[Export] public LabelManager label_manager;
 	[Export] public Camera2D camera;
@@ -62,7 +63,7 @@ public partial class PlayerController : Node {
 
 	void SelectTerritory(Territory territory) {
 		selected_territory = territory;
-		map_renderer.SelectTerritory(selected_territory);
+		game_master.SelectTerritory(selected_territory);
 
 		if (selected_territory != null)
 			GD.Print($"Selected {selected_territory.name}");
