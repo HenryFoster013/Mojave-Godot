@@ -19,6 +19,13 @@ config/icon="res://Graphics/icon.svg"
 
 GameMaster="*uid://u884d6gjedc4"
 
+[display]
+
+window/size/viewport_width=800
+window/size/viewport_height=600
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep_height"
+
 [dotnet]
 
 project/assembly_name="Mojave"
@@ -85,4 +92,4 @@ LeftClick={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-environment/defaults/default_clear_color=Color(0.04755766, 0.047557645, 0.047557645, 1)
+environment/defaults/default_clear_color=Color(0.17641908, 0.17641911, 0.17641902, 1)
