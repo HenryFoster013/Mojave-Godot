@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://by2mch4dhmoho"]
 
+[ext_resource type="Script" uid="uid://u884d6gjedc4" path="res://Scripts/Godot Specific/GameMaster.cs" id="1_84h3i"]
 [ext_resource type="Script" uid="uid://b0w7vskjljhpo" path="res://Scripts/Godot Specific/PlayerController.cs" id="1_g2637"]
 [ext_resource type="Shader" uid="uid://bqabxr48x2t3v" path="res://Scripts/Shaders/MapShader.gdshader" id="1_syqxp"]
 [ext_resource type="Texture2D" uid="uid://c5jccimwhs8cd" path="res://Board/BG.png" id="3_e1dkd"]
@@ -16,11 +17,21 @@ shader_parameter/overlay = ExtResource("5_e1dkd")
 shader_parameter/territory_count = 115
 shader_parameter/region_mode = 0
 
-[node name="Base Game" type="Node2D" unique_id=1909172287 node_paths=PackedStringArray("map_renderer", "label_manager", "camera")]
+[node name="Base Game" type="Node2D" unique_id=1909172287]
+
+[node name="Game Master" type="Node2D" parent="." unique_id=646864487 node_paths=PackedStringArray("map_renderer")]
+script = ExtResource("1_84h3i")
+map_renderer = NodePath("../Board")
+
+[node name="Player" type="Node2D" parent="." unique_id=1131306586 node_paths=PackedStringArray("game_master", "map_renderer", "label_manager", "camera")]
 script = ExtResource("1_g2637")
-map_renderer = NodePath("Board")
-label_manager = NodePath("Board/Label Manager")
+game_master = NodePath("../Game Master")
+map_renderer = NodePath("../Board")
+label_manager = NodePath("../Board/Label Manager")
 camera = NodePath("Camera")
+
+[node name="Camera" type="Camera2D" parent="Player" unique_id=1237636126]
+zoom = Vector2(0.275, 0.275)
 
 [node name="Board" type="Sprite2D" parent="." unique_id=1842993767 node_paths=PackedStringArray("label_manager")]
 texture_filter = 1
@@ -45,6 +56,3 @@ map_label = ExtResource("8_kj5de")
 [node name="Tile Labels" type="Node2D" parent="Board/Label Manager" unique_id=143110638]
 
 [node name="Region Labels" type="Node2D" parent="Board/Label Manager" unique_id=1168672780]
-
-[node name="Camera" type="Camera2D" parent="." unique_id=1237636126]
-zoom = Vector2(0.275, 0.275)
