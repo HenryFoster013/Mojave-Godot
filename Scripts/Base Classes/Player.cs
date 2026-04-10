@@ -3,13 +3,12 @@ using Godot;
 public class Player {
 
     protected GameManager manager;
-    public int id { get; init; }
+    public int id { get; private set; }
     public string name { get; init; }
     public Color colour { get; init; }
 
-    protected Player(GameManager _manager, int _id, string _name, Color _colour) {
+    protected Player(GameManager _manager, string _name, Color _colour) {
         manager = _manager;
-        id = _id;
         name = _name;
         colour = _colour;
     }
@@ -21,14 +20,22 @@ public class Player {
         }
     }
 
+    // Overrides //
+
     protected virtual void RequestClaim() { }
     protected virtual void RequestPlay() { }
+
+    // Getters and Setters //
+
+    public void SetId(int new_id) {
+        id = new_id;
+    }
 }
 
 public class LocalPlayer : Player {
 
-    public LocalPlayer(GameManager _manager, int _id, string _name, Color _colour)
-        : base(_manager, _id, _name, _colour) { }
+    public LocalPlayer(GameManager _manager, string _name, Color _colour)
+        : base(_manager, _name, _colour) { }
 
     protected override void RequestClaim() { }
 
@@ -37,8 +44,8 @@ public class LocalPlayer : Player {
 
 public class BotPlayer : Player {
 
-    public BotPlayer(GameManager _manager, int _id, string _name, Color _colour)
-        : base(_manager, _id, _name, _colour) { }
+    public BotPlayer(GameManager _manager, string _name, Color _colour)
+        : base(_manager, _name, _colour) { }
 
     protected override void RequestClaim() {}
 

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 public class GameManager {
 
-	int game_state;
+	private GameMaster game_master;
+	public int game_state { get; private set; }
 	/*
         -1 = none, just idle
         0 = lobby
@@ -11,6 +12,9 @@ public class GameManager {
         2 = primary loop
         3 = game end
     */
+
+	public int current_player_turn { get; private set; }
+	private List<Player> players = new List<Player>();
 
 	private readonly Dictionary<string, Territory> territories = new();
 	private readonly Dictionary<string, Territory> territories_id = new();
@@ -22,8 +26,13 @@ public class GameManager {
 
 	// ----- // SETUP // ----- //
 
+	public GameManager() { }
+	public GameManager(GameMaster master) {game_master = master;}
+
 	public void Load(string json_text) {
 		BuildMap(json_text);
+		GeneratedTestPlayers();
+		LoadGameState(1);
 	}
 
 	// Map Creation //
@@ -72,6 +81,40 @@ public class GameManager {
 	}
 
 	// ----- // RUNTIME FUNCTIONALITY // ----- //
+
+	void LoadGameState(int new_state) {
+		if (new_state == game_state)
+			return;
+		game_state = new_state;
+		switch (game_state) {
+			case 1: LoadClaimants(); break;
+		}
+	}
+
+	void GeneratedTestPlayers() {
+		players = new List<Player>();
+		players.Add(new LocalPlayer(this, "Henry", Colors.Red));
+		players.Add(new LocalPlayer(this, "Thomas", Colors.Blue));
+		players.Add(new LocalPlayer(this, "Andre", Colors.Green));
+		GD.Print("Test players created.");
+	}
+
+	void ConsolidatePlayerIds() {
+		if (players.Count == 0)
+			return;
+		for (int i = 0; i < players.Count; i++) {
+			players[i].SetId(i);
+		}
+		GD.Print($"Players consolidated: {players}");
+	}
+
+	void LoadClaimants() {
+		ConsolidatePlayerIds();
+		current_player_turn = 0;
+		
+		if(game_master != null)
+			game_master.LoadClaimants();
+	}
 
 	// ----- // GETTERS AND SETTERS // ----- //
 

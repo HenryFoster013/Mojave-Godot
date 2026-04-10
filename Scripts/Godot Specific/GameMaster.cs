@@ -13,7 +13,7 @@ public partial class GameMaster : Node {
 
 	public override void _Ready() {
 
-		manager = new GameManager();
+		manager = new GameManager(this);
 		if (!FileAccess.FileExists(map_json_path)) {
 			GD.PrintErr($"GameMaster: map file not found at '{map_json_path}'.");
 			return;
@@ -23,6 +23,12 @@ public partial class GameMaster : Node {
 		manager.Load(json_text);
 		GD.Print($"GameMaster: loaded {Regions.Count} regions and {Territories.Count} territories.");
 	}
+
+	// Scene Transitions //
+	
+	public void LoadLobby() { }
+	public void LoadClaimants() { }
+	public void LoadPrimary() { }
 
 	// Get Methods //
 
