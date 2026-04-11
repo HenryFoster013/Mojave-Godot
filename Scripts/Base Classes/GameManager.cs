@@ -121,6 +121,7 @@ public class GameManager {
 		current_player_turn++;
 		if (current_player_turn >= players.Count)
 			current_player_turn = 0;
+		game_master.NewPlayerTurn(current_player);
 
 		GD.Print($" - {current_player.name}'s turn.");
 		switch (game_state) {

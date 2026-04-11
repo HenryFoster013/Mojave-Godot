@@ -6,6 +6,9 @@ public partial class GameMaster : Node {
 	[Export] public string map_json_path = "res://Board/map_data.json";
 	[Export] public MapRenderer map_renderer;
 	[Export] public LabelManager label_manager;
+	
+	[Export] public ColorRect ui_player_colour;
+	[Export] public Label ui_player_name;
 
 	private GameManager manager;
 	public IReadOnlyDictionary<string, Territory> Territories => manager.Territories;
@@ -37,6 +40,16 @@ public partial class GameMaster : Node {
 		if (manager.game_state == GameManager.state_type.CLAIMANTS) {
 			manager.LocalClaim(territory);
 		}
+	}
+
+	public void NewPlayerTurn(Player player) {
+		if (player == null) {
+			ui_player_name.Text = "";
+			ui_player_colour.Color = new Color(0,0,0,0);
+			return;
+		}
+		ui_player_name.Text = player.name;
+		ui_player_colour.Color = player.colour;
 	}
 
 	// Scene Transitions //

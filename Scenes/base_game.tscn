@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://dcwdo17g7j303" path="res://Scripts/Godot Specific/LabelManager.cs" id="7_kj5de"]
 [ext_resource type="PackedScene" uid="uid://bh046n7xsmoy7" path="res://Board/Map_Label.tscn" id="8_kj5de"]
 [ext_resource type="PackedScene" uid="uid://ben2m04khisyg" path="res://Board/Troop_Label.tscn" id="8_r1yhm"]
+[ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="11_u41ag"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e1dkd"]
 shader = ExtResource("1_syqxp")
@@ -19,10 +20,12 @@ shader_parameter/region_mode = 0
 
 [node name="Base Game" type="Node2D" unique_id=1909172287]
 
-[node name="Game Master" type="Node2D" parent="." unique_id=646864487 node_paths=PackedStringArray("map_renderer", "label_manager")]
+[node name="Game Master" type="Node2D" parent="." unique_id=646864487 node_paths=PackedStringArray("map_renderer", "label_manager", "ui_player_colour", "ui_player_name")]
 script = ExtResource("1_84h3i")
 map_renderer = NodePath("../Board")
 label_manager = NodePath("../Board/Label Manager")
+ui_player_colour = NodePath("../UI/Frame/Current Player Label/Color Display")
+ui_player_name = NodePath("../UI/Frame/Current Player Label/Player Name")
 
 [node name="Player" type="Node2D" parent="." unique_id=1131306586 node_paths=PackedStringArray("game_master", "map_renderer", "label_manager", "camera")]
 script = ExtResource("1_g2637")
@@ -57,3 +60,36 @@ map_label = ExtResource("8_kj5de")
 [node name="Tile Labels" type="Node2D" parent="Board/Label Manager" unique_id=143110638]
 
 [node name="Region Labels" type="Node2D" parent="Board/Label Manager" unique_id=1168672780]
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=2072149354]
+
+[node name="Frame" type="Control" parent="UI" unique_id=1743671853]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("11_u41ag")
+
+[node name="Current Player Label" type="HBoxContainer" parent="UI/Frame" unique_id=1374514835]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 13.26
+offset_top = -40.0
+offset_right = 213.26
+offset_bottom = -10.0
+grow_vertical = 0
+theme_override_constants/separation = 10
+
+[node name="Color Display" type="ColorRect" parent="UI/Frame/Current Player Label" unique_id=691573060]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Player Name" type="Label" parent="UI/Frame/Current Player Label" unique_id=294034470]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
