@@ -43,6 +43,8 @@ public partial class GameMaster : Node {
 	}
 
 	public void NewPlayerTurn(Player player) {
+		if (ui_player_name == null || ui_player_colour == null)
+			return;
 		if (player == null) {
 			ui_player_name.Text = "";
 			ui_player_colour.Color = new Color(0,0,0,0);

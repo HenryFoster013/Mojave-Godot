@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://dcwdo17g7j303" path="res://Scripts/Godot Specific/LabelManager.cs" id="7_kj5de"]
 [ext_resource type="PackedScene" uid="uid://bh046n7xsmoy7" path="res://Board/Map_Label.tscn" id="8_kj5de"]
 [ext_resource type="PackedScene" uid="uid://ben2m04khisyg" path="res://Board/Troop_Label.tscn" id="8_r1yhm"]
+[ext_resource type="Texture2D" uid="uid://cx6ssj3mwsmo5" path="res://Graphics/Images/Drop_Shadow.png" id="11_adose"]
 [ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="11_u41ag"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e1dkd"]
@@ -60,6 +61,11 @@ map_label = ExtResource("8_kj5de")
 [node name="Tile Labels" type="Node2D" parent="Board/Label Manager" unique_id=143110638]
 
 [node name="Region Labels" type="Node2D" parent="Board/Label Manager" unique_id=1168672780]
+
+[node name="Shadow" type="Sprite2D" parent="Board" unique_id=215205616]
+z_index = -1
+scale = Vector2(9.5, 9.5)
+texture = ExtResource("11_adose")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2072149354]
 
