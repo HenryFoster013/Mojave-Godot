@@ -8,7 +8,7 @@ public class GameManager {
 	public state_type game_state { get; private set; }
 
 	public int current_player_turn { get; private set; }
-	private List<Player> players = new List<Player>();
+	private List<Player> players = new();
 	private Player current_player => players[current_player_turn];
 
 	private readonly Dictionary<string, Territory> territories = new();
@@ -153,6 +153,7 @@ public class GameManager {
 	}
 
 	public bool GetClaim(Player player, Territory territory) {
+
 		if(game_state != state_type.CLAIMANTS)
 			return false;
 		if (player != players[current_player_turn])
@@ -161,8 +162,12 @@ public class GameManager {
 			return false;
 		
 		territory.Owner = player;
+		territory.SetTroops(1);
+		game_master.label_manager.UpdateTroopCount(territory);
+		
 		GD.Print($"{player.name} claimed {territory.name}.");
 		NewTurn();
+		
 		return true;
 	}
 

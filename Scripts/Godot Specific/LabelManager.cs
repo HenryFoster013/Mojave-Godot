@@ -1,19 +1,24 @@
 using Godot;
-using System;
+using System.Collections.Generic;
 
 public partial class LabelManager : Node {
+
+	private GameMaster game_master;
+
 	[Export] public Node2D troop_label_holder;
 	[Export] public Node2D tile_label_holder;
 	[Export] public Node2D region_label_holder;
 	[Export] public PackedScene troop_label;
 	[Export] public PackedScene map_label;
 
+	private readonly List<Label> troop_labels = new();
+
 	const float zoom_limit = 0.6f;
 	public float camera_zoom;
 	public bool region_mode;
 
 	public override void _Ready() {
-		var game_master = GetNode<GameMaster>("/root/GameMaster");
+		game_master = GetNode<GameMaster>("/root/GameMaster");
 		if (game_master == null) return;
 
 		foreach (var territory in game_master.Territories.Values) {
@@ -27,6 +32,8 @@ public partial class LabelManager : Node {
 			troop_label_holder.AddChild(label_troops);
 			label_troops.GlobalPosition = PixelspaceToWorldspace(territory.centroid);
 			troop_label_holder.Scale = Vector2.One * 1.2f;
+			label_troops.GetChild<Label>(0).Text = "";
+			troop_labels.Add(label_troops.GetChild<Label>(0));
 		}
 
 		foreach (var region in game_master.Regions.Values) {
@@ -51,5 +58,9 @@ public partial class LabelManager : Node {
 		float x = (centroid.X * scalar)- 1024;
 		float y = 1024 - (centroid.Y * scalar);
 		return new Vector2(x, y);
+	}
+
+	public void UpdateTroopCount(Territory territory) {
+		troop_labels[territory.render_order].Text = territory.troop_count.ToString();
 	}
 }

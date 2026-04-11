@@ -19,9 +19,10 @@ shader_parameter/region_mode = 0
 
 [node name="Base Game" type="Node2D" unique_id=1909172287]
 
-[node name="Game Master" type="Node2D" parent="." unique_id=646864487 node_paths=PackedStringArray("map_renderer")]
+[node name="Game Master" type="Node2D" parent="." unique_id=646864487 node_paths=PackedStringArray("map_renderer", "label_manager")]
 script = ExtResource("1_84h3i")
 map_renderer = NodePath("../Board")
+label_manager = NodePath("../Board/Label Manager")
 
 [node name="Player" type="Node2D" parent="." unique_id=1131306586 node_paths=PackedStringArray("game_master", "map_renderer", "label_manager", "camera")]
 script = ExtResource("1_g2637")

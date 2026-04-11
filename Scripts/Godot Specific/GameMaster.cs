@@ -5,6 +5,7 @@ public partial class GameMaster : Node {
 
 	[Export] public string map_json_path = "res://Board/map_data.json";
 	[Export] public MapRenderer map_renderer;
+	[Export] public LabelManager label_manager;
 
 	private GameManager manager;
 	public IReadOnlyDictionary<string, Territory> Territories => manager.Territories;

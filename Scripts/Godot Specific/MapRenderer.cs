@@ -7,7 +7,7 @@ public partial class MapRenderer : Sprite2D {
 	[Export] public Texture2D overlay_texture;
 	[Export] public LabelManager label_manager;
 
-	private List<Territory> territory_order = new();
+	public List<Territory> territory_order = new();
 	private Territory selected_cache;
 	Image colour_map_image;
 	private ShaderMaterial shader_material;
