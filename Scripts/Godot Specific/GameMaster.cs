@@ -30,7 +30,7 @@ public partial class GameMaster : Node {
 		}
 
 		string json_text = FileAccess.GetFileAsString(map_json_path);
-		manager.Load(json_text);
+		manager.LoadJson(json_text);
 		GD.Print($"GameMaster: loaded {Regions.Count} regions and {Territories.Count} territories.");
 	}
 
@@ -51,7 +51,6 @@ public partial class GameMaster : Node {
 		current_player = player;
 		turn_counter++;
 		UpdateUI();
-
 	}
 
 	// UI Management //
@@ -92,9 +91,17 @@ public partial class GameMaster : Node {
 
 	// Scene Transitions //
 
-	public void LoadLobby() { }
-	public void LoadClaimants() { }
-	public void LoadPrimary() { }
+	public void LoadLobby() {
+		UpdateUI();
+	}
+
+	public void LoadClaimants() {
+		UpdateUI();
+	}
+
+	public void LoadPrimary() {
+		UpdateUI();
+	}
 
 	// Get Methods //
 

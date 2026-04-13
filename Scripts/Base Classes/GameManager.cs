@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class GameManager {
 
 	private GameMaster game_master;
-	public enum state_type {NULL, LOBBY, CLAIMANTS, PRIMARY, ENDGAME}
+	public enum state_type { NULL, LOBBY, CLAIMANTS, PRIMARY, ENDGAME }
 	public state_type game_state { get; private set; }
 
 	public int current_player_turn { get; private set; }
@@ -19,16 +19,19 @@ public class GameManager {
 	public IReadOnlyDictionary<string, Territory> Territories_ID => territories_id;
 	public IReadOnlyDictionary<string, Region> Regions => regions;
 
+	bool random_claims = true;
+
 	// ----- // SETUP // ----- //
 
 	public GameManager() { }
-	public GameManager(GameMaster master) {game_master = master;}
+	public GameManager(GameMaster master) { game_master = master; }
 
-	public void Load(string json_text) {
+	public void LoadJson(string json_text) {
 		current_player_turn = -1;
 		BuildMap(json_text);
 		GeneratedTestPlayers();
-		LoadGameState(state_type.CLAIMANTS);
+		ConsolidatePlayerIds();
+		CheckClaimancy();
 	}
 
 	// Map Creation //
@@ -87,7 +90,7 @@ public class GameManager {
 		GD.Print($" --- Game state set to {game_state} --- ");
 
 		switch (game_state) {
-			case state_type.CLAIMANTS: LoadClaimants(); break;
+			case state_type.CLAIMANTS: StartClaimancy(); break;
 		}
 	}
 
@@ -107,39 +110,62 @@ public class GameManager {
 		GD.Print($"Players consolidated: {players}");
 	}
 
-	void LoadClaimants() {
-		ConsolidatePlayerIds();
-		if(game_master != null)
+	void CheckClaimancy() {
+
+		if (random_claims) {
+			AssignRandomClaims();
+			return;
+		}
+
+		LoadGameState(state_type.CLAIMANTS);
+	}
+
+	void StartClaimancy() {
+		if (game_master != null)
 			game_master.LoadClaimants();
 		NewTurn();
 	}
 
+	void AssignRandomClaims() {
+		LoadGameState(state_type.NULL);
+		GD.Print("Assigning random claims.");
+		var shuffled = Shuffle(new List<Territory>(territories.Values));
+		for (int i = 0; i < shuffled.Count; i++) {
+			var player = players[i % players.Count];
+			shuffled[i].Owner = player;
+			shuffled[i].SetTroops(1);
+			//game_master.label_manager.UpdateTroopCount(shuffled[i]);
+			GD.Print($"{player.name} claimed {shuffled[i].name}.");
+		}
+		LoadGameState(state_type.PRIMARY);
+	}
+
 	void NewTurn() {
-		if(players.Count == 0)
+		if (players.Count == 0)
 			return;
-		
+
 		current_player_turn++;
 		if (current_player_turn >= players.Count)
 			current_player_turn = 0;
-		game_master.NewPlayerTurn(current_player);
 
-		GD.Print($" - {current_player.name}'s turn.");
 		switch (game_state) {
 			case state_type.CLAIMANTS: ClaimantsTurn(); break;
 		}
 	}
 
 	void ClaimantsTurn() {
-		if (EndOfClaimants()){
+		if (EndOfClaimants()) {
 			LoadGameState(state_type.PRIMARY);
 			return;
 		}
+		GD.Print($" - {current_player.name}'s turn to claim.");
+		game_master.NewPlayerTurn(current_player);
 		current_player.RequestClaim();
 	}
 
 	bool EndOfClaimants() {
 		foreach (Territory territory in territories.Values) {
-			if(territory.Owner == null)
+			if (territory.Owner == null)
 				return false;
 		}
 		return true;
@@ -148,28 +174,37 @@ public class GameManager {
 	// ----- // SPOKEN FROM PLAYERS // ----- //
 
 	public bool LocalClaim(Territory territory) {
-		if(current_player.type != Player.player_type.LOCAL)
+		if (current_player.type != Player.player_type.LOCAL)
 			return false;
 		return GetClaim(current_player, territory);
 	}
 
 	public bool GetClaim(Player player, Territory territory) {
 
-		if(game_state != state_type.CLAIMANTS)
-			return false;
 		if (player != players[current_player_turn])
 			return false;
 		if (territory.Owner != null)
 			return false;
-		
+
 		territory.Owner = player;
 		territory.SetTroops(1);
 		game_master.label_manager.UpdateTroopCount(territory);
-		
+
 		GD.Print($"{player.name} claimed {territory.name}.");
 		NewTurn();
-		
+
 		return true;
+	}
+
+	// ----- // GENERIC METHODS // ----- //
+
+	public List<T> Shuffle<T>(List<T> list) {
+		var rng = new System.Random();
+		for (int i = list.Count - 1; i > 0; i--) {
+			int j = rng.Next(i + 1);
+			(list[i], list[j]) = (list[j], list[i]);
+		}
+		return list;
 	}
 
 	// ----- // GETTERS AND SETTERS // ----- //
