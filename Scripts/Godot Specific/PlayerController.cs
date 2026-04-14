@@ -2,10 +2,12 @@ using Godot;
 
 public partial class PlayerController : Node {
 
-	[Export] public GameMaster game_master;
-	[Export] public MapRenderer map_renderer;
-	[Export] public LabelManager label_manager;
+	GameMaster game_master;
+	MapRenderer map_renderer;
+	LabelManager label_manager;
 	[Export] public Camera2D camera;
+
+	bool active = false;
 
 	Vector2 cam_pos, cam_bounds;
 	float cam_zoom;
@@ -21,7 +23,13 @@ public partial class PlayerController : Node {
 
 	// ----- // START // ----- //
 
-	public override void _Ready() {
+	public void Setup(GameMaster _game_master, MapRenderer _map_renderer, LabelManager _label_manager) {
+
+		game_master = _game_master;
+		map_renderer = _map_renderer;
+		label_manager = _label_manager;
+
+		active = true;
 		SetProcessInput(true);
 		cam_bounds = new Vector2(bounds_size, bounds_size);
 		cam_pos = Vector2.Zero;
@@ -32,12 +40,14 @@ public partial class PlayerController : Node {
 
 	// Occurs on key press
 	public override void _Input(InputEvent e) {
+		if(!active) return;
 		ToggleRegions(e);
 		WorldClicks(e);
 	}
 
 	// Occurs per frame
 	public override void _Process(double delta) {
+		if(!active) return;
 		fdelta = (float)delta;
 		CameraMovement();
 		CameraZoom();
@@ -47,6 +57,7 @@ public partial class PlayerController : Node {
 	// ----- // CONTROLS // ----- //
 
 	void ToggleRegions(InputEvent e) {
+		if(!active) return;
 		if (e.IsActionPressed("ToggleRegions")) {
 			map_renderer.region_mode = !map_renderer.region_mode;
 			GD.Print($"Region mode: {map_renderer.region_mode}");
@@ -54,6 +65,7 @@ public partial class PlayerController : Node {
 	}
 
 	void WorldClicks(InputEvent e) {
+		if(!active) return;
 		if (e.IsActionPressed("LeftClick")) {
 			var mouse_event = (InputEventMouseButton)e;
 			Vector2 click_pos = GetViewport().CanvasTransform.AffineInverse() * mouse_event.Position;
@@ -62,6 +74,7 @@ public partial class PlayerController : Node {
 	}
 
 	void SelectTerritory(Territory territory) {
+		if(!active) return;
 		selected_territory = territory;
 		game_master.SelectTerritory(selected_territory);
 
@@ -74,6 +87,7 @@ public partial class PlayerController : Node {
 	// ----- // CAMERA // ----- //
 
 	void CameraMovement() {
+		if(!active) return;
 
 		Vector2 direction = Vector2.Zero;
 		float speed_mult = 1f;
@@ -93,6 +107,7 @@ public partial class PlayerController : Node {
 	}
 
 	void CameraZoom() {
+		if(!active) return;
 
 		float zoom_mod = 0;
 		if (Input.IsActionPressed("Zoom+")) zoom_mod += 1;

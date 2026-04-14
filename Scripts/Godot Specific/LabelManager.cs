@@ -13,13 +13,13 @@ public partial class LabelManager : Node {
 
 	private readonly List<Label> troop_labels = new();
 
-	const float zoom_limit = 0.6f;
+	private const float zoom_limit = 0.6f;
 	public float camera_zoom;
 	public bool region_mode;
 
-	public override void _Ready() {
-		game_master = GetNode<GameMaster>("/root/GameMaster");
-		if (game_master == null) return;
+	public void Setup(GameMaster _game_master) {
+
+		game_master = _game_master;
 
 		foreach (var territory in game_master.Territories.Values) {
 			var label = map_label.Instantiate<Node2D>();
@@ -53,7 +53,7 @@ public partial class LabelManager : Node {
 		troop_label_holder.Visible = !region_mode;
 	}
 
-	Vector2 PixelspaceToWorldspace(Vector2 centroid) {
+	private Vector2 PixelspaceToWorldspace(Vector2 centroid) {
 		float scalar = 4f;
 		float x = (centroid.X * scalar)- 1024;
 		float y = 1024 - (centroid.Y * scalar);

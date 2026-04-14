@@ -6,6 +6,7 @@ public partial class GameMaster : Node {
 	[Export] public string map_json_path = "res://Board/map_data.json";
 	[Export] public MapRenderer map_renderer;
 	[Export] public LabelManager label_manager;
+	[Export] public PlayerController player_controller;
 
 	[Export] public TextureRect ui_player_colour;
 	[Export] public Label ui_player_name;
@@ -13,28 +14,47 @@ public partial class GameMaster : Node {
 	[Export] public Label ui_game_additional;
 
 	private GameManager manager;
+	private Player current_player => manager.current_player;
+	private int current_turn => manager.total_turn;
 	public IReadOnlyDictionary<string, Territory> Territories => manager.Territories;
 	public IReadOnlyDictionary<string, Region> Regions => manager.Regions;
 
-	int turn_counter = 0;
-	Player current_player;
+	// ----- // SETUP // ----- //
 
-	// Start //
-
-	public override void _Ready() {
-
-		manager = new GameManager(this);
-		if (!FileAccess.FileExists(map_json_path)) {
-			GD.PrintErr($"GameMaster: map file not found at '{map_json_path}'.");
-			return;
-		}
-
-		string json_text = FileAccess.GetFileAsString(map_json_path);
-		manager.LoadJson(json_text);
-		GD.Print($"GameMaster: loaded {Regions.Count} regions and {Territories.Count} territories.");
+	public override async void _Ready() {
+		GD.Print(" - Start - ");
+		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		GD.Print("Initial frame buffered, loading data.");
+		LoadJson();
+		LoadExports();
+		GD.Print("\nLoading complete! Starting game.");
+		manager.KickStart(false);
 	}
 
-	// Selection Calls //
+	private void LoadJson() {
+		manager = new GameManager(this);
+		if (!FileAccess.FileExists(map_json_path)) {
+			GD.PrintErr($"Json not found at '{map_json_path}'!");
+			return;
+		}
+		string json_text = FileAccess.GetFileAsString(map_json_path);
+		manager.LoadJson(json_text);
+		GD.Print($"Loaded {Regions.Count} regions and {Territories.Count} territories from Json.");
+	}
+
+	private void LoadExports() {
+
+		GD.Print($"LabelManager valid: {label_manager != null}.");
+		GD.Print($"MapRenderer valid: {label_manager != null}.");
+		GD.Print($"PlayerController valid: {label_manager != null}.");
+
+		label_manager.Setup(this);
+		map_renderer.Setup(this, label_manager);
+		player_controller.Setup(this, map_renderer, label_manager);
+		GD.Print("Exports connected.");
+	}
+
+	// ----- // SELECTION // ----- //
 
 	public void SelectTerritory(Territory territory) {
 
@@ -43,25 +63,19 @@ public partial class GameMaster : Node {
 		if (territory == null)
 			return;
 		if (manager.game_state == GameManager.state_type.CLAIMANTS) {
-			manager.LocalClaim(territory);
+			manager.SpeakClaim(territory);
 		}
 	}
 
-	public void NewPlayerTurn(Player player) {
-		current_player = player;
-		turn_counter++;
-		UpdateUI();
+	// ----- // UI // ----- //
+
+	public void UpdateAllUI() {
+		UpdatePlayerLabel();
+		UpdateTurnLabel();
 	}
 
-	// UI Management //
-
-	void UpdateUI() {
-		UpdatePlayerLabels();
-		UpdateGameInfoLabels();
-	}
-
-	void UpdatePlayerLabels() {
-		if(ui_player_name == null || ui_player_colour == null)
+	public void UpdatePlayerLabel() {
+		if (ui_player_name == null || ui_player_colour == null)
 			return;
 		if (current_player == null) {
 			ui_player_name.Text = "";
@@ -73,35 +87,32 @@ public partial class GameMaster : Node {
 		}
 	}
 
-	void UpdateGameInfoLabels() {
-		if(ui_game_state == null || ui_game_additional == null)
+	public void UpdateTurnLabel() {
+		if (ui_game_state == null || ui_game_additional == null)
 			return;
 		ui_game_state.Text = "";
 		ui_game_additional.Text = "";
 		switch (manager.game_state) {
 			case GameManager.state_type.NULL: ui_game_state.Text = "NULL"; break;
-			case GameManager.state_type.LOBBY: ui_game_state.Text = "Lobby"; break;
 			case GameManager.state_type.CLAIMANTS: ui_game_state.Text = "Claimants"; ui_game_additional.Text = TurnText(); break;
 			case GameManager.state_type.PRIMARY: ui_game_state.Text = "Primary"; ui_game_additional.Text = TurnText(); break;
 			case GameManager.state_type.ENDGAME: ui_game_state.Text = "Endgame"; break;
 		}
 	}
 
-	string TurnText() => $"Turn {turn_counter}";
+	private string TurnText() => $"Turn {current_turn}";
 
-	// Scene Transitions //
-
-	public void LoadLobby() {
-		UpdateUI();
-	}
+	// ----- // STATE TRANSITIONS // ----- //
 
 	public void LoadClaimants() {
-		UpdateUI();
+		UpdateAllUI();
 	}
 
 	public void LoadPrimary() {
-		UpdateUI();
+		UpdateAllUI();
 	}
+
+	// ----- // GETTERS AND SETTERS // ----- //
 
 	// Get Methods //
 

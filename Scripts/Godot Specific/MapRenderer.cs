@@ -5,11 +5,12 @@ public partial class MapRenderer : Sprite2D {
 
 	[Export] public Texture2D colour_map_texture;
 	[Export] public Texture2D overlay_texture;
-	[Export] public LabelManager label_manager;
+
+	private LabelManager label_manager;
 
 	public List<Territory> territory_order = new();
 	private Territory selected_cache;
-	Image colour_map_image;
+	private Image colour_map_image;
 	private ShaderMaterial shader_material;
 	private GameMaster game_master;
 
@@ -34,14 +35,27 @@ public partial class MapRenderer : Sprite2D {
 
 	// ----- // START // ----- //
 
-	public override void _Ready() {
+	public void Setup(GameMaster _game_master, LabelManager _label_manager) {
+
+		game_master = _game_master;
+		label_manager = _label_manager;
+
 		colour_map_image = colour_map_texture.GetImage();
 		shader_material = Material as ShaderMaterial;
-		if (shader_material == null) return;
 
-		game_master = GetNode<GameMaster>("/root/GameMaster");
-		if (game_master == null) return;
+		if (shader_material == null || game_master == null) return;
 
+		SetRenderOrder();
+		BuildIdMap();
+		BuildOwnerLut();
+		BuildRegionLut();
+		BuildHighlightLut();
+		SetupShader();
+	}
+
+	// Building LUTs //
+
+	private void SetRenderOrder() {
 		int render_order = 0;
 		foreach (var territory in game_master.Territories.Values) {
 			territory_order.Add(territory);
@@ -49,24 +63,7 @@ public partial class MapRenderer : Sprite2D {
 			render_order++;
 			territory.OnOwnerChanged += OnTerritoryOwnerChanged;
 		}
-
-		BuildIdMap();
-		BuildOwnerLut();
-		BuildRegionLut();
-		BuildHighlightLut();
-
-		shader_material.SetShaderParameter("id_map", id_map);
-		if (overlay_texture != null)
-			shader_material.SetShaderParameter("overlay", overlay_texture);
-
-		shader_material.SetShaderParameter("owner_lut", owner_lut);
-		shader_material.SetShaderParameter("region_lut", region_lut);
-		shader_material.SetShaderParameter("highlight_lut", highlight_lut);
-		shader_material.SetShaderParameter("territory_count", territory_order.Count);
-		shader_material.SetShaderParameter("region_mode", _region_mode ? 1 : 0);
 	}
-
-	// Building LUTs //
 
 	private void BuildIdMap() {
 		if (colour_map_texture == null) return;
@@ -125,6 +122,17 @@ public partial class MapRenderer : Sprite2D {
 			_highlightImage.SetPixel(i, 0, new Color(0f, 0f, 0f, 1f));
 		highlight_lut = ImageTexture.CreateFromImage(_highlightImage);
 		SetHighlights();
+	}
+
+	private void SetupShader() {
+		shader_material.SetShaderParameter("id_map", id_map);
+		if (overlay_texture != null)
+			shader_material.SetShaderParameter("overlay", overlay_texture);
+		shader_material.SetShaderParameter("owner_lut", owner_lut);
+		shader_material.SetShaderParameter("region_lut", region_lut);
+		shader_material.SetShaderParameter("highlight_lut", highlight_lut);
+		shader_material.SetShaderParameter("territory_count", territory_order.Count);
+		shader_material.SetShaderParameter("region_mode", _region_mode ? 1 : 0);
 	}
 
 	// ----- // LUT REFRESHING // ----- //
