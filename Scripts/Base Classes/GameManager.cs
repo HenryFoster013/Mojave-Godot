@@ -171,7 +171,7 @@ public class GameManager {
 		total_turn++;
 		if (current_player_turn >= players.Count)
 			current_player_turn = 0;
-		game_master.UpdateTurnLabel();
+		game_master.UpdateAllUI();
 	}
 
 	private void ClaimantsTurn() {

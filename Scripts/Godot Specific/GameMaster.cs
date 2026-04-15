@@ -28,7 +28,7 @@ public partial class GameMaster : Node {
 		LoadJson();
 		LoadExports();
 		GD.Print("\nLoading complete! Starting game.");
-		manager.KickStart(false);
+		manager.KickStart(true);
 	}
 
 	private void LoadJson() {
