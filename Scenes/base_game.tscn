@@ -22,7 +22,7 @@ shader_parameter/region_mode = 0
 
 [node name="Base Game" type="Node2D" unique_id=1909172287]
 
-[node name="Game Master" type="Node2D" parent="." unique_id=646864487 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_additional")]
+[node name="Game Master" type="Node2D" parent="." unique_id=646864487 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_turn", "ui_game_additional", "ui_game_add_divider")]
 script = ExtResource("1_84h3i")
 map_renderer = NodePath("../Board")
 label_manager = NodePath("../Board/Label Manager")
@@ -30,19 +30,19 @@ player_controller = NodePath("../Player")
 ui_player_colour = NodePath("../UI/Frame/Current Player Label/TextureRect")
 ui_player_name = NodePath("../UI/Frame/Current Player Label/Player Name")
 ui_game_state = NodePath("../UI/Frame/Game Status Label/Status Text")
-ui_game_additional = NodePath("../UI/Frame/Game Status Label/Status Text 2")
+ui_game_turn = NodePath("../UI/Frame/Game Status Label/Status Text 2")
+ui_game_additional = NodePath("../UI/Frame/Game Status Label/Status Text 3")
+ui_game_add_divider = NodePath("../UI/Frame/Game Status Label/Divisor 3")
 
-[node name="Player" type="Node2D" parent="." unique_id=1131306586 node_paths=PackedStringArray("game_master", "map_renderer", "label_manager", "camera")]
+[node name="Player" type="Node2D" parent="." unique_id=1131306586 node_paths=PackedStringArray("camera")]
 script = ExtResource("1_g2637")
-game_master = NodePath("../Game Master")
-map_renderer = NodePath("../Board")
-label_manager = NodePath("../Board/Label Manager")
 camera = NodePath("Camera")
 
 [node name="Camera" type="Camera2D" parent="Player" unique_id=1237636126]
 zoom = Vector2(0.275, 0.275)
 
-[node name="Board" type="Sprite2D" parent="." unique_id=1842993767 node_paths=PackedStringArray("label_manager")]
+[node name="Board" type="Sprite2D" parent="." unique_id=1842993767]
+visible = false
 texture_filter = 1
 texture_repeat = 1
 material = SubResource("ShaderMaterial_e1dkd")
@@ -50,7 +50,6 @@ texture = ExtResource("3_e1dkd")
 script = ExtResource("4_e1dkd")
 colour_map_texture = ExtResource("5_g2637")
 overlay_texture = ExtResource("5_e1dkd")
-label_manager = NodePath("Label Manager")
 
 [node name="Label Manager" type="Node2D" parent="Board" unique_id=1039662336 node_paths=PackedStringArray("troop_label_holder", "tile_label_holder", "region_label_holder")]
 script = ExtResource("7_kj5de")
@@ -114,7 +113,7 @@ offset_bottom = 45.0
 scale = Vector2(0.7, 0.7)
 theme_override_constants/separation = 10
 
-[node name="TextureRect" type="TextureRect" parent="UI/Frame/Game Status Label" unique_id=1078981305]
+[node name="Divisor 1" type="TextureRect" parent="UI/Frame/Game Status Label" unique_id=1078981305]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 texture = ExtResource("13_l1sy6")
@@ -126,13 +125,25 @@ theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 18
 text = "Claimants"
 
-[node name="TextureRect 2" type="TextureRect" parent="UI/Frame/Game Status Label" unique_id=1137470911]
+[node name="Divisor 2" type="TextureRect" parent="UI/Frame/Game Status Label" unique_id=1137470911]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 texture = ExtResource("13_l1sy6")
 expand_mode = 4
 
 [node name="Status Text 2" type="Label" parent="UI/Frame/Game Status Label" unique_id=6226515]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "Turn 0"
+
+[node name="Divisor 3" type="TextureRect" parent="UI/Frame/Game Status Label" unique_id=699282984]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+texture = ExtResource("13_l1sy6")
+expand_mode = 4
+
+[node name="Status Text 3" type="Label" parent="UI/Frame/Game Status Label" unique_id=459763952]
 layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 18

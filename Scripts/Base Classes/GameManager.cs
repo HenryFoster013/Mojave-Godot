@@ -183,6 +183,10 @@ public class GameManager {
 		current_player.RequestClaim();
 	}
 
+	private void PrimaryTurn(){
+		current_player.AddCurrency(CalculatePlayerProfit(current_player));
+	}
+
 	// ----- // SPOKEN FROM PLAYERS // ----- //
 
 	public bool SpeakClaim(Territory territory) {
@@ -215,6 +219,19 @@ public class GameManager {
 	// ----- // GETTERS AND SETTERS // ----- //
 
 	// Get Methods //
+
+	private int CalculatePlayerProfit(Player player) {
+		int total = 0;
+		foreach (Territory territory in territories.Values) {
+			if (territory.Owner == player) {
+				total++;
+			}
+		}
+		int result = total / 3;
+		if (result < 1)
+			return 1;
+		return result;
+	}
 
 	public Territory GetTerritoryByColour(string colour) {
 		if (colour == "#000000")

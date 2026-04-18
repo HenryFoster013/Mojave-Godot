@@ -10,6 +10,10 @@ public class Player {
     public enum player_type { NULL, LOCAL, BOT }
     public player_type type;
 
+    public int currency { get; private set; }
+
+    // ----- // INSTANTIATION // ----- //
+
     protected Player(GameManager _manager, string _name, Color _colour) {
         manager = _manager;
         name = _name;
@@ -17,12 +21,28 @@ public class Player {
         type = player_type.NULL;
     }
 
-    // Overrides //
+    // ----- // OVERRIDES // ----- //
 
     public virtual void RequestClaim() { }
     public virtual void RequestPlay() { }
 
-    // Getters and Setters //
+    // ----- // GETTERS AND SETTERS // ----- //
+
+    // Set Methods //
+
+    public void AddCurrency(int add) {
+        currency += add;
+    }
+
+    public void SetCurrency(int amount) {
+        currency = amount;
+    }
+
+    public void SubCurrency(int sub) {
+        currency -= sub;
+    }
+
+    // Get Methods //
 
     public void SetId(int new_id) {
         id = new_id;

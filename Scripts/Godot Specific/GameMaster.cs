@@ -11,7 +11,9 @@ public partial class GameMaster : Node {
 	[Export] public TextureRect ui_player_colour;
 	[Export] public Label ui_player_name;
 	[Export] public Label ui_game_state;
+	[Export] public Label ui_game_turn;
 	[Export] public Label ui_game_additional;
+	[Export] public TextureRect ui_game_add_divider;
 
 	private GameManager manager;
 	private Player current_player => manager.current_player;
@@ -88,16 +90,37 @@ public partial class GameMaster : Node {
 	}
 
 	public void UpdateTurnLabel() {
-		if (ui_game_state == null || ui_game_additional == null)
+	
+		if (ui_game_state == null || ui_game_turn == null || ui_game_additional == null)
 			return;
+			
 		ui_game_state.Text = "";
+		ui_game_turn.Text = "";
 		ui_game_additional.Text = "";
+		ui_game_add_divider.Modulate = new Color(0, 0, 0, 0);
+		
 		switch (manager.game_state) {
-			case GameManager.state_type.NULL: ui_game_state.Text = "NULL"; break;
-			case GameManager.state_type.CLAIMANTS: ui_game_state.Text = "Claimants"; ui_game_additional.Text = TurnText(); break;
-			case GameManager.state_type.PRIMARY: ui_game_state.Text = "Primary"; ui_game_additional.Text = TurnText(); break;
-			case GameManager.state_type.ENDGAME: ui_game_state.Text = "Endgame"; break;
+		
+			case GameManager.state_type.NULL: 
+				ui_game_state.Text = "NULL"; 
+				break;
+			
+			case GameManager.state_type.CLAIMANTS:
+				ui_game_state.Text = "Claimants"; 
+				ui_game_turn.Text = TurnText(); 
+				break;
+				
+			case GameManager.state_type.PRIMARY:
+				ui_game_state.Text = "Primary"; 
+				ui_game_turn.Text = TurnText(); 
+				break;
+				
+			case GameManager.state_type.ENDGAME:
+				ui_game_state.Text = "Endgame"; 
+				break;
 		}
+
+		if (ui_game_additional.Text != "") ui_game_add_divider.Modulate = new Color(1, 1, 1, 1);
 	}
 
 	private string TurnText() => $"Turn {current_turn}";
