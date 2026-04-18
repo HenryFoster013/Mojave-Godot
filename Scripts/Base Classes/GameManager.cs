@@ -163,6 +163,7 @@ public class GameManager {
 		IterateTurn();
 		switch (game_state) {
 			case state_type.CLAIMANTS: ClaimantsTurn(); break;
+			case state_type.PRIMARY: PrimaryTurn(); break;
 		}
 	}
 
@@ -183,7 +184,8 @@ public class GameManager {
 		current_player.RequestClaim();
 	}
 
-	private void PrimaryTurn(){
+	private void PrimaryTurn() {
+		game_master.ActivateTurnPopup();
 		current_player.AddCurrency(CalculatePlayerProfit(current_player));
 	}
 

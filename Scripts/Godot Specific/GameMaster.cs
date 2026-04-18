@@ -3,26 +3,34 @@ using System.Collections.Generic;
 
 public partial class GameMaster : Node {
 
+	[ExportGroup(" - Primary - ")]
 	[Export] public string map_json_path = "res://Board/map_data.json";
 	[Export] public MapRenderer map_renderer;
 	[Export] public LabelManager label_manager;
 	[Export] public PlayerController player_controller;
 
+	[ExportGroup(" - Constant UI - ")]
 	[Export] public TextureRect ui_player_colour;
 	[Export] public Label ui_player_name;
 	[Export] public Label ui_game_state;
 	[Export] public Label ui_game_turn;
 	[Export] public Label ui_game_additional;
 
+	[ExportGroup(" - Extra UI - ")]
+	[Export] public Label ui_turn_popup;
+	[Export] public TextureRect ui_turn_popup_bg;
+
 	private GameManager manager;
 	private Player current_player => manager.current_player;
 	private int current_turn => manager.total_turn;
 	public IReadOnlyDictionary<string, Territory> Territories => manager.Territories;
 	public IReadOnlyDictionary<string, Region> Regions => manager.Regions;
+	private float turn_popup_time;
 
 	// ----- // SETUP // ----- //
 
 	public override async void _Ready() {
+		UpdateTurnPopup(2f);
 		GD.Print(" - Start - ");
 		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		GD.Print("Initial frame buffered, loading data.");
@@ -53,6 +61,21 @@ public partial class GameMaster : Node {
 		map_renderer.Setup(this, label_manager);
 		player_controller.Setup(this, map_renderer, label_manager);
 		GD.Print("Exports connected.");
+	}
+
+	// ----- // UPDATE LOOP // ----- //
+
+	public override void _Process(double delta) {
+		UpdateTurnPopup((float)delta);
+	}
+
+	void UpdateTurnPopup(float delta) {
+		float opacity = float.Clamp(turn_popup_time, 0f, 1f);
+		turn_popup_time -= delta;
+		ui_turn_popup.Modulate = new Color(1f, 1f, 1f, opacity);
+		Color bg_colour = ui_turn_popup_bg.Modulate;
+		bg_colour.A = opacity;
+		ui_turn_popup_bg.Modulate = bg_colour;
 	}
 
 	// ----- // SELECTION // ----- //
@@ -120,6 +143,15 @@ public partial class GameMaster : Node {
 	}
 
 	private string TurnText() => $"Turn {current_turn}";
+
+	public void ActivateTurnPopup() {
+		string display_text = current_player.name;
+		display_text += (display_text.EndsWith("s") ? "' Turn" : "'s Turn");
+		ui_turn_popup.Text = display_text;
+		ui_turn_popup_bg.Modulate = current_player.colour;
+		turn_popup_time = 2f;
+		UpdateTurnPopup(0f);
+	}
 
 	// ----- // STATE TRANSITIONS // ----- //
 

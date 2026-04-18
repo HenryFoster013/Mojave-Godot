@@ -23,10 +23,10 @@ public class Region {
     // ----- // FUNCTIONALITY // ----- //
 
     public static Region FromJson(Godot.Collections.Dictionary data) {
+    
         Color color = Color.FromString(data["color"].AsString(), Colors.Magenta);
 
         var centroidData = data["centroid"].AsGodotDictionary();
-
         var ids = new List<string>();
         foreach (var id in data["tileIds"].AsGodotArray())
             ids.Add(id.AsString());
