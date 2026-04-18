@@ -19,7 +19,7 @@ public partial class PlayerController : Node {
 	const float zoom_min = 0.275f;
 	const float zoom_max = 1.75f;
 	const float zoom_speed = 1f;
-	const float bounds_size = 1000f;
+	const float bounds_size = 2000f;
 
 	// ----- // START // ----- //
 

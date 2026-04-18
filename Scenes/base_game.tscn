@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://cx6ssj3mwsmo5" path="res://Graphics/Images/Drop_Shadow.png" id="11_adose"]
 [ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="11_u41ag"]
 [ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Double_Gradient.png" id="13_l1sy6"]
+[ext_resource type="Texture2D" uid="uid://bqeau242eis1a" path="res://Graphics/Images/Turn_Gradient.png" id="14_dr38s"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e1dkd"]
 shader = ExtResource("1_syqxp")
@@ -22,17 +23,14 @@ shader_parameter/region_mode = 0
 
 [node name="Base Game" type="Node2D" unique_id=1909172287]
 
-[node name="Game Master" type="Node2D" parent="." unique_id=646864487 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_turn", "ui_game_additional", "ui_game_add_divider")]
+[node name="Game Master" type="Node2D" parent="." unique_id=646864487 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state")]
 script = ExtResource("1_84h3i")
 map_renderer = NodePath("../Board")
 label_manager = NodePath("../Board/Label Manager")
 player_controller = NodePath("../Player")
 ui_player_colour = NodePath("../UI/Frame/Current Player Label/TextureRect")
 ui_player_name = NodePath("../UI/Frame/Current Player Label/Player Name")
-ui_game_state = NodePath("../UI/Frame/Game Status Label/Status Text")
-ui_game_turn = NodePath("../UI/Frame/Game Status Label/Status Text 2")
-ui_game_additional = NodePath("../UI/Frame/Game Status Label/Status Text 3")
-ui_game_add_divider = NodePath("../UI/Frame/Game Status Label/Divisor 3")
+ui_game_state = NodePath("../UI/Frame/VBoxContainer/Game Status Label/Status Text")
 
 [node name="Player" type="Node2D" parent="." unique_id=1131306586 node_paths=PackedStringArray("camera")]
 script = ExtResource("1_g2637")
@@ -42,7 +40,6 @@ camera = NodePath("Camera")
 zoom = Vector2(0.275, 0.275)
 
 [node name="Board" type="Sprite2D" parent="." unique_id=1842993767]
-visible = false
 texture_filter = 1
 texture_repeat = 1
 material = SubResource("ShaderMaterial_e1dkd")
@@ -81,6 +78,57 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("11_u41ag")
 
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Frame" unique_id=2096441238]
+layout_mode = 1
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 515.0
+offset_bottom = 115.0
+
+[node name="Game Status Label" type="HBoxContainer" parent="UI/Frame/VBoxContainer" unique_id=386429051]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Divisor 1" type="TextureRect" parent="UI/Frame/VBoxContainer/Game Status Label" unique_id=1078981305]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+texture = ExtResource("13_l1sy6")
+expand_mode = 4
+
+[node name="Status Text" type="Label" parent="UI/Frame/VBoxContainer/Game Status Label" unique_id=36942378]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 10
+text = "Claimants"
+
+[node name="Divisor 2" type="TextureRect" parent="UI/Frame/VBoxContainer/Game Status Label" unique_id=1137470911]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+texture = ExtResource("13_l1sy6")
+expand_mode = 4
+
+[node name="Status Text 2" type="Label" parent="UI/Frame/VBoxContainer/Game Status Label" unique_id=6226515]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 10
+text = "Turn 0"
+
+[node name="Game Command Label" type="HBoxContainer" parent="UI/Frame/VBoxContainer" unique_id=1224127532]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Divisor 1" type="TextureRect" parent="UI/Frame/VBoxContainer/Game Command Label" unique_id=455191853]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+texture = ExtResource("13_l1sy6")
+expand_mode = 4
+
+[node name="Status Text" type="Label" parent="UI/Frame/VBoxContainer/Game Command Label" unique_id=511677488]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 14
+text = "Turn Command Goes Here"
+
 [node name="Current Player Label" type="HBoxContainer" parent="UI/Frame" unique_id=1374514835]
 layout_mode = 1
 anchors_preset = 2
@@ -104,47 +152,41 @@ layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 18
 
-[node name="Game Status Label" type="HBoxContainer" parent="UI/Frame" unique_id=386429051]
+[node name="Turn Updator" type="Control" parent="UI/Frame" unique_id=42294365]
 layout_mode = 1
-offset_left = 15.0
-offset_top = 15.0
-offset_right = 215.0
-offset_bottom = 45.0
-scale = Vector2(0.7, 0.7)
-theme_override_constants/separation = 10
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -162.5
+offset_top = -22.5
+offset_right = 162.5
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Divisor 1" type="TextureRect" parent="UI/Frame/Game Status Label" unique_id=1078981305]
-custom_minimum_size = Vector2(2, 0)
-layout_mode = 2
-texture = ExtResource("13_l1sy6")
-expand_mode = 4
+[node name="Bg Fade" type="TextureRect" parent="UI/Frame/Turn Updator" unique_id=1904947537]
+modulate = Color(1, 0, 0, 0.8862745)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.99500096, 1)
+texture = ExtResource("14_dr38s")
+expand_mode = 1
 
-[node name="Status Text" type="Label" parent="UI/Frame/Game Status Label" unique_id=36942378]
-layout_mode = 2
+[node name="Player Label" type="Label" parent="UI/Frame/Turn Updator" unique_id=1714190176]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 18
-text = "Claimants"
-
-[node name="Divisor 2" type="TextureRect" parent="UI/Frame/Game Status Label" unique_id=1137470911]
-custom_minimum_size = Vector2(2, 0)
-layout_mode = 2
-texture = ExtResource("13_l1sy6")
-expand_mode = 4
-
-[node name="Status Text 2" type="Label" parent="UI/Frame/Game Status Label" unique_id=6226515]
-layout_mode = 2
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 18
-text = "Turn 0"
-
-[node name="Divisor 3" type="TextureRect" parent="UI/Frame/Game Status Label" unique_id=699282984]
-custom_minimum_size = Vector2(2, 0)
-layout_mode = 2
-texture = ExtResource("13_l1sy6")
-expand_mode = 4
-
-[node name="Status Text 3" type="Label" parent="UI/Frame/Game Status Label" unique_id=459763952]
-layout_mode = 2
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 18
-text = "Turn 0"
+theme_override_font_sizes/font_size = 20
+text = "Henry's Turn"
+horizontal_alignment = 1
+vertical_alignment = 1

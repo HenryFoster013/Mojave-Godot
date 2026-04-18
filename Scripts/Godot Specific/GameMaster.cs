@@ -13,7 +13,6 @@ public partial class GameMaster : Node {
 	[Export] public Label ui_game_state;
 	[Export] public Label ui_game_turn;
 	[Export] public Label ui_game_additional;
-	[Export] public TextureRect ui_game_add_divider;
 
 	private GameManager manager;
 	private Player current_player => manager.current_player;
@@ -97,7 +96,6 @@ public partial class GameMaster : Node {
 		ui_game_state.Text = "";
 		ui_game_turn.Text = "";
 		ui_game_additional.Text = "";
-		ui_game_add_divider.Modulate = new Color(0, 0, 0, 0);
 		
 		switch (manager.game_state) {
 		
@@ -119,8 +117,6 @@ public partial class GameMaster : Node {
 				ui_game_state.Text = "Endgame"; 
 				break;
 		}
-
-		if (ui_game_additional.Text != "") ui_game_add_divider.Modulate = new Color(1, 1, 1, 1);
 	}
 
 	private string TurnText() => $"Turn {current_turn}";
