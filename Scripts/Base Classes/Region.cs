@@ -12,7 +12,9 @@ public class Region {
     public Color colour { get; init; }
     public Vector2 centroid { get; init; }
     public IReadOnlyList<string> territory_ids { get; init; }
+    public int bonus { get; init; }
     public bool complete { get; private set; }
+    public Player owner { get; private set; }
 
     // Variable Values //
 
@@ -35,6 +37,7 @@ public class Region {
             id = data["id"].AsString(),
             name = data["name"].AsString(),
             colour = color,
+            bonus = data["bonus"].AsInt32(),
             centroid = new Vector2(
                 centroidData["x"].AsSingle(),
                 centroidData["y"].AsSingle()),
@@ -56,6 +59,7 @@ public class Region {
             if(territory.Owner != first_owner)
                 return false;
         }
+        owner = first_owner;
         return true;
     }
 

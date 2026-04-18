@@ -128,6 +128,7 @@ public partial class GameMaster : Node {
 			
 			case GameManager.state_type.CLAIMANTS:
 				ui_game_state.Text = "Claimants"; 
+				ui_game_additional.Text = "Select a tile to claim";
 				ui_game_turn.Text = TurnText(); 
 				break;
 				
@@ -151,6 +152,10 @@ public partial class GameMaster : Node {
 		ui_turn_popup_bg.Modulate = current_player.colour;
 		turn_popup_time = 2f;
 		UpdateTurnPopup(0f);
+	}
+
+	public void UpdateAddTroopPlacementText() {
+		ui_game_additional.Text = $"Place {current_player.currency} troops";
 	}
 
 	// ----- // STATE TRANSITIONS // ----- //

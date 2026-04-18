@@ -20,6 +20,9 @@ public class GameManager {
 	public IReadOnlyDictionary<string, Territory> Territories_ID => territories_id;
 	public IReadOnlyDictionary<string, Region> Regions => regions;
 
+	bool initial_turn;
+	int sub_turn;
+
 	// ----- // SETUP // ----- //
 
 	public GameManager(GameMaster master) { game_master = master; }
@@ -32,6 +35,7 @@ public class GameManager {
 	}
 
 	private void ResetBaseInfo() {
+		initial_turn = true;
 		current_player_turn = -1;
 		total_turn = -1;
 		game_state = state_type.NULL;
@@ -48,8 +52,13 @@ public class GameManager {
 	private void ConsolidatePlayerIds() {
 		if (players.Count == 0)
 			return;
-		for (int i = 0; i < players.Count; i++)
+
+		int initial_currency = Territories.Count / (players.Count + 1);
+		
+		for (int i = 0; i < players.Count; i++) {
 			players[i].SetId(i);
+			players[i].SetCurrency(initial_currency);
+		}
 		GD.Print($"Players consolidated: {players}");
 	}
 
@@ -168,11 +177,26 @@ public class GameManager {
 	}
 
 	private void IterateTurn() {
+	
+	  sub_turn = 0;
 		current_player_turn++;
 		total_turn++;
-		if (current_player_turn >= players.Count)
+		
+		if (current_player_turn >= players.Count) {
 			current_player_turn = 0;
+			if (game_state == state_type.PRIMARY)
+				initial_turn = false;
+		}
+			
 		game_master.UpdateAllUI();
+	}
+
+	private void IterateSubTurn() {
+		if (game_state != state_type.PRIMARY)
+			return;
+		sub_turn++;
+		if (sub_turn > 2 || initial_turn)
+			IterateTurn();
 	}
 
 	private void ClaimantsTurn() {
@@ -185,8 +209,13 @@ public class GameManager {
 	}
 
 	private void PrimaryTurn() {
+		
+		if (!initial_turn)
+			current_player.AddCurrency(CalculatePlayerProfit(current_player));
+			
+		game_master.UpdateAddTroopPlacementText();
 		game_master.ActivateTurnPopup();
-		current_player.AddCurrency(CalculatePlayerProfit(current_player));
+
 	}
 
 	// ----- // SPOKEN FROM PLAYERS // ----- //
@@ -223,6 +252,7 @@ public class GameManager {
 	// Get Methods //
 
 	private int CalculatePlayerProfit(Player player) {
+	
 		int total = 0;
 		foreach (Territory territory in territories.Values) {
 			if (territory.Owner == player) {
@@ -230,6 +260,15 @@ public class GameManager {
 			}
 		}
 		int result = total / 3;
+
+		foreach (Region region in regions.Values) {
+			if (region.complete) {
+				if (region.owner == player) {
+					result += region.bonus;
+				}
+			}
+		}
+		
 		if (result < 1)
 			return 1;
 		return result;

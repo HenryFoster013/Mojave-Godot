@@ -12,8 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://ben2m04khisyg" path="res://Board/Troop_Label.tscn" id="8_r1yhm"]
 [ext_resource type="Texture2D" uid="uid://cx6ssj3mwsmo5" path="res://Graphics/Images/Drop_Shadow.png" id="11_adose"]
 [ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="11_u41ag"]
-[ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Double_Gradient.png" id="13_l1sy6"]
-[ext_resource type="Texture2D" uid="uid://bqeau242eis1a" path="res://Graphics/Images/Turn_Gradient.png" id="14_dr38s"]
+[ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Gradient_Vertical.png" id="13_l1sy6"]
+[ext_resource type="Texture2D" uid="uid://ceacwi4la5dxl" path="res://Graphics/Images/Gradient_Horizontal.png" id="14_dr38s"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e1dkd"]
 shader = ExtResource("1_syqxp")
@@ -28,7 +28,7 @@ script = ExtResource("1_84h3i")
 map_renderer = NodePath("../Board")
 label_manager = NodePath("../Board/Label Manager")
 player_controller = NodePath("../Player")
-ui_player_colour = NodePath("../UI/Frame/Current Player Label/TextureRect")
+ui_player_colour = NodePath("../UI/Frame/Current Player Label/Player Colour")
 ui_player_name = NodePath("../UI/Frame/Current Player Label/Player Name")
 ui_game_state = NodePath("../UI/Frame/VBoxContainer/Game Status Label/Status Text")
 ui_game_turn = NodePath("../UI/Frame/VBoxContainer/Game Status Label/Status Text 2")
@@ -145,7 +145,7 @@ offset_bottom = -10.0
 grow_vertical = 0
 theme_override_constants/separation = 10
 
-[node name="TextureRect" type="TextureRect" parent="UI/Frame/Current Player Label" unique_id=1697946151]
+[node name="Player Colour" type="TextureRect" parent="UI/Frame/Current Player Label" unique_id=1697946151]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 texture = ExtResource("13_l1sy6")
@@ -163,10 +163,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -162.5
-offset_top = -22.5
-offset_right = 162.5
-offset_bottom = 22.5
+offset_left = -125.0
+offset_top = -15.0
+offset_right = 125.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -194,3 +194,51 @@ theme_override_font_sizes/font_size = 20
 text = "Henry's Turn"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Control" type="Control" parent="UI/Frame" unique_id=709243514]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -70.0
+offset_right = 100.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BG" type="TextureRect" parent="UI/Frame/Control" unique_id=745425134]
+modulate = Color(0.03, 0.03, 0.03, 0.8784314)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_dr38s")
+expand_mode = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI/Frame/Control" unique_id=1501260658]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Troop Count" type="Label" parent="UI/Frame/Control/VBoxContainer2" unique_id=1630216050]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 14
+text = "PLACE [12] TROOPS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slider" type="HSlider" parent="UI/Frame/Control/VBoxContainer2" unique_id=1948676459]
+layout_mode = 2
+max_value = 20.0
+rounded = true
