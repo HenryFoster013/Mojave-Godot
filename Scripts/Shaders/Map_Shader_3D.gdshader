@@ -1,12 +1,12 @@
 shader_type spatial;
-render_mode unshaded;
+render_mode ambient_light_disabled, shadows_disabled;
 
+uniform sampler2D albedo_texture : source_color, filter_nearest, repeat_disable;
 uniform sampler2D id_map : filter_nearest, repeat_disable;
-uniform sampler2D owner_lut : filter_nearest, repeat_disable;
-uniform sampler2D region_lut : filter_nearest, repeat_disable;
+uniform sampler2D owner_lut : source_color, filter_nearest, repeat_disable;
+uniform sampler2D region_lut : source_color, filter_nearest, repeat_disable;
 uniform sampler2D highlight_lut : filter_nearest, repeat_disable;
-uniform sampler2D overlay : filter_nearest, repeat_disable;
-uniform sampler2D albedo_texture : source_color;
+uniform sampler2D overlay : source_color, filter_nearest, repeat_disable;
 uniform int territory_count = 115;
 uniform int region_mode = 0;
 
@@ -15,6 +15,7 @@ void fragment() {
     vec4 over_colour = texture(overlay, UV);
 
     vec4 id_sample = texture(id_map, UV);
+    float highlight = 0.0;
 
     if (id_sample.a > 0.01) {
         int match_index = int(round(id_sample.r * 255.0));
@@ -29,12 +30,16 @@ void fragment() {
         }
 
         base_colour.rgb *= tint.rgb;
-        base_colour.rgb *= (1.0 + texture(highlight_lut, vec2(uv_x, 0.5)).r);
+        highlight = texture(highlight_lut, vec2(uv_x, 0.5)).r;
     }
 
+    vec3 final_colour;
     if (over_colour.a > 0.01) {
-        ALBEDO = mix(base_colour, over_colour, over_colour.a).rgb;
+        final_colour = mix(base_colour, over_colour, over_colour.a).rgb;
     } else {
-        ALBEDO = base_colour.rgb;
+        final_colour = base_colour.rgb;
     }
+
+    ALBEDO = final_colour;
+    EMISSION = final_colour * (1.0 + highlight * 4.0);
 }

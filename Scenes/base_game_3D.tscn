@@ -17,6 +17,10 @@
 [sub_resource type="Environment" id="Environment_rpcef"]
 background_mode = 1
 background_color = Color(0.16, 0.16, 0.16, 1)
+background_energy_multiplier = 0.0
+ambient_light_source = 1
+ambient_light_energy = 0.0
+reflected_light_source = 1
 
 [sub_resource type="QuadMesh" id="QuadMesh_gg4i8"]
 

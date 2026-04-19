@@ -15,6 +15,7 @@ public partial class PlayerController3D : PlayerController {
     public override void Setup(GameMaster _game_master, MapRenderer _map_renderer, LabelManager _label_manager) {
         base.Setup(_game_master, _map_renderer, _label_manager);
         cam_pos = Vector3.Zero;
+        cam_zoom = zoom_max;
     }
 
     protected override void WorldClicks(InputEvent e) {

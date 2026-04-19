@@ -164,13 +164,13 @@ public abstract partial class MapRenderer : Node {
 			if (selected != null) {
 				for (int i = 0; i < territory_order.Count; i++)
 					_highlightImage.SetPixel(i, 0, new Color(0f, 0f, 0f, 1f));
-				_highlightImage.SetPixel(selected.render_order, 0, new Color(0.7f, 1f, 1f, 1f));
+				_highlightImage.SetPixel(selected.render_order, 0, new Color(1f, 1f, 1f, 1f));
 				foreach (Territory territory in selected.neighbours)
-					_highlightImage.SetPixel(territory.render_order, 0, new Color(0.4f, 1f, 1f, 1f));
+					_highlightImage.SetPixel(territory.render_order, 0, new Color(0.2f, 1f, 1f, 1f));
 			} else {
 				for (int i = 0; i < territory_order.Count; i++) {
 					_highlightImage.SetPixel(i, 0, territory_order[i].region.complete
-						? new Color(0.5f, 0f, 0f, 1f)
+						? new Color(0.7f, 0f, 0f, 1f)
 						: new Color(0f, 0f, 0f, 1f));
 				}
 			}
