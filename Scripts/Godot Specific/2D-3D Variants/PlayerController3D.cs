@@ -6,11 +6,14 @@ public partial class PlayerController3D : PlayerController {
     Vector3 cam_pos;
     float cam_zoom;
     
-    const float cam_speed = 1.3f;
-    const float zoom_min = 0.75f;
+    const float cam_speed = 0.8f;
+    const float zoom_min = 0.35f;
+    const float zoom_switch = 2f;
     const float zoom_max = 3.75f;
     const float zoom_speed = 1f;
     const float bounds_size = 5f;
+    const float bottom_rotation = -40f;
+    const float top_rotation = -90f;
 
     public override void Setup(GameMaster _game_master, MapRenderer _map_renderer, LabelManager _label_manager) {
         base.Setup(_game_master, _map_renderer, _label_manager);
@@ -44,6 +47,11 @@ public partial class PlayerController3D : PlayerController {
 
         cam_zoom += zoom_speed * zoom_mod * fdelta * cam_zoom;
         cam_zoom = float.Clamp(cam_zoom, zoom_min, zoom_max);
+
+        float dist = zoom_switch - zoom_min;
+        float t = float.Clamp((cam_zoom - zoom_min) / dist, 0f, 1f);
+        float t_smooth = t * t * t * (t * (6f * t - 15f) + 10f);
+        float cam_pivot = float.Lerp(bottom_rotation, top_rotation, t_smooth);
     
         Vector3 direction = Vector3.Zero;
         float speed_mult = 1f;
@@ -54,7 +62,7 @@ public partial class PlayerController3D : PlayerController {
         if (Input.IsActionPressed("Shift")) speed_mult = 1.5f;
         
         if (direction != Vector3.Zero) {
-            float speed = cam_speed * speed_mult * cam_zoom;
+            float speed = cam_speed * speed_mult * (cam_zoom + 1);
             cam_pos += direction.Normalized() * speed * fdelta;
         }
 
@@ -63,6 +71,7 @@ public partial class PlayerController3D : PlayerController {
         cam_pos.Z = float.Clamp(cam_pos.Z, -bounds_size, bounds_size);
         
         camera.Position = cam_pos;
+        camera.Rotation = new Vector3(Mathf.DegToRad(cam_pivot), 0, 0);
         label_manager.camera_zoom = cam_zoom;
     }
 
