@@ -12,18 +12,22 @@ The project was originally written for Unity version 2021.3.45f2 as it was my pr
 [Original Unity repro here](https://github.com/HenryFoster013/Mojave)
 
 
-## A Rant on Unity ##
-I already programmed the majority of this on Unity. My usual game engine. So Henry, why the sudden switch to Godot?
+## An (edited) Rant on Unity ##
+I've already programmed the majority of this on Unity, my usual game engine. So Henry, why the sudden switch to Godot?
 
-Simply put, I am sick of Unity. I hate their business decisions and their software is so bloated and hard to manage I'm having to find loopholes around the engines renderer just to barely get the effects I need. Why bother!
+I've been using Unity since 2019 and whilst I like their software, as of recent I have found their business decisions frustrating and their engine slow and bloated. Whilst working on the Unity version, I was having to find strange loopholes around their renderer to add the functionality I needed for the maps shader. Simple stuff like colouring territories became a real problem. It added so much complexity hst to get the effects I needed and it quickly became so hard to manage that I thought why bother!
 
-I program on a Thinkpad T430. From 2011, with the original hardware and battery. I got this laptop for free dumpster diving about 5 years ago and I don't intend to give up on her now. Unity really struggles on this thing, some of my more optimised projects like Kimber run great at a full 60fps but working on Mojave has been a real slug fest. It doesn't help the workarounds I've been using are adding heaps of lag.
+I program on a Thinkpad T430. From 2011, with the original hardware minus the battery. I got this laptop for free dumpster diving about 5 years ago and I don't intend to give up on her now. Unity really struggles on this thing, some of my more optimised projects like Kimber run great at a full 60fps but working on Mojave has been a real slug fest. It doesn't help the workarounds I've been using are adding heaps of lag.
 
-More importantly, the older unity 202X versions have broken on the newest version of Xubuntu, which leaves me stranded. My laptop isn't powerful enough to run Unity 6.
+More importantly, the older unity 202X versions have broken on the newest version of Xubuntu, which leaves me stranded. My laptop isn't powerful enough to run Unity 6 and I don't want to downgrade my Xubuntu version.
 
-So I decided to re-write the game in generic C# classes. I've tinkered with other ways of displaying the interface and even tried writing my own in .NET but for web integration I've chosen Godot which doesn't absolutely wreck my machine. It also offers the customisation I've been looking for. So I've decided to move development here. It also gives me a rare chance to rewrite a lot of my older code better, particularily the way I've been handling data management.
+So I came to the decision that I would re-write the game in generic C# classes. This way I could port it to any renderer I like. I tinkered with raylib for a while but eventually settled on Godot for the easy web integration. Godot is significantly faster than Unity and paired with switching from VsCode to Lite-XL, I've been having a much easier time developing. Starting over also gives me a chance to refactor all my old code, particularily how I've been handling data management.
 
-Hopefully this progresses further than last time.
+This project has already progressed further than the original Unity version, but I have some additional goals I'm going to outline here.
+ - I want all of the games logic to run within generic C# classes so that it can be ported to any interface.
+ - I want there to be both a 2D and 3D view for different devices, but also as proof that the game can display in different means.
+ - I want the board data to be entirely contained within some kind of format so that users can create and upload custom boards.
+ - I would like both local, bot and possibly online-multiplayer play. Though online multiplayer is a stretch and would be a fork off this repo.
 
 ## The (physical) Board ##
 
