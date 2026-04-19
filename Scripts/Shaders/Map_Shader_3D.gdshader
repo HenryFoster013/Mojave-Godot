@@ -7,6 +7,7 @@ uniform sampler2D owner_lut : source_color, filter_nearest, repeat_disable;
 uniform sampler2D region_lut : source_color, filter_nearest, repeat_disable;
 uniform sampler2D highlight_lut : filter_nearest, repeat_disable;
 uniform sampler2D overlay : source_color, filter_nearest, repeat_disable;
+uniform sampler2D highlight_overlay : source_color, filter_nearest, repeat_disable;
 uniform int territory_count = 115;
 uniform int region_mode = 0;
 
@@ -38,6 +39,14 @@ void fragment() {
         final_colour = mix(base_colour, over_colour, over_colour.a).rgb;
     } else {
         final_colour = base_colour.rgb;
+    }
+
+    // Render highlight_overlay on top for selected tiles
+    if (highlight > 0.85) {
+        vec4 hl_colour = texture(highlight_overlay, UV);
+        if (hl_colour.a > 0.01) {
+            final_colour = mix(final_colour, hl_colour.rgb, hl_colour.a * highlight);
+        }
     }
 
     ALBEDO = final_colour;

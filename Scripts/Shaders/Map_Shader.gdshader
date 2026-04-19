@@ -5,6 +5,7 @@ uniform sampler2D owner_lut : filter_nearest, repeat_disable;
 uniform sampler2D region_lut : filter_nearest, repeat_disable;
 uniform sampler2D highlight_lut : filter_nearest, repeat_disable;
 uniform sampler2D overlay : filter_nearest, repeat_disable;
+uniform sampler2D highlight_overlay : filter_nearest, repeat_disable;
 
 uniform int territory_count = 115;
 uniform int region_mode = 0;
@@ -14,6 +15,7 @@ void fragment() {
     vec4 over_colour = texture(overlay, UV);
     
     vec4 id_sample = texture(id_map, UV);
+    float highlight = 0.0;
     
     if (id_sample.a > 0.01) {
         int match_index = int(round(id_sample.r * 255.0));
@@ -28,13 +30,21 @@ void fragment() {
         }
         
         base_colour.rgb *= tint.rgb;
-        base_colour.rgb *= (1.0 + texture(highlight_lut, vec2(uv_x, 0.5)).r);
+        highlight = texture(highlight_lut, vec2(uv_x, 0.5)).r;
+        base_colour.rgb *= (1.0 + highlight);
     }
-
 
     if (over_colour.a > 0.01) {
-        COLOR = mix(base_colour, over_colour, over_colour.a);
-    } else {
-        COLOR = base_colour;
+        base_colour = mix(base_colour, over_colour, over_colour.a);
     }
+
+    if (highlight > 0.85) {
+        vec4 hl_colour = texture(highlight_overlay, UV);
+        if (hl_colour.a > 0.01) {
+            base_colour = mix(base_colour, hl_colour, hl_colour.a * highlight);
+        }
+    }
+
+    COLOR = base_colour;
 }
+

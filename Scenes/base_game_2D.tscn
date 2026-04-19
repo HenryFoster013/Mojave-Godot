@@ -5,6 +5,7 @@
 [ext_resource type="Shader" uid="uid://bqabxr48x2t3v" path="res://Scripts/Shaders/Map_Shader.gdshader" id="3_qxvpt"]
 [ext_resource type="Texture2D" uid="uid://dtfglifh8245s" path="res://Board/Overlay.png" id="4_jdimj"]
 [ext_resource type="Texture2D" uid="uid://c5jccimwhs8cd" path="res://Board/BG.png" id="5_btgmj"]
+[ext_resource type="Texture2D" uid="uid://bokl8ojv48kky" path="res://Board/Overlay_Highlight.png" id="6_ctsqy"]
 [ext_resource type="Script" uid="uid://l8wo4p5slvc5" path="res://Scripts/Godot Specific/2D-3D Variants/MapRenderer2D.cs" id="6_t5lea"]
 [ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Board/Colour_Map.png" id="7_0o2vm"]
 [ext_resource type="Script" uid="uid://c4snc0qe3liro" path="res://Scripts/Godot Specific/2D-3D Variants/LabelManager2D.cs" id="8_338ml"]
@@ -18,6 +19,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e1dkd"]
 shader = ExtResource("3_qxvpt")
 shader_parameter/overlay = ExtResource("4_jdimj")
+shader_parameter/highlight_overlay = ExtResource("6_ctsqy")
 shader_parameter/territory_count = 115
 shader_parameter/region_mode = 0
 

@@ -14,19 +14,21 @@
 [ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Gradient_Vertical.png" id="10_fysi3"]
 [ext_resource type="Texture2D" uid="uid://ceacwi4la5dxl" path="res://Graphics/Images/Gradient_Horizontal.png" id="11_me1b7"]
 
-[sub_resource type="Environment" id="Environment_rpcef"]
-background_mode = 1
-background_color = Color(0.16, 0.16, 0.16, 1)
-background_energy_multiplier = 0.0
+[sub_resource type="Environment" id="Environment_eifla"]
 ambient_light_source = 1
-ambient_light_energy = 0.0
 reflected_light_source = 1
+glow_enabled = true
+glow_intensity = 0.1
+glow_strength = 0.8
 
 [sub_resource type="QuadMesh" id="QuadMesh_gg4i8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_eifla"]
 
 [node name="Base Game 3D" type="Node3D" unique_id=204547736]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=505609779]
+environment = SubResource("Environment_eifla")
 
 [node name="Game Master" type="Node3D" parent="." unique_id=764897770 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_turn", "ui_game_additional", "ui_turn_popup", "ui_turn_popup_bg")]
 script = ExtResource("1_lkwol")
@@ -47,7 +49,6 @@ camera = NodePath("Camera")
 
 [node name="Camera" type="Camera3D" parent="Player" unique_id=1906062012]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.0863328, 0)
-environment = SubResource("Environment_rpcef")
 
 [node name="Map Renderer" type="Node3D" parent="." unique_id=397238528 node_paths=PackedStringArray("mesh")]
 script = ExtResource("2_eifla")

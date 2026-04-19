@@ -3,13 +3,15 @@
 [ext_resource type="Shader" uid="uid://dg1r2awqvup3m" path="res://Scripts/Shaders/Map_Shader_3D.gdshader" id="1_b1xv8"]
 [ext_resource type="Texture2D" uid="uid://c5jccimwhs8cd" path="res://Board/BG.png" id="2_s44l5"]
 [ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Board/Colour_Map.png" id="3_2rxkd"]
+[ext_resource type="Texture2D" uid="uid://bokl8ojv48kky" path="res://Board/Overlay_Highlight.png" id="3_s44l5"]
 [ext_resource type="Texture2D" uid="uid://dtfglifh8245s" path="res://Board/Overlay.png" id="4_8i4j7"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_b1xv8")
+shader_parameter/albedo_texture = ExtResource("2_s44l5")
 shader_parameter/id_map = ExtResource("3_2rxkd")
 shader_parameter/overlay = ExtResource("4_8i4j7")
-shader_parameter/albedo_texture = ExtResource("2_s44l5")
+shader_parameter/highlight_overlay = ExtResource("3_s44l5")
 shader_parameter/territory_count = 115
 shader_parameter/region_mode = 0

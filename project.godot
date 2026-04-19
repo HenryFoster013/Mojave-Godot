@@ -93,4 +93,4 @@ RightClick={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-environment/defaults/default_clear_color=Color(0.17641908, 0.17641911, 0.17641902, 1)
+environment/defaults/default_clear_color=Color(0.16, 0.16, 0.16, 1)
