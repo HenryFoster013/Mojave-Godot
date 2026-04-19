@@ -1,66 +1,54 @@
 using Godot;
 using System.Collections.Generic;
 
-public partial class LabelManager : Node {
+public abstract partial class LabelManager : Node {
 
-	private GameMaster game_master;
+    protected GameMaster game_master;
+    [Export] public Node troop_label_holder;
+    [Export] public Node tile_label_holder;
+    [Export] public Node region_label_holder;
+    [Export] public PackedScene troop_label;
+    [Export] public PackedScene map_label;
 
-	[Export] public Node2D troop_label_holder;
-	[Export] public Node2D tile_label_holder;
-	[Export] public Node2D region_label_holder;
-	[Export] public PackedScene troop_label;
-	[Export] public PackedScene map_label;
+    protected readonly List<Label> troop_labels = new();
+    protected const float zoom_limit = 0.6f;
+    public float camera_zoom;
+    public bool region_mode;
 
-	private readonly List<Label> troop_labels = new();
+    public virtual void Setup(GameMaster _game_master) {
+        game_master = _game_master;
 
-	private const float zoom_limit = 0.6f;
-	public float camera_zoom;
-	public bool region_mode;
+        foreach (var territory in game_master.Territories.Values) {
+            var label = map_label.Instantiate<Node>();
+            AddLabelToHolder(tile_label_holder, label, WorldPosition(territory.centroid), 0.75f);
+            label.GetChild<Label>(0).Text = territory.name;
 
-	public void Setup(GameMaster _game_master) {
+            var label_troops = troop_label.Instantiate<Node>();
+            AddLabelToHolder(troop_label_holder, label_troops, WorldPosition(territory.centroid), 1.2f);
+            label_troops.GetChild<Label>(0).Text = "";
+            troop_labels.Add(label_troops.GetChild<Label>(0));
+        }
 
-		game_master = _game_master;
+        foreach (var region in game_master.Regions.Values) {
+            var label = map_label.Instantiate<Node>();
+            AddLabelToHolder(region_label_holder, label, WorldPosition(region.centroid), 2f);
+            label.GetChild<Label>(0).Text = region.name;
+        }
 
-		foreach (var territory in game_master.Territories.Values) {
-			var label = map_label.Instantiate<Node2D>();
-			tile_label_holder.AddChild(label);
-			label.GlobalPosition = PixelspaceToWorldspace(territory.centroid);
-			label.Scale = Vector2.One * 0.75f;
-			label.GetChild<Label>(0).Text = territory.name;
+        region_mode = false;
+    }
 
-			var label_troops = troop_label.Instantiate<Node2D>();
-			troop_label_holder.AddChild(label_troops);
-			label_troops.GlobalPosition = PixelspaceToWorldspace(territory.centroid);
-			troop_label_holder.Scale = Vector2.One * 1.2f;
-			label_troops.GetChild<Label>(0).Text = "";
-			troop_labels.Add(label_troops.GetChild<Label>(0));
-		}
+    protected abstract void AddLabelToHolder(Node holder, Node label, Vector3 world_pos, float scale);
+    protected abstract Vector3 WorldPosition(Vector2 centroid);
 
-		foreach (var region in game_master.Regions.Values) {
-			var label = map_label.Instantiate<Node2D>();
-			region_label_holder.AddChild(label);
-			label.GlobalPosition = PixelspaceToWorldspace(region.centroid);
-			label.Scale = Vector2.One * 2f;
-			label.GetChild<Label>(0).Text = region.name;
-		}
+    public void UpdateLabels() {
+        SetHolderVisible(tile_label_holder, region_mode && camera_zoom > zoom_limit);
+        SetHolderVisible(region_label_holder, region_mode && camera_zoom <= zoom_limit);
+        SetHolderVisible(troop_label_holder, !region_mode);
+    }
 
-		region_mode = false;
-	}
+    protected abstract void SetHolderVisible(Node holder, bool visible);
 
-	public void UpdateLabels() {
-		tile_label_holder.Visible = region_mode && camera_zoom > zoom_limit;
-		region_label_holder.Visible = region_mode && camera_zoom <= zoom_limit;
-		troop_label_holder.Visible = !region_mode;
-	}
-
-	private Vector2 PixelspaceToWorldspace(Vector2 centroid) {
-		float scalar = 4f;
-		float x = (centroid.X * scalar)- 1024;
-		float y = 1024 - (centroid.Y * scalar);
-		return new Vector2(x, y);
-	}
-
-	public void UpdateTroopCount(Territory territory) {
-		troop_labels[territory.render_order].Text = territory.troop_count.ToString();
-	}
+    public void UpdateTroopCount(Territory territory)
+        => troop_labels[territory.render_order].Text = territory.troop_count.ToString();
 }

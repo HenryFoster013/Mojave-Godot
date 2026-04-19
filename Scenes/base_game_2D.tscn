@@ -1,32 +1,32 @@
 [gd_scene format=3 uid="uid://by2mch4dhmoho"]
 
-[ext_resource type="Script" uid="uid://u884d6gjedc4" path="res://Scripts/Godot Specific/GameMaster.cs" id="1_84h3i"]
-[ext_resource type="Script" uid="uid://b0w7vskjljhpo" path="res://Scripts/Godot Specific/PlayerController.cs" id="1_g2637"]
-[ext_resource type="Shader" uid="uid://bqabxr48x2t3v" path="res://Scripts/Shaders/MapShader.gdshader" id="1_syqxp"]
-[ext_resource type="Texture2D" uid="uid://c5jccimwhs8cd" path="res://Board/BG.png" id="3_e1dkd"]
-[ext_resource type="Script" uid="uid://c3sj442x7gaj8" path="res://Scripts/Godot Specific/MapRenderer.cs" id="4_e1dkd"]
-[ext_resource type="Texture2D" uid="uid://dtfglifh8245s" path="res://Board/Overlay.png" id="5_e1dkd"]
-[ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Board/Colour_Map.png" id="5_g2637"]
-[ext_resource type="Script" uid="uid://dcwdo17g7j303" path="res://Scripts/Godot Specific/LabelManager.cs" id="7_kj5de"]
-[ext_resource type="PackedScene" uid="uid://bh046n7xsmoy7" path="res://Board/Map_Label.tscn" id="8_kj5de"]
-[ext_resource type="PackedScene" uid="uid://ben2m04khisyg" path="res://Board/Troop_Label.tscn" id="8_r1yhm"]
-[ext_resource type="Texture2D" uid="uid://cx6ssj3mwsmo5" path="res://Graphics/Images/Drop_Shadow.png" id="11_adose"]
-[ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="11_u41ag"]
-[ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Gradient_Vertical.png" id="13_l1sy6"]
-[ext_resource type="Texture2D" uid="uid://ceacwi4la5dxl" path="res://Graphics/Images/Gradient_Horizontal.png" id="14_dr38s"]
+[ext_resource type="Script" uid="uid://u884d6gjedc4" path="res://Scripts/Godot Specific/GameMaster.cs" id="1_338ml"]
+[ext_resource type="Script" uid="uid://dygyu8vpfg1f3" path="res://Scripts/Godot Specific/2D-3D Variants/PlayerController2D.cs" id="2_ctsqy"]
+[ext_resource type="Shader" uid="uid://bqabxr48x2t3v" path="res://Scripts/Shaders/Map_Shader.gdshader" id="3_qxvpt"]
+[ext_resource type="Texture2D" uid="uid://dtfglifh8245s" path="res://Board/Overlay.png" id="4_jdimj"]
+[ext_resource type="Texture2D" uid="uid://c5jccimwhs8cd" path="res://Board/BG.png" id="5_btgmj"]
+[ext_resource type="Script" uid="uid://l8wo4p5slvc5" path="res://Scripts/Godot Specific/2D-3D Variants/MapRenderer2D.cs" id="6_t5lea"]
+[ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Board/Colour_Map.png" id="7_0o2vm"]
+[ext_resource type="Script" uid="uid://c4snc0qe3liro" path="res://Scripts/Godot Specific/2D-3D Variants/LabelManager2D.cs" id="8_338ml"]
+[ext_resource type="PackedScene" uid="uid://ben2m04khisyg" path="res://Board/Prefabs/Troop_Label_2D.tscn" id="9_fx350"]
+[ext_resource type="PackedScene" uid="uid://bh046n7xsmoy7" path="res://Board/Prefabs/Map_Label_2D.tscn" id="10_0b50k"]
+[ext_resource type="Texture2D" uid="uid://cx6ssj3mwsmo5" path="res://Graphics/Images/Drop_Shadow.png" id="11_gn6yr"]
+[ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="12_d0ume"]
+[ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Gradient_Vertical.png" id="13_8knw7"]
+[ext_resource type="Texture2D" uid="uid://ceacwi4la5dxl" path="res://Graphics/Images/Gradient_Horizontal.png" id="14_k4yl4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e1dkd"]
-shader = ExtResource("1_syqxp")
-shader_parameter/overlay = ExtResource("5_e1dkd")
+shader = ExtResource("3_qxvpt")
+shader_parameter/overlay = ExtResource("4_jdimj")
 shader_parameter/territory_count = 115
 shader_parameter/region_mode = 0
 
-[node name="Base Game" type="Node2D" unique_id=1909172287]
+[node name="Base Game 2D" type="Node2D" unique_id=1909172287]
 
 [node name="Game Master" type="Node2D" parent="." unique_id=646864487 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_turn", "ui_game_additional", "ui_turn_popup", "ui_turn_popup_bg")]
-script = ExtResource("1_84h3i")
-map_renderer = NodePath("../Board")
-label_manager = NodePath("../Board/Label Manager")
+script = ExtResource("1_338ml")
+map_renderer = NodePath("../Map Renderer")
+label_manager = NodePath("../Map Renderer/Board/Label Manager")
 player_controller = NodePath("../Player")
 ui_player_colour = NodePath("../UI/Frame/Current Player Label/Player Colour")
 ui_player_name = NodePath("../UI/Frame/Current Player Label/Player Name")
@@ -36,40 +36,43 @@ ui_game_additional = NodePath("../UI/Frame/VBoxContainer/Game Command Label/Stat
 ui_turn_popup = NodePath("../UI/Frame/Turn Updator/Player Label")
 ui_turn_popup_bg = NodePath("../UI/Frame/Turn Updator/Bg Fade")
 
+[node name="Map Renderer" type="Node2D" parent="." unique_id=1055147501 node_paths=PackedStringArray("sprite")]
+script = ExtResource("6_t5lea")
+sprite = NodePath("Board")
+colour_map_texture = ExtResource("7_0o2vm")
+overlay_texture = ExtResource("4_jdimj")
+
+[node name="Board" type="Sprite2D" parent="Map Renderer" unique_id=1842993767]
+texture_filter = 1
+texture_repeat = 1
+material = SubResource("ShaderMaterial_e1dkd")
+texture = ExtResource("5_btgmj")
+
+[node name="Label Manager" type="Node2D" parent="Map Renderer/Board" unique_id=1039662336 node_paths=PackedStringArray("troop_label_holder", "tile_label_holder", "region_label_holder")]
+script = ExtResource("8_338ml")
+troop_label_holder = NodePath("Troop Labels")
+tile_label_holder = NodePath("Tile Labels")
+region_label_holder = NodePath("Region Labels")
+troop_label = ExtResource("9_fx350")
+map_label = ExtResource("10_0b50k")
+
+[node name="Troop Labels" type="Node2D" parent="Map Renderer/Board/Label Manager" unique_id=1053061763]
+
+[node name="Tile Labels" type="Node2D" parent="Map Renderer/Board/Label Manager" unique_id=143110638]
+
+[node name="Region Labels" type="Node2D" parent="Map Renderer/Board/Label Manager" unique_id=1168672780]
+
+[node name="Shadow" type="Sprite2D" parent="Map Renderer/Board" unique_id=215205616]
+z_index = -1
+scale = Vector2(9.5, 9.5)
+texture = ExtResource("11_gn6yr")
+
 [node name="Player" type="Node2D" parent="." unique_id=1131306586 node_paths=PackedStringArray("camera")]
-script = ExtResource("1_g2637")
+script = ExtResource("2_ctsqy")
 camera = NodePath("Camera")
 
 [node name="Camera" type="Camera2D" parent="Player" unique_id=1237636126]
 zoom = Vector2(0.275, 0.275)
-
-[node name="Board" type="Sprite2D" parent="." unique_id=1842993767]
-texture_filter = 1
-texture_repeat = 1
-material = SubResource("ShaderMaterial_e1dkd")
-texture = ExtResource("3_e1dkd")
-script = ExtResource("4_e1dkd")
-colour_map_texture = ExtResource("5_g2637")
-overlay_texture = ExtResource("5_e1dkd")
-
-[node name="Label Manager" type="Node2D" parent="Board" unique_id=1039662336 node_paths=PackedStringArray("troop_label_holder", "tile_label_holder", "region_label_holder")]
-script = ExtResource("7_kj5de")
-troop_label_holder = NodePath("Troop Labels")
-tile_label_holder = NodePath("Tile Labels")
-region_label_holder = NodePath("Region Labels")
-troop_label = ExtResource("8_r1yhm")
-map_label = ExtResource("8_kj5de")
-
-[node name="Troop Labels" type="Node2D" parent="Board/Label Manager" unique_id=1053061763]
-
-[node name="Tile Labels" type="Node2D" parent="Board/Label Manager" unique_id=143110638]
-
-[node name="Region Labels" type="Node2D" parent="Board/Label Manager" unique_id=1168672780]
-
-[node name="Shadow" type="Sprite2D" parent="Board" unique_id=215205616]
-z_index = -1
-scale = Vector2(9.5, 9.5)
-texture = ExtResource("11_adose")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2072149354]
 
@@ -80,7 +83,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("11_u41ag")
+theme = ExtResource("12_d0ume")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/Frame" unique_id=2096441238]
 layout_mode = 1
@@ -96,7 +99,7 @@ theme_override_constants/separation = 10
 [node name="Divisor 1" type="TextureRect" parent="UI/Frame/VBoxContainer/Game Status Label" unique_id=1078981305]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
-texture = ExtResource("13_l1sy6")
+texture = ExtResource("13_8knw7")
 expand_mode = 4
 
 [node name="Status Text" type="Label" parent="UI/Frame/VBoxContainer/Game Status Label" unique_id=36942378]
@@ -108,7 +111,7 @@ text = "Claimants"
 [node name="Divisor 2" type="TextureRect" parent="UI/Frame/VBoxContainer/Game Status Label" unique_id=1137470911]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
-texture = ExtResource("13_l1sy6")
+texture = ExtResource("13_8knw7")
 expand_mode = 4
 
 [node name="Status Text 2" type="Label" parent="UI/Frame/VBoxContainer/Game Status Label" unique_id=6226515]
@@ -124,7 +127,7 @@ theme_override_constants/separation = 10
 [node name="Divisor 1" type="TextureRect" parent="UI/Frame/VBoxContainer/Game Command Label" unique_id=455191853]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
-texture = ExtResource("13_l1sy6")
+texture = ExtResource("13_8knw7")
 expand_mode = 4
 
 [node name="Status Text" type="Label" parent="UI/Frame/VBoxContainer/Game Command Label" unique_id=511677488]
@@ -148,7 +151,7 @@ theme_override_constants/separation = 10
 [node name="Player Colour" type="TextureRect" parent="UI/Frame/Current Player Label" unique_id=1697946151]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
-texture = ExtResource("13_l1sy6")
+texture = ExtResource("13_8knw7")
 expand_mode = 4
 
 [node name="Player Name" type="Label" parent="UI/Frame/Current Player Label" unique_id=294034470]
@@ -179,7 +182,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.99500096, 1)
-texture = ExtResource("14_dr38s")
+texture = ExtResource("14_k4yl4")
 expand_mode = 1
 
 [node name="Player Label" type="Label" parent="UI/Frame/Turn Updator" unique_id=1714190176]
@@ -218,7 +221,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("14_dr38s")
+texture = ExtResource("14_k4yl4")
 expand_mode = 1
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="UI/Frame/Troop Slider" unique_id=1501260658]

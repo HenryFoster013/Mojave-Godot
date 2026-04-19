@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://d28bl36jni1rj"]
+
+[ext_resource type="Shader" uid="uid://bqw2eyegubnxs" path="res://Scripts/Shaders/Unlit_Transparent.gdshader" id="1_h22bb"]
+[ext_resource type="Texture2D" uid="uid://cx6ssj3mwsmo5" path="res://Graphics/Images/Drop_Shadow.png" id="2_txbtb"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_h22bb")
+shader_parameter/albedo_texture = ExtResource("2_txbtb")

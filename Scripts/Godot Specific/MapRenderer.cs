@@ -1,26 +1,26 @@
 using Godot;
 using System.Collections.Generic;
 
-public partial class MapRenderer : Sprite2D {
+public abstract partial class MapRenderer : Node {
 
 	[Export] public Texture2D colour_map_texture;
 	[Export] public Texture2D overlay_texture;
 
-	private LabelManager label_manager;
+	protected LabelManager label_manager;
+	protected GameMaster game_master;
+	protected ShaderMaterial shader_material;
 
 	public List<Territory> territory_order = new();
-	private Territory selected_cache;
-	private Image colour_map_image;
-	private ShaderMaterial shader_material;
-	private GameMaster game_master;
+	protected Territory selected_cache;
+	protected Image colour_map_image;
 
-	private ImageTexture id_map;
-	private ImageTexture owner_lut;
-	private ImageTexture region_lut;
-	private ImageTexture highlight_lut;
+	protected ImageTexture id_map;
+	protected ImageTexture owner_lut;
+	protected ImageTexture region_lut;
+	protected ImageTexture highlight_lut;
 
-	private Image _ownerImage;
-	private Image _highlightImage;
+	protected Image _ownerImage;
+	protected Image _highlightImage;
 
 	private bool _region_mode = false;
 	public bool region_mode {
@@ -35,13 +35,13 @@ public partial class MapRenderer : Sprite2D {
 
 	// ----- // START // ----- //
 
-	public void Setup(GameMaster _game_master, LabelManager _label_manager) {
-
+	public virtual void Setup(GameMaster _game_master, LabelManager _label_manager) {
 		game_master = _game_master;
 		label_manager = _label_manager;
 
 		colour_map_image = colour_map_texture.GetImage();
-		shader_material = Material as ShaderMaterial;
+		colour_map_image.Decompress();
+		shader_material = GetShaderMaterial();
 
 		if (shader_material == null || game_master == null) return;
 
@@ -53,7 +53,10 @@ public partial class MapRenderer : Sprite2D {
 		SetupShader();
 	}
 
-	// Building LUTs //
+	protected abstract ShaderMaterial GetShaderMaterial();
+	public abstract Territory GetTerritoryAtCoords(Vector2 world_pos);
+
+	// ----- // BUILDING LUTs // ----- //
 
 	private void SetRenderOrder() {
 		int render_order = 0;
@@ -69,27 +72,24 @@ public partial class MapRenderer : Sprite2D {
 		if (colour_map_texture == null) return;
 
 		Image sourceImg = colour_map_texture.GetImage();
+		sourceImg.Decompress();
 		int width = sourceImg.GetWidth();
 		int height = sourceImg.GetHeight();
 
 		Image idImg = Image.CreateEmpty(width, height, false, Image.Format.Rgba8);
 
 		var colorToIndex = new Dictionary<string, int>();
-		for (int i = 0; i < territory_order.Count; i++) {
+		for (int i = 0; i < territory_order.Count; i++)
 			colorToIndex[territory_order[i].map_colour] = i;
-		}
 
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				Color c = sourceImg.GetPixel(x, y);
-
 				bool isBlack = c.R < 0.01f && c.G < 0.01f && c.B < 0.01f;
-
 				if (!isBlack && c.A > 0.01f && colorToIndex.TryGetValue(FormatColour(c), out int index)) {
 					float val = index / 255.0f;
 					idImg.SetPixel(x, y, new Color(val, 0, 0, 1.0f));
-				}
-				else {
+				} else {
 					idImg.SetPixel(x, y, new Color(0, 0, 0, 0));
 				}
 			}
@@ -137,14 +137,12 @@ public partial class MapRenderer : Sprite2D {
 
 	// ----- // LUT REFRESHING // ----- //
 
-	private void OnTerritoryOwnerChanged(Territory territory, Player previous, Player current) {
-		RefreshOwnership(territory);
-	}
+	private void OnTerritoryOwnerChanged(Territory territory, Player previous, Player current)
+		=> RefreshOwnership(territory);
 
 	public void RefreshOwnership(Territory territory) {
 		int index = territory_order.IndexOf(territory);
 		if (index < 0 || _ownerImage == null) return;
-
 		_ownerImage.SetPixel(index, 0, territory.Owner != null ? territory.Owner.colour : Colors.WebGray);
 		owner_lut.Update(_ownerImage);
 		SetHighlights();
@@ -158,57 +156,31 @@ public partial class MapRenderer : Sprite2D {
 
 	public void SetHighlights() => SetHighlights(selected_cache);
 	public void SetHighlights(Territory selected) {
-
 		selected_cache = selected;
-
 		if (region_mode) {
 			for (int i = 0; i < territory_order.Count; i++)
 				_highlightImage.SetPixel(i, 0, new Color(0.5f, 0f, 0f, 1f));
-		}
-		else {
+		} else {
 			if (selected != null) {
 				for (int i = 0; i < territory_order.Count; i++)
 					_highlightImage.SetPixel(i, 0, new Color(0f, 0f, 0f, 1f));
-
 				_highlightImage.SetPixel(selected.render_order, 0, new Color(0.7f, 1f, 1f, 1f));
 				foreach (Territory territory in selected.neighbours)
 					_highlightImage.SetPixel(territory.render_order, 0, new Color(0.4f, 1f, 1f, 1f));
-			}
-			else {
+			} else {
 				for (int i = 0; i < territory_order.Count; i++) {
-					if (territory_order[i].region.complete)
-						_highlightImage.SetPixel(i, 0, new Color(0.5f, 0f, 0f, 1f));
-					else
-						_highlightImage.SetPixel(i, 0, new Color(0f, 0f, 0f, 1f));
+					_highlightImage.SetPixel(i, 0, territory_order[i].region.complete
+						? new Color(0.5f, 0f, 0f, 1f)
+						: new Color(0f, 0f, 0f, 1f));
 				}
 			}
 		}
-
 		highlight_lut.Update(_highlightImage);
 		shader_material.SetShaderParameter("highlight_lut", highlight_lut);
 	}
 
-	// ----- // MISC // ----- //
+	public void SelectTerritory(Territory territory) => SetHighlights(territory);
 
-	string FormatColour(Color colour) {
-		return "#" + colour.ToHtml(false).ToUpper();
-	}
-
-	public void SelectTerritory(Territory territory) {
-		int render_order = -1;
-		if (territory != null)
-			render_order = territory.render_order;
-
-		SetHighlights(territory);
-	}
-
-	public Territory GetTerritoryAtCoords(Vector2 world_pos) {
-		Vector2 pixel_pos = ToLocal(world_pos) + (Vector2.One * 1024);
-		if (pixel_pos.X < 0 || pixel_pos.Y < 0 || pixel_pos.X > 2048 || pixel_pos.Y > 2048)
-			return null;
-
-		Color colour = colour_map_image.GetPixel((int)pixel_pos.X, (int)pixel_pos.Y);
-		GD.Print($"Coords: {pixel_pos}, Colour: {colour}");
-		return game_master.GetTerritoryByColour(FormatColour(colour));
-	}
+	protected string FormatColour(Color colour)
+		=> "#" + colour.ToHtml(false).ToUpper();
 }
