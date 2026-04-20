@@ -8,7 +8,7 @@ public partial class PlayerController3D : PlayerController {
     
     const float cam_speed = 0.8f;
     const float zoom_min = 0.35f;
-    const float zoom_switch = 2f;
+    const float zoom_switch = 1.35f;
     const float zoom_max = 3.75f;
     const float zoom_speed = 1f;
     const float bounds_size = 5f;

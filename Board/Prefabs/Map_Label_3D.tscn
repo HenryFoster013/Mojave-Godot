@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://nftb8hiopihw"]
+
+[ext_resource type="FontFile" uid="uid://dfexgv86yefwj" path="res://Graphics/Fonts/Cascadia_Code_Bold.ttf" id="1_d85pb"]
+
+[node name="Map_Label_3D" type="Node3D" unique_id=63731890]
+
+[node name="Label3D" type="Label3D" parent="." unique_id=757285070]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 2.220446e-16, 0, -2.220446e-16, 0.05, 0, -8.951614e-11, 0.0020478906)
+text = "Text Goes Here"
+font = ExtResource("1_d85pb")
+autowrap_mode = 2
+width = 300.0

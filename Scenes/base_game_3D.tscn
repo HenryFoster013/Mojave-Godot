@@ -8,9 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://dtfglifh8245s" path="res://Board/Overlay.png" id="2_ll7ec"]
 [ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Board/Colour_Map.png" id="5_ogcs1"]
 [ext_resource type="Script" uid="uid://dxrllqw4m8jdc" path="res://Scripts/Godot Specific/2D-3D Variants/LabelManager3D.cs" id="7_6gkh4"]
-[ext_resource type="PackedScene" uid="uid://ben2m04khisyg" path="res://Board/Prefabs/Troop_Label_2D.tscn" id="7_ge24r"]
-[ext_resource type="PackedScene" uid="uid://bh046n7xsmoy7" path="res://Board/Prefabs/Map_Label_2D.tscn" id="8_n38fa"]
 [ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="9_1xrtk"]
+[ext_resource type="PackedScene" uid="uid://nftb8hiopihw" path="res://Board/Prefabs/Map_Label_3D.tscn" id="10_6gkh4"]
 [ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Gradient_Vertical.png" id="10_fysi3"]
 [ext_resource type="Texture2D" uid="uid://ceacwi4la5dxl" path="res://Graphics/Images/Gradient_Horizontal.png" id="11_me1b7"]
 
@@ -64,12 +63,11 @@ surface_material_override/0 = ExtResource("1_rpcef")
 
 [node name="Label Manager" type="Node3D" parent="Map Renderer/Board" unique_id=215461397 node_paths=PackedStringArray("troop_label_holder", "tile_label_holder", "region_label_holder")]
 script = ExtResource("7_6gkh4")
-map_scale = 5.0
 troop_label_holder = NodePath("Troop Labels")
 tile_label_holder = NodePath("Tile Labels")
 region_label_holder = NodePath("Region Labels")
-troop_label = ExtResource("7_ge24r")
-map_label = ExtResource("8_n38fa")
+map_label = ExtResource("10_6gkh4")
+zoom_limit = 2.0
 
 [node name="Troop Labels" type="Node3D" parent="Map Renderer/Board/Label Manager" unique_id=808403915]
 

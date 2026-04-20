@@ -9,6 +9,9 @@ public partial class LabelManager2D : LabelManager {
         return new Vector3(x, y, 0);
     }
 
+    protected override void SetLabelText(Node labelNode, string text)
+        => labelNode.GetChild<Label>(0).Text = text;
+
     protected override void AddLabelToHolder(Node holder, Node label, Vector3 world_pos, float scale) {
         var holder2D = (Node2D)holder;
         var label2D = (Node2D)label;
@@ -19,4 +22,10 @@ public partial class LabelManager2D : LabelManager {
 
     protected override void SetHolderVisible(Node holder, bool visible)
         => ((Node2D)holder).Visible = visible;
+            
+    public override void UpdateLabels() {
+        SetHolderVisible(tile_label_holder, region_mode && camera_zoom > zoom_limit);
+        SetHolderVisible(region_label_holder, region_mode && camera_zoom <= zoom_limit);
+        SetHolderVisible(troop_label_holder, !region_mode);
+    }
 }
