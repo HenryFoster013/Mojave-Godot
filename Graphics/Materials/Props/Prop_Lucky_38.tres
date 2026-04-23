@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://crral11n3piok"]
+
+[ext_resource type="Shader" uid="uid://ckagytcekjw86" path="res://Scripts/Shaders/Map_Prop_Shader.gdshader" id="1_j6mh3"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_j6mh3")
+shader_parameter/colour = Color(0.98039216, 0, 0, 1)
+shader_parameter/highlight = 0.0

@@ -15,4 +15,6 @@ public partial class MapRenderer2D : MapRenderer {
         GD.Print($"Coords: {pixel_pos}, Colour: {colour}");
         return game_master.GetTerritoryByColour(FormatColour(colour));
     }
+
+    protected override void AdditionalSetup() { }
 }

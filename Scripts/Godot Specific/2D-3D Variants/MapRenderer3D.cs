@@ -1,10 +1,19 @@
 using Godot;
+using System.Collections.Generic;
 
 public partial class MapRenderer3D : MapRenderer {
 
     [Export] public MeshInstance3D mesh;
     [Export] public Vector2 map_world_size = new Vector2(2048, 2048);
     [Export] public Vector2 map_pixel_size = new Vector2(2048, 2048);
+    [Export] public string[] prop_names = {};
+    [Export] public MeshInstance3D[] prop_meshes = {};
+
+    Dictionary<Color, MeshInstance3D> props = new();
+
+    protected override void AdditionalSetup() {
+    
+    }
 
     protected override ShaderMaterial GetShaderMaterial()
         => mesh.GetSurfaceOverrideMaterial(0) as ShaderMaterial;

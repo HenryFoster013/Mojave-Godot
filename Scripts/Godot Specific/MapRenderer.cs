@@ -51,6 +51,7 @@ public abstract partial class MapRenderer : Node {
 		BuildRegionLut();
 		BuildHighlightLut();
 		SetupShader();
+		AdditionalSetup();
 	}
 
 	protected abstract ShaderMaterial GetShaderMaterial();
@@ -134,6 +135,8 @@ public abstract partial class MapRenderer : Node {
 		shader_material.SetShaderParameter("territory_count", territory_order.Count);
 		shader_material.SetShaderParameter("region_mode", _region_mode ? 1 : 0);
 	}
+
+	protected abstract void AdditionalSetup();
 
 	// ----- // LUT REFRESHING // ----- //
 
