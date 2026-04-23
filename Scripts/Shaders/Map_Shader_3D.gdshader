@@ -42,7 +42,7 @@ void fragment() {
     }
 
     // Render highlight_overlay on top for selected tiles
-    if (highlight > 0.85) {
+    if (highlight >= 0.8) {
         vec4 hl_colour = texture(highlight_overlay, UV);
         if (hl_colour.a > 0.01) {
             final_colour = mix(final_colour, hl_colour.rgb, hl_colour.a * highlight);
@@ -50,5 +50,5 @@ void fragment() {
     }
 
     ALBEDO = final_colour;
-    EMISSION = final_colour * (1.0 + highlight * 4.0);
+    EMISSION = final_colour * (0.5 + highlight * 4.0);
 }

@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Board/Colour_Map.png" id="5_ogcs1"]
 [ext_resource type="Script" uid="uid://dxrllqw4m8jdc" path="res://Scripts/Godot Specific/2D-3D Variants/LabelManager3D.cs" id="7_6gkh4"]
 [ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="9_1xrtk"]
+[ext_resource type="PackedScene" uid="uid://dq1w2l4t18g25" path="res://Graphics/Models/Lucky38.fbx" id="9_eifla"]
 [ext_resource type="PackedScene" uid="uid://nftb8hiopihw" path="res://Board/Prefabs/Map_Label_3D.tscn" id="10_6gkh4"]
 [ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Gradient_Vertical.png" id="10_fysi3"]
 [ext_resource type="Texture2D" uid="uid://ceacwi4la5dxl" path="res://Graphics/Images/Gradient_Horizontal.png" id="11_me1b7"]
@@ -75,15 +76,24 @@ zoom_limit = 2.0
 
 [node name="Region Labels" type="Node3D" parent="Map Renderer/Board/Label Manager" unique_id=1293473132]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Map Renderer/Board" unique_id=1720398702]
-transform = Transform3D(0.2, 0, 0, 0, -8.742277e-09, -0.2, 0, 0.2, -8.742278e-09, 0, 0, 0)
+[node name="Meshes" type="Node3D" parent="Map Renderer/Board" unique_id=1036351751]
+transform = Transform3D(1, 0, 0, 0, 1, 3.5527137e-15, 0, -3.5527137e-15, 1, 0, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Map Renderer/Board/StaticBody3D" unique_id=1894959901]
+[node name="Props" type="Node3D" parent="Map Renderer/Board/Meshes" unique_id=128626088]
+transform = Transform3D(1, 0, 0, 0, 1, -3.5527137e-15, 0, 3.5527137e-15, 1, 0, 0, 0)
+
+[node name="Lucky38" parent="Map Renderer/Board/Meshes/Props" unique_id=1521906885 instance=ExtResource("9_eifla")]
+transform = Transform3D(0.5, 0, 0, 0, -2.1855694e-08, -0.5, 0, 0.5, -2.1855694e-08, -0.01919862, 0.19739988, -3.2923042e-09)
+
+[node name="Base" type="StaticBody3D" parent="Map Renderer/Board/Meshes" unique_id=1720398702]
+transform = Transform3D(0.2, 0, 0, 0, -8.742276e-09, -0.2, 0, 0.2, -8.742277e-09, 0, 0, 0)
+
+[node name="Collider" type="CollisionShape3D" parent="Map Renderer/Board/Meshes/Base" unique_id=1894959901]
 transform = Transform3D(5, 0, 0, 0, -2.1855695e-07, 0.05, 0, -5, -2.1855695e-09, 0, 0, 0)
 shape = SubResource("BoxShape3D_eifla")
 
-[node name="Shadow" type="MeshInstance3D" parent="Map Renderer/Board" unique_id=367581804]
-transform = Transform3D(3.3333335, 0, 0, 0, 3.3333335, 1.4210855e-14, 0, -1.4210855e-14, 3.3333335, 0, 1.4570463e-09, -0.033333335)
+[node name="Shadow" type="MeshInstance3D" parent="Map Renderer/Board/Meshes" unique_id=367581804]
+transform = Transform3D(3.3333337, 0, 0, 0, 3.3333337, 0, 0, 0, 3.3333337, 0, 1.4570463e-09, -0.033333335)
 material_override = ExtResource("2_gg4i8")
 mesh = SubResource("QuadMesh_gg4i8")
 surface_material_override/0 = ExtResource("2_gg4i8")
