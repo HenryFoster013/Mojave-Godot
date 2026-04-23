@@ -31,14 +31,14 @@ void fragment() {
         
         base_colour.rgb *= tint.rgb;
         highlight = texture(highlight_lut, vec2(uv_x, 0.5)).r;
-        base_colour.rgb *= (1.0 + highlight);
+        base_colour.rgb *= (0.7 + highlight * 1.5);
     }
 
     if (over_colour.a > 0.01) {
         base_colour = mix(base_colour, over_colour, over_colour.a);
     }
 
-    if (highlight > 0.85) {
+    if (highlight >= 0.80) {
         vec4 hl_colour = texture(highlight_overlay, UV);
         if (hl_colour.a > 0.01) {
             base_colour = mix(base_colour, hl_colour, hl_colour.a * highlight);

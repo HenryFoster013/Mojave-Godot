@@ -10,7 +10,7 @@ public partial class MapRenderer3D : MapRenderer {
         => mesh.GetSurfaceOverrideMaterial(0) as ShaderMaterial;
 
     public override Territory GetTerritoryAtCoords(Vector2 world_pos) {
-        // world_pos is X/Z on the 3D plane, convert to pixel space
+
         Vector2 normalized = (world_pos + map_world_size / 2f) / map_world_size;
         Vector2 pixel_pos = normalized * map_pixel_size;
 
