@@ -20,6 +20,8 @@ public class Territory {
     private Player owner;
     public Region region  { get; private set; }
     public int troop_count { get; private set; }
+    public ShaderMaterial prop_material { get; private set; }
+    public bool has_prop => prop_material != null;
 
     private List<Territory> _neighbours = new();
     public IReadOnlyList<Territory> neighbours => _neighbours;
@@ -68,6 +70,7 @@ public class Territory {
 
     internal void SetRegion(Region r) => region = r;
     public void SetTroops(int count) => troop_count = count;
+    public void SetPropMaterial(ShaderMaterial new_mat) => prop_material = new_mat;
 
     // Get Methods //
 

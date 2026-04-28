@@ -9,6 +9,7 @@ public abstract partial class MapRenderer : Node {
 	protected LabelManager label_manager;
 	protected GameMaster game_master;
 	protected ShaderMaterial shader_material;
+	protected List<ShaderMaterial> region_shaders = new();
 
 	public List<Territory> territory_order = new();
 	protected Territory selected_cache;
@@ -28,7 +29,8 @@ public abstract partial class MapRenderer : Node {
 		set {
 			_region_mode = value;
 			label_manager.region_mode = value;
-			shader_material?.SetShaderParameter("region_mode", value ? 1 : 0);
+			foreach (ShaderMaterial shader in region_shaders)
+				shader.SetShaderParameter("region_mode", value ? 1 : 0);
 			SetHighlights();
 		}
 	}
@@ -42,6 +44,7 @@ public abstract partial class MapRenderer : Node {
 		colour_map_image = colour_map_texture.GetImage();
 		colour_map_image.Decompress();
 		shader_material = GetShaderMaterial();
+		region_shaders.Add(shader_material);
 
 		if (shader_material == null || game_master == null) return;
 
@@ -88,7 +91,7 @@ public abstract partial class MapRenderer : Node {
 				Color c = sourceImg.GetPixel(x, y);
 				bool isBlack = c.R < 0.01f && c.G < 0.01f && c.B < 0.01f;
 				if (!isBlack && c.A > 0.01f && colorToIndex.TryGetValue(FormatColour(c), out int index)) {
-					float val = index / 255.0f;
+					float val = (index + 0.5f) / 255.0f;
 					idImg.SetPixel(x, y, new Color(val, 0, 0, 1.0f));
 				} else {
 					idImg.SetPixel(x, y, new Color(0, 0, 0, 0));
@@ -178,7 +181,6 @@ public abstract partial class MapRenderer : Node {
 					_highlightImage.SetPixel(i, 0, new Color(0.1f, 0f, 0f, 1f));
 			}
 		}
-		
 		
 		highlight_lut.Update(_highlightImage);
 		shader_material.SetShaderParameter("highlight_lut", highlight_lut);

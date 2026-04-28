@@ -46,6 +46,7 @@ public class GameManager {
 		players.Add(new LocalPlayer(this, "Henry", Colors.Red));
 		players.Add(new LocalPlayer(this, "Thomas", Colors.Blue));
 		players.Add(new LocalPlayer(this, "Andre", Colors.Green));
+		players.Add(new LocalPlayer(this, "Arshia", Colors.Yellow));
 		GD.Print("Test players created.");
 	}
 

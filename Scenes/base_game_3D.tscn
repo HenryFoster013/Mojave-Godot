@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Board/Colour_Map.png" id="5_ogcs1"]
 [ext_resource type="Script" uid="uid://dxrllqw4m8jdc" path="res://Scripts/Godot Specific/2D-3D Variants/LabelManager3D.cs" id="7_6gkh4"]
 [ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="9_1xrtk"]
-[ext_resource type="Material" uid="uid://crral11n3piok" path="res://Graphics/Materials/Props/Prop_Lucky_38.tres" id="9_eifla"]
+[ext_resource type="Material" uid="uid://crral11n3piok" path="res://Graphics/Materials/Prop_Material.tres" id="9_eifla"]
 [ext_resource type="PackedScene" uid="uid://nftb8hiopihw" path="res://Board/Prefabs/Map_Label_3D.tscn" id="10_6gkh4"]
 [ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Gradient_Vertical.png" id="10_fysi3"]
 [ext_resource type="Texture2D" uid="uid://ceacwi4la5dxl" path="res://Graphics/Images/Gradient_Horizontal.png" id="11_me1b7"]
@@ -88,10 +88,13 @@ camera = NodePath("Camera")
 [node name="Camera" type="Camera3D" parent="Player" unique_id=1906062012]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.0863328, 0)
 
-[node name="Map Renderer" type="Node3D" parent="." unique_id=397238528 node_paths=PackedStringArray("mesh")]
+[node name="Map Renderer" type="Node3D" parent="." unique_id=397238528 node_paths=PackedStringArray("mesh", "prop_meshes")]
 script = ExtResource("2_eifla")
 mesh = NodePath("Board")
 map_world_size = Vector2(5, 5)
+prop_material = ExtResource("9_eifla")
+prop_names = PackedStringArray("THE_STRIP")
+prop_meshes = [NodePath("Board/Meshes/Props/Lucky 38")]
 colour_map_texture = ExtResource("5_ogcs1")
 overlay_texture = ExtResource("2_ll7ec")
 
@@ -121,7 +124,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 3.5527137e-15, 0, -3.5527137e-15, 1, 0, 0
 transform = Transform3D(1, 0, 0, 0, 1, -3.5527137e-15, 0, 3.5527137e-15, 1, 0, 0, 0)
 
 [node name="Lucky 38" type="MeshInstance3D" parent="Map Renderer/Board/Meshes/Props" unique_id=712394790]
-transform = Transform3D(50, 0, 0, 0, 50, 8.6618843e-07, 0, -8.6618843e-07, 50, -0.020580847, 0.20097065, 8.784706e-09)
+transform = Transform3D(70, 0, 0, 0, 70, 1.2126641e-06, 0, -1.2126641e-06, 70, -0.018046735, 0.19719662, -3.3011913e-09)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_lkg12")
 surface_material_override/0 = ExtResource("9_eifla")
