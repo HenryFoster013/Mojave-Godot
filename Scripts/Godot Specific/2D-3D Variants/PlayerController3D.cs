@@ -11,11 +11,11 @@ public partial class PlayerController3D : PlayerController {
 	const float bounds_size = 5f;
 	
 	const float zoom_min = 0.55f;
-	const float zoom_lower_switch = 1.2f;
-	const float zoom_upper_switch = 2.25f;
+	const float zoom_lower_switch = 1.0f;
+	const float zoom_upper_switch = 2.05f;
 	const float zoom_max = 3.75f;
 	
-	const float bottom_rotation = -60f;
+	const float bottom_rotation = -50f;
 	const float top_rotation = -90f;
 
 	public override void Setup(GameMaster _game_master, MapRenderer _map_renderer, LabelManager _label_manager) {
