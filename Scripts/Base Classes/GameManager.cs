@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 
 public class GameManager {
@@ -6,6 +7,7 @@ public class GameManager {
 	private GameMaster game_master;
 	public enum state_type { NULL, CLAIMANTS, PRIMARY, ENDGAME }
 	public state_type game_state { get; private set; }
+	private static readonly Random random = new Random();
 
 	public int current_player_turn { get; private set; }
 	public int total_turn { get; private set; }
@@ -157,12 +159,94 @@ public class GameManager {
 		return true;
 	}
 
+	// ----- //  GENERIC FUNCTIONS // ----- //
+
+	int DiceRoll() => random.Next(1,7);
+	int[] GetRolls(Territory territory, bool attacking) {
+
+		int[] rolls = {0, 0, 0};
+
+		if (attacking) {
+			if (territory.troop_count >= 4) rolls[2] = DiceRoll();
+			if (territory.troop_count >= 3) rolls[1] = DiceRoll();
+			if (territory.troop_count >= 2) rolls[0] = DiceRoll();
+		}
+		else {
+			if (territory.troop_count >= 2) rolls[1] = DiceRoll();
+			if(territory.troop_count >= 1) rolls[0] = DiceRoll();
+		}
+
+		Array.Sort(rolls);
+		Array.Reverse(rolls);
+		return rolls;
+	}
+
+	bool ZerodRoll(int[] attacking, int[] defending, int position) {
+		if (attacking[position] == 0 || defending[position] == 0)
+			return true;
+		return false;
+	}
+
+	bool ValidatePlayer(Player player) {
+		if (player == null)
+			return false;
+		if (player != current_player)
+			return false;
+		return true;
+	}
+
 	// ----- // PRIMARY // ----- //
 
 	void StartPrimary() {
 		total_turn = 0;
+		sub_turn = 0;
 		game_state = state_type.PRIMARY;
 		game_master.LoadPrimary();
+	}
+
+	public void CashInTroops(int amount, Territory territory) {
+		if (sub_turn != 0) return;
+		if (!current_player.CanAfford(amount) || territory.Owner != current_player) return;
+		territory.AddTroops(amount);
+		GD.Print($"{current_player.name} cashed in {amount} troops at {territory.name}.");
+		if (!current_player.SpareChange())
+			IterateSubTurn();
+	}
+
+	public void AttackTile(Territory from_terri, Territory to_terri, bool automatic) {
+		if (from_terri.Owner != current_player || to_terri.Owner == current_player) return;
+		if (from_terri.troop_count <= 1) return;
+
+		AttackRound(from_terri, to_terri);
+		// Check thingy here
+		
+	}
+
+	void AttackRound(Territory from_terri, Territory to_terri) {
+	
+		int attack_losses = 0;
+		int defense_losses = 0;
+		
+		int[] attacking = GetRolls(from_terri, true);
+		int[] defending = GetRolls(to_terri, false);
+		if (ZerodRoll(attacking, defending, 0)) return;		
+		
+		if (attacking[0] > defending[0]) defense_losses++; else attack_losses++;
+		if (!ZerodRoll(attacking, defending, 1)) {
+			if (attacking[1] > defending[1]) defense_losses++; else attack_losses++;
+		}
+		if (!ZerodRoll(attacking, defending, 2)) {
+			if (attacking[2] > defending[2]) defense_losses++; else attack_losses++;
+		}
+		
+		from_terri.RemoveTroops(attack_losses);
+		to_terri.RemoveTroops(defense_losses);
+	}
+
+	string CheckAttackState(Territory from_terri, Territory to_terri) {
+		if (from_terri.troop_count < 1) return "INVALID";
+		if (to_terri.troop_count < 1) return "CONQUEST";
+		return "STANDARD";
 	}
 
 	// ----- // TURNS // ----- //
@@ -178,17 +262,14 @@ public class GameManager {
 	}
 
 	private void IterateTurn() {
-	
 	  sub_turn = 0;
 		current_player_turn++;
 		total_turn++;
-		
 		if (current_player_turn >= players.Count) {
 			current_player_turn = 0;
 			if (game_state == state_type.PRIMARY)
 				initial_turn = false;
 		}
-			
 		game_master.UpdateAllUI();
 	}
 
@@ -210,13 +291,10 @@ public class GameManager {
 	}
 
 	private void PrimaryTurn() {
-		
 		if (!initial_turn)
 			current_player.AddCurrency(CalculatePlayerProfit(current_player));
-			
 		game_master.UpdateAddTroopPlacementText();
 		game_master.ActivateTurnPopup();
-
 	}
 
 	// ----- // SPOKEN FROM PLAYERS // ----- //

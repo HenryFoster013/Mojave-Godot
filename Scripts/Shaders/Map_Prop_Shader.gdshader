@@ -17,6 +17,6 @@ void fragment() {
 
     float highlight = texture(highlight_lut, vec2(lut_u, 0.5)).r;
 
-    ALBEDO = COLOR.rgb * tint.rgb * (0.2 + highlight * 1.0);
-    EMISSION = COLOR.rgb * tint.rgb * (0.2 + highlight * 1.0);
+    ALBEDO = COLOR.rgb * COLOR.rgb * tint.rgb * (0.3 + highlight * 1.0);
+    EMISSION = COLOR.rgb * COLOR.rgb * tint.rgb * (0.3 + highlight * 1.0);
 }

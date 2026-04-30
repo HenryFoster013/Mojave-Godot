@@ -30,23 +30,20 @@ public class Player {
 
     // Set Methods //
 
-    public void AddCurrency(int add) {
-        currency += add;
-    }
-
-    public void SetCurrency(int amount) {
-        currency = amount;
-    }
+    public void AddCurrency(int amount) => currency += amount;
+    public void SetCurrency(int amount) => currency = amount;
+    public bool CanAfford(int amount) => currency >= amount;
+    public bool SpareChange() => currency > 0;
 
     public void SubCurrency(int sub) {
+        if (currency - sub < 0)
+            return;
         currency -= sub;
     }
 
     // Get Methods //
 
-    public void SetId(int new_id) {
-        id = new_id;
-    }
+    public void SetId(int new_id) => id = new_id;
 }
 
 public class LocalPlayer : Player {
@@ -55,7 +52,6 @@ public class LocalPlayer : Player {
         : base(_manager, _name, _colour) { type = player_type.LOCAL; }
 
     public override void RequestClaim() { }
-
     public override void RequestPlay() { }
 }
 
@@ -65,6 +61,5 @@ public class BotPlayer : Player {
         : base(_manager, _name, _colour) { type = player_type.BOT; }
 
     public override void RequestClaim() {}
-
     public override void RequestPlay() { }
 }
