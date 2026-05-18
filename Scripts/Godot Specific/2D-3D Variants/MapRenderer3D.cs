@@ -13,6 +13,7 @@ public partial class MapRenderer3D : MapRenderer {
     [Export] public MeshInstance3D[] prop_meshes = {};
     
     protected override void AdditionalSetup() {
+        shader_material.SetShaderParameter("debug_mode", false);
         SetupProps();
     }
 
