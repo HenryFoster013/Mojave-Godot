@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cvemaqlyvn1bm"
-path="res://.godot/imported/Yangtzee Memorial.fbx-2c5da03751391975c420d108bffedd9e.scn"
+path="res://.godot/imported/Yangtze Memorial.fbx-4af0beb95e3c8ce09ee4aec912124230.scn"
 
 [deps]
 
-source_file="res://Graphics/Models/Yangtzee Memorial.fbx"
-dest_files=["res://.godot/imported/Yangtzee Memorial.fbx-2c5da03751391975c420d108bffedd9e.scn"]
+source_file="res://Graphics/Models/Yangtze Memorial.fbx"
+dest_files=["res://.godot/imported/Yangtze Memorial.fbx-4af0beb95e3c8ce09ee4aec912124230.scn"]
 
 [params]
 
