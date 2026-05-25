@@ -16,6 +16,8 @@
 [ext_resource type="Texture2D" uid="uid://dambgr1sw4erq" path="res://Graphics/Images/Tick_Icon.png" id="14_6gkh4"]
 
 [sub_resource type="Environment" id="Environment_eifla"]
+background_mode = 1
+background_color = Color(0.09, 0.087450005, 0.0747, 1)
 ambient_light_source = 1
 reflected_light_source = 1
 glow_enabled = true
@@ -201,19 +203,19 @@ content_margin_left = 0.0
 content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
-bg_color = Color(0.11119685, 0.11119684, 0.11119684, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.48962224, 0.48962224, 0.489622, 1)
+bg_color = Color(0.12, 0.101500005, 0.0756, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.93435013, 0.8296976, 0.7019529, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
-shadow_color = Color(0, 0, 0, 0.40392157)
-shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.6156863)
+shadow_size = 6
 shadow_offset = Vector2(0, 3)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6gkh4"]
@@ -221,7 +223,7 @@ content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
-bg_color = Color(0.13682574, 0.13682574, 0.13682568, 1)
+bg_color = Color(0, 0, 0, 0.30588236)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -360,7 +362,7 @@ transform = Transform3D(5, 0, 0, 0, -2.1855695e-07, 0.05, 0, -5, -2.1855695e-09,
 shape = SubResource("BoxShape3D_eifla")
 
 [node name="Shadow" type="MeshInstance3D" parent="Map Renderer/Board/Meshes" unique_id=367581804]
-transform = Transform3D(3.3333337, 0, 0, 0, 3.3333337, 0, 0, 0, 3.3333337, 0, 1.4570463e-09, -0.033333335)
+transform = Transform3D(2.75, 0, 0, 0, 2.75, 0, 0, 0, 2.75, 0, 1.4570463e-09, -0.033333335)
 material_override = ExtResource("2_gg4i8")
 mesh = SubResource("QuadMesh_gg4i8")
 surface_material_override/0 = ExtResource("2_gg4i8")

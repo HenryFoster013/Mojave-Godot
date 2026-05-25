@@ -7,19 +7,25 @@ uniform sampler2D region_lut : source_color, filter_nearest, repeat_disable;
 uniform sampler2D highlight_lut : filter_nearest, repeat_disable;
 uniform sampler2D overlay : source_color, filter_nearest, repeat_disable;
 uniform sampler2D highlight_overlay : source_color, filter_nearest, repeat_disable;
-uniform int territory_count = 115;
-uniform int region_mode = 0;
+
 uniform bool debug_mode = true;
 
-void fragment() {
+uniform int territory_count = 115;
+uniform int region_mode = 0;
 
+uniform vec4 background_tint : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+
+vec3 soft_light(vec3 base, vec3 blend) {
+    return (1.0 - 2.0 * blend) * base * base + 2.0 * blend * base;
+}
+
+void fragment() {
     vec4 base_colour = texture(albedo_texture, UV);
     vec4 over_colour = texture(overlay, UV);
     vec4 id_sample = texture(id_map, UV);
     float highlight = 0.0;
     
     if (id_sample.a > 0.01) {
-    
         int match_index = int(round(id_sample.r * 255.0));
         float lut_size = float(territory_count);
         float uv_x = (float(match_index) + 0.5) / lut_size;
@@ -33,6 +39,9 @@ void fragment() {
         
         base_colour.rgb *= tint.rgb;
         highlight = texture(highlight_lut, vec2(uv_x, 0.5)).r;
+    }
+    else {
+        base_colour.rgb = mix(base_colour.rgb, soft_light(base_colour.rgb, background_tint.rgb), background_tint.a);
     }
     
     vec3 final_colour;
@@ -51,7 +60,6 @@ void fragment() {
     
     ALBEDO = final_colour;
     EMISSION = final_colour * (0.5 + highlight * 4.0);
-
     if (debug_mode) {
         ALBEDO = base_colour.rgb;
         EMISSION = vec3(0, 0, 0);

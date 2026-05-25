@@ -21,6 +21,7 @@ shader_parameter/overlay = ExtResource("4_jdimj")
 shader_parameter/highlight_overlay = ExtResource("6_ctsqy")
 shader_parameter/territory_count = 115
 shader_parameter/region_mode = 0
+shader_parameter/background_tint = Color(1, 1, 1, 1)
 
 [node name="Base Game 2D" type="Node2D" unique_id=1909172287]
 
