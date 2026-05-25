@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Territory {
 
@@ -76,4 +77,5 @@ public class Territory {
 
     public override string ToString() => $"Territory({id}, Owner={Owner?.name ?? "none"})";
     public bool IsOwned => owner != null;
+    public bool IsAdjacentTo(Territory territory) => neighbours.Contains(territory);
 }

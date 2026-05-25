@@ -213,13 +213,22 @@ public class GameManager {
 			IterateSubTurn();
 	}
 
-	public void AttackTile(Territory from_terri, Territory to_terri, bool automatic) {
+	public void AttackTile(Territory from_terri, Territory to_terri) {
 		if (from_terri.Owner != current_player || to_terri.Owner == current_player) return;
 		if (from_terri.troop_count <= 1) return;
+		if (!from_terri.IsAdjacentTo(to_terri)) return;
 
 		AttackRound(from_terri, to_terri);
-		// Check thingy here
 		
+		// Finish this
+		switch (CheckAttackState(from_terri, to_terri)) {
+			case "STANDARD":
+				break;
+			case "INVALID":
+				break;
+			case "CONQUEST":
+				break;
+		}
 	}
 
 	void AttackRound(Territory from_terri, Territory to_terri) {
@@ -318,9 +327,8 @@ public class GameManager {
 	// ----- // GENERIC METHODS // ----- //
 
 	public List<T> Shuffle<T>(List<T> list) {
-		var rng = new System.Random();
 		for (int i = list.Count - 1; i > 0; i--) {
-			int j = rng.Next(i + 1);
+			int j = random.Next(i + 1);
 			(list[i], list[j]) = (list[j], list[i]);
 		}
 		return list;

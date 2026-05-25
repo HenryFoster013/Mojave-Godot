@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://nftb8hiopihw" path="res://Board/Prefabs/Map_Label_3D.tscn" id="10_6gkh4"]
 [ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Gradient_Vertical.png" id="10_fysi3"]
 [ext_resource type="Texture2D" uid="uid://ceacwi4la5dxl" path="res://Graphics/Images/Gradient_Horizontal.png" id="11_me1b7"]
+[ext_resource type="Texture2D" uid="uid://dambgr1sw4erq" path="res://Graphics/Images/Tick_Icon.png" id="14_6gkh4"]
 
 [sub_resource type="Environment" id="Environment_eifla"]
 ambient_light_source = 1
@@ -195,23 +196,88 @@ shadow_mesh = SubResource("ArrayMesh_wyrlg")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_eifla"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwtvl"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.11119685, 0.11119684, 0.11119684, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.48962224, 0.48962224, 0.489622, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+shadow_color = Color(0, 0, 0, 0.40392157)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6gkh4"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.13682574, 0.13682574, 0.13682568, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ogcs1"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.18431373)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ge24r"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.37, 0.051799994, 0.051799994, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.2295, 0.2295, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+shadow_color = Color(0, 0, 0, 0.40392157)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
 [node name="Base Game 3D" type="Node3D" unique_id=204547736]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=505609779]
 environment = SubResource("Environment_eifla")
 
-[node name="Game Master" type="Node3D" parent="." unique_id=764897770 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_turn", "ui_game_additional", "ui_turn_popup", "ui_turn_popup_bg")]
+[node name="Game Master" type="Node3D" parent="." unique_id=764897770 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_turn", "ui_game_additional", "ui_turn_popup", "ui_turn_popup_bg", "ui_troop_slider_label", "ui_troop_slider")]
 script = ExtResource("1_lkwol")
 map_renderer = NodePath("../Map Renderer")
 label_manager = NodePath("../Map Renderer/Board/Label Manager")
 player_controller = NodePath("../Player")
-ui_player_colour = NodePath("../UI/Frame/Current Player Label/Player Colour")
-ui_player_name = NodePath("../UI/Frame/Current Player Label/Player Name")
-ui_game_state = NodePath("../UI/Frame/VBoxContainer/Game Status Label/Status Text")
-ui_game_turn = NodePath("../UI/Frame/VBoxContainer/Game Status Label/Status Text 2")
-ui_game_additional = NodePath("../UI/Frame/VBoxContainer/Game Command Label/Status Text")
-ui_turn_popup = NodePath("../UI/Frame/Turn Updator/Player Label")
-ui_turn_popup_bg = NodePath("../UI/Frame/Turn Updator/Bg Fade")
+ui_player_colour = NodePath("../UI/UI Container/Current Player Label/Player Colour")
+ui_player_name = NodePath("../UI/UI Container/Current Player Label/Player Name")
+ui_game_state = NodePath("../UI/UI Container/Game Info/Game Status Label/Status Text")
+ui_game_turn = NodePath("../UI/UI Container/Game Info/Game Status Label/Status Text 2")
+ui_game_additional = NodePath("../UI/UI Container/Game Info/Game Command Label/Status Text")
+ui_turn_popup = NodePath("../UI/UI Container/Turn Updator/Player Label")
+ui_turn_popup_bg = NodePath("../UI/UI Container/Turn Updator/Bg Fade")
+ui_troop_slider_label = NodePath("../UI/UI Container/Troop Slider/Slider Window/VBoxContainer2/Troop Count")
+ui_troop_slider = NodePath("../UI/UI Container/Troop Slider/Slider Window/VBoxContainer2/HSlider")
 
 [node name="Player" type="Node3D" parent="." unique_id=1008032272 node_paths=PackedStringArray("camera")]
 script = ExtResource("2_6gkh4")
@@ -301,7 +367,7 @@ surface_material_override/0 = ExtResource("2_gg4i8")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2072149354]
 
-[node name="Frame" type="Control" parent="UI" unique_id=1743671853]
+[node name="UI Container" type="Control" parent="UI" unique_id=1743671853]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -310,58 +376,58 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("9_1xrtk")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Frame" unique_id=2096441238]
+[node name="Game Info" type="VBoxContainer" parent="UI/UI Container" unique_id=2096441238]
 layout_mode = 1
 offset_left = 15.0
 offset_top = 15.0
 offset_right = 515.0
 offset_bottom = 115.0
 
-[node name="Game Status Label" type="HBoxContainer" parent="UI/Frame/VBoxContainer" unique_id=386429051]
+[node name="Game Status Label" type="HBoxContainer" parent="UI/UI Container/Game Info" unique_id=386429051]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Divisor 1" type="TextureRect" parent="UI/Frame/VBoxContainer/Game Status Label" unique_id=1078981305]
+[node name="Divisor 1" type="TextureRect" parent="UI/UI Container/Game Info/Game Status Label" unique_id=1078981305]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 texture = ExtResource("10_fysi3")
 expand_mode = 4
 
-[node name="Status Text" type="Label" parent="UI/Frame/VBoxContainer/Game Status Label" unique_id=36942378]
+[node name="Status Text" type="Label" parent="UI/UI Container/Game Info/Game Status Label" unique_id=36942378]
 layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 10
 text = "Claimants"
 
-[node name="Divisor 2" type="TextureRect" parent="UI/Frame/VBoxContainer/Game Status Label" unique_id=1137470911]
+[node name="Divisor 2" type="TextureRect" parent="UI/UI Container/Game Info/Game Status Label" unique_id=1137470911]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 texture = ExtResource("10_fysi3")
 expand_mode = 4
 
-[node name="Status Text 2" type="Label" parent="UI/Frame/VBoxContainer/Game Status Label" unique_id=6226515]
+[node name="Status Text 2" type="Label" parent="UI/UI Container/Game Info/Game Status Label" unique_id=6226515]
 layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 10
 text = "Turn 0"
 
-[node name="Game Command Label" type="HBoxContainer" parent="UI/Frame/VBoxContainer" unique_id=1224127532]
+[node name="Game Command Label" type="HBoxContainer" parent="UI/UI Container/Game Info" unique_id=1224127532]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Divisor 1" type="TextureRect" parent="UI/Frame/VBoxContainer/Game Command Label" unique_id=455191853]
+[node name="Divisor 1" type="TextureRect" parent="UI/UI Container/Game Info/Game Command Label" unique_id=455191853]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 texture = ExtResource("10_fysi3")
 expand_mode = 4
 
-[node name="Status Text" type="Label" parent="UI/Frame/VBoxContainer/Game Command Label" unique_id=511677488]
+[node name="Status Text" type="Label" parent="UI/UI Container/Game Info/Game Command Label" unique_id=511677488]
 layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 14
 text = "Turn Command Goes Here"
 
-[node name="Current Player Label" type="HBoxContainer" parent="UI/Frame" unique_id=1374514835]
+[node name="Current Player Label" type="HBoxContainer" parent="UI/UI Container" unique_id=1374514835]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -373,18 +439,18 @@ offset_bottom = -10.0
 grow_vertical = 0
 theme_override_constants/separation = 10
 
-[node name="Player Colour" type="TextureRect" parent="UI/Frame/Current Player Label" unique_id=1697946151]
+[node name="Player Colour" type="TextureRect" parent="UI/UI Container/Current Player Label" unique_id=1697946151]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 texture = ExtResource("10_fysi3")
 expand_mode = 4
 
-[node name="Player Name" type="Label" parent="UI/Frame/Current Player Label" unique_id=294034470]
+[node name="Player Name" type="Label" parent="UI/UI Container/Current Player Label" unique_id=294034470]
 layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 18
 
-[node name="Turn Updator" type="Control" parent="UI/Frame" unique_id=42294365]
+[node name="Turn Updator" type="Control" parent="UI/UI Container" unique_id=42294365]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -398,7 +464,7 @@ offset_bottom = 13.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Bg Fade" type="TextureRect" parent="UI/Frame/Turn Updator" unique_id=1904947537]
+[node name="Bg Fade" type="TextureRect" parent="UI/UI Container/Turn Updator" unique_id=1904947537]
 modulate = Color(1, 0, 0, 0.8862745)
 layout_mode = 1
 anchors_preset = 15
@@ -410,7 +476,7 @@ scale = Vector2(0.99500096, 1)
 texture = ExtResource("11_me1b7")
 expand_mode = 1
 
-[node name="Player Label" type="Label" parent="UI/Frame/Turn Updator" unique_id=1714190176]
+[node name="Player Label" type="Label" parent="UI/UI Container/Turn Updator" unique_id=1714190176]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -423,43 +489,41 @@ text = "Henry's Turn"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Troop Slider" type="Control" parent="UI/Frame" unique_id=709243514]
-visible = false
+[node name="Troop Slider" type="VBoxContainer" parent="UI/UI Container" unique_id=1718663859]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -70.0
-offset_right = 100.0
-offset_bottom = -30.0
+offset_left = -185.0
+offset_top = -125.0
+offset_right = 155.0
+offset_bottom = -35.0
 grow_horizontal = 2
 grow_vertical = 0
+scale = Vector2(1.1, 1.1)
+theme_override_constants/separation = 10
 
-[node name="BG" type="TextureRect" parent="UI/Frame/Troop Slider" unique_id=745425134]
-modulate = Color(0.03, 0.03, 0.03, 0.8784314)
+[node name="Slider Window" type="Panel" parent="UI/UI Container/Troop Slider" unique_id=531166169]
+custom_minimum_size = Vector2(340, 55)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wwtvl")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI/UI Container/Troop Slider/Slider Window" unique_id=1501260658]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 10.0
+offset_right = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("11_me1b7")
-expand_mode = 1
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="UI/Frame/Troop Slider" unique_id=1501260658]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 5
 alignment = 1
 
-[node name="Troop Count" type="Label" parent="UI/Frame/Troop Slider/VBoxContainer2" unique_id=1630216050]
+[node name="Troop Count" type="Label" parent="UI/UI Container/Troop Slider/Slider Window/VBoxContainer2" unique_id=1630216050]
 layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 14
@@ -467,7 +531,37 @@ text = "PLACE [12] TROOPS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Slider" type="HSlider" parent="UI/Frame/Troop Slider/VBoxContainer2" unique_id=1948676459]
+[node name="HSlider" type="HSlider" parent="UI/UI Container/Troop Slider/Slider Window/VBoxContainer2" unique_id=46018067]
 layout_mode = 2
-max_value = 20.0
-rounded = true
+theme_override_icons/tick = ExtResource("14_6gkh4")
+theme_override_styles/slider = SubResource("StyleBoxFlat_6gkh4")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_ogcs1")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_ogcs1")
+tick_count = 12
+ticks_on_borders = true
+ticks_position = 3
+
+[node name="Confirm Button" type="Panel" parent="UI/UI Container/Troop Slider" unique_id=1428791552]
+custom_minimum_size = Vector2(145, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_ge24r")
+
+[node name="Troop Count" type="Label" parent="UI/UI Container/Troop Slider/Confirm Button" unique_id=1021134140]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -8.5
+offset_right = 70.0
+offset_bottom = 9.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 14
+text = "CONFIRM"
+horizontal_alignment = 1
+vertical_alignment = 1

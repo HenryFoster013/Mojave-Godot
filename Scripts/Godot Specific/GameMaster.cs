@@ -10,15 +10,19 @@ public partial class GameMaster : Node {
 	[Export] public PlayerController player_controller;
 
 	[ExportGroup(" - Constant UI - ")]
+	[ExportSubgroup("Player")]
 	[Export] public TextureRect ui_player_colour;
 	[Export] public Label ui_player_name;
+	[ExportSubgroup("Game")]
 	[Export] public Label ui_game_state;
 	[Export] public Label ui_game_turn;
 	[Export] public Label ui_game_additional;
-
-	[ExportGroup(" - Extra UI - ")]
+	[ExportSubgroup("Turn")]
 	[Export] public Label ui_turn_popup;
 	[Export] public TextureRect ui_turn_popup_bg;
+	[ExportSubgroup("Troop Slider")]
+	[Export] public Label ui_troop_slider_label;
+	[Export] public HSlider ui_troop_slider;
 
 	private GameManager manager;
 	private Player current_player => manager.current_player;
@@ -26,6 +30,7 @@ public partial class GameMaster : Node {
 	public IReadOnlyDictionary<string, Territory> Territories => manager.Territories;
 	public IReadOnlyDictionary<string, Region> Regions => manager.Regions;
 	private float turn_popup_time;
+	private string troop_slider_verb;
 
 	// ----- // SETUP // ----- //
 
@@ -34,6 +39,7 @@ public partial class GameMaster : Node {
 		GD.Print(" - Start - ");
 		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		GD.Print("Initial frame buffered, loading data.");
+		SetupTroopSlider();
 		LoadJson();
 		LoadExports();
 		GD.Print("\nLoading complete! Starting game.");
@@ -98,6 +104,8 @@ public partial class GameMaster : Node {
 		UpdateTurnLabel();
 	}
 
+	// Player //
+
 	public void UpdatePlayerLabel() {
 		if (ui_player_name == null || ui_player_colour == null)
 			return;
@@ -110,6 +118,8 @@ public partial class GameMaster : Node {
 			ui_player_colour.Modulate = current_player.colour;
 		}
 	}
+
+	// Turns //
 
 	public void UpdateTurnLabel() {
 	
@@ -154,8 +164,52 @@ public partial class GameMaster : Node {
 		UpdateTurnPopup(0f);
 	}
 
-	public void UpdateAddTroopPlacementText() {
-		ui_game_additional.Text = $"Place {current_player.currency} troops";
+	// Troop Slider //
+
+	public void UpdateAddTroopPlacementText(){
+		ui_game_additional.Text = $"You have {current_player.currency} spare troops";
+	}
+
+	void SetupTroopSlider() {
+		ActivateTroopSlider("PLACE", 12);
+		ui_troop_slider.MinValue = 1;
+		ui_troop_slider.Scrollable = false;
+		ui_troop_slider.Editable = true;
+		ui_troop_slider.Step = 1;
+		ui_troop_slider.ValueChanged += UpdateTroopSliderCount;
+		UpdateTroopSliderCount();
+	}
+
+	public void ActivateTroopSlider(string type, int max) {
+		ui_troop_slider.Visible = true;
+		UpdateTroopSliderType(type);
+		ui_troop_slider.MaxValue = max;
+		ui_troop_slider.TickCount = max;
+		ui_troop_slider.Value = 1;
+	}
+
+	public void DeactivateTroopSlider() => ui_troop_slider.Visible = false;
+
+	void UpdateTroopSliderCount() => UpdateTroopSliderCount(ui_troop_slider.Value);
+	void UpdateTroopSliderCount(double value) {
+		string s_val = "";
+		if (ui_troop_slider.Value > 1)
+			s_val = "S";
+		ui_troop_slider_label.Text = $"{troop_slider_verb} [{value}] TROOP{s_val}";
+	}
+
+	void UpdateTroopSliderType(string type) {
+		switch(type) {
+			case "PLACE":
+				troop_slider_verb ="PLACE";
+				break;
+			case "CONQUEST":
+				troop_slider_verb ="REINFORCE";
+				break;
+			case "FORTIFY":
+				troop_slider_verb ="MOVE";
+				break;
+		}
 	}
 
 	// ----- // STATE TRANSITIONS // ----- //
