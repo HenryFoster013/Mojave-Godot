@@ -19,7 +19,7 @@ public partial class GameMaster : Node {
 	[Export] public Label ui_game_additional;
 	[ExportSubgroup("Turn")]
 	[Export] public Label ui_turn_popup;
-	[Export] public TextureRect ui_turn_popup_bg;
+	[Export] public Panel ui_turn_popup_bg;
 	[ExportSubgroup("Troop Slider")]
 	[Export] public Label ui_troop_slider_label;
 	[Export] public HSlider ui_troop_slider;
@@ -78,10 +78,10 @@ public partial class GameMaster : Node {
 	void UpdateTurnPopup(float delta) {
 		float opacity = float.Clamp(turn_popup_time, 0f, 1f);
 		turn_popup_time -= delta;
-		ui_turn_popup.Modulate = new Color(1f, 1f, 1f, opacity);
-		Color bg_colour = ui_turn_popup_bg.Modulate;
+		ui_turn_popup.SelfModulate = new Color(1f, 1f, 1f, opacity);
+		Color bg_colour = ui_turn_popup_bg.SelfModulate;
 		bg_colour.A = opacity;
-		ui_turn_popup_bg.Modulate = bg_colour;
+		ui_turn_popup_bg.SelfModulate = bg_colour;
 	}
 
 	// ----- // SELECTION // ----- //
@@ -111,11 +111,11 @@ public partial class GameMaster : Node {
 			return;
 		if (current_player == null) {
 			ui_player_name.Text = "";
-			ui_player_colour.Modulate = new Color(0, 0, 0, 0);
+			ui_player_colour.SelfModulate = new Color(0, 0, 0, 0);
 		}
 		else {
 			ui_player_name.Text = current_player.name;
-			ui_player_colour.Modulate = current_player.colour;
+			ui_player_colour.SelfModulate = current_player.colour;
 		}
 	}
 
@@ -159,7 +159,7 @@ public partial class GameMaster : Node {
 		string display_text = current_player.name;
 		display_text += (display_text.EndsWith("s") ? "' Turn" : "'s Turn");
 		ui_turn_popup.Text = display_text;
-		ui_turn_popup_bg.Modulate = current_player.colour;
+		ui_turn_popup_bg.SelfModulate = current_player.colour;
 		turn_popup_time = 2f;
 		UpdateTurnPopup(0f);
 	}
