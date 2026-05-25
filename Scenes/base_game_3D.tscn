@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://gqvpsoj3dgns" path="res://Scripts/Godot Specific/2D-3D Variants/MapRenderer3D.cs" id="2_eifla"]
 [ext_resource type="Material" uid="uid://d28bl36jni1rj" path="res://Graphics/Materials/Shadow_Material.tres" id="2_gg4i8"]
 [ext_resource type="Texture2D" uid="uid://dtfglifh8245s" path="res://Board/Overlay.png" id="2_ll7ec"]
+[ext_resource type="FastNoiseLite" uid="uid://bvg5chkqipn27" path="res://Graphics/Noise/BG_Noise.tres" id="4_6gkh4"]
 [ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Board/Colour_Map.png" id="5_ogcs1"]
 [ext_resource type="Script" uid="uid://dxrllqw4m8jdc" path="res://Scripts/Godot Specific/2D-3D Variants/LabelManager3D.cs" id="7_6gkh4"]
 [ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="9_1xrtk"]
@@ -13,9 +14,10 @@
 [ext_resource type="PackedScene" uid="uid://nftb8hiopihw" path="res://Board/Prefabs/Map_Label_3D.tscn" id="10_6gkh4"]
 [ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Gradient_Vertical.png" id="10_fysi3"]
 [ext_resource type="Texture2D" uid="uid://dambgr1sw4erq" path="res://Graphics/Images/Tick_Icon.png" id="14_6gkh4"]
+[ext_resource type="Material" uid="uid://dfcakiu3shn6h" path="res://Graphics/Materials/Noise_Material.tres" id="15_ogcs1"]
 
 [sub_resource type="Environment" id="Environment_eifla"]
-background_mode = 1
+background_mode = 3
 background_color = Color(0.09, 0.087450005, 0.0747, 1)
 ambient_light_source = 1
 reflected_light_source = 1
@@ -310,6 +312,9 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2
 script = ExtResource("2_eifla")
 mesh = NodePath("Board")
 map_world_size = Vector2(5, 5)
+noise_material = ExtResource("15_ogcs1")
+noise_gen = ExtResource("4_6gkh4")
+noise_speed = Vector2(0.01, 0.01)
 prop_material = ExtResource("9_eifla")
 prop_names = PackedStringArray("THE_STRIP", "THE_FORT", "REPCONN_TEST_SITE", "REPCONN_TEST_SITE", "YANGTZE_MEMORIAL")
 prop_meshes = [NodePath("Board/Meshes/Props/Lucky 38"), NodePath("Board/Meshes/Props/The Fort"), NodePath("Board/Meshes/Props/Recponn TS Building"), NodePath("Board/Meshes/Props/Repconn TS Dome"), NodePath("Board/Meshes/Props/Yangtze Memorial")]
@@ -582,3 +587,15 @@ theme_override_font_sizes/font_size = 20
 text = "Henry's Turn"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="BG" type="CanvasLayer" parent="." unique_id=1687873739]
+layer = -1
+follow_viewport_enabled = true
+
+[node name="Noise" type="ColorRect" parent="BG" unique_id=1382400137]
+material = ExtResource("15_ogcs1")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

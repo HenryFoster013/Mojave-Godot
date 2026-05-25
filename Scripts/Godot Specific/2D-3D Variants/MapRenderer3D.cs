@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 
 public partial class MapRenderer3D : MapRenderer {
@@ -7,13 +8,31 @@ public partial class MapRenderer3D : MapRenderer {
     [Export] public Vector2 map_world_size = new Vector2(2048, 2048);
     [Export] public Vector2 map_pixel_size = new Vector2(2048, 2048);
 
+    [ExportGroup("Noise")]
+    [Export] public ShaderMaterial noise_material;
+    [Export] public FastNoiseLite noise_gen;
+    [Export] public Vector2 noise_speed;
+
     [ExportGroup("Props")]
     [Export] public ShaderMaterial prop_material;
     [Export] public string[] prop_names = {};
     [Export] public MeshInstance3D[] prop_meshes = {};
-    
+
+    private Vector2 noise_offset = Vector2.Zero;
+
+    public override void _Process(double delta){
+        ScrollNoise(delta);
+    }
+
+    public void ScrollNoise(double delta){
+        noise_offset.X += noise_speed.X * (float)delta % 1.0f;
+        noise_offset.Y += noise_speed.Y * (float)delta % 1.0f;
+        noise_material.SetShaderParameter("uv_offset", noise_offset);
+    }
+
     protected override void AdditionalSetup() {
         shader_material.SetShaderParameter("debug_mode", false);
+        noise_gen.Seed = new Random().Next(0,1000);
         SetupProps();
     }
 
