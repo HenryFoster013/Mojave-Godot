@@ -286,7 +286,7 @@ shadow_size = 8
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=505609779]
 environment = SubResource("Environment_eifla")
 
-[node name="Game Master" type="Node3D" parent="." unique_id=764897770 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_turn", "ui_game_additional", "ui_turn_popup", "ui_turn_popup_bg", "ui_troop_slider_label", "ui_troop_slider")]
+[node name="Game Master" type="Node3D" parent="." unique_id=764897770 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_turn", "ui_game_additional", "ui_turn_popup", "ui_turn_popup_bg", "ui_troop_slider_parent", "ui_troop_slider_label", "ui_troop_slider")]
 script = ExtResource("1_lkwol")
 map_renderer = NodePath("../Map Renderer")
 label_manager = NodePath("../Map Renderer/Board/Label Manager")
@@ -298,6 +298,7 @@ ui_game_turn = NodePath("../UI/UI Container/Game Info/Game Status Label/Status T
 ui_game_additional = NodePath("../UI/UI Container/Game Info/Game Command Label/Status Text")
 ui_turn_popup = NodePath("../UI/UI Container/Turn Label/Player Label")
 ui_turn_popup_bg = NodePath("../UI/UI Container/Turn Label/Player Turn")
+ui_troop_slider_parent = NodePath("../UI/UI Container/Troop Slider")
 ui_troop_slider_label = NodePath("../UI/UI Container/Troop Slider/Slider Window/VBoxContainer2/Troop Count")
 ui_troop_slider = NodePath("../UI/UI Container/Troop Slider/Slider Window/VBoxContainer2/HSlider")
 
@@ -476,6 +477,7 @@ theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 18
 
 [node name="Troop Slider" type="VBoxContainer" parent="UI/UI Container" unique_id=1718663859]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5

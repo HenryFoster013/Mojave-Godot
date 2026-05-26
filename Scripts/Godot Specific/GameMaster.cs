@@ -21,6 +21,7 @@ public partial class GameMaster : Node {
 	[Export] public Label ui_turn_popup;
 	[Export] public Panel ui_turn_popup_bg;
 	[ExportSubgroup("Troop Slider")]
+	[Export] public Control ui_troop_slider_parent;
 	[Export] public Label ui_troop_slider_label;
 	[Export] public HSlider ui_troop_slider;
 
@@ -171,7 +172,7 @@ public partial class GameMaster : Node {
 	}
 
 	void SetupTroopSlider() {
-		ActivateTroopSlider("PLACE", 12);
+		DeactivateTroopSlider();
 		ui_troop_slider.MinValue = 1;
 		ui_troop_slider.Scrollable = false;
 		ui_troop_slider.Editable = true;
@@ -181,14 +182,14 @@ public partial class GameMaster : Node {
 	}
 
 	public void ActivateTroopSlider(string type, int max) {
-		ui_troop_slider.Visible = true;
+		ui_troop_slider_parent.Visible = true;
 		UpdateTroopSliderType(type);
 		ui_troop_slider.MaxValue = max;
 		ui_troop_slider.TickCount = max;
 		ui_troop_slider.Value = 1;
 	}
 
-	public void DeactivateTroopSlider() => ui_troop_slider.Visible = false;
+	public void DeactivateTroopSlider() => ui_troop_slider_parent.Visible = false;
 
 	void UpdateTroopSliderCount() => UpdateTroopSliderCount(ui_troop_slider.Value);
 	void UpdateTroopSliderCount(double value) {
