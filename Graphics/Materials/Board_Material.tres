@@ -1,10 +1,10 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://cq8tp8ic568v2"]
 
 [ext_resource type="Shader" uid="uid://dg1r2awqvup3m" path="res://Scripts/Shaders/Map_Shader_3D.gdshader" id="1_b1xv8"]
-[ext_resource type="Texture2D" uid="uid://c5jccimwhs8cd" path="res://Board/BG.png" id="2_s44l5"]
-[ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Board/Colour_Map.png" id="3_2rxkd"]
-[ext_resource type="Texture2D" uid="uid://bokl8ojv48kky" path="res://Board/Overlay_Highlight.png" id="3_s44l5"]
-[ext_resource type="Texture2D" uid="uid://dtfglifh8245s" path="res://Board/Overlay.png" id="4_8i4j7"]
+[ext_resource type="Texture2D" uid="uid://c5jccimwhs8cd" path="res://Data/Board/BG.png" id="2_s44l5"]
+[ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Data/Board/Colour_Map.png" id="3_2rxkd"]
+[ext_resource type="Texture2D" uid="uid://bokl8ojv48kky" path="res://Data/Board/Overlay_Highlight.png" id="3_s44l5"]
+[ext_resource type="Texture2D" uid="uid://dtfglifh8245s" path="res://Data/Board/Overlay.png" id="4_8i4j7"]
 
 [resource]
 render_priority = 0
@@ -16,4 +16,4 @@ shader_parameter/highlight_overlay = ExtResource("3_s44l5")
 shader_parameter/debug_mode = false
 shader_parameter/territory_count = 115
 shader_parameter/region_mode = 0
-shader_parameter/background_tint = Color(1, 0.87, 0.61, 1)
+shader_parameter/background_tint = Color(1, 0.8295, 0.69, 1)

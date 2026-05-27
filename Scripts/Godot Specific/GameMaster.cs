@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public partial class GameMaster : Node {
 
 	[ExportGroup(" - Primary - ")]
-	[Export] public string map_json_path = "res://Board/map_data.json";
+	[Export] public string map_json_path = "res://Data/map_data.json";
 	[Export] public MapRenderer map_renderer;
 	[Export] public LabelManager label_manager;
 	[Export] public PlayerController player_controller;
@@ -27,6 +27,7 @@ public partial class GameMaster : Node {
 
 	private GameManager manager;
 	private Player current_player => manager.current_player;
+	private Territory current_territory;
 	private int current_turn => manager.total_turn;
 	public IReadOnlyDictionary<string, Territory> Territories => manager.Territories;
 	public IReadOnlyDictionary<string, Region> Regions => manager.Regions;
@@ -90,13 +91,40 @@ public partial class GameMaster : Node {
 	public void SelectTerritory(Territory territory) {
 
 		map_renderer.SelectTerritory(territory);
+		
+		switch(manager.game_state){
 
-		if (territory == null)
-			return;
-		if (manager.game_state == GameManager.state_type.CLAIMANTS) {
-			manager.SpeakClaim(territory);
+			case GameManager.state_type.CLAIMANTS:
+				manager.SpeakClaim(territory);
+				break;
+			
+			case GameManager.state_type.PRIMARY:
+				switch (manager.sub_turn) {
+					case 0: SelectTerritoryPlace(territory); break;
+					case 1: SelectTerritoryConquest(territory); break;
+					case 2: SelectTerritoryFortify(territory); break;
+				}
+				break;
 		}
+
+		current_territory = territory;
 	}
+
+	void SelectTerritoryPlace(Territory territory) { 
+
+		if(!manager.local_turn || territory == current_territory)
+			return;
+
+		if(territory == null)
+			DeactivateTroopSlider();
+		else
+			ActivateTroopSlider("PLACE", current_player.currency);
+
+	}
+
+	void SelectTerritoryConquest(Territory territory) { }
+
+	void SelectTerritoryFortify(Territory territory) { }
 
 	// ----- // UI // ----- //
 

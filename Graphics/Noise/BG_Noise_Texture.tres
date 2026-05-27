@@ -3,7 +3,7 @@
 [ext_resource type="FastNoiseLite" uid="uid://bvg5chkqipn27" path="res://Graphics/Noise/BG_Noise.tres" id="1_t04yr"]
 
 [sub_resource type="Gradient" id="Gradient_cw8we"]
-colors = PackedColorArray(0.05882353, 0.05882353, 0.050980393, 1, 0.12, 0.112399995, 0.0972, 1)
+colors = PackedColorArray(0.09998607, 0.099985965, 0.09998604, 1, 0.14, 0.12922, 0.120400004, 1)
 
 [resource]
 width = 1024

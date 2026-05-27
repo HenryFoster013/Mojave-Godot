@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dv06siv2bgt5g"
-path="res://.godot/imported/Colour_Map.png-abe1c30e99183dd99687b88b6e626d94.ctex"
+uid="uid://c5jccimwhs8cd"
+path="res://.godot/imported/BG.png-5d7d9571a675bfe6883a5118223bc270.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Board/Colour_Map.png"
-dest_files=["res://.godot/imported/Colour_Map.png-abe1c30e99183dd99687b88b6e626d94.ctex"]
+source_file="res://Data/Board/BG.png"
+dest_files=["res://.godot/imported/BG.png-5d7d9571a675bfe6883a5118223bc270.ctex"]
 
 [params]
 

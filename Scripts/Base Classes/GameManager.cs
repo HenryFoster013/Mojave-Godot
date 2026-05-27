@@ -11,6 +11,7 @@ public class GameManager {
 
 	public int current_player_turn { get; private set; }
 	public int total_turn { get; private set; }
+	public int sub_turn { get; private set; }
 	private List<Player> players = new();
 	public Player current_player => current_player_turn > -1 ? players[current_player_turn] : null;
 
@@ -23,7 +24,7 @@ public class GameManager {
 	public IReadOnlyDictionary<string, Region> Regions => regions;
 
 	bool initial_turn;
-	int sub_turn;
+	public bool local_turn => current_player.type == Player.player_type.LOCAL;
 
 	// ----- // SETUP // ----- //
 
@@ -268,10 +269,11 @@ public class GameManager {
 			case state_type.CLAIMANTS: ClaimantsTurn(); break;
 			case state_type.PRIMARY: PrimaryTurn(); break;
 		}
+		game_master.UpdateAllUI();
 	}
 
 	private void IterateTurn() {
-	  sub_turn = 0;
+		sub_turn = 0;
 		current_player_turn++;
 		total_turn++;
 		if (current_player_turn >= players.Count) {
@@ -288,6 +290,7 @@ public class GameManager {
 		sub_turn++;
 		if (sub_turn > 2 || initial_turn)
 			IterateTurn();
+		game_master.UpdateAllUI();
 	}
 
 	private void ClaimantsTurn() {
@@ -309,12 +312,14 @@ public class GameManager {
 	// ----- // SPOKEN FROM PLAYERS // ----- //
 
 	public bool SpeakClaim(Territory territory) {
-		if (current_player.type != Player.player_type.LOCAL)
+		if (!local_turn)
 			return false;
 		return SpeakClaim(current_player, territory);
 	}
 
 	public bool SpeakClaim(Player player, Territory territory) {
+		if(territory == null)
+			return false;
 		if (player != players[current_player_turn])
 			return false;
 		if (territory.Owner != null)
