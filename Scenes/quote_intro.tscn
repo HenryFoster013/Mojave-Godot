@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://pfier144s0n0"]
+
+[ext_resource type="Script" uid="uid://3get8v3vg5pa" path="res://Scripts/Godot Specific/Misc Scripting/QuoteScene.cs" id="1_ccsj7"]
+
+[node name="Quote Scene" type="Node2D" unique_id=449526294 node_paths=PackedStringArray("QuoteLabel", "CoveringColourRect")]
+script = ExtResource("1_ccsj7")
+QuoteLabel = NodePath("CanvasLayer/Quote Label")
+CoveringColourRect = NodePath("CanvasLayer/Covering")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1736800644]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1273018525]
+
+[node name="BG" type="ColorRect" parent="CanvasLayer" unique_id=951985390]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Quote Label" type="RichTextLabel" parent="CanvasLayer" unique_id=2107292708]
+custom_minimum_size = Vector2(450, 200)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -100.0
+offset_right = 225.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 18
+theme_override_font_sizes/italics_font_size = 18
+bbcode_enabled = true
+text = "[i]Quote here..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Covering" type="ColorRect" parent="CanvasLayer" unique_id=786331538]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
