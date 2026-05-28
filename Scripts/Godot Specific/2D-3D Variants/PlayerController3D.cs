@@ -27,6 +27,13 @@ public partial class PlayerController3D : PlayerController {
 
 	protected override void WorldClicks(InputEvent e) {
 		if (e.IsActionPressed("LeftClick")) {
+
+			var hovered = GetViewport().GuiGetHoveredControl();
+			if (hovered != null) {
+				GD.Print($"UI selected, {hovered.GetPath()}");
+				return;
+			}
+
 			var space = camera.GetWorld3D().DirectSpaceState;
 			var mouse_pos = GetViewport().GetMousePosition();
 			var origin = camera.ProjectRayOrigin(mouse_pos);

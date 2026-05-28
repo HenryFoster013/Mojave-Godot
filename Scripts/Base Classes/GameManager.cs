@@ -305,7 +305,6 @@ public class GameManager {
 	private void PrimaryTurn() {
 		if (!initial_turn)
 			current_player.AddCurrency(CalculatePlayerProfit(current_player));
-		game_master.UpdateAddTroopPlacementText();
 		game_master.ActivateTurnPopup();
 	}
 

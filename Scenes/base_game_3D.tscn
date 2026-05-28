@@ -204,12 +204,12 @@ content_margin_left = 0.0
 content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
-bg_color = Color(0.12, 0.101500005, 0.0756, 1)
+bg_color = Color(0.22420001, 0.30989003, 0.38, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.93435013, 0.8296976, 0.7019529, 1)
+border_color = Color(0.4118, 0.50431, 0.58, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -400,6 +400,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme = ExtResource("9_1xrtk")
 
 [node name="Game Info" type="VBoxContainer" parent="UI/UI Container" unique_id=2096441238]
@@ -408,14 +409,17 @@ offset_left = 15.0
 offset_top = 15.0
 offset_right = 515.0
 offset_bottom = 115.0
+mouse_filter = 2
 
 [node name="Game Status Label" type="HBoxContainer" parent="UI/UI Container/Game Info" unique_id=386429051]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 10
 
 [node name="Divisor 1" type="TextureRect" parent="UI/UI Container/Game Info/Game Status Label" unique_id=1078981305]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("10_fysi3")
 expand_mode = 4
 
@@ -428,6 +432,7 @@ text = "Claimants"
 [node name="Divisor 2" type="TextureRect" parent="UI/UI Container/Game Info/Game Status Label" unique_id=1137470911]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("10_fysi3")
 expand_mode = 4
 
@@ -439,11 +444,13 @@ text = "Turn 0"
 
 [node name="Game Command Label" type="HBoxContainer" parent="UI/UI Container/Game Info" unique_id=1224127532]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 10
 
 [node name="Divisor 1" type="TextureRect" parent="UI/UI Container/Game Info/Game Command Label" unique_id=455191853]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("10_fysi3")
 expand_mode = 4
 
@@ -463,11 +470,13 @@ offset_top = -40.0
 offset_right = 213.26
 offset_bottom = -10.0
 grow_vertical = 0
+mouse_filter = 2
 theme_override_constants/separation = 10
 
 [node name="Player Colour" type="TextureRect" parent="UI/UI Container/Current Player Label" unique_id=1697946151]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("10_fysi3")
 expand_mode = 4
 
@@ -477,7 +486,6 @@ theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 18
 
 [node name="Troop Slider" type="VBoxContainer" parent="UI/UI Container" unique_id=1718663859]
-visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -491,6 +499,7 @@ offset_bottom = -35.0
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(1.1, 1.1)
+mouse_filter = 2
 theme_override_constants/separation = 10
 
 [node name="Slider Window" type="Panel" parent="UI/UI Container/Troop Slider" unique_id=531166169]
@@ -521,6 +530,7 @@ vertical_alignment = 1
 
 [node name="HSlider" type="HSlider" parent="UI/UI Container/Troop Slider/Slider Window/VBoxContainer2" unique_id=46018067]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_icons/tick = ExtResource("14_6gkh4")
 theme_override_styles/slider = SubResource("StyleBoxFlat_6gkh4")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_ogcs1")
@@ -533,6 +543,7 @@ ticks_position = 3
 custom_minimum_size = Vector2(145, 25)
 layout_mode = 2
 size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ge24r")
 
 [node name="Troop Count" type="Label" parent="UI/UI Container/Troop Slider/Confirm Button" unique_id=1021134140]
@@ -567,6 +578,7 @@ offset_right = 100.0
 offset_bottom = 16.25
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Player Turn" type="Panel" parent="UI/UI Container/Turn Label" unique_id=1819852846]
 layout_mode = 1
@@ -575,6 +587,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_eifla")
 
 [node name="Player Label" type="Label" parent="UI/UI Container/Turn Label" unique_id=1714190176]
@@ -592,12 +605,5 @@ vertical_alignment = 1
 
 [node name="BG" type="CanvasLayer" parent="." unique_id=1687873739]
 layer = -1
+visible = false
 follow_viewport_enabled = true
-
-[node name="Noise" type="ColorRect" parent="BG" unique_id=1382400137]
-material = ExtResource("15_ogcs1")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2

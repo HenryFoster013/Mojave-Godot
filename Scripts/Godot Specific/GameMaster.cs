@@ -115,7 +115,7 @@ public partial class GameMaster : Node {
 		if(!manager.local_turn || territory == current_territory)
 			return;
 
-		if(territory == null)
+		if(territory == null || territory.Owner != current_player)
 			DeactivateTroopSlider();
 		else
 			ActivateTroopSlider("PLACE", current_player.currency);
@@ -173,6 +173,7 @@ public partial class GameMaster : Node {
 				
 			case GameManager.state_type.PRIMARY:
 				ui_game_state.Text = "Primary"; 
+				ui_game_additional.Text = $"You have {current_player.currency} spare troops";
 				ui_game_turn.Text = TurnText(); 
 				break;
 				
@@ -194,10 +195,6 @@ public partial class GameMaster : Node {
 	}
 
 	// Troop Slider //
-
-	public void UpdateAddTroopPlacementText(){
-		ui_game_additional.Text = $"You have {current_player.currency} spare troops";
-	}
 
 	void SetupTroopSlider() {
 		DeactivateTroopSlider();

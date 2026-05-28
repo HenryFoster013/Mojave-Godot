@@ -10,8 +10,6 @@ uniform sampler2D highlight_overlay : filter_nearest, repeat_disable;
 uniform int territory_count = 115;
 uniform int region_mode = 0;
 
-uniform vec4 background_tint : source_color = vec4(1.0, 1.0, 1.0, 1.0);
-
 vec3 soft_light(vec3 base, vec3 blend) {
     return (1.0 - 2.0 * blend) * base * base + 2.0 * blend * base;
 }
@@ -38,9 +36,6 @@ void fragment() {
         base_colour.rgb *= tint.rgb;
         highlight = texture(highlight_lut, vec2(uv_x, 0.5)).r;
         base_colour.rgb *= (0.7 + highlight * 1.5);
-    }
-    else {
-        base_colour.rgb = mix(base_colour.rgb, soft_light(base_colour.rgb, background_tint.rgb), background_tint.a);
     }
 
     if (over_colour.a > 0.01) {

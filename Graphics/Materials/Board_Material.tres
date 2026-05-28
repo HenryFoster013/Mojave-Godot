@@ -16,4 +16,3 @@ shader_parameter/highlight_overlay = ExtResource("3_s44l5")
 shader_parameter/debug_mode = false
 shader_parameter/territory_count = 115
 shader_parameter/region_mode = 0
-shader_parameter/background_tint = Color(1, 0.8295, 0.69, 1)

@@ -20,6 +20,13 @@ public partial class PlayerController2D : PlayerController {
     }
 
     protected override void WorldClicks(InputEvent e) {
+
+        var hovered = GetViewport().GuiGetHoveredControl();
+        if (hovered != null) {
+            GD.Print($"UI selected, {hovered.GetPath()}");
+            return;
+        }
+
         if (e.IsActionPressed("LeftClick")) {
             var mouse_event = (InputEventMouseButton)e;
             Vector2 click_pos = GetViewport().CanvasTransform.AffineInverse() * mouse_event.Position;
