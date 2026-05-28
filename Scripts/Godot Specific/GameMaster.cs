@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using static RiskUtils;
 
 public partial class GameMaster : Node {
 
@@ -27,29 +28,37 @@ public partial class GameMaster : Node {
 
 	private GameManager manager;
 	private Player current_player => manager.current_player;
+
 	private Territory current_territory;
-	private int current_turn => manager.total_turn;
 	public IReadOnlyDictionary<string, Territory> Territories => manager.Territories;
 	public IReadOnlyDictionary<string, Region> Regions => manager.Regions;
+	
+	private int current_turn => manager.total_turn;
+	public State game_state => manager.game_state;
+	public SubTurn sub_turn => manager.sub_turn;
+
 	private float turn_popup_time;
-	private string troop_slider_verb;
 
 	// ----- // SETUP // ----- //
 
 	public override async void _Ready() {
-		UpdateTurnPopup(2f);
+		
 		GD.Print(" - Start - ");
+		UpdateTurnPopup(2f);
 		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
 		GD.Print("Initial frame buffered, loading data.");
-		SetupTroopSlider();
 		LoadJson();
+		Subscribe();
 		LoadExports();
+
 		GD.Print("\nLoading complete! Starting game.");
 		manager.KickStart(true);
+		SetupTroopSlider();
 	}
 
 	private void LoadJson() {
-		manager = new GameManager(this);
+		manager = new GameManager();
 		if (!FileAccess.FileExists(map_json_path)) {
 			GD.PrintErr($"Json not found at '{map_json_path}'!");
 			return;
@@ -59,11 +68,20 @@ public partial class GameMaster : Node {
 		GD.Print($"Loaded {Regions.Count} regions and {Territories.Count} territories from Json.");
 	}
 
+	private void Subscribe() {
+		manager.OnTerritoryCountChanged += territory => label_manager.UpdateTroopCount(territory);
+		manager.OnClaimancy += LoadClaimants;
+		manager.OnPrimary += LoadPrimary;
+		manager.OnUIUpdate += UpdateAllUI;
+		manager.OnNewTurn += ActivateTurnPopup;
+		manager.OnLog += LogMessage;
+	}
+
 	private void LoadExports() {
 
 		GD.Print($"LabelManager valid: {label_manager != null}.");
-		GD.Print($"MapRenderer valid: {label_manager != null}.");
-		GD.Print($"PlayerController valid: {label_manager != null}.");
+		GD.Print($"MapRenderer valid: {map_renderer != null}.");
+		GD.Print($"PlayerController valid: {player_controller != null}.");
 
 		label_manager.Setup(this);
 		map_renderer.Setup(this, label_manager);
@@ -92,17 +110,17 @@ public partial class GameMaster : Node {
 
 		map_renderer.SelectTerritory(territory);
 		
-		switch(manager.game_state){
+		switch(game_state){
 
-			case GameManager.state_type.CLAIMANTS:
+			case State.CLAIMANTS:
 				manager.SpeakClaim(territory);
 				break;
 			
-			case GameManager.state_type.PRIMARY:
-				switch (manager.sub_turn) {
-					case 0: SelectTerritoryPlace(territory); break;
-					case 1: SelectTerritoryConquest(territory); break;
-					case 2: SelectTerritoryFortify(territory); break;
+			case State.PRIMARY:
+				switch (sub_turn) {
+					case SubTurn.PLACE: SelectTerritoryPlace(territory); break;
+					case SubTurn.ATTACK: SelectTerritoryConquest(territory); break;
+					case SubTurn.FORTIFY: SelectTerritoryFortify(territory); break;
 				}
 				break;
 		}
@@ -133,6 +151,8 @@ public partial class GameMaster : Node {
 		UpdateTurnLabel();
 	}
 
+	public void LogMessage(string message) => GD.Print(message);
+
 	// Player //
 
 	public void UpdatePlayerLabel() {
@@ -144,7 +164,7 @@ public partial class GameMaster : Node {
 		}
 		else {
 			ui_player_name.Text = current_player.name;
-			ui_player_colour.SelfModulate = current_player.colour;
+			ui_player_colour.SelfModulate = Color.FromHtml(current_player.colour);
 		}
 	}
 
@@ -159,25 +179,25 @@ public partial class GameMaster : Node {
 		ui_game_turn.Text = "";
 		ui_game_additional.Text = "";
 		
-		switch (manager.game_state) {
+		switch (game_state) {
 		
-			case GameManager.state_type.NULL: 
+			case State.NULL: 
 				ui_game_state.Text = "NULL"; 
 				break;
 			
-			case GameManager.state_type.CLAIMANTS:
+			case State.CLAIMANTS:
 				ui_game_state.Text = "Claimants"; 
 				ui_game_additional.Text = "Select a tile to claim";
 				ui_game_turn.Text = TurnText(); 
 				break;
 				
-			case GameManager.state_type.PRIMARY:
+			case State.PRIMARY:
 				ui_game_state.Text = "Primary"; 
 				ui_game_additional.Text = $"You have {current_player.currency} spare troops";
 				ui_game_turn.Text = TurnText(); 
 				break;
 				
-			case GameManager.state_type.ENDGAME:
+			case State.ENDGAME:
 				ui_game_state.Text = "Endgame"; 
 				break;
 		}
@@ -189,7 +209,7 @@ public partial class GameMaster : Node {
 		string display_text = current_player.name;
 		display_text += (display_text.EndsWith("s") ? "' Turn" : "'s Turn");
 		ui_turn_popup.Text = display_text;
-		ui_turn_popup_bg.SelfModulate = current_player.colour;
+		ui_turn_popup_bg.SelfModulate = Color.FromHtml(current_player.colour);
 		turn_popup_time = 2f;
 		UpdateTurnPopup(0f);
 	}
@@ -202,40 +222,38 @@ public partial class GameMaster : Node {
 		ui_troop_slider.Scrollable = false;
 		ui_troop_slider.Editable = true;
 		ui_troop_slider.Step = 1;
-		ui_troop_slider.ValueChanged += UpdateTroopSliderCount;
-		UpdateTroopSliderCount();
+		ui_troop_slider.Value = 1;
+		ui_troop_slider.ValueChanged += UpdateTroopSliderText;
+		UpdateTroopSliderText();
 	}
 
 	public void ActivateTroopSlider(string type, int max) {
 		ui_troop_slider_parent.Visible = true;
-		UpdateTroopSliderType(type);
 		ui_troop_slider.MaxValue = max;
 		ui_troop_slider.TickCount = max;
 		ui_troop_slider.Value = 1;
+		UpdateTroopSliderText();
 	}
 
 	public void DeactivateTroopSlider() => ui_troop_slider_parent.Visible = false;
 
-	void UpdateTroopSliderCount() => UpdateTroopSliderCount(ui_troop_slider.Value);
-	void UpdateTroopSliderCount(double value) {
+	void UpdateTroopSliderText() => UpdateTroopSliderText(ui_troop_slider.Value);
+	void UpdateTroopSliderText(double value) {
+		
 		string s_val = "";
-		if (ui_troop_slider.Value > 1)
-			s_val = "S";
-		ui_troop_slider_label.Text = $"{troop_slider_verb} [{value}] TROOP{s_val}";
-	}
-
-	void UpdateTroopSliderType(string type) {
-		switch(type) {
-			case "PLACE":
-				troop_slider_verb ="PLACE";
+		string verb = "PLACE";
+		switch (sub_turn){
+			case SubTurn.ATTACK:
+				verb = "REINFORCE";
 				break;
-			case "CONQUEST":
-				troop_slider_verb ="REINFORCE";
-				break;
-			case "FORTIFY":
-				troop_slider_verb ="MOVE";
+			case SubTurn.FORTIFY:
+				verb = "FORTIFY";
 				break;
 		}
+
+		if (ui_troop_slider.Value > 1)
+			s_val = "S";
+		ui_troop_slider_label.Text = $"{verb} [{value}] TROOP{s_val}";
 	}
 
 	// ----- // STATE TRANSITIONS // ----- //

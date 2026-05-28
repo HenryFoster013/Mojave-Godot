@@ -1,5 +1,7 @@
 using Godot;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 public class Region {
 
@@ -9,7 +11,7 @@ public class Region {
 
     public string id { get; init; }
     public string name { get; init; }
-    public Color colour { get; init; }
+    public string colour { get; init; }
     public Vector2 centroid { get; init; }
     public IReadOnlyList<string> territory_ids { get; init; }
     public int bonus { get; init; }
@@ -24,23 +26,20 @@ public class Region {
 
     // ----- // FUNCTIONALITY // ----- //
 
-    public static Region FromJson(Godot.Collections.Dictionary data) {
+    public static Region FromJson(JsonObject data) {
     
-        Color color = Color.FromString(data["color"].AsString(), Colors.Magenta);
-
-        var centroidData = data["centroid"].AsGodotDictionary();
+        var centroidData = data["centroid"].AsObject();
+        
         var ids = new List<string>();
-        foreach (var id in data["tileIds"].AsGodotArray())
-            ids.Add(id.AsString());
+        foreach (var id in data["tileIds"].AsArray())
+            ids.Add(id.GetValue<string>());
 
         return new Region {
-            id = data["id"].AsString(),
-            name = data["name"].AsString(),
-            colour = color,
-            bonus = data["bonus"].AsInt32(),
-            centroid = new Vector2(
-                centroidData["x"].AsSingle(),
-                centroidData["y"].AsSingle()),
+            id = data["id"].GetValue<string>(),
+            name = data["name"].GetValue<string>(),
+            colour = data["color"].GetValue<string>(),
+            bonus = data["bonus"].GetValue<int>(),
+            centroid = new Vector2(centroidData["x"].GetValue<float>(), centroidData["y"].GetValue<float>()),
             territory_ids = ids,
         };
     }

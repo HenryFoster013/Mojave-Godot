@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://dxrllqw4m8jdc" path="res://Scripts/Godot Specific/2D-3D Variants/LabelManager3D.cs" id="7_6gkh4"]
 [ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="9_1xrtk"]
 [ext_resource type="Material" uid="uid://crral11n3piok" path="res://Graphics/Materials/Prop_Material.tres" id="9_eifla"]
-[ext_resource type="PackedScene" uid="uid://nftb8hiopihw" path="res://Data/Board/Prefabs/Map_Label_3D.tscn" id="10_6gkh4"]
+[ext_resource type="PackedScene" uid="uid://nftb8hiopihw" path="res://Data/Prefabs/Map_Label_3D.tscn" id="10_6gkh4"]
 [ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Gradient_Vertical.png" id="10_fysi3"]
 [ext_resource type="Texture2D" uid="uid://dambgr1sw4erq" path="res://Graphics/Images/Tick_Icon.png" id="14_6gkh4"]
 [ext_resource type="Material" uid="uid://dfcakiu3shn6h" path="res://Graphics/Materials/Noise_Material.tres" id="15_ogcs1"]
@@ -204,17 +204,17 @@ content_margin_left = 0.0
 content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
-bg_color = Color(0.22420001, 0.30989003, 0.38, 1)
+bg_color = Color(0.3647059, 0.40392157, 0.41960785, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.4118, 0.50431, 0.58, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
+border_color = Color(0.6952, 0.76314, 0.79, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+corner_detail = 1
 shadow_color = Color(0, 0, 0, 0.6156863)
 shadow_size = 6
 shadow_offset = Vector2(0, 3)
@@ -235,32 +235,78 @@ content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
-bg_color = Color(1, 1, 1, 0.18431373)
+bg_color = Color(1, 1, 1, 0.5019608)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 corner_detail = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n38fa"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.73, 0.48666668, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.8, 0.39999998, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 1
+shadow_color = Color(0, 0, 0, 0.40392157)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ge24r"]
 content_margin_left = 0.0
 content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
-bg_color = Color(0.37, 0.051799994, 0.051799994, 1)
+bg_color = Color(0.79, 0.5266667, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.8, 0.39999998, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 1
+shadow_color = Color(0, 0, 0, 0.40392157)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1xrtk"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.88, 0.5866667, 0, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.85, 0.2295, 0.2295, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
+border_color = Color(1, 0.8, 0.39999998, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 1
 shadow_color = Color(0, 0, 0, 0.40392157)
 shadow_size = 5
 shadow_offset = Vector2(0, 3)
+
+[sub_resource type="InputEventKey" id="InputEventKey_wwtvl"]
+keycode = 13
+
+[sub_resource type="Shortcut" id="Shortcut_ge24r"]
+events = [SubResource("InputEventKey_wwtvl")]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eifla"]
 content_margin_left = 0.0
@@ -315,7 +361,7 @@ mesh = NodePath("Board")
 map_world_size = Vector2(5, 5)
 noise_material = ExtResource("15_ogcs1")
 noise_gen = ExtResource("4_6gkh4")
-noise_speed = Vector2(0.01, 0.01)
+noise_speed = Vector2(0.005, 0.005)
 prop_material = ExtResource("9_eifla")
 prop_names = PackedStringArray("THE_STRIP", "THE_FORT", "REPCONN_TEST_SITE", "REPCONN_TEST_SITE", "YANGTZE_MEMORIAL")
 prop_meshes = [NodePath("Board/Meshes/Props/Lucky 38"), NodePath("Board/Meshes/Props/The Fort"), NodePath("Board/Meshes/Props/Recponn TS Building"), NodePath("Board/Meshes/Props/Repconn TS Dome"), NodePath("Board/Meshes/Props/Yangtze Memorial")]
@@ -539,31 +585,17 @@ tick_count = 12
 ticks_on_borders = true
 ticks_position = 3
 
-[node name="Confirm Button" type="Panel" parent="UI/UI Container/Troop Slider" unique_id=1428791552]
-custom_minimum_size = Vector2(145, 25)
+[node name="Button" type="Button" parent="UI/UI Container/Troop Slider" unique_id=156195081]
+custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
 size_flags_horizontal = 4
-mouse_default_cursor_shape = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ge24r")
-
-[node name="Troop Count" type="Label" parent="UI/UI Container/Troop Slider/Confirm Button" unique_id=1021134140]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -70.0
-offset_top = -8.5
-offset_right = 70.0
-offset_bottom = 9.5
-grow_horizontal = 2
-grow_vertical = 2
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_n38fa")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ge24r")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1xrtk")
+shortcut = SubResource("Shortcut_ge24r")
 text = "CONFIRM"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Turn Label" type="Control" parent="UI/UI Container" unique_id=1370865056]
 layout_mode = 1
@@ -605,5 +637,13 @@ vertical_alignment = 1
 
 [node name="BG" type="CanvasLayer" parent="." unique_id=1687873739]
 layer = -1
-visible = false
 follow_viewport_enabled = true
+
+[node name="Sky" type="ColorRect" parent="BG" unique_id=227884980]
+material = ExtResource("15_ogcs1")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

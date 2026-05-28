@@ -1,17 +1,17 @@
-using Godot;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using static RiskUtils;
 
 public class GameManager {
 
-	private GameMaster game_master;
-	public enum state_type { NULL, CLAIMANTS, PRIMARY, ENDGAME }
-	public state_type game_state { get; private set; }
+	public State game_state { get; private set; }
+	public SubTurn sub_turn { get; private set; }
 	private static readonly Random random = new Random();
 
 	public int current_player_turn { get; private set; }
 	public int total_turn { get; private set; }
-	public int sub_turn { get; private set; }
 	private List<Player> players = new();
 	public Player current_player => current_player_turn > -1 ? players[current_player_turn] : null;
 
@@ -23,12 +23,17 @@ public class GameManager {
 	public IReadOnlyDictionary<string, Territory> Territories_ID => territories_id;
 	public IReadOnlyDictionary<string, Region> Regions => regions;
 
+	public event Action OnUIUpdate;
+	public event Action OnClaimancy;
+	public event Action OnPrimary;
+	public event Action OnNewTurn;
+	public event Action<Territory> OnTerritoryCountChanged;
+	public event Action<string> OnLog;
+
 	bool initial_turn;
-	public bool local_turn => current_player.type == Player.player_type.LOCAL;
+	public bool local_turn => current_player.type == PlayerType.LOCAL;
 
 	// ----- // SETUP // ----- //
-
-	public GameManager(GameMaster master) { game_master = master; }
 
 	public void LoadJson(string json_text) {
 		ResetBaseInfo();
@@ -41,16 +46,16 @@ public class GameManager {
 		initial_turn = true;
 		current_player_turn = -1;
 		total_turn = -1;
-		game_state = state_type.NULL;
+		game_state = State.NULL;
 	}
 
 	private void GeneratedTestPlayers() {
 		players = new List<Player>();
-		players.Add(new LocalPlayer(this, "Henry", Colors.Red));
-		players.Add(new LocalPlayer(this, "Thomas", Colors.Blue));
-		players.Add(new LocalPlayer(this, "Andre", Colors.Green));
-		players.Add(new LocalPlayer(this, "Arshia", Colors.Yellow));
-		GD.Print("Test players created.");
+		players.Add(new LocalPlayer(this, "Henry", "#FF0000"));
+		players.Add(new LocalPlayer(this, "Thomas", "#0000FF"));
+		players.Add(new LocalPlayer(this, "Andre", "#00FF00"));
+		players.Add(new LocalPlayer(this, "Arshia", "#FFFF00"));
+		OnLog?.Invoke("Test players created.");
 	}
 
 	private void ConsolidatePlayerIds() {
@@ -63,7 +68,7 @@ public class GameManager {
 			players[i].SetId(i);
 			players[i].SetCurrency(initial_currency);
 		}
-		GD.Print($"Players consolidated: {players}");
+		OnLog?.Invoke($"Players consolidated: {players}");
 	}
 
 	public void KickStart(bool random_claims) {
@@ -74,22 +79,19 @@ public class GameManager {
 	// ----- // MAP CREATION // ----- //
 
 	private void BuildMap(string json_text) {
-		var parsed = Json.ParseString(json_text);
-		if (parsed.VariantType != Variant.Type.Dictionary)
-			throw new System.Exception("MapManager: failed to parse map JSON.");
-		var root = parsed.AsGodotDictionary();
+		var root = JsonNode.Parse(json_text)?.AsObject() ?? throw new Exception("MapManager: failed to parse map JSON.");
 		FillData(root);
 	}
 
-	private void FillData(Godot.Collections.Dictionary root) {
+	private void FillData(JsonObject root) {
 
-		foreach (var entry in root["regions"].AsGodotArray()) {
-			var region = Region.FromJson(entry.AsGodotDictionary());
+		foreach (var entry in root["regions"].AsArray()) {
+			var region = Region.FromJson(entry.AsObject());
 			regions[region.id] = region;
 		}
 
-		foreach (var entry in root["tiles"].AsGodotArray()) {
-			var territory = Territory.FromJson(entry.AsGodotDictionary());
+		foreach (var entry in root["tiles"].AsArray()) {
+			var territory = Territory.FromJson(entry.AsObject());
 			territories[territory.map_colour] = territory;
 			territories_id[territory.id] = territory;
 		}
@@ -121,26 +123,26 @@ public class GameManager {
 	void StartClaimancy(bool random_claims) {
 		total_turn = 0;
 		if (random_claims) {
-			GD.Print("Assigning Random Claims.");
+			OnLog?.Invoke("Assigning Random Claims.");
 			AssignRandomClaims();
 			return;
 		}
-		GD.Print("Starting Claimancy.");
-		game_state = state_type.CLAIMANTS;
-		game_master.LoadClaimants();
+		OnLog?.Invoke("Starting Claimancy.");
+		game_state = State.CLAIMANTS;
+		OnClaimancy?.Invoke();
 		LoadTurn();
 	}
 
 	private void ClaimTerritory(Player player, Territory territory) {
 		territory.Owner = player;
-		territory.SetTroops(1);
-		game_master.label_manager.UpdateTroopCount(territory);
-		GD.Print($"{player.name} claimed {territory.name}.");
+		territory.SetTroops(MIN_TROOPS);
+		OnTerritoryCountChanged?.Invoke(territory);
+		OnLog?.Invoke($"{player.name} claimed {territory.name}.");
 	}
 
 	private void AssignRandomClaims() {
 
-		GD.Print("Assigning random claims.");
+		OnLog?.Invoke("Assigning random claims.");
 
 		var shuffled = Shuffle(new List<Territory>(territories.Values));
 		for (int i = 0; i < shuffled.Count; i++) {
@@ -162,19 +164,20 @@ public class GameManager {
 
 	// ----- //  GENERIC FUNCTIONS // ----- //
 
-	int DiceRoll() => random.Next(1,7);
+	int DiceRoll() => random.Next(0, 6) + 1;
 	int[] GetRolls(Territory territory, bool attacking) {
 
 		int[] rolls = {0, 0, 0};
 
 		if (attacking) {
-			if (territory.troop_count >= 4) rolls[2] = DiceRoll();
-			if (territory.troop_count >= 3) rolls[1] = DiceRoll();
-			if (territory.troop_count >= 2) rolls[0] = DiceRoll();
+			int working_troops = territory.troop_count - MIN_TROOPS;
+			if (working_troops > 2) rolls[2] = DiceRoll();
+			if (working_troops > 1) rolls[1] = DiceRoll();
+			if (working_troops > 0) rolls[0] = DiceRoll();
 		}
 		else {
-			if (territory.troop_count >= 2) rolls[1] = DiceRoll();
-			if(territory.troop_count >= 1) rolls[0] = DiceRoll();
+			if (territory.troop_count > 1) rolls[1] = DiceRoll();
+			if(territory.troop_count > 0) rolls[0] = DiceRoll();
 		}
 
 		Array.Sort(rolls);
@@ -182,7 +185,7 @@ public class GameManager {
 		return rolls;
 	}
 
-	bool ZerodRoll(int[] attacking, int[] defending, int position) {
+	bool IsRollEmpty(int[] attacking, int[] defending, int position) {
 		if (attacking[position] == 0 || defending[position] == 0)
 			return true;
 		return false;
@@ -200,34 +203,34 @@ public class GameManager {
 
 	void StartPrimary() {
 		total_turn = 0;
-		sub_turn = 0;
-		game_state = state_type.PRIMARY;
-		game_master.LoadPrimary();
+		sub_turn = SubTurn.PLACE;
+		game_state = State.PRIMARY;
+		OnPrimary?.Invoke();
 	}
 
 	public void CashInTroops(int amount, Territory territory) {
-		if (sub_turn != 0) return;
+		if (sub_turn != SubTurn.PLACE) return;
 		if (!current_player.CanAfford(amount) || territory.Owner != current_player) return;
 		territory.AddTroops(amount);
-		GD.Print($"{current_player.name} cashed in {amount} troops at {territory.name}.");
+		OnLog?.Invoke($"{current_player.name} cashed in {amount} troops at {territory.name}.");
 		if (!current_player.SpareChange())
 			IterateSubTurn();
 	}
 
 	public void AttackTile(Territory from_terri, Territory to_terri) {
 		if (from_terri.Owner != current_player || to_terri.Owner == current_player) return;
-		if (from_terri.troop_count <= 1) return;
+		if (from_terri.troop_count <= MIN_TROOPS) return;
 		if (!from_terri.IsAdjacentTo(to_terri)) return;
 
 		AttackRound(from_terri, to_terri);
 		
 		// Finish this
 		switch (CheckAttackState(from_terri, to_terri)) {
-			case "STANDARD":
+			case AttackResult.STANDARD:
 				break;
-			case "INVALID":
+			case AttackResult.INVALID:
 				break;
-			case "CONQUEST":
+			case AttackResult.CONQUEST:
 				break;
 		}
 	}
@@ -239,13 +242,13 @@ public class GameManager {
 		
 		int[] attacking = GetRolls(from_terri, true);
 		int[] defending = GetRolls(to_terri, false);
-		if (ZerodRoll(attacking, defending, 0)) return;		
+		if (IsRollEmpty(attacking, defending, 0)) return;		
 		
 		if (attacking[0] > defending[0]) defense_losses++; else attack_losses++;
-		if (!ZerodRoll(attacking, defending, 1)) {
+		if (!IsRollEmpty(attacking, defending, 1)) {
 			if (attacking[1] > defending[1]) defense_losses++; else attack_losses++;
 		}
-		if (!ZerodRoll(attacking, defending, 2)) {
+		if (!IsRollEmpty(attacking, defending, 2)) {
 			if (attacking[2] > defending[2]) defense_losses++; else attack_losses++;
 		}
 		
@@ -253,10 +256,10 @@ public class GameManager {
 		to_terri.RemoveTroops(defense_losses);
 	}
 
-	string CheckAttackState(Territory from_terri, Territory to_terri) {
-		if (from_terri.troop_count < 1) return "INVALID";
-		if (to_terri.troop_count < 1) return "CONQUEST";
-		return "STANDARD";
+	AttackResult CheckAttackState(Territory from_terri, Territory to_terri) {
+		if (from_terri.troop_count < 1) return AttackResult.INVALID;
+		if (to_terri.troop_count < 1) return AttackResult.CONQUEST;
+		return AttackResult.STANDARD;
 	}
 
 	// ----- // TURNS // ----- //
@@ -266,31 +269,37 @@ public class GameManager {
 			return;
 		IterateTurn();
 		switch (game_state) {
-			case state_type.CLAIMANTS: ClaimantsTurn(); break;
-			case state_type.PRIMARY: PrimaryTurn(); break;
+			case State.CLAIMANTS: ClaimantsTurn(); break;
+			case State.PRIMARY: PrimaryTurn(); break;
 		}
-		game_master.UpdateAllUI();
+		OnUIUpdate?.Invoke();
 	}
 
 	private void IterateTurn() {
-		sub_turn = 0;
+		sub_turn = SubTurn.PLACE;
 		current_player_turn++;
 		total_turn++;
+
 		if (current_player_turn >= players.Count) {
 			current_player_turn = 0;
-			if (game_state == state_type.PRIMARY)
+			if (game_state == State.PRIMARY)
 				initial_turn = false;
 		}
-		game_master.UpdateAllUI();
+
+		OnUIUpdate?.Invoke();
 	}
 
 	private void IterateSubTurn() {
-		if (game_state != state_type.PRIMARY)
+		if (game_state != State.PRIMARY)
 			return;
-		sub_turn++;
-		if (sub_turn > 2 || initial_turn)
-			IterateTurn();
-		game_master.UpdateAllUI();
+
+		switch (sub_turn) {
+			case SubTurn.PLACE: sub_turn = SubTurn.ATTACK; break;
+			case SubTurn.ATTACK: sub_turn = SubTurn.FORTIFY; break;
+			case SubTurn.FORTIFY: IterateTurn(); break;
+		}
+
+		OnUIUpdate?.Invoke();
 	}
 
 	private void ClaimantsTurn() {
@@ -298,14 +307,14 @@ public class GameManager {
 			StartPrimary();
 			return;
 		}
-		GD.Print($"{current_player.name}'s turn to claim.");
+		OnLog?.Invoke($"{current_player.name}'s turn to claim.");
 		current_player.RequestClaim();
 	}
 
 	private void PrimaryTurn() {
 		if (!initial_turn)
 			current_player.AddCurrency(CalculatePlayerProfit(current_player));
-		game_master.ActivateTurnPopup();
+		OnNewTurn();
 	}
 
 	// ----- // SPOKEN FROM PLAYERS // ----- //
@@ -350,7 +359,7 @@ public class GameManager {
 				total++;
 			}
 		}
-		int result = total / 3;
+		int result = total / TERRITORIES_PER_TROOP;
 
 		foreach (Region region in regions.Values) {
 			if (region.complete) {

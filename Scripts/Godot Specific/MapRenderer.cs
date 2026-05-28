@@ -68,7 +68,7 @@ public abstract partial class MapRenderer : Node {
 			territory_order.Add(territory);
 			territory.render_order = render_order;
 			render_order++;
-			territory.OnOwnerChanged += OnTerritoryOwnerChanged;
+			territory.OnTerritoryOwnerChanged += RefreshOwnership;
 		}
 	}
 
@@ -106,7 +106,7 @@ public abstract partial class MapRenderer : Node {
 		_ownerImage = Image.CreateEmpty(territory_order.Count, 1, false, Image.Format.Rgba8);
 		for (int i = 0; i < territory_order.Count; i++) {
 			var owner = territory_order[i].Owner;
-			_ownerImage.SetPixel(i, 0, owner != null ? owner.colour : Colors.WebGray);
+			_ownerImage.SetPixel(i, 0, owner != null ? Color.FromHtml(owner.colour) : Colors.WebGray);
 		}
 		owner_lut = ImageTexture.CreateFromImage(_ownerImage);
 	}
@@ -115,7 +115,7 @@ public abstract partial class MapRenderer : Node {
 		var img = Image.CreateEmpty(territory_order.Count, 1, false, Image.Format.Rgba8);
 		for (int i = 0; i < territory_order.Count; i++) {
 			var region = territory_order[i].region;
-			img.SetPixel(i, 0, region != null ? region.colour : Colors.WebGray);
+			img.SetPixel(i, 0, region != null ? Color.FromHtml(region.colour) : Colors.WebGray);
 		}
 		region_lut = ImageTexture.CreateFromImage(img);
 	}
@@ -143,13 +143,11 @@ public abstract partial class MapRenderer : Node {
 
 	// ----- // LUT REFRESHING // ----- //
 
-	private void OnTerritoryOwnerChanged(Territory territory, Player previous, Player current)
-		=> RefreshOwnership(territory);
-
+	private void RefreshOwnership(Territory territory, Player previous, Player current) => RefreshOwnership(territory);
 	public void RefreshOwnership(Territory territory) {
 		int index = territory_order.IndexOf(territory);
 		if (index < 0 || _ownerImage == null) return;
-		_ownerImage.SetPixel(index, 0, territory.Owner != null ? territory.Owner.colour : Colors.WebGray);
+		_ownerImage.SetPixel(index, 0, territory.Owner != null ? Color.FromHtml(territory.Owner.colour) : Colors.WebGray);
 		owner_lut.Update(_ownerImage);
 		SetHighlights();
 	}

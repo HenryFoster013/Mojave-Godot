@@ -1,24 +1,24 @@
 using Godot;
+using static RiskUtils;
 
 public class Player {
 
     protected GameManager manager;
     public int id { get; private set; }
     public string name { get; init; }
-    public Color colour { get; init; }
+    public string colour { get; init; }
 
-    public enum player_type { NULL, LOCAL, BOT }
-    public player_type type;
+    public PlayerType type;
 
     public int currency { get; private set; }
 
     // ----- // INSTANTIATION // ----- //
 
-    protected Player(GameManager _manager, string _name, Color _colour) {
+    protected Player(GameManager _manager, string _name, string _colour) {
         manager = _manager;
         name = _name;
         colour = _colour;
-        type = player_type.NULL;
+        type = PlayerType.NULL;
     }
 
     // ----- // OVERRIDES // ----- //
@@ -48,8 +48,8 @@ public class Player {
 
 public class LocalPlayer : Player {
 
-    public LocalPlayer(GameManager _manager, string _name, Color _colour)
-        : base(_manager, _name, _colour) { type = player_type.LOCAL; }
+    public LocalPlayer(GameManager _manager, string _name, string _colour)
+        : base(_manager, _name, _colour) { type = PlayerType.LOCAL; }
 
     public override void RequestClaim() { }
     public override void RequestPlay() { }
@@ -57,8 +57,8 @@ public class LocalPlayer : Player {
 
 public class BotPlayer : Player {
 
-    public BotPlayer(GameManager _manager, string _name, Color _colour)
-        : base(_manager, _name, _colour) { type = player_type.BOT; }
+    public BotPlayer(GameManager _manager, string _name, string _colour)
+        : base(_manager, _name, _colour) { type = PlayerType.BOT; }
 
     public override void RequestClaim() {}
     public override void RequestPlay() { }

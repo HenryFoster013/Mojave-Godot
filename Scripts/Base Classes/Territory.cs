@@ -1,6 +1,8 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 public class Territory {
 
@@ -29,21 +31,20 @@ public class Territory {
 
     // ----- // FUNCTIONALITY // ----- //
 
-    public static Territory FromJson(Godot.Collections.Dictionary data) {
+    public static Territory FromJson(JsonObject data) {
 
-        var centroidData = data["centroid"].AsGodotDictionary();
+        var centroidData = data["centroid"].AsObject();
+
         var neighbourIds = new List<string>();
-        foreach (var id in data["neighborIds"].AsGodotArray())
-            neighbourIds.Add(id.AsString());
+        foreach (var id in data["neighborIds"].AsArray())
+            neighbourIds.Add(id.GetValue<string>());
 
         return new Territory {
-            id = data["id"].AsString(),
-            name = data["name"].AsString(),
-            map_colour = data["color"].AsString(),
-            owning_region_id = data["regionId"].AsString(),
-            centroid = new Vector2(
-                              centroidData["x"].AsSingle(),
-                              centroidData["y"].AsSingle()),
+            id = data["id"].GetValue<string>(),
+            name = data["name"].GetValue<string>(),
+            map_colour = data["color"].GetValue<string>(),
+            owning_region_id = data["regionId"].GetValue<string>(),
+            centroid = new Vector2(centroidData["x"].GetValue<float>(), centroidData["y"].GetValue<float>()),
             neighbour_ids = neighbourIds,
         };
     }
@@ -52,7 +53,7 @@ public class Territory {
     public void RemoveTroops(int amount) => troop_count = Mathf.Max(0, troop_count - amount);
     internal void AddNeighbour(Territory territory) => _neighbours.Add(territory);
 
-    public event System.Action<Territory, Player, Player> OnOwnerChanged;
+    public event System.Action<Territory, Player, Player> OnTerritoryOwnerChanged;
 
     // ----- // GETTERS AND SETTERS // ----- //
 
@@ -65,7 +66,7 @@ public class Territory {
             Player previous = owner;
             owner = value;
             region.CheckCompletion();
-            OnOwnerChanged?.Invoke(this, previous, owner);
+            OnTerritoryOwnerChanged?.Invoke(this, previous, owner);
         }
     }
 

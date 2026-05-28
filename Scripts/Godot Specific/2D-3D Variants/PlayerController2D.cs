@@ -17,7 +17,7 @@ public partial class PlayerController2D : PlayerController {
         cam_bounds = new Vector2(bounds_size, bounds_size);
         cam_pos = Vector2.Zero;
         cam_zoom = zoom_min;
-    }
+    }  
 
     protected override void WorldClicks(InputEvent e) {
 
