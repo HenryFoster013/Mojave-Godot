@@ -1,8 +1,9 @@
-using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Numerics;
 
 public class Territory {
 
@@ -23,8 +24,6 @@ public class Territory {
     private Player owner;
     public Region region  { get; private set; }
     public int troop_count { get; private set; }
-    public ShaderMaterial prop_material { get; private set; }
-    public bool has_prop => prop_material != null;
 
     private List<Territory> _neighbours = new();
     public IReadOnlyList<Territory> neighbours => _neighbours;
@@ -50,7 +49,7 @@ public class Territory {
     }
 
     public void AddTroops(int amount) => troop_count += amount;
-    public void RemoveTroops(int amount) => troop_count = Mathf.Max(0, troop_count - amount);
+    public void RemoveTroops(int amount) => troop_count = Math.Max(0, troop_count - amount);
     internal void AddNeighbour(Territory territory) => _neighbours.Add(territory);
 
     public event System.Action<Territory, Player, Player> OnTerritoryOwnerChanged;
@@ -72,7 +71,6 @@ public class Territory {
 
     internal void SetRegion(Region r) => region = r;
     public void SetTroops(int count) => troop_count = count;
-    public void SetPropMaterial(ShaderMaterial new_mat) => prop_material = new_mat;
 
     // Get Methods //
 

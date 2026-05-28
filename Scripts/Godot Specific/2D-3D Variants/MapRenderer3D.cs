@@ -17,7 +17,7 @@ public partial class MapRenderer3D : MapRenderer {
     [Export] public ShaderMaterial prop_material;
     [Export] public string[] prop_names = {};
     [Export] public MeshInstance3D[] prop_meshes = {};
-
+    
     private Vector2 noise_offset = Vector2.Zero;
 
     public override void _Process(double delta){
@@ -70,7 +70,6 @@ public partial class MapRenderer3D : MapRenderer {
             new_mat.SetShaderParameter("region_lut", region_lut);
             
             prop_meshes[i].SetSurfaceOverrideMaterial(0, new_mat);
-            territory.SetPropMaterial(new_mat);
             region_shaders.Add(new_mat);
         }
     }
