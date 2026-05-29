@@ -35,7 +35,7 @@ public partial class QuoteScene : Node {
         string quote = splitData[0].Trim();
         string name  = splitData[1].Trim();
 
-        QuoteLabel.Text = $"[i]\"{quote}\"[/i]\n- {name}";
+        QuoteLabel.Text = $"[i]\"{quote}\"[/i]\n\n- {name}";
         RunFadeSequence();
     }
 

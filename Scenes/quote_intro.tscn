@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://pfier144s0n0"]
 
 [ext_resource type="Script" uid="uid://3get8v3vg5pa" path="res://Scripts/Godot Specific/Misc Scripting/QuoteScene.cs" id="1_ccsj7"]
+[ext_resource type="Script" uid="uid://p0eircbprh3u" path="res://Scripts/Godot Specific/Misc Scripting/LoadingWheel.cs" id="2_dl76m"]
+[ext_resource type="Texture2D" uid="uid://blfs350f13ebu" path="res://Graphics/Images/Loading_Wheel.png" id="2_f2my3"]
+[ext_resource type="Texture2D" uid="uid://cx6ssj3mwsmo5" path="res://Graphics/Images/Drop_Shadow.png" id="2_fc6a2"]
+[ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="3_yfdug"]
 
 [node name="Quote Scene" type="Node2D" unique_id=449526294 node_paths=PackedStringArray("QuoteLabel", "CoveringColourRect")]
 script = ExtResource("1_ccsj7")
@@ -19,6 +23,17 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=2125039626]
+modulate = Color(0.09203585, 0.1307247, 0.13376904, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("2_fc6a2")
+
 [node name="Quote Label" type="RichTextLabel" parent="CanvasLayer" unique_id=2107292708]
 custom_minimum_size = Vector2(450, 200)
 anchors_preset = 8
@@ -32,12 +47,66 @@ offset_right = 225.0
 offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_yfdug")
 theme_override_font_sizes/normal_font_size = 18
 theme_override_font_sizes/italics_font_size = 18
 bbcode_enabled = true
 text = "[i]Quote here..."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Quote Label2" type="RichTextLabel" parent="CanvasLayer" unique_id=360691786]
+custom_minimum_size = Vector2(100, 30)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -125.0
+offset_top = -40.0
+offset_right = 125.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("3_yfdug")
+theme_override_colors/default_color = Color(1, 1, 1, 0.1254902)
+theme_override_font_sizes/normal_font_size = 13
+theme_override_font_sizes/bold_font_size = 13
+theme_override_font_sizes/bold_italics_font_size = 13
+theme_override_font_sizes/italics_font_size = 13
+theme_override_font_sizes/mono_font_size = 13
+bbcode_enabled = true
+text = "[i]A passion project by Skazz"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Loading Wheel" type="Control" parent="CanvasLayer" unique_id=450551826 node_paths=PackedStringArray("Wheel")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -120.0
+offset_right = 120.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_dl76m")
+Wheel = NodePath("Image")
+
+[node name="Image" type="TextureRect" parent="CanvasLayer/Loading Wheel" unique_id=1001193402]
+modulate = Color(0, 0, 0, 0.15686275)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(120, 120)
+texture = ExtResource("2_f2my3")
+expand_mode = 1
 
 [node name="Covering" type="ColorRect" parent="CanvasLayer" unique_id=786331538]
 anchors_preset = 15
