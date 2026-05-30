@@ -8,6 +8,12 @@ public partial class MapRenderer3D : MapRenderer {
     [Export] public Vector2 map_world_size = new Vector2(2048, 2048);
     [Export] public Vector2 map_pixel_size = new Vector2(2048, 2048);
 
+    [ExportGroup("Noise")]
+	[Export] public ShaderMaterial noise_material;
+	[Export] public FastNoiseLite noise_gen;
+	const float NOISE_SPEED = 0.005f;
+    private Vector2 noise_offset;
+
     [ExportGroup("Props")]
     [Export] public ShaderMaterial prop_material;
     [Export] public string[] prop_names = {};
@@ -16,7 +22,12 @@ public partial class MapRenderer3D : MapRenderer {
     protected override void AdditionalSetup() {
         shader_material.SetShaderParameter("debug_mode", false);
         SetupProps();
+        SetupNoise();
     }
+
+    public override void _Process(double delta){
+		ScrollNoise(delta);
+	}
 
     protected override ShaderMaterial GetShaderMaterial()
         => mesh.GetSurfaceOverrideMaterial(0) as ShaderMaterial;
@@ -34,7 +45,7 @@ public partial class MapRenderer3D : MapRenderer {
         return game_master.GetTerritoryByColour(FormatColour(colour));
     }
 
-    void SetupProps() {
+    private void SetupProps() {
     
         if (prop_meshes.Length != prop_names.Length) {
             GD.PushError("Prop names and meshes do not match!");
@@ -55,4 +66,16 @@ public partial class MapRenderer3D : MapRenderer {
             region_shaders.Add(new_mat);
         }
     }
+
+    private void SetupNoise(){
+		noise_gen.Seed = new Random().Next(0,1000);
+	}
+
+    private void ScrollNoise(double delta){
+		noise_offset.X += NOISE_SPEED * (float)delta;
+		noise_offset.Y += NOISE_SPEED * (float)delta;
+        noise_offset.X %= 1.0f;
+        noise_offset.Y %= 1.0f;
+		noise_material.SetShaderParameter("uv_offset", noise_offset);
+	}
 }
