@@ -1,10 +1,16 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 
 public abstract partial class MapRenderer : Node {
 
 	[Export] public Texture2D colour_map_texture;
 	[Export] public Texture2D overlay_texture;
+
+	[ExportGroup("Noise")]
+	[Export] public ShaderMaterial noise_material;
+	[Export] public FastNoiseLite noise_gen;
+	const float NOISE_SPEED = 0.005f;
 
 	protected LabelManager label_manager;
 	protected GameMaster game_master;
@@ -22,6 +28,8 @@ public abstract partial class MapRenderer : Node {
 
 	protected Image _ownerImage;
 	protected Image _highlightImage;
+
+	private Vector2 noise_offset;
 
 	private bool _region_mode = false;
 	public bool region_mode {
@@ -48,6 +56,7 @@ public abstract partial class MapRenderer : Node {
 
 		if (shader_material == null || game_master == null) return;
 
+		SetupNoise();
 		SetRenderOrder();
 		BuildIdMap();
 		BuildOwnerLut();
@@ -61,6 +70,10 @@ public abstract partial class MapRenderer : Node {
 	public abstract Territory GetTerritoryAtCoords(Vector2 world_pos);
 
 	// ----- // BUILDING LUTs // ----- //
+
+	private void SetupNoise(){
+		noise_gen.Seed = new Random().Next(0,1000);
+	}
 
 	private void SetRenderOrder() {
 		int render_order = 0;
@@ -188,4 +201,16 @@ public abstract partial class MapRenderer : Node {
 
 	protected string FormatColour(Color colour)
 		=> "#" + colour.ToHtml(false).ToUpper();
+	
+	// --- UPDATE --- //
+
+	public override void _Process(double delta){
+		ScrollNoise(delta);
+	}
+
+	public void ScrollNoise(double delta){
+		noise_offset.X += NOISE_SPEED * (float)delta % 1.0f;
+		noise_offset.Y += NOISE_SPEED * (float)delta % 1.0f;
+		noise_material.SetShaderParameter("uv_offset", noise_offset);
+	}
 }

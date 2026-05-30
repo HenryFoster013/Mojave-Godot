@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dambgr1sw4erq"
-path="res://.godot/imported/Tick_Icon.png-5f647887e68443f239035f5300e0bb0f.ctex"
+uid="uid://bn6jdu3y7c8ah"
+path="res://.godot/imported/icon.svg-f85920b85fa4080943b7cb18a2c4c154.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/Images/Tick_Icon.png"
-dest_files=["res://.godot/imported/Tick_Icon.png-5f647887e68443f239035f5300e0bb0f.ctex"]
+source_file="res://Graphics/Images/Godot/icon.svg"
+dest_files=["res://.godot/imported/icon.svg-f85920b85fa4080943b7cb18a2c4c154.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

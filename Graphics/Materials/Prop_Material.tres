@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://crral11n3piok"]
 
-[ext_resource type="Shader" uid="uid://ckagytcekjw86" path="res://Scripts/Shaders/Map_Prop_Shader.gdshader" id="1_j6mh3"]
+[ext_resource type="Shader" uid="uid://ckagytcekjw86" path="res://Scripts/Godot Specific/Shaders/Map_Prop_Shader.gdshader" id="1_j6mh3"]
 
 [resource]
 render_priority = 0

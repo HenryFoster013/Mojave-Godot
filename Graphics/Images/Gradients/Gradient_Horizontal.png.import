@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqeau242eis1a"
-path="res://.godot/imported/Turn_Gradient.png-1c116b8f58851143cc167eea2b469ca4.ctex"
+uid="uid://ceacwi4la5dxl"
+path="res://.godot/imported/Gradient_Horizontal.png-469c970567ee49e7db30e985b00d6181.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/Images/Turn_Gradient.png"
-dest_files=["res://.godot/imported/Turn_Gradient.png-1c116b8f58851143cc167eea2b469ca4.ctex"]
+source_file="res://Graphics/Images/Gradients/Gradient_Horizontal.png"
+dest_files=["res://.godot/imported/Gradient_Horizontal.png-469c970567ee49e7db30e985b00d6181.ctex"]
 
 [params]
 

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dngsgugiimoqk"]
+
+[ext_resource type="Material" uid="uid://dfcakiu3shn6h" path="res://Graphics/Materials/Noise_Material.tres" id="1_b6jdw"]
+
+[node name="BG" type="CanvasLayer" unique_id=2112562202]
+layer = -1
+follow_viewport_enabled = true
+
+[node name="Sky" type="ColorRect" parent="." unique_id=1542515147]
+material = ExtResource("1_b6jdw")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

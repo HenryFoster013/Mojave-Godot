@@ -11,9 +11,12 @@ config_version=5
 [application]
 
 config/name="Mojave"
-run/main_scene="uid://1gttogjucdqw"
+run/main_scene="uid://pfier144s0n0"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
-config/icon="res://Graphics/Images/icon.svg"
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/stretch_mode=0
+boot_splash/image="uid://4oek58lgl885"
+config/icon="res://Graphics/Images/Godot/icon.svg"
 
 [display]
 
@@ -93,4 +96,4 @@ RightClick={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-environment/defaults/default_clear_color=Color(0.16, 0.16, 0.16, 1)
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

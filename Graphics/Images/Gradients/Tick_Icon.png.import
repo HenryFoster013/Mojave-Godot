@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d08i6wmc3vktj"
-path="res://.godot/imported/Troop_Gradient.png-7518cd71ba5e03cd73b3444b67674d4f.ctex"
+uid="uid://dambgr1sw4erq"
+path="res://.godot/imported/Tick_Icon.png-c7a236acffceda5fd15925985a90c507.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/Images/Troop_Gradient.png"
-dest_files=["res://.godot/imported/Troop_Gradient.png-7518cd71ba5e03cd73b3444b67674d4f.ctex"]
+source_file="res://Graphics/Images/Gradients/Tick_Icon.png"
+dest_files=["res://.godot/imported/Tick_Icon.png-c7a236acffceda5fd15925985a90c507.ctex"]
 
 [params]
 

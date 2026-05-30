@@ -1,4 +1,5 @@
 using Godot;
+using static GodotUtils;
 using System;
 
 public partial class QuoteScene : Node {
@@ -6,6 +7,7 @@ public partial class QuoteScene : Node {
     [Export] public RichTextLabel QuoteLabel;
     [Export] public ColorRect CoveringColourRect;
 
+    const string NEXT_SCENE = "res://Scenes/base_game.tscn";
     const string PATH = "res://Data/quotes.txt";
     const float FADETIME = 2.0f;
     const float PAUSETIME = 2.0f;
@@ -39,9 +41,14 @@ public partial class QuoteScene : Node {
         RunFadeSequence();
     }
 
-    private void RunFadeSequence() {
+    private async void RunFadeSequence() {
+
+        await this.WaitFrames(2);
+
         Tween fadeTween = CreateTween();
 
+        fadeTween.TweenInterval(1);
+        
         fadeTween.TweenProperty(CoveringColourRect, "self_modulate", TRANSPARENT, FADETIME)
             .SetTrans(Tween.TransitionType.Cubic)
             .SetEase(Tween.EaseType.Out);
@@ -56,6 +63,6 @@ public partial class QuoteScene : Node {
     }
 
     private void ChangeScene() {
-        // change scene
+        GetTree().ChangeSceneToFile(NEXT_SCENE);
     }
 }

@@ -1,20 +1,19 @@
 [gd_scene format=4 uid="uid://1gttogjucdqw"]
 
-[ext_resource type="Script" uid="uid://u884d6gjedc4" path="res://Scripts/Godot Specific/Primary Gameplay/GameMaster.cs" id="1_lkwol"]
-[ext_resource type="Material" uid="uid://cq8tp8ic568v2" path="res://Graphics/Materials/Board_Material.tres" id="1_rpcef"]
-[ext_resource type="Script" uid="uid://c0pu60ir1ya7b" path="res://Scripts/Godot Specific/Primary Gameplay/2D-3D Variants/PlayerController3D.cs" id="2_6gkh4"]
-[ext_resource type="Script" uid="uid://gqvpsoj3dgns" path="res://Scripts/Godot Specific/Primary Gameplay/2D-3D Variants/MapRenderer3D.cs" id="2_eifla"]
-[ext_resource type="Material" uid="uid://d28bl36jni1rj" path="res://Graphics/Materials/Shadow_Material.tres" id="2_gg4i8"]
-[ext_resource type="Texture2D" uid="uid://dtfglifh8245s" path="res://Data/Board/Overlay.png" id="2_ll7ec"]
-[ext_resource type="FastNoiseLite" uid="uid://bvg5chkqipn27" path="res://Graphics/Noise/BG_Noise.tres" id="4_6gkh4"]
-[ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Data/Board/Colour_Map.png" id="5_ogcs1"]
-[ext_resource type="Script" uid="uid://dxrllqw4m8jdc" path="res://Scripts/Godot Specific/Primary Gameplay/2D-3D Variants/LabelManager3D.cs" id="7_6gkh4"]
-[ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="9_1xrtk"]
-[ext_resource type="Material" uid="uid://crral11n3piok" path="res://Graphics/Materials/Prop_Material.tres" id="9_eifla"]
-[ext_resource type="PackedScene" uid="uid://nftb8hiopihw" path="res://Data/Prefabs/Map_Label_3D.tscn" id="10_6gkh4"]
-[ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Gradient_Vertical.png" id="10_fysi3"]
-[ext_resource type="Texture2D" uid="uid://dambgr1sw4erq" path="res://Graphics/Images/Tick_Icon.png" id="14_6gkh4"]
-[ext_resource type="Material" uid="uid://dfcakiu3shn6h" path="res://Graphics/Materials/Noise_Material.tres" id="15_ogcs1"]
+[ext_resource type="Script" uid="uid://u884d6gjedc4" path="res://Scripts/Godot Specific/Primary Gameplay/GameMaster.cs" id="1_dr38s"]
+[ext_resource type="Script" uid="uid://c0pu60ir1ya7b" path="res://Scripts/Godot Specific/Primary Gameplay/3D Expansions/PlayerController3D.cs" id="2_485im"]
+[ext_resource type="Script" uid="uid://gqvpsoj3dgns" path="res://Scripts/Godot Specific/Primary Gameplay/3D Expansions/MapRenderer3D.cs" id="3_7jdad"]
+[ext_resource type="Material" uid="uid://crral11n3piok" path="res://Graphics/Materials/Prop_Material.tres" id="4_7qrvb"]
+[ext_resource type="Texture2D" uid="uid://dv06siv2bgt5g" path="res://Data/Board/Colour_Map.png" id="5_lhtxr"]
+[ext_resource type="Texture2D" uid="uid://dtfglifh8245s" path="res://Data/Board/Overlay.png" id="6_52jsp"]
+[ext_resource type="Material" uid="uid://dfcakiu3shn6h" path="res://Graphics/Materials/Noise_Material.tres" id="7_rqd7l"]
+[ext_resource type="FastNoiseLite" uid="uid://bvg5chkqipn27" path="res://Graphics/Noise/BG_Noise.tres" id="8_wditk"]
+[ext_resource type="Material" uid="uid://cq8tp8ic568v2" path="res://Graphics/Materials/Board_Material.tres" id="9_v8lit"]
+[ext_resource type="Script" uid="uid://dxrllqw4m8jdc" path="res://Scripts/Godot Specific/Primary Gameplay/3D Expansions/LabelManager3D.cs" id="10_hagma"]
+[ext_resource type="PackedScene" uid="uid://nftb8hiopihw" path="res://Data/Prefabs/Map_Label.tscn" id="11_253gl"]
+[ext_resource type="Material" uid="uid://d28bl36jni1rj" path="res://Graphics/Materials/Shadow_Material.tres" id="12_lkwq1"]
+[ext_resource type="PackedScene" uid="uid://bu7m8jxjgn88j" path="res://Data/Prefabs/UI.tscn" id="13_p3fgp"]
+[ext_resource type="PackedScene" uid="uid://dngsgugiimoqk" path="res://Data/Prefabs/BG.tscn" id="14_745nf"]
 
 [sub_resource type="Environment" id="Environment_eifla"]
 background_mode = 3
@@ -199,141 +198,13 @@ shadow_mesh = SubResource("ArrayMesh_wyrlg")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_eifla"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwtvl"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.3647059, 0.40392157, 0.41960785, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.6952, 0.76314, 0.79, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-corner_detail = 1
-shadow_color = Color(0, 0, 0, 0.6156863)
-shadow_size = 6
-shadow_offset = Vector2(0, 3)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6gkh4"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0, 0, 0, 0.30588236)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ogcs1"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(1, 1, 1, 0.5019608)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-corner_detail = 6
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n38fa"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.73, 0.48666668, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 0.8, 0.39999998, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 1
-shadow_color = Color(0, 0, 0, 0.40392157)
-shadow_size = 5
-shadow_offset = Vector2(0, 3)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ge24r"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.79, 0.5266667, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 0.8, 0.39999998, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 1
-shadow_color = Color(0, 0, 0, 0.40392157)
-shadow_size = 5
-shadow_offset = Vector2(0, 3)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1xrtk"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.88, 0.5866667, 0, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 0.8, 0.39999998, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 1
-shadow_color = Color(0, 0, 0, 0.40392157)
-shadow_size = 5
-shadow_offset = Vector2(0, 3)
-
-[sub_resource type="InputEventKey" id="InputEventKey_wwtvl"]
-keycode = 13
-
-[sub_resource type="Shortcut" id="Shortcut_ge24r"]
-events = [SubResource("InputEventKey_wwtvl")]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eifla"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.7, 0.7, 0.7, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.85, 0.85, 0.85, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
-shadow_color = Color(1, 1, 1, 0.45490196)
-shadow_size = 8
-
 [node name="Base Game 3D" type="Node3D" unique_id=204547736]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=505609779]
+[node name="World Environment" type="WorldEnvironment" parent="." unique_id=505609779]
 environment = SubResource("Environment_eifla")
 
 [node name="Game Master" type="Node3D" parent="." unique_id=764897770 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_turn", "ui_game_additional", "ui_turn_popup", "ui_turn_popup_bg", "ui_troop_slider_parent", "ui_troop_slider_label", "ui_troop_slider")]
-script = ExtResource("1_lkwol")
+script = ExtResource("1_dr38s")
 map_renderer = NodePath("../Map Renderer")
 label_manager = NodePath("../Map Renderer/Board/Label Manager")
 player_controller = NodePath("../Player")
@@ -349,37 +220,36 @@ ui_troop_slider_label = NodePath("../UI/UI Container/Troop Slider/Slider Window/
 ui_troop_slider = NodePath("../UI/UI Container/Troop Slider/Slider Window/VBoxContainer2/HSlider")
 
 [node name="Player" type="Node3D" parent="." unique_id=1008032272 node_paths=PackedStringArray("camera")]
-script = ExtResource("2_6gkh4")
+script = ExtResource("2_485im")
 camera = NodePath("Camera")
 
 [node name="Camera" type="Camera3D" parent="Player" unique_id=1906062012]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.0863328, 0)
 
 [node name="Map Renderer" type="Node3D" parent="." unique_id=397238528 node_paths=PackedStringArray("mesh", "prop_meshes")]
-script = ExtResource("2_eifla")
+script = ExtResource("3_7jdad")
 mesh = NodePath("Board")
 map_world_size = Vector2(5, 5)
-noise_material = ExtResource("15_ogcs1")
-noise_gen = ExtResource("4_6gkh4")
-noise_speed = Vector2(0.005, 0.005)
-prop_material = ExtResource("9_eifla")
+prop_material = ExtResource("4_7qrvb")
 prop_names = PackedStringArray("THE_STRIP", "THE_FORT", "REPCONN_TEST_SITE", "REPCONN_TEST_SITE", "YANGTZE_MEMORIAL")
 prop_meshes = [NodePath("Board/Meshes/Props/Lucky 38"), NodePath("Board/Meshes/Props/The Fort"), NodePath("Board/Meshes/Props/Recponn TS Building"), NodePath("Board/Meshes/Props/Repconn TS Dome"), NodePath("Board/Meshes/Props/Yangtze Memorial")]
-colour_map_texture = ExtResource("5_ogcs1")
-overlay_texture = ExtResource("2_ll7ec")
+colour_map_texture = ExtResource("5_lhtxr")
+overlay_texture = ExtResource("6_52jsp")
+noise_material = ExtResource("7_rqd7l")
+noise_gen = ExtResource("8_wditk")
 
 [node name="Board" type="MeshInstance3D" parent="Map Renderer" unique_id=1435080918]
 transform = Transform3D(5, 0, 0, 0, -2.1855696e-07, 5, 0, -5, -2.1855696e-07, 0.00053334236, -1.4901161e-08, 1.02669e-05)
 mesh = SubResource("QuadMesh_gg4i8")
-surface_material_override/0 = ExtResource("1_rpcef")
+surface_material_override/0 = ExtResource("9_v8lit")
 
 [node name="Label Manager" type="Node3D" parent="Map Renderer/Board" unique_id=215461397 node_paths=PackedStringArray("troop_label_holder", "tile_label_holder", "region_label_holder")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05)
-script = ExtResource("7_6gkh4")
+script = ExtResource("10_hagma")
 troop_label_holder = NodePath("Troop Labels")
 tile_label_holder = NodePath("Tile Labels")
 region_label_holder = NodePath("Region Labels")
-map_label = ExtResource("10_6gkh4")
+map_label = ExtResource("11_253gl")
 zoom_limit = 2.0
 
 [node name="Troop Labels" type="Node3D" parent="Map Renderer/Board/Label Manager" unique_id=808403915]
@@ -398,31 +268,31 @@ transform = Transform3D(1, 0, 0, 0, 1, -3.5527137e-15, 0, 3.5527137e-15, 1, 0, 0
 transform = Transform3D(70, 0, 0, 0, 70, 1.2126641e-06, 0, -1.2126641e-06, 70, -0.018046735, 0.19719662, -3.301191e-09)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_lkg12")
-surface_material_override/0 = ExtResource("9_eifla")
+surface_material_override/0 = ExtResource("4_7qrvb")
 
 [node name="The Fort" type="MeshInstance3D" parent="Map Renderer/Board/Meshes/Props" unique_id=1357884379]
 transform = Transform3D(254.60565, 193.8452, 1.1831373e-05, -193.8452, 254.60565, 1.5522508e-06, -8.473245e-06, -8.402083e-06, 320, 0.34434554, 0.08322584, -0.0004646891)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_o6xxd")
-surface_material_override/0 = ExtResource("9_eifla")
+surface_material_override/0 = ExtResource("4_7qrvb")
 
 [node name="Recponn TS Building" type="MeshInstance3D" parent="Map Renderer/Board/Meshes/Props" unique_id=481378358]
 transform = Transform3D(-300, -4.529874e-05, -1.9800708e-12, 4.529874e-05, -300, -2.6226833e-05, 1.980071e-12, -2.6226833e-05, 300, 0.042022817, -0.16330013, 0.014950524)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_jtxs0")
-surface_material_override/0 = ExtResource("9_eifla")
+surface_material_override/0 = ExtResource("4_7qrvb")
 
 [node name="Repconn TS Dome" type="MeshInstance3D" parent="Map Renderer/Board/Meshes/Props" unique_id=1991073769]
 transform = Transform3D(200, 0, 0, 0, 199.99998, 1.5099578e-05, 0, -1.5099578e-05, 199.99998, 0.026124507, -0.20824708, 2.8181584e-09)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_ny2yq")
-surface_material_override/0 = ExtResource("9_eifla")
+surface_material_override/0 = ExtResource("4_7qrvb")
 
 [node name="Yangtze Memorial" type="MeshInstance3D" parent="Map Renderer/Board/Meshes/Props" unique_id=1638747406]
 transform = Transform3D(-79.53497, 150.24709, 2.5218473e-05, -150.24709, -79.53497, -2.0780613e-05, -6.567506e-06, -3.2010517e-05, 170, -0.09458479, -0.06066699, -2.651839e-09)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_543si")
-surface_material_override/0 = ExtResource("9_eifla")
+surface_material_override/0 = ExtResource("4_7qrvb")
 
 [node name="Collider" type="StaticBody3D" parent="Map Renderer/Board/Meshes" unique_id=1720398702]
 transform = Transform3D(0.2, 0, 0, 0, -8.742276e-09, -0.2, 0, 0.2, -8.742277e-09, 0, 0, 0)
@@ -433,217 +303,12 @@ shape = SubResource("BoxShape3D_eifla")
 
 [node name="Shadow" type="MeshInstance3D" parent="Map Renderer/Board/Meshes" unique_id=367581804]
 transform = Transform3D(2.75, 0, 0, 0, 2.75, 0, 0, 0, 2.75, 0, 1.4570463e-09, -0.033333335)
-material_override = ExtResource("2_gg4i8")
+material_override = ExtResource("12_lkwq1")
 mesh = SubResource("QuadMesh_gg4i8")
-surface_material_override/0 = ExtResource("2_gg4i8")
+surface_material_override/0 = ExtResource("12_lkwq1")
 
-[node name="UI" type="CanvasLayer" parent="." unique_id=2072149354]
+[node name="UI" parent="." unique_id=1547894410 instance=ExtResource("13_p3fgp")]
 
-[node name="UI Container" type="Control" parent="UI" unique_id=1743671853]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme = ExtResource("9_1xrtk")
+[node name="BG" parent="." unique_id=2112562202 instance=ExtResource("14_745nf")]
 
-[node name="Game Info" type="VBoxContainer" parent="UI/UI Container" unique_id=2096441238]
-layout_mode = 1
-offset_left = 15.0
-offset_top = 15.0
-offset_right = 515.0
-offset_bottom = 115.0
-mouse_filter = 2
-
-[node name="Game Status Label" type="HBoxContainer" parent="UI/UI Container/Game Info" unique_id=386429051]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 10
-
-[node name="Divisor 1" type="TextureRect" parent="UI/UI Container/Game Info/Game Status Label" unique_id=1078981305]
-custom_minimum_size = Vector2(2, 0)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("10_fysi3")
-expand_mode = 4
-
-[node name="Status Text" type="Label" parent="UI/UI Container/Game Info/Game Status Label" unique_id=36942378]
-layout_mode = 2
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 10
-text = "Claimants"
-
-[node name="Divisor 2" type="TextureRect" parent="UI/UI Container/Game Info/Game Status Label" unique_id=1137470911]
-custom_minimum_size = Vector2(2, 0)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("10_fysi3")
-expand_mode = 4
-
-[node name="Status Text 2" type="Label" parent="UI/UI Container/Game Info/Game Status Label" unique_id=6226515]
-layout_mode = 2
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 10
-text = "Turn 0"
-
-[node name="Game Command Label" type="HBoxContainer" parent="UI/UI Container/Game Info" unique_id=1224127532]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 10
-
-[node name="Divisor 1" type="TextureRect" parent="UI/UI Container/Game Info/Game Command Label" unique_id=455191853]
-custom_minimum_size = Vector2(2, 0)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("10_fysi3")
-expand_mode = 4
-
-[node name="Status Text" type="Label" parent="UI/UI Container/Game Info/Game Command Label" unique_id=511677488]
-layout_mode = 2
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 14
-text = "Turn Command Goes Here"
-
-[node name="Current Player Label" type="HBoxContainer" parent="UI/UI Container" unique_id=1374514835]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 13.26
-offset_top = -40.0
-offset_right = 213.26
-offset_bottom = -10.0
-grow_vertical = 0
-mouse_filter = 2
-theme_override_constants/separation = 10
-
-[node name="Player Colour" type="TextureRect" parent="UI/UI Container/Current Player Label" unique_id=1697946151]
-custom_minimum_size = Vector2(8, 0)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("10_fysi3")
-expand_mode = 4
-
-[node name="Player Name" type="Label" parent="UI/UI Container/Current Player Label" unique_id=294034470]
-layout_mode = 2
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 18
-
-[node name="Troop Slider" type="VBoxContainer" parent="UI/UI Container" unique_id=1718663859]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -185.0
-offset_top = -125.0
-offset_right = 155.0
-offset_bottom = -35.0
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(1.1, 1.1)
-mouse_filter = 2
-theme_override_constants/separation = 10
-
-[node name="Slider Window" type="Panel" parent="UI/UI Container/Troop Slider" unique_id=531166169]
-custom_minimum_size = Vector2(340, 55)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_styles/panel = SubResource("StyleBoxFlat_wwtvl")
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="UI/UI Container/Troop Slider/Slider Window" unique_id=1501260658]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_right = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 5
-alignment = 1
-
-[node name="Troop Count" type="Label" parent="UI/UI Container/Troop Slider/Slider Window/VBoxContainer2" unique_id=1630216050]
-layout_mode = 2
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 14
-text = "PLACE [12] TROOPS"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="UI/UI Container/Troop Slider/Slider Window/VBoxContainer2" unique_id=46018067]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_icons/tick = ExtResource("14_6gkh4")
-theme_override_styles/slider = SubResource("StyleBoxFlat_6gkh4")
-theme_override_styles/grabber_area = SubResource("StyleBoxFlat_ogcs1")
-theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_ogcs1")
-tick_count = 12
-ticks_on_borders = true
-ticks_position = 3
-
-[node name="Button" type="Button" parent="UI/UI Container/Troop Slider" unique_id=156195081]
-custom_minimum_size = Vector2(150, 25)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 15
-theme_override_styles/normal = SubResource("StyleBoxFlat_n38fa")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_ge24r")
-theme_override_styles/hover = SubResource("StyleBoxFlat_1xrtk")
-shortcut = SubResource("Shortcut_ge24r")
-text = "CONFIRM"
-
-[node name="Turn Label" type="Control" parent="UI/UI Container" unique_id=1370865056]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -16.25
-offset_right = 100.0
-offset_bottom = 16.25
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="Player Turn" type="Panel" parent="UI/UI Container/Turn Label" unique_id=1819852846]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_eifla")
-
-[node name="Player Label" type="Label" parent="UI/UI Container/Turn Label" unique_id=1714190176]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 20
-text = "Henry's Turn"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="BG" type="CanvasLayer" parent="." unique_id=1687873739]
-layer = -1
-follow_viewport_enabled = true
-
-[node name="Sky" type="ColorRect" parent="BG" unique_id=227884980]
-material = ExtResource("15_ogcs1")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
+[editable path="UI"]

@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://pfier144s0n0"]
 
-[ext_resource type="Script" uid="uid://3get8v3vg5pa" path="res://Scripts/Godot Specific/Misc Scripting/QuoteScene.cs" id="1_ccsj7"]
-[ext_resource type="Script" uid="uid://p0eircbprh3u" path="res://Scripts/Godot Specific/Misc Scripting/LoadingWheel.cs" id="2_dl76m"]
-[ext_resource type="Texture2D" uid="uid://blfs350f13ebu" path="res://Graphics/Images/Loading_Wheel.png" id="2_f2my3"]
-[ext_resource type="Texture2D" uid="uid://cx6ssj3mwsmo5" path="res://Graphics/Images/Drop_Shadow.png" id="2_fc6a2"]
+[ext_resource type="Script" uid="uid://t61iju0h4me4" path="res://Scripts/Godot Specific/UI Effects/QuoteScene.cs" id="1_yfdug"]
+[ext_resource type="Texture2D" uid="uid://blfs350f13ebu" path="res://Graphics/Images/Symbols/Loading_Wheel.png" id="2_f2my3"]
+[ext_resource type="Texture2D" uid="uid://cx6ssj3mwsmo5" path="res://Graphics/Images/Gradients/Drop_Shadow.png" id="2_fc6a2"]
 [ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="3_yfdug"]
+[ext_resource type="Script" uid="uid://cpx6avo5nxy32" path="res://Scripts/Godot Specific/UI Effects/LoadingWheel.cs" id="4_y4woe"]
 
 [node name="Quote Scene" type="Node2D" unique_id=449526294 node_paths=PackedStringArray("QuoteLabel", "CoveringColourRect")]
-script = ExtResource("1_ccsj7")
+script = ExtResource("1_yfdug")
 QuoteLabel = NodePath("CanvasLayer/Quote Label")
 CoveringColourRect = NodePath("CanvasLayer/Covering")
 
@@ -55,7 +55,7 @@ text = "[i]Quote here..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Quote Label2" type="RichTextLabel" parent="CanvasLayer" unique_id=360691786]
+[node name="Watermark" type="RichTextLabel" parent="CanvasLayer" unique_id=360691786]
 custom_minimum_size = Vector2(100, 30)
 anchors_preset = 7
 anchor_left = 0.5
@@ -93,7 +93,7 @@ offset_right = 120.0
 offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("2_dl76m")
+script = ExtResource("4_y4woe")
 Wheel = NodePath("Image")
 
 [node name="Image" type="TextureRect" parent="CanvasLayer/Loading Wheel" unique_id=1001193402]

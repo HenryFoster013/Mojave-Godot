@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://dfcakiu3shn6h"]
 
-[ext_resource type="Shader" uid="uid://l4kmgmhd56o6" path="res://Scripts/Shaders/Canvas_Scroll_Shader.gdshader" id="1_iwh54"]
+[ext_resource type="Shader" uid="uid://l4kmgmhd56o6" path="res://Scripts/Godot Specific/Shaders/Canvas_Scroll_Shader.gdshader" id="1_iwh54"]
 [ext_resource type="Texture2D" uid="uid://c5h04yt7cyiey" path="res://Graphics/Noise/BG_Noise_Texture.tres" id="2_rl6xi"]
 
 [resource]
