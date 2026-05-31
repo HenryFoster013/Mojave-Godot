@@ -15,6 +15,8 @@ public class GameManager {
 	private List<Player> players = new();
 	public Player current_player => current_player_turn > -1 ? players[current_player_turn] : null;
 
+	private readonly Dictionary<Player, HashSet<Territory>> player_territories = new();
+
 	private readonly Dictionary<string, Territory> territories = new();
 	private readonly Dictionary<string, Territory> territories_id = new();
 	private readonly Dictionary<string, Region> regions = new();
@@ -73,6 +75,7 @@ public class GameManager {
 		for (int i = 0; i < players.Count; i++) {
 			players[i].SetId(i);
 			players[i].SetCurrency(initial_currency);
+			player_territories[players[i]] = new HashSet<Territory>();
 		}
 		OnLog?.Invoke($"Players consolidated: {players}");
 	}
@@ -183,10 +186,18 @@ public class GameManager {
 	}
 
 	private void ClaimTerritory(Player player, Territory territory) {
-		territory.Owner = player;
+		SetTerritoryOwnership(player, territory);
 		territory.SetTroops(MIN_TROOPS);
 		OnTerritoryCountChanged?.Invoke(territory);
 		OnLog?.Invoke($"{player.name} claimed {territory.name}.");
+	}
+
+	private void SetTerritoryOwnership(Player player, Territory territory){
+		if (territory.Owner != null)
+        	player_territories[territory.Owner].Remove(territory);
+		territory.Owner = player;
+		if (player != null)
+			player_territories[player].Add(territory);
 	}
 
 	private void AssignRandomClaims() {
@@ -417,15 +428,8 @@ public class GameManager {
 	// Get Methods //
 
 	private int CalculatePlayerProfit(Player player) {
-	
-		int territory_count = 0;
-		foreach (Territory territory in territories.Values) {
-			if (territory.Owner == player) {
-				territory_count++;
-			}
-		}
 
-		int result = Math.Max(territory_count / territories_per_troop, 3);
+		int result = Math.Max(GetPlayerTerritories(player).Count / territories_per_troop, 3);
 
 		foreach (Region region in regions.Values) {
 			if (region.complete) {
@@ -453,5 +457,9 @@ public class GameManager {
 	public Region GetRegion(string id) {
 		regions.TryGetValue(id, out var region);
 		return region;
+	}
+
+	public IReadOnlyCollection<Territory> GetPlayerTerritories(Player player) {
+		return player_territories.TryGetValue(player, out var set) ? set : Array.Empty<Territory>();
 	}
 }
