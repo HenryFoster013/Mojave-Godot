@@ -5,7 +5,7 @@
 [node name="Map_Label_3D" type="Node3D" unique_id=63731890]
 
 [node name="Label3D" type="Label3D" parent="." unique_id=757285070]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 2.220446e-16, 0, -2.220446e-16, 0.05, 0, -8.951614e-11, 0.0020478906)
+transform = Transform3D(0.065, 0, 0, 0, 0.065, 2.8865798e-16, 0, -2.8865798e-16, 0.065, 0, -8.951614e-11, 0.0020478906)
 no_depth_test = true
 text = "Text Goes Here"
 font = ExtResource("1_d85pb")

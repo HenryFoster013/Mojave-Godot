@@ -54,8 +54,10 @@ public partial class GameMaster : Node {
 
 		GD.Print("\nLoading complete! Starting game.");
 		manager.KickStart(true);
-		SetupTroopSlider();
+		SetupUI();
 	}
+
+	// JSON
 
 	private void LoadJson() {
 		manager = new GameManager();
@@ -66,18 +68,6 @@ public partial class GameMaster : Node {
 		string json_text = FileAccess.GetFileAsString(map_json_path);
 		manager.LoadJson(json_text);
 		GD.Print($"Loaded {Regions.Count} regions and {Territories.Count} territories from Json.");
-	}
-
-	private void Subscribe() {
-		manager.OnTerritoryCountChanged += territory => label_manager.UpdateTroopCount(territory);
-		manager.OnClaimancy += LoadClaimants;
-		manager.OnInitialPlacement += LoadInitialPlacement;
-		manager.OnPrimary += LoadPrimary;
-		manager.OnUIUpdate += UpdateAllUI;
-		manager.OnClaimantsTurn += ClaimantsTurn;
-		manager.OnPrimaryTurn += PrimaryTurn;
-		manager.OnInitialPlacementTurn += InitialPlacementTurn;
-		manager.OnLog += LogMessage;
 	}
 
 	private void LoadExports() {
@@ -91,6 +81,35 @@ public partial class GameMaster : Node {
 		player_controller.Setup(this, map_renderer, label_manager);
 		GD.Print("Exports connected.");
 	}
+
+	// Events
+
+	private void Subscribe() {
+		manager.OnTerritoryCountChanged += TerritoryCountChanged;
+		manager.OnClaimancy += LoadClaimants;
+		manager.OnInitialPlacement += LoadInitialPlacement;
+		manager.OnPrimary += LoadPrimary;
+		manager.OnUIUpdate += UpdateAllUI;
+		manager.OnClaimantsTurn += ClaimantsTurn;
+		manager.OnPrimaryTurn += PrimaryTurn;
+		manager.OnInitialPlacementTurn += InitialPlacementTurn;
+		manager.OnLog += LogMessage;
+	}
+
+	// UI
+
+	private void SetupUI() {
+		SetupTroopSlider();
+	}
+
+	private void SetupTroopSlider() {
+		DeactivateTroopSlider();
+		ui_troop_slider.MinValue = 1;
+		ui_troop_slider.Value = 1;
+		ui_troop_slider.ValueChanged += UpdateTroopSliderText;
+		UpdateTroopSliderText();
+	}
+
 
 	// ----- // UPDATE LOOP // ----- //
 
@@ -225,18 +244,19 @@ public partial class GameMaster : Node {
 		UpdateTurnPopup(0f);
 	}
 
-	// Troop Slider //
+	// Territories //
 
-	void SetupTroopSlider() {
-		DeactivateTroopSlider();
-		ui_troop_slider.MinValue = 1;
-		ui_troop_slider.Scrollable = false;
-		ui_troop_slider.Editable = true;
-		ui_troop_slider.Step = 1;
-		ui_troop_slider.Value = 1;
-		ui_troop_slider.ValueChanged += UpdateTroopSliderText;
-		UpdateTroopSliderText();
+	private void TerritoryCountChanged(Territory territory, TerritoryChangeType type){
+		label_manager.UpdateTroopCount(territory);
+
+		switch (type) {
+			case TerritoryChangeType.CLAIM: label_manager.AnimateLabel(territory, LabelManager3D.Animation.BOP); break;
+			case TerritoryChangeType.PLACEMENT: label_manager.AnimateLabel(territory, LabelManager3D.Animation.BOP); break;
+			case TerritoryChangeType.CONQUEST: label_manager.AnimateLabel(territory, LabelManager3D.Animation.BOP); break;
+		}
 	}
+
+	// Troop Slider //
 
 	public void ActivateTroopSlider(string type, int max) {
 		ui_troop_slider_parent.Visible = true;

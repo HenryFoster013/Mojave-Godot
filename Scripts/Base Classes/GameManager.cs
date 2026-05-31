@@ -32,7 +32,7 @@ public class GameManager {
 	public event Action OnClaimantsTurn;
 	public event Action OnInitialPlacementTurn;
 	public event Action OnPrimaryTurn;
-	public event Action<Territory> OnTerritoryCountChanged;
+	public event Action<Territory, TerritoryChangeType> OnTerritoryCountChanged;
 	public event Action<string> OnLog;
 
 	public bool local_turn => current_player.type == PlayerType.LOCAL;
@@ -188,7 +188,7 @@ public class GameManager {
 	private void ClaimTerritory(Player player, Territory territory) {
 		SetTerritoryOwnership(player, territory);
 		territory.SetTroops(MIN_TROOPS);
-		OnTerritoryCountChanged?.Invoke(territory);
+		OnTerritoryCountChanged?.Invoke(territory, TerritoryChangeType.CLAIM);
 		OnLog?.Invoke($"{player.name} claimed {territory.name}.");
 	}
 
@@ -238,7 +238,7 @@ public class GameManager {
 	private void InitialPlacementTerritory(Territory territory) {
 		territory.AddTroops(1);
 		init_placement_count++;
-		OnTerritoryCountChanged?.Invoke(territory);
+		OnTerritoryCountChanged?.Invoke(territory, TerritoryChangeType.PLACEMENT);
 		OnLog?.Invoke($"{territory.Owner.name} placed at {territory.name}.");
 	}
 

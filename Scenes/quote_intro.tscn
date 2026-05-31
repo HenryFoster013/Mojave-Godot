@@ -24,7 +24,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=2125039626]
-modulate = Color(0.09203585, 0.1307247, 0.13376904, 1)
+modulate = Color(0.15930001, 0.26262, 0.27, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -33,27 +33,6 @@ grow_vertical = 2
 scale = Vector2(2, 2)
 pivot_offset_ratio = Vector2(0.5, 0.5)
 texture = ExtResource("2_fc6a2")
-
-[node name="Quote Label" type="RichTextLabel" parent="CanvasLayer" unique_id=2107292708]
-custom_minimum_size = Vector2(450, 200)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -225.0
-offset_top = -100.0
-offset_right = 225.0
-offset_bottom = 100.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("3_yfdug")
-theme_override_font_sizes/normal_font_size = 18
-theme_override_font_sizes/italics_font_size = 18
-bbcode_enabled = true
-text = "[i]Quote here..."
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Watermark" type="RichTextLabel" parent="CanvasLayer" unique_id=360691786]
 custom_minimum_size = Vector2(100, 30)
@@ -80,6 +59,34 @@ text = "[i]A passion project by Skazz"
 horizontal_alignment = 1
 vertical_alignment = 2
 
+[node name="Loading Wheel2" type="Control" parent="CanvasLayer" unique_id=416447914 node_paths=PackedStringArray("Wheel")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -115.0
+offset_right = 120.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_y4woe")
+Wheel = NodePath("Image")
+
+[node name="Image" type="TextureRect" parent="CanvasLayer/Loading Wheel2" unique_id=370348350]
+modulate = Color(0.08627451, 0.14117648, 0.14509805, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(120, 120)
+texture = ExtResource("2_f2my3")
+expand_mode = 1
+
 [node name="Loading Wheel" type="Control" parent="CanvasLayer" unique_id=450551826 node_paths=PackedStringArray("Wheel")]
 layout_mode = 3
 anchors_preset = 8
@@ -97,7 +104,7 @@ script = ExtResource("4_y4woe")
 Wheel = NodePath("Image")
 
 [node name="Image" type="TextureRect" parent="CanvasLayer/Loading Wheel" unique_id=1001193402]
-modulate = Color(0, 0, 0, 0.15686275)
+modulate = Color(0.09803922, 0.15686275, 0.16078432, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -107,6 +114,27 @@ grow_vertical = 2
 pivot_offset = Vector2(120, 120)
 texture = ExtResource("2_f2my3")
 expand_mode = 1
+
+[node name="Quote Label" type="RichTextLabel" parent="CanvasLayer" unique_id=2107292708]
+custom_minimum_size = Vector2(450, 200)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -100.0
+offset_right = 225.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_yfdug")
+theme_override_font_sizes/normal_font_size = 18
+theme_override_font_sizes/italics_font_size = 18
+bbcode_enabled = true
+text = "[i]Quote here..."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Covering" type="ColorRect" parent="CanvasLayer" unique_id=786331538]
 anchors_preset = 15

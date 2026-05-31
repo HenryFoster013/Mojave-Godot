@@ -29,4 +29,19 @@ public partial class LabelManager3D : LabelManager {
         SetHolderVisible(region_label_holder, region_mode && camera_zoom > zoom_limit);
         SetHolderVisible(troop_label_holder, !region_mode);
     }
+
+    // Animations //
+
+    public override void AnimateLabel(Territory territory, Animation animation) {
+        Node label = troop_labels[territory.render_order];
+        switch (animation) {
+            case Animation.BOP: BopAnimation(label); break;
+        }
+    }
+
+    private void BopAnimation(Node label) {
+        var tween = CreateTween();
+        (label as Node3D).Scale = Vector3.One * 1.66f;
+        tween.TweenProperty(label, "scale", Vector3.One, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+    }
 }

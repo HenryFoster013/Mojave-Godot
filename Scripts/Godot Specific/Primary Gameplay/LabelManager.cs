@@ -8,11 +8,13 @@ public abstract partial class LabelManager : Node {
     [Export] public Node tile_label_holder;
     [Export] public Node region_label_holder;
     [Export] public PackedScene map_label;
-    [Export] public float zoom_limit = 0.6f;
+    [Export] public float zoom_limit = 0.6f; 
 
     protected readonly List<Node> troop_labels = new();
     public float camera_zoom;
     public bool region_mode;
+
+    public enum Animation { NULL, BOP }
 
     public virtual void Setup(GameMaster _game_master) {
         game_master = _game_master;
@@ -44,6 +46,7 @@ public abstract partial class LabelManager : Node {
     protected abstract void AddLabelToHolder(Node holder, Node label, Vector3 world_pos, float scale);
     public abstract void UpdateLabels();
     protected abstract void SetHolderVisible(Node holder, bool visible);
+    public abstract void AnimateLabel(Territory territory, Animation animation);
 
     public void UpdateTroopCount(Territory territory)
         => SetLabelText(troop_labels[territory.render_order], territory.troop_count.ToString());

@@ -6,6 +6,7 @@ public static class RiskUtils {
 	public enum SubTurn { PLACE, ATTACK, FORTIFY }
     public enum AttackResult { STANDARD, CONQUEST, INVALID }
     public enum PlayerType { NULL, LOCAL, BOT }
+    public enum TerritoryChangeType { NULL, CLAIM, PLACEMENT, CONQUEST }
 
     public const int MIN_TROOPS = 1; 
     public const int DEFAULT_TERRITORIES_PER_TROOP = 3;
