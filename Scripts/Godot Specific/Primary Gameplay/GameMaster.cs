@@ -71,9 +71,12 @@ public partial class GameMaster : Node {
 	private void Subscribe() {
 		manager.OnTerritoryCountChanged += territory => label_manager.UpdateTroopCount(territory);
 		manager.OnClaimancy += LoadClaimants;
+		manager.OnInitialPlacement += LoadInitialPlacement;
 		manager.OnPrimary += LoadPrimary;
 		manager.OnUIUpdate += UpdateAllUI;
-		manager.OnNewTurn += ActivateTurnPopup;
+		manager.OnClaimantsTurn += ClaimantsTurn;
+		manager.OnPrimaryTurn += PrimaryTurn;
+		manager.OnInitialPlacementTurn += InitialPlacementTurn;
 		manager.OnLog += LogMessage;
 	}
 
@@ -108,8 +111,6 @@ public partial class GameMaster : Node {
 
 	public void SelectTerritory(Territory territory) {
 
-		map_renderer.SelectTerritory(territory);
-		
 		switch(game_state){
 
 			case State.CLAIMANTS:
@@ -121,15 +122,15 @@ public partial class GameMaster : Node {
 				break;
 			
 			case State.PRIMARY:
+				map_renderer.SelectTerritory(territory);
 				switch (sub_turn) {
 					case SubTurn.PLACE: SelectTerritoryPlace(territory); break;
 					case SubTurn.ATTACK: SelectTerritoryConquest(territory); break;
 					case SubTurn.FORTIFY: SelectTerritoryFortify(territory); break;
 				}
+				current_territory = territory;
 				break;
 		}
-
-		current_territory = territory;
 	}
 
 	void SelectTerritoryPlace(Territory territory) { 
@@ -192,6 +193,12 @@ public partial class GameMaster : Node {
 			case State.CLAIMANTS:
 				ui_game_state.Text = "Claimants"; 
 				ui_game_additional.Text = "Select a tile to claim";
+				ui_game_turn.Text = TurnText(); 
+				break;
+
+			case State.INITIAL_PLACEMENT:
+				ui_game_state.Text = "Initial Placements"; 
+				ui_game_additional.Text = "Select an owned tile to place a troop";
 				ui_game_turn.Text = TurnText(); 
 				break;
 				
@@ -262,12 +269,32 @@ public partial class GameMaster : Node {
 
 	// ----- // STATE TRANSITIONS // ----- //
 
-	public void LoadClaimants() {
+	private void LoadClaimants() {
 		UpdateAllUI();
+		map_renderer.DisablePlayerHighlight();
+		current_territory = null;
+		map_renderer.SelectTerritory(null);
 	}
 
-	public void LoadPrimary() {
+	private void LoadInitialPlacement(){
 		UpdateAllUI();
+		current_territory = null;
+		map_renderer.SelectTerritory(null);
+	}
+
+	private void LoadPrimary() {
+		UpdateAllUI();
+		map_renderer.DisablePlayerHighlight();
+	}
+
+	private void ClaimantsTurn() { }
+
+	private void InitialPlacementTurn() { 
+		map_renderer.HighlightPlayer(current_player);
+	}
+
+	private void PrimaryTurn() { 
+		ActivateTurnPopup();
 	}
 
 	// ----- // UI BUTTONS // ----- //
@@ -281,4 +308,5 @@ public partial class GameMaster : Node {
 	public Territory GetTerritoryByColour(string colour) => manager.GetTerritoryByColour(colour);
 	public Territory GetTerritoryByID(string id) => manager.GetTerritoryByID(id);
 	public Region GetRegion(string id) => manager.GetRegion(id);
+	public IReadOnlyCollection<Territory> GetPlayerTerritories(Player player) => manager.GetPlayerTerritories(player);
 }

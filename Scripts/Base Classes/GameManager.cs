@@ -29,12 +29,13 @@ public class GameManager {
 	public event Action OnClaimancy;
 	public event Action OnInitialPlacement;
 	public event Action OnPrimary;
-	public event Action OnNewTurn;
+	public event Action OnClaimantsTurn;
+	public event Action OnInitialPlacementTurn;
+	public event Action OnPrimaryTurn;
 	public event Action<Territory> OnTerritoryCountChanged;
 	public event Action<string> OnLog;
 
 	public bool local_turn => current_player.type == PlayerType.LOCAL;
-	bool initial_turn;
 	int init_placement_count, init_placement_max, init_base_troops, init_mult_troops;
 
 	public int territories_per_troop { get; private set; }
@@ -51,7 +52,6 @@ public class GameManager {
 	}
 
 	private void ResetBaseInfo() {
-		initial_turn = true;
 		current_player_turn = -1;
 		total_turn = -1;
 		game_state = State.NULL;
@@ -210,7 +210,9 @@ public class GameManager {
 			ClaimTerritory(current_player, shuffled[i]);
 		}
 
+		// Commenting here to 'skip forward' in the game lols
 		StartInitialPlacement();
+		//StartPrimary();
 		LoadTurn();
 	}
 
@@ -326,8 +328,6 @@ public class GameManager {
 
 		if (current_player_turn >= players.Count) {
 			current_player_turn = 0;
-			if (game_state == State.PRIMARY)
-				initial_turn = false;
 		}
 
 		OnUIUpdate?.Invoke();
@@ -347,6 +347,7 @@ public class GameManager {
 	}
 
 	private void ClaimantsTurn() {
+		OnClaimantsTurn?.Invoke();
 		if (AllClaimed()) {
 			StartInitialPlacement();
 			return;
@@ -356,6 +357,7 @@ public class GameManager {
 	}
 
 	private void InitialPlacementTurn() {
+		OnInitialPlacementTurn?.Invoke();
 		if (AllInitiallyPlaced()) {
 			StartPrimary();
 			return;
@@ -364,9 +366,8 @@ public class GameManager {
 	}
 
 	private void PrimaryTurn() {
-		if (!initial_turn)
-			current_player.AddCurrency(CalculatePlayerProfit(current_player));
-		OnNewTurn();
+		OnPrimaryTurn?.Invoke();
+		current_player.AddCurrency(CalculatePlayerProfit(current_player));
 	}
 
 	// ----- // SPOKEN FROM PLAYERS // ----- //

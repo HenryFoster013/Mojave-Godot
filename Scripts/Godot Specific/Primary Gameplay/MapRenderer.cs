@@ -14,6 +14,7 @@ public abstract partial class MapRenderer : Node {
 
 	public List<Territory> territory_order = new();
 	protected Territory selected_cache;
+	protected Player highlighted_player;
 	protected Image colour_map_image;
 
 	protected ImageTexture id_map;
@@ -159,20 +160,28 @@ public abstract partial class MapRenderer : Node {
 		SetHighlights();
 	}
 
-	public void SetHighlights() => SetHighlights(selected_cache);
-	public void SetHighlights(Territory selected) {
-	
-		selected_cache = selected;	
-		
-		if (selected != null) {
+	public void SetHighlights() {	
+
+		if (selected_cache != null || highlighted_player != null) {
+
 			for (int i = 0; i < territory_order.Count; i++)
 				_highlightImage.SetPixel(i, 0, new Color(0f, 0f, 0f, 1f));
-			_highlightImage.SetPixel(selected.render_order, 0, new Color(0.8f, 1f, 1f, 1f));
-			foreach (Territory territory in selected.neighbours)
-				_highlightImage.SetPixel(territory.render_order, 0, new Color(0.2f, 1f, 1f, 1f));
-		} 
+			
+			if (highlighted_player != null) {
+				foreach (Territory territory in game_master.GetPlayerTerritories(highlighted_player))
+					_highlightImage.SetPixel(territory.render_order, 0, new Color(0.45f, 1f, 1f, 1f));
+			}
 		
-		else {
+			if (selected_cache != null) {
+				_highlightImage.SetPixel(selected_cache.render_order, 0, new Color(0.8f, 1f, 1f, 1f));
+				if (highlighted_player == null) {
+					foreach (Territory territory in selected_cache.neighbours)
+						_highlightImage.SetPixel(territory.render_order, 0, new Color(0.2f, 1f, 1f, 1f));
+				}
+			}
+		}
+
+		if ((selected_cache == null && highlighted_player == null)) {
 			for (int i = 0; i < territory_order.Count; i++) {
 				if (territory_order[i].region.complete)
 					_highlightImage.SetPixel(i, 0, new Color(0.6f, 0f, 0f, 1f));
@@ -185,7 +194,17 @@ public abstract partial class MapRenderer : Node {
 		shader_material.SetShaderParameter("highlight_lut", highlight_lut);
 	}
 
-	public void SelectTerritory(Territory territory) => SetHighlights(territory);
+	public void SelectTerritory(Territory territory) {
+		selected_cache = territory;
+		SetHighlights();
+	}
+
+	public void DisablePlayerHighlight() => HighlightPlayer(null);
+	public void HighlightPlayer(Player player) {
+		highlighted_player = player;
+		SetHighlights();
+	}
+	
 
 	protected string FormatColour(Color colour)
 		=> "#" + colour.ToHtml(false).ToUpper();
