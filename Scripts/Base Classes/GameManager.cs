@@ -59,10 +59,10 @@ public class GameManager {
 
 	private void GenerateTestPlayers() {
 		players = new List<Player>();
-		players.Add(new LocalPlayer(this, "Henry", "#FF0000"));
-		players.Add(new LocalPlayer(this, "Thomas", "#0000FF"));
-		players.Add(new LocalPlayer(this, "Andre", "#00FF00"));
-		players.Add(new LocalPlayer(this, "Arshia", "#FFFF00"));
+		players.Add(new LocalPlayer(this, "Henry", COLOUR_LEGION_RED));
+		players.Add(new LocalPlayer(this, "Thomas", COLOUR_QUANTUM_BLUE));
+		players.Add(new LocalPlayer(this, "Andre", COLOUR_NUCLEAR_GREEN));
+		players.Add(new LocalPlayer(this, "Arshia", COLOUR_SAND_YELLOW));
 		OnLog?.Invoke("Test players created.");
 	}
 
