@@ -217,7 +217,7 @@ public partial class GameMaster : Node {
 
 			case State.INITIAL_PLACEMENT:
 				ui_game_state.Text = "Initial Placements"; 
-				ui_game_additional.Text = "Select an owned tile to place a troop";
+				ui_game_additional.Text = $"Select to place a troops. You have {manager.GetRemainingPlacementsPerPlayer()} remaining.";
 				ui_game_turn.Text = TurnText(); 
 				break;
 				

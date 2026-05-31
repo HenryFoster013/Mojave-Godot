@@ -465,4 +465,8 @@ public class GameManager {
 	public IReadOnlyCollection<Territory> GetPlayerTerritories(Player player) {
 		return player_territories.TryGetValue(player, out var set) ? set : Array.Empty<Territory>();
 	}
+
+	public int GetRemainingPlacementsPerPlayer(){
+		return (init_placement_max - init_placement_count) / players.Count;
+	}
 }
