@@ -25,20 +25,26 @@ public class GameManager {
 
 	public event Action OnUIUpdate;
 	public event Action OnClaimancy;
+	public event Action OnInitialPlacement;
 	public event Action OnPrimary;
 	public event Action OnNewTurn;
 	public event Action<Territory> OnTerritoryCountChanged;
 	public event Action<string> OnLog;
 
-	bool initial_turn;
 	public bool local_turn => current_player.type == PlayerType.LOCAL;
+	bool initial_turn;
+	int init_placement_count, init_placement_max, init_base_troops, init_mult_troops;
+
+	public int territories_per_troop { get; private set; }
+	public string map_name { get; private set; }
+	public string map_author { get; private set; }
 
 	// ----- // SETUP // ----- //
 
 	public void LoadJson(string json_text) {
 		ResetBaseInfo();
 		BuildMap(json_text);
-		GeneratedTestPlayers();
+		GenerateTestPlayers();
 		ConsolidatePlayerIds();
 	}
 
@@ -49,7 +55,7 @@ public class GameManager {
 		game_state = State.NULL;
 	}
 
-	private void GeneratedTestPlayers() {
+	private void GenerateTestPlayers() {
 		players = new List<Player>();
 		players.Add(new LocalPlayer(this, "Henry", "#FF0000"));
 		players.Add(new LocalPlayer(this, "Thomas", "#0000FF"));
@@ -85,6 +91,12 @@ public class GameManager {
 
 	private void FillData(JsonObject root) {
 
+		map_name = root["metadata"]?["name"]?.GetValue<string>() ?? "Unknown";
+    	map_author = root["metadata"]?["author"]?.GetValue<string>() ?? "Unknown";
+    	territories_per_troop = root["metadata"]?["territoriesPerTroop"]?.GetValue<int>() ?? DEFAULT_TERRITORIES_PER_TROOP;
+		init_base_troops = root["metadata"]?["initialBaseTroops"]?.GetValue<int>() ?? DEFAULT_BASE_INIT_TROOPS;
+		init_mult_troops = root["metadata"]?["initialTroopDeduction"]?.GetValue<int>() ?? DEFAULT_MULT_INIT_TROOPS;
+
 		foreach (var entry in root["regions"].AsArray()) {
 			var region = Region.FromJson(entry.AsObject());
 			regions[region.id] = region;
@@ -116,50 +128,6 @@ public class GameManager {
 			}
 			region.CheckCompletion();
 		}
-	}
-
-	// ----- // CLAIMANCY // ----- //
-
-	void StartClaimancy(bool random_claims) {
-		total_turn = 0;
-		if (random_claims) {
-			OnLog?.Invoke("Assigning Random Claims.");
-			AssignRandomClaims();
-			return;
-		}
-		OnLog?.Invoke("Starting Claimancy.");
-		game_state = State.CLAIMANTS;
-		OnClaimancy?.Invoke();
-		LoadTurn();
-	}
-
-	private void ClaimTerritory(Player player, Territory territory) {
-		territory.Owner = player;
-		territory.SetTroops(MIN_TROOPS);
-		OnTerritoryCountChanged?.Invoke(territory);
-		OnLog?.Invoke($"{player.name} claimed {territory.name}.");
-	}
-
-	private void AssignRandomClaims() {
-
-		OnLog?.Invoke("Assigning random claims.");
-
-		var shuffled = Shuffle(new List<Territory>(territories.Values));
-		for (int i = 0; i < shuffled.Count; i++) {
-			IterateTurn();
-			ClaimTerritory(current_player, shuffled[i]);
-		}
-
-		StartPrimary();
-		LoadTurn();
-	}
-
-	private bool AllClaimed() {
-		foreach (Territory territory in territories.Values) {
-			if (territory.Owner == null)
-				return false;
-		}
-		return true;
 	}
 
 	// ----- //  GENERIC FUNCTIONS // ----- //
@@ -198,6 +166,70 @@ public class GameManager {
 			return false;
 		return true;
 	}
+
+	// ----- // CLAIMANCY // ----- //
+
+	void StartClaimancy(bool random_claims) {
+		total_turn = 0;
+		if (random_claims) {
+			OnLog?.Invoke("Assigning Random Claims.");
+			AssignRandomClaims();
+			return;
+		}
+		OnLog?.Invoke("Starting Claimancy.");
+		game_state = State.CLAIMANTS;
+		OnClaimancy?.Invoke();
+		LoadTurn();
+	}
+
+	private void ClaimTerritory(Player player, Territory territory) {
+		territory.Owner = player;
+		territory.SetTroops(MIN_TROOPS);
+		OnTerritoryCountChanged?.Invoke(territory);
+		OnLog?.Invoke($"{player.name} claimed {territory.name}.");
+	}
+
+	private void AssignRandomClaims() {
+
+		OnLog?.Invoke("Assigning random claims.");
+
+		var shuffled = Shuffle(new List<Territory>(territories.Values));
+		for (int i = 0; i < shuffled.Count; i++) {
+			IterateTurn();
+			ClaimTerritory(current_player, shuffled[i]);
+		}
+
+		StartInitialPlacement();
+		LoadTurn();
+	}
+
+	private bool AllClaimed() {
+		foreach (Territory territory in territories.Values) {
+			if (territory.Owner == null)
+				return false;
+		}
+		return true;
+	}
+
+	// ----- // INITIAL PLACEMENT // ----- //
+
+	private void StartInitialPlacement(){
+		total_turn = 0;
+		init_placement_max = players.Count * (init_base_troops - (init_mult_troops * players.Count));
+		init_placement_count = 0;
+		sub_turn = SubTurn.PLACE;
+		game_state = State.INITIAL_PLACEMENT;
+		OnInitialPlacement?.Invoke();
+	}
+
+	private void InitialPlacementTerritory(Territory territory) {
+		territory.AddTroops(1);
+		init_placement_count++;
+		OnTerritoryCountChanged?.Invoke(territory);
+		OnLog?.Invoke($"{territory.Owner.name} placed at {territory.name}.");
+	}
+
+	private bool AllInitiallyPlaced() => init_placement_count >= init_placement_max;
 
 	// ----- // PRIMARY // ----- //
 
@@ -270,6 +302,7 @@ public class GameManager {
 		IterateTurn();
 		switch (game_state) {
 			case State.CLAIMANTS: ClaimantsTurn(); break;
+			case State.INITIAL_PLACEMENT: InitialPlacementTurn(); break;
 			case State.PRIMARY: PrimaryTurn(); break;
 		}
 		OnUIUpdate?.Invoke();
@@ -304,11 +337,19 @@ public class GameManager {
 
 	private void ClaimantsTurn() {
 		if (AllClaimed()) {
-			StartPrimary();
+			StartInitialPlacement();
 			return;
 		}
 		OnLog?.Invoke($"{current_player.name}'s turn to claim.");
 		current_player.RequestClaim();
+	}
+
+	private void InitialPlacementTurn() {
+		if (AllInitiallyPlaced()) {
+			StartPrimary();
+			return;
+		}
+		current_player.RequestPlacement();
 	}
 
 	private void PrimaryTurn() {
@@ -332,7 +373,31 @@ public class GameManager {
 			return false;
 		if (territory.Owner != null)
 			return false;
+		if (game_state != State.CLAIMANTS)
+			return false;
 		ClaimTerritory(player, territory);
+		LoadTurn();
+		return true;
+	}
+
+	public bool SpeakPlacement(Territory territory) {
+		if (!local_turn)
+			return false;
+		return SpeakPlacement(current_player, territory);
+	}
+
+	public bool SpeakPlacement(Player player, Territory territory) {
+		if(territory == null)
+			return false;
+		if (player != players[current_player_turn])
+			return false;
+		if (territory.Owner != player)
+			return false;
+		if (game_state != State.INITIAL_PLACEMENT)
+			return false;
+		if (AllInitiallyPlaced())
+			return false;
+		InitialPlacementTerritory(territory);
 		LoadTurn();
 		return true;
 	}
@@ -353,13 +418,14 @@ public class GameManager {
 
 	private int CalculatePlayerProfit(Player player) {
 	
-		int total = 0;
+		int territory_count = 0;
 		foreach (Territory territory in territories.Values) {
 			if (territory.Owner == player) {
-				total++;
+				territory_count++;
 			}
 		}
-		int result = total / TERRITORIES_PER_TROOP;
+
+		int result = Math.Max(territory_count / territories_per_troop, 3);
 
 		foreach (Region region in regions.Values) {
 			if (region.complete) {
@@ -369,8 +435,6 @@ public class GameManager {
 			}
 		}
 		
-		if (result < 1)
-			return 1;
 		return result;
 	}
 

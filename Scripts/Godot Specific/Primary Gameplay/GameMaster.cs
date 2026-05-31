@@ -115,6 +115,10 @@ public partial class GameMaster : Node {
 			case State.CLAIMANTS:
 				manager.SpeakClaim(territory);
 				break;
+
+			case State.INITIAL_PLACEMENT:
+				manager.SpeakPlacement(territory);
+				break;
 			
 			case State.PRIMARY:
 				switch (sub_turn) {
@@ -265,6 +269,10 @@ public partial class GameMaster : Node {
 	public void LoadPrimary() {
 		UpdateAllUI();
 	}
+
+	// ----- // UI BUTTONS // ----- //
+
+
 
 	// ----- // GETTERS AND SETTERS // ----- //
 

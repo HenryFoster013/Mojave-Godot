@@ -12,8 +12,11 @@
 [ext_resource type="Script" uid="uid://dxrllqw4m8jdc" path="res://Scripts/Godot Specific/Primary Gameplay/3D Expansions/LabelManager3D.cs" id="10_hagma"]
 [ext_resource type="PackedScene" uid="uid://nftb8hiopihw" path="res://Data/Prefabs/Map_Label.tscn" id="11_253gl"]
 [ext_resource type="Material" uid="uid://d28bl36jni1rj" path="res://Graphics/Materials/Shadow_Material.tres" id="12_lkwq1"]
-[ext_resource type="PackedScene" uid="uid://bu7m8jxjgn88j" path="res://Data/Prefabs/UI.tscn" id="13_p3fgp"]
+[ext_resource type="Theme" uid="uid://dytvaprn0wbxw" path="res://Graphics/Fonts/Cascadia_Bold.tres" id="13_7qrvb"]
 [ext_resource type="PackedScene" uid="uid://dngsgugiimoqk" path="res://Data/Prefabs/BG.tscn" id="14_745nf"]
+[ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Gradients/Gradient_Vertical.png" id="14_lhtxr"]
+[ext_resource type="Texture2D" uid="uid://dambgr1sw4erq" path="res://Graphics/Images/Gradients/Tick_Icon.png" id="15_52jsp"]
+[ext_resource type="Script" uid="uid://h2bsomih40vo" path="res://Scripts/Godot Specific/UI Effects/FadeIn.cs" id="16_rqd7l"]
 
 [sub_resource type="Environment" id="Environment_eifla"]
 background_mode = 3
@@ -198,6 +201,134 @@ shadow_mesh = SubResource("ArrayMesh_wyrlg")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_eifla"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwtvl"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.3647059, 0.40392157, 0.41960785, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6952, 0.76314, 0.79, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+corner_detail = 1
+shadow_color = Color(0, 0, 0, 0.6156863)
+shadow_size = 6
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6gkh4"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.30588236)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ogcs1"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.5019608)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n38fa"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.73, 0.48666668, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.8, 0.39999998, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 1
+shadow_color = Color(0, 0, 0, 0.40392157)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ge24r"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.79, 0.5266667, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.8, 0.39999998, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 1
+shadow_color = Color(0, 0, 0, 0.40392157)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1xrtk"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.88, 0.5866667, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.8, 0.39999998, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 1
+shadow_color = Color(0, 0, 0, 0.40392157)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="InputEventKey" id="InputEventKey_wwtvl"]
+keycode = 13
+
+[sub_resource type="Shortcut" id="Shortcut_ge24r"]
+events = [SubResource("InputEventKey_wwtvl")]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eifla"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.7, 0.7, 0.7, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.85, 0.85, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+shadow_color = Color(1, 1, 1, 0.45490196)
+shadow_size = 8
+
 [node name="Base Game 3D" type="Node3D" unique_id=204547736]
 
 [node name="World Environment" type="WorldEnvironment" parent="." unique_id=505609779]
@@ -230,13 +361,13 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2
 script = ExtResource("3_7jdad")
 mesh = NodePath("Board")
 map_world_size = Vector2(5, 5)
+noise_material = ExtResource("7_rqd7l")
+noise_gen = ExtResource("8_wditk")
 prop_material = ExtResource("4_7qrvb")
 prop_names = PackedStringArray("THE_STRIP", "THE_FORT", "REPCONN_TEST_SITE", "REPCONN_TEST_SITE", "YANGTZE_MEMORIAL")
 prop_meshes = [NodePath("Board/Meshes/Props/Lucky 38"), NodePath("Board/Meshes/Props/The Fort"), NodePath("Board/Meshes/Props/Recponn TS Building"), NodePath("Board/Meshes/Props/Repconn TS Dome"), NodePath("Board/Meshes/Props/Yangtze Memorial")]
 colour_map_texture = ExtResource("5_lhtxr")
 overlay_texture = ExtResource("6_52jsp")
-noise_material = ExtResource("7_rqd7l")
-noise_gen = ExtResource("8_wditk")
 
 [node name="Board" type="MeshInstance3D" parent="Map Renderer" unique_id=1435080918]
 transform = Transform3D(5, 0, 0, 0, -2.1855696e-07, 5, 0, -5, -2.1855696e-07, 0.00053334236, -1.4901161e-08, 1.02669e-05)
@@ -307,8 +438,225 @@ material_override = ExtResource("12_lkwq1")
 mesh = SubResource("QuadMesh_gg4i8")
 surface_material_override/0 = ExtResource("12_lkwq1")
 
-[node name="UI" parent="." unique_id=1547894410 instance=ExtResource("13_p3fgp")]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1547894410]
+
+[node name="UI Container" type="Control" parent="UI" unique_id=1117925593]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("13_7qrvb")
+
+[node name="Game Info" type="VBoxContainer" parent="UI/UI Container" unique_id=138868309]
+layout_mode = 1
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 515.0
+offset_bottom = 115.0
+mouse_filter = 2
+
+[node name="Game Status Label" type="HBoxContainer" parent="UI/UI Container/Game Info" unique_id=1741497352]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Divisor 1" type="TextureRect" parent="UI/UI Container/Game Info/Game Status Label" unique_id=1381251644]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("14_lhtxr")
+expand_mode = 4
+
+[node name="Status Text" type="Label" parent="UI/UI Container/Game Info/Game Status Label" unique_id=1170069301]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 10
+text = "Claimants"
+
+[node name="Divisor 2" type="TextureRect" parent="UI/UI Container/Game Info/Game Status Label" unique_id=431277310]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("14_lhtxr")
+expand_mode = 4
+
+[node name="Status Text 2" type="Label" parent="UI/UI Container/Game Info/Game Status Label" unique_id=1492443008]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 10
+text = "Turn 0"
+
+[node name="Game Command Label" type="HBoxContainer" parent="UI/UI Container/Game Info" unique_id=630055365]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Divisor 1" type="TextureRect" parent="UI/UI Container/Game Info/Game Command Label" unique_id=108343681]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("14_lhtxr")
+expand_mode = 4
+
+[node name="Status Text" type="Label" parent="UI/UI Container/Game Info/Game Command Label" unique_id=652919868]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 14
+text = "Turn Command Goes Here"
+
+[node name="Current Player Label" type="HBoxContainer" parent="UI/UI Container" unique_id=83032480]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 13.26
+offset_top = -40.0
+offset_right = 213.26
+offset_bottom = -10.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Player Colour" type="TextureRect" parent="UI/UI Container/Current Player Label" unique_id=352218436]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("14_lhtxr")
+expand_mode = 4
+
+[node name="Player Name" type="Label" parent="UI/UI Container/Current Player Label" unique_id=908555188]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+
+[node name="Troop Slider" type="VBoxContainer" parent="UI/UI Container" unique_id=1956191643]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -185.0
+offset_top = -125.0
+offset_right = 155.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1.1, 1.1)
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Slider Window" type="Panel" parent="UI/UI Container/Troop Slider" unique_id=1020310033]
+custom_minimum_size = Vector2(340, 55)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wwtvl")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI/UI Container/Troop Slider/Slider Window" unique_id=1347924246]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_right = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="Troop Count" type="Label" parent="UI/UI Container/Troop Slider/Slider Window/VBoxContainer2" unique_id=240224021]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 14
+text = "PLACE [12] TROOPS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="UI/UI Container/Troop Slider/Slider Window/VBoxContainer2" unique_id=1994219305]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_icons/tick = ExtResource("15_52jsp")
+theme_override_styles/slider = SubResource("StyleBoxFlat_6gkh4")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_ogcs1")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_ogcs1")
+tick_count = 12
+ticks_on_borders = true
+ticks_position = 3
+
+[node name="Confirm Button" type="Button" parent="UI/UI Container/Troop Slider" unique_id=342875183]
+custom_minimum_size = Vector2(150, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_n38fa")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ge24r")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1xrtk")
+shortcut = SubResource("Shortcut_ge24r")
+text = "CONFIRM"
+
+[node name="Turn Label" type="Control" parent="UI/UI Container" unique_id=1526128785]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -16.25
+offset_right = 100.0
+offset_bottom = 16.25
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Player Turn" type="Panel" parent="UI/UI Container/Turn Label" unique_id=424349457]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_eifla")
+
+[node name="Player Label" type="Label" parent="UI/UI Container/Turn Label" unique_id=1206121458]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
+text = "Henry's Turn"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Fade In" type="Control" parent="UI" unique_id=1329449893 node_paths=PackedStringArray("ColourRect")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("16_rqd7l")
+ColourRect = NodePath("Covering Rect")
+Delay = 0.1
+FadeTime = 1.0
+
+[node name="Covering Rect" type="ColorRect" parent="UI/Fade In" unique_id=1973921639]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [node name="BG" parent="." unique_id=2112562202 instance=ExtResource("14_745nf")]
-
-[editable path="UI"]

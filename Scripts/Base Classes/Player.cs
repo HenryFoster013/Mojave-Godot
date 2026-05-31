@@ -23,6 +23,7 @@ public class Player {
     // ----- // OVERRIDES // ----- //
 
     public virtual void RequestClaim() { }
+    public virtual void RequestPlacement() { }
     public virtual void RequestPlay() { }
 
     // ----- // GETTERS AND SETTERS // ----- //
@@ -51,6 +52,7 @@ public class LocalPlayer : Player {
         : base(_manager, _name, _colour) { type = PlayerType.LOCAL; }
 
     public override void RequestClaim() { }
+    public override void RequestPlacement() { }
     public override void RequestPlay() { }
 }
 
@@ -60,5 +62,6 @@ public class BotPlayer : Player {
         : base(_manager, _name, _colour) { type = PlayerType.BOT; }
 
     public override void RequestClaim() {}
+    public override void RequestPlacement() { }
     public override void RequestPlay() { }
 }
