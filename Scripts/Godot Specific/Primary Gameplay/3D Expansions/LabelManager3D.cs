@@ -32,14 +32,14 @@ public partial class LabelManager3D : LabelManager {
 
     // Animations //
 
-    public override void AnimateLabel(Territory territory, Animation animation) {
+    public override void AnimateLabel(Territory territory, string animation_name) {
         Node label = troop_labels[territory.render_order];
-        switch (animation) {
-            case Animation.BOP: BopAnimation(label); break;
+        switch (animation_name.ToUpper()) {
+            case "BOUNCE": BounceAnimation(label); break;
         }
     }
 
-    private void BopAnimation(Node label) {
+    private void BounceAnimation(Node label) {
         var tween = CreateTween();
         (label as Node3D).Scale = Vector3.One * 1.66f;
         tween.TweenProperty(label, "scale", Vector3.One, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);

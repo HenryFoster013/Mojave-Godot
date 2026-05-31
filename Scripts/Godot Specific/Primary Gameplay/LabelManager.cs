@@ -14,8 +14,6 @@ public abstract partial class LabelManager : Node {
     public float camera_zoom;
     public bool region_mode;
 
-    public enum Animation { NULL, BOP }
-
     public virtual void Setup(GameMaster _game_master) {
         game_master = _game_master;
 
@@ -46,7 +44,7 @@ public abstract partial class LabelManager : Node {
     protected abstract void AddLabelToHolder(Node holder, Node label, Vector3 world_pos, float scale);
     public abstract void UpdateLabels();
     protected abstract void SetHolderVisible(Node holder, bool visible);
-    public abstract void AnimateLabel(Territory territory, Animation animation);
+    public abstract void AnimateLabel(Territory territory, string animation_name);
 
     public void UpdateTroopCount(Territory territory)
         => SetLabelText(troop_labels[territory.render_order], territory.troop_count.ToString());
