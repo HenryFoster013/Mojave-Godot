@@ -1,4 +1,5 @@
 using Godot;
+using static RiskUtils;
 
 public partial class LabelManager3D : LabelManager {
 
@@ -32,10 +33,10 @@ public partial class LabelManager3D : LabelManager {
 
     // Animations //
 
-    public override void AnimateLabel(Territory territory, string animation_name) {
+    public override void AnimateLabel(Territory territory, LabelAnimation animation) {
         Node label = troop_labels[territory.render_order];
-        switch (animation_name.ToUpper()) {
-            case "BOUNCE": BounceAnimation(label); break;
+        switch (animation) {
+            case LabelAnimation.BOUNCE: BounceAnimation(label); break;
         }
     }
 

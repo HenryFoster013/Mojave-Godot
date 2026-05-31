@@ -250,9 +250,9 @@ public partial class GameMaster : Node {
 		label_manager.UpdateTroopCount(territory);
 
 		switch (type) {
-			case TerritoryChangeType.CLAIM: label_manager.AnimateLabel(territory, "BOUNCE"); break;
-			case TerritoryChangeType.PLACEMENT: label_manager.AnimateLabel(territory, "BOUNCE"); break;
-			case TerritoryChangeType.CONQUEST: label_manager.AnimateLabel(territory, "BOUNCE"); break;
+			case TerritoryChangeType.CLAIM: label_manager.AnimateLabel(territory, LabelAnimation.BOUNCE); break;
+			case TerritoryChangeType.PLACEMENT: label_manager.AnimateLabel(territory, LabelAnimation.BOUNCE); break;
+			case TerritoryChangeType.CONQUEST: label_manager.AnimateLabel(territory, LabelAnimation.BOUNCE); break;
 		}
 	}
 

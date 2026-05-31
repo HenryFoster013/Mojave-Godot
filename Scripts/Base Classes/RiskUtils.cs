@@ -4,8 +4,10 @@ public static class RiskUtils {
 
     public enum State { NULL, CLAIMANTS, INITIAL_PLACEMENT, PRIMARY, ENDGAME }
 	public enum SubTurn { PLACE, ATTACK, FORTIFY }
-    public enum AttackResult { STANDARD, CONQUEST, INVALID }
+    
     public enum PlayerType { NULL, LOCAL, BOT }
+
+    public enum AttackResult { STANDARD, CONQUEST, INVALID }
     public enum TerritoryChangeType { NULL, CLAIM, PLACEMENT, CONQUEST }
 
     public const int MIN_TROOPS = 1; 
@@ -25,4 +27,8 @@ public static class RiskUtils {
     public const string COLOUR_MADRE_RHUBARB     = "#FF005B";
     public const string COLOUR_LEGION_RED        = "#FF0000";
     public const string COLOUR_MOJAVE_ORANGE     = "#FF5300";
+
+    // Animation Sets
+
+    public enum LabelAnimation { BOUNCE }
 }

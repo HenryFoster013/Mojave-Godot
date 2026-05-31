@@ -198,6 +198,7 @@ public class GameManager {
 		territory.Owner = player;
 		if (player != null)
 			player_territories[player].Add(territory);
+		territory.region?.CheckCompletion();
 	}
 
 	private void AssignRandomClaims() {
@@ -228,6 +229,7 @@ public class GameManager {
 
 	private void StartInitialPlacement(){
 		total_turn = 0;
+		current_player_turn = -1;
 		init_placement_max = players.Count * (init_base_troops - (init_mult_troops * players.Count));
 		init_placement_count = 0;
 		sub_turn = SubTurn.PLACE;

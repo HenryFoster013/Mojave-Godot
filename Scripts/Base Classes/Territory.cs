@@ -64,7 +64,6 @@ public class Territory {
             if (owner == value) return;
             Player previous = owner;
             owner = value;
-            region.CheckCompletion();
             OnTerritoryOwnerChanged?.Invoke(this, previous, owner);
         }
     }

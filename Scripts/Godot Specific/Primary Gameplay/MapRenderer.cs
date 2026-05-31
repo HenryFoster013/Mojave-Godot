@@ -147,7 +147,7 @@ public abstract partial class MapRenderer : Node {
 
 	private void RefreshOwnership(Territory territory, Player previous, Player current) => RefreshOwnership(territory);
 	public void RefreshOwnership(Territory territory) {
-		int index = territory_order.IndexOf(territory);
+		int index = territory.render_order;
 		if (index < 0 || _ownerImage == null) return;
 		_ownerImage.SetPixel(index, 0, territory.Owner != null ? Color.FromHtml(territory.Owner.colour) : Colors.WebGray);
 		owner_lut.Update(_ownerImage);
@@ -181,7 +181,7 @@ public abstract partial class MapRenderer : Node {
 			}
 		}
 
-		if ((selected_cache == null && highlighted_player == null)) {
+		else {
 			for (int i = 0; i < territory_order.Count; i++) {
 				if (territory_order[i].region.complete)
 					_highlightImage.SetPixel(i, 0, new Color(0.6f, 0f, 0f, 1f));

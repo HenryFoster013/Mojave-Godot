@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using static RiskUtils;
 
 public abstract partial class LabelManager : Node {
 
@@ -44,7 +45,7 @@ public abstract partial class LabelManager : Node {
     protected abstract void AddLabelToHolder(Node holder, Node label, Vector3 world_pos, float scale);
     public abstract void UpdateLabels();
     protected abstract void SetHolderVisible(Node holder, bool visible);
-    public abstract void AnimateLabel(Territory territory, string animation_name);
+    public abstract void AnimateLabel(Territory territory, LabelAnimation animation);
 
     public void UpdateTroopCount(Territory territory)
         => SetLabelText(troop_labels[territory.render_order], territory.troop_count.ToString());
