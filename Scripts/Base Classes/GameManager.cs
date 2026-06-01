@@ -467,6 +467,6 @@ public class GameManager {
 	}
 
 	public int GetRemainingPlacementsPerPlayer(){
-		return (init_placement_max - init_placement_count) / players.Count;
+		return (init_placement_max / players.Count) - ((total_turn - 1) / players.Count);
 	}
 }

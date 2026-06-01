@@ -3,7 +3,7 @@
     "name": "Mojave",
     "author": "Henry Foster",
     "territoriesPerTroop": 4,
-    "initialBaseTroops": 50,
+    "initialBaseTroops": 35,
     "initialTroopDeduction": 5
   },
   "regions": [

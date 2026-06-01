@@ -206,7 +206,7 @@ public partial class GameMaster : Node {
 		switch (game_state) {
 		
 			case State.NULL: 
-				ui_game_state.Text = "NULL"; 
+				ui_game_state.Text = "NULL";
 				break;
 			
 			case State.CLAIMANTS:
