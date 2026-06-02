@@ -53,7 +53,7 @@ public class BotPlayer : Player {
 		List<Territory> potential_targets = new();
 		HashSet<Territory> touched_territories = new();
 
-		void TryAdd(Territory territory) {
+		void TestAdd(Territory territory) {
 			if (touched_territories.Add(territory)) {
 				if((claimancy_mode && territory.Owner == null) || (!claimancy_mode && territory.Owner != this))
 					potential_targets.Add(territory);
@@ -63,20 +63,19 @@ public class BotPlayer : Player {
 		foreach (Territory territory in priority_list) {
 			foreach (Territory neighbour in manager.Shuffle(territory.neighbours.ToList())) {
 				if (neighbour.region == territory.region)
-					TryAdd(neighbour);
+					TestAdd(neighbour);
 			}
 		}
 
 		foreach (Territory territory in priority_list) {
-			foreach (Territory neighbour in territory.neighbours) {
-				TryAdd(neighbour);
-			}
+			foreach (Territory neighbour in territory.neighbours)
+				TestAdd(neighbour);
 		}
 
 		return potential_targets;
 	}
 
-	private int OwnedNeighbourScore(Territory territory, int depth) {
+	private int CalculateOwnedNeighbourScore(Territory territory, int depth) {
 
 		/* Calculates how many neighbours we own, then how many neighbours of the neighbours we own.
 		   Recursive, depth indicates how many sets of neighbours to count.
@@ -84,19 +83,19 @@ public class BotPlayer : Player {
 
 		if (depth < 1) 
 			return 0;
-		return territory.neighbours.Sum(n => (n.Owner == this ? 1 : 0) + OwnedNeighbourScore(n, depth - 1));
+		return territory.neighbours.Sum(n => (n.Owner == this ? 1 : 0) + CalculateOwnedNeighbourScore(n, depth - 1));
 	}
 
-	private void CalculateCentralTerritories() {
+	private void SelectCentralTerritories() {
 
 		/* Territories are chosen based on their depth score, then their second depth score.
 		   Depth score is counted twice to indicate territories reachable by multiple paths, hence it is more strategically central.
 		   Selects the top few.
 		*/
 
-		List<Territory> central_territories = manager.GetPlayerTerritories(this)
-			.OrderByDescending(territory => OwnedNeighbourScore(territory, 1))
-			.ThenByDescending(territory => OwnedNeighbourScore(territory, 2))
+		central_territories = manager.GetPlayerTerritories(this)
+			.OrderByDescending(territory => CalculateOwnedNeighbourScore(territory, 1))
+			.ThenByDescending(territory => CalculateOwnedNeighbourScore(territory, 2))
 			.Take(CENTRAL_TERRITORIES)
 			.ToList();
 	}
@@ -104,55 +103,59 @@ public class BotPlayer : Player {
 
 	////////////////////////////|| CLAIMS ||////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// ----- // CLAIMS // ----- //
+	// ----- // REQUEST // ----- //
 
 	public override async void RequestClaim() {
 
 		await Task.Delay(TimeSpan.FromSeconds(BASE_DELAY));
 
-		int dice_roll = random.Next(C_TOTAL_DECISION_CHANCE);
-		List<Territory> our_missing_pieces = manager.GetMissingRegionPieces(this).Where(t => t.Owner == null).ToList();
-		List<Territory> their_missing_pieces = manager.GetOtherMissingRegionPieces(this).Where(t => t.Owner == null).ToList();
+        if (RollClaimOurMissingPiece()) return;
+        if (RollClaimTheirMissingPiece()) return;
+        if (RollClaimRandom()) return;
+        if (RollClaimConsolidation()) return;
+        ClaimDisruption();
+	}
 
-		// Check if we are one territory away from completing a region, if so take it.
-		if (our_missing_pieces.Count > 0) {
-			ClaimOurMissingPiece(our_missing_pieces);
-			return;
+    // ----- // ROLLS // ----- //
+
+    private bool RollClaimOurMissingPiece() {
+        List<Territory> our_missing_pieces = manager.GetMissingRegionPieces(this).Where(t => t.Owner == null).ToList();
+        if (our_missing_pieces.Count > 0) {
+			manager.SpeakClaim(this, our_missing_pieces[random.Next(our_missing_pieces.Count)]);
+			return true;
 		}
+        return false;
+    }
 
-		// Check if anyone else is one territory away from completing a region, if so roll on preventing the bonus.
-		if (their_missing_pieces.Count > 0 && dice_roll < C_IMMENENT_DISRUPTION_CHANCE) {
-			ClaimTheirMissingPiece(their_missing_pieces);
-			return;
+    private bool RollClaimTheirMissingPiece() {
+        int dice_roll = random.Next(C_TOTAL_DECISION_CHANCE);
+        List<Territory> their_missing_pieces = manager.GetOtherMissingRegionPieces(this).Where(t => t.Owner == null).ToList();
+        if (their_missing_pieces.Count > 0 && dice_roll < C_IMMENENT_DISRUPTION_CHANCE) {
+			manager.SpeakClaim(this, their_missing_pieces[random.Next(their_missing_pieces.Count)]);
+			return true;
 		}
+        return false;
+    }
 
-		// Re-roll prevents a failed 'claim their missing piece' always returning a random tile.
-		IReadOnlyCollection<Territory> our_territories = manager.GetPlayerTerritories(this);
-		dice_roll = random.Next(C_TOTAL_DECISION_CHANCE); 
-
-		// Roll on making a mistake (random tile).
-		if (our_territories.Count == 0 || dice_roll < C_MISTAKE_CHANCE) {
+    private bool RollClaimRandom() {
+        int dice_roll = random.Next(C_TOTAL_DECISION_CHANCE);
+        if (manager.GetPlayerTerritories(this).Count == 0 || dice_roll < C_MISTAKE_CHANCE) {
 			ClaimRandom();
-			return;
+			return true;
 		}
+        return false;
+    }
 
-		// Roll on consolidating control of an existing larger area.
-		if (dice_roll < C_MISTAKE_CHANCE + C_CONSOLIDATION_CHANCE) {
+    private bool RollClaimConsolidation(){
+        int dice_roll = random.Next(C_TOTAL_DECISION_CHANCE);
+        if (dice_roll < C_MISTAKE_CHANCE + C_CONSOLIDATION_CHANCE) {
 			ClaimConsolidation();
-			return;
+			return true;
 		}
-		
-		// Final option, disrupt an opponents area.
-		ClaimDisruption();
-	}
+        return false;
+    }
 
-	private void ClaimOurMissingPiece(List<Territory> our_missing_pieces) {
-		manager.SpeakClaim(this, our_missing_pieces[random.Next(our_missing_pieces.Count)]);
-	}
-
-	private void ClaimTheirMissingPiece(List<Territory> their_missing_pieces) {
-		manager.SpeakClaim(this, their_missing_pieces[random.Next(their_missing_pieces.Count)]);
-	}
+    // ----- // CLAIMS // ----- //
 
 	private void ClaimDisruption() {
 
