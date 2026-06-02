@@ -13,47 +13,49 @@ public class BotPlayer : Player {
 
     // ----- // GENERAL // ----- // 
 
-    public Territory GetConsolidationTarget(bool claimancy_mode) => GetAllConsolidationTargets(claimancy_mode)[0];
+    public Territory GetConsolidationTarget(bool claimancy_mode) {
+        List<Territory> targets = GetAllConsolidationTargets(claimancy_mode);
+        if (targets.Count > 0)
+            return targets[0];
+        return null;
+    }
+
     public List<Territory> GetAllConsolidationTargets(bool claimancy_mode) {
 
-        // Gets the full set of owned territories
-        // Organises them by region, split into seperate groups
-        // Shuffles each group internally then combines them into a single list where in descending group size order
-        // Returns their neighbours in the same order as the previous list (though shuffled within the neighbours)
-        // Can be used to bias consolidation to larger groups of owned land within a single region
+        /*
+            Gets all owned territories, groups them by region and shuffles the groups internally.
+            Concats each group (largest first) into a single list.
+            Loops through each territory and checks if they have any unclaimed neighbours inside the same region
+            Loops through again and adds any unclaimed neighbours outside of the same region
+            Returns the list of potential targets.
+        */
 
-        Dictionary<Region, List<Territory>> region_groups = new();
-        foreach (Territory t in manager.GetPlayerTerritories(this)) {
-            Region key = t.region;
-            if (!region_groups.ContainsKey(key))
-                region_groups[key] = new List<Territory>();
-            region_groups[key].Add(t);
-        }
+        List<Territory> priority_list = manager.GetPlayerTerritories(this)
+            .GroupBy(t => t.region)
+            .OrderByDescending(g => g.Count())
+            .SelectMany(g => manager.Shuffle(g.ToList()))
+            .ToList();
 
-        List<Territory> priority_list = region_groups.Values.Select(group => manager.Shuffle(group)).OrderByDescending(group => group.Count).SelectMany(group => group).ToList();
         List<Territory> potential_targets = new();
+        HashSet<Territory> touched_territories = new();
 
-        // Add only if it is within the same region (biases region control)
-
-        foreach (Territory territory in priority_list) {
-            foreach (Territory neighbour in manager.Shuffle(territory.neighbours.ToList())) {
-                if (neighbour.region == territory.region) {
-                    if ((claimancy_mode && neighbour.Owner == null) || (!claimancy_mode && neighbour.Owner != this)) {
-                        if (!potential_targets.Contains(neighbour))
-                                potential_targets.Add(neighbour);
-                    }
-                }
+        void TryAdd(Territory territory) {
+            if (touched_territories.Add(territory)) {
+                if((claimancy_mode && territory.Owner == null) || (!claimancy_mode && territory.Owner != this))
+                    potential_targets.Add(territory);
             }
         }
 
-        // Add all ignoring region
+        foreach (Territory territory in priority_list) {
+            foreach (Territory neighbour in manager.Shuffle(territory.neighbours.ToList())) {
+                if (neighbour.region == territory.region)
+                    TryAdd(neighbour);
+            }
+        }
 
         foreach (Territory territory in priority_list) {
             foreach (Territory neighbour in territory.neighbours) {
-                if ((claimancy_mode && neighbour.Owner == null) || (!claimancy_mode && neighbour.Owner != this)) {
-                    if (!potential_targets.Contains(neighbour))
-                            potential_targets.Add(neighbour);
-                }
+                TryAdd(neighbour);
             }
         }
 
@@ -144,7 +146,13 @@ public class BotPlayer : Player {
             return;
         }
 
-       manager.SpeakClaim(this, GetConsolidationTarget(true));
+        Territory target = GetConsolidationTarget(true);
+        if(target != null) {
+            manager.SpeakClaim(this, GetConsolidationTarget(true));
+            return;
+        }
+
+        ClaimRandom();
     }
 
     private void ClaimRandom() {
