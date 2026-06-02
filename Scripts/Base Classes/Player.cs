@@ -79,7 +79,7 @@ public class BotPlayer : Player {
         if (their_missing_piece.Count > 0 && dice_roll < MISTAKE_CHANCE)
             return ClaimTheirMissingPiece(their_missing_pieces, dice_roll);
 
-        IReadOnlyCollection our_territories = _manager.GetPlayerTerritories(this);
+        IReadOnlyCollection our_territories = manager.GetPlayerTerritories(this);
         dice_roll = random.Next(TOTAL_DECISION_CHANCE); // Re-roll prevents a failed claim missing piece always returning a random tile.
 
         if (our_territories.Count == 0 || dice_roll < MISTAKE_CHANCE)
@@ -92,19 +92,43 @@ public class BotPlayer : Player {
     }
 
     private void ClaimOurMissingPiece(IReadOnlyCollection<Territory> our_missing_pieces) {
-        _manager.ClaimTerritory(this, our_missing_pieces.ElementAt(random.Next(our_missing_pieces.Count)));
+        manager.ClaimTerritory(this, our_missing_pieces.ElementAt(random.Next(our_missing_pieces.Count)));
     }
 
     private void ClaimTheirMissingPiece(IReadOnlyCollection<Territory> their_missing_pieces) {
-        _manager.ClaimTerritory(this, their_missing_pieces.ElementAt(random.Next(their_missing_pieces.Count)));
+        manager.ClaimTerritory(this, their_missing_pieces.ElementAt(random.Next(their_missing_pieces.Count)));
     }
 
     private void ClaimDisruption() {
+        
         // Get a list of free tiles, pick a random one
         // Check if it has a neighbour that is an enemy, if so claim
         // If not increment pointer and try again
         // If the pointer exits the bound of the count of territories, loop round
         // If the original tile is reached, return ClaimRandom();
+
+        IReadOnlyCollection null_territories = manager.GetPlayerTerritories(null);
+
+        int start_pointer = random.Next(null_territories.Count);
+        int current_pointer = start_pointer;
+        IList<Territory> null_list = null_territories as IList<Territory>;
+
+        do {
+            
+            Territory candidate = null_list[current_pointer];
+            
+            foreach (Territory neighbour in candidate.Neighours) {
+                if (neighbour.Owner != null && neighbour.Owner != this){
+                    manager.SpeakClaim(this, candidate);
+                    return;
+                }
+            }
+
+            pointer = (pointer + 1) % null_list.Count;
+            
+        } while (pointer != start)
+
+        ClaimRandom();
     }
 
     private void ClaimConsolidation() {
@@ -113,10 +137,39 @@ public class BotPlayer : Player {
         // If not, increment and loop round
         // If so, claim
         // If the original tile is reached, return ClaimRandom();
+
+        IReadOnlyCollection owned_territories = manager.GetPlayerTerritories(this);
+
+        if (owned_territories.Count == 0) {
+            ClaimRandom();
+            return;
+        }
+
+        int start_pointer = random.Next(owned_territories.Count);
+        int current_pointer = start_pointer;
+        IList<Territory> owned_list = owned_territories as IList<Territory>;
+
+        do {
+            
+            Territory candidate = owned_list[current_pointer];
+            
+            foreach (Territory neighbour in candidate.Neighours) {
+                if (neighbour.Owner == null){
+                    manager.SpeakClaim(this, candidate);
+                    return;
+                }
+            }
+
+            pointer = (pointer + 1) % null_list.Count;
+            
+        } while (pointer != start)
+
+        ClaimRandom();
     }
 
     private void ClaimRandom() {
-        _manager.ClaimTerritory(this, _manager.RandomFreeTerritory());
+        IReadOnlyCollection null_territories = manager.GetPlayerTerritories(null);
+        manager.ClaimTerritory(this, null_territories[random.Next(null_territories.Count)]);
     }
 
 
