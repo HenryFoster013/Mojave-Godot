@@ -24,6 +24,8 @@ public class Region {
     public IReadOnlyList<Territory> Territories => territories;
     internal void AddTerritory(Territory territory) => territories.Add(territory);
 
+    public event System.Action OnCompletionChanged;
+
     // ----- // FUNCTIONALITY // ----- //
 
     public static Region FromJson(JsonObject data) {
@@ -45,7 +47,11 @@ public class Region {
     }
 
     public void CheckCompletion() {
-        complete = CompletionLoop();
+        bool new_completion = CompletionLoop();
+        if (complete == new_completion)
+            return;
+        complete = new_completion;
+        OnCompletionChanged?.Invoke();
     }
 
     bool CompletionLoop() {

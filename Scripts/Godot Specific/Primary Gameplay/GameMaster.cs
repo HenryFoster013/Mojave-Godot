@@ -53,7 +53,7 @@ public partial class GameMaster : Node {
 		LoadExports();
 
 		GD.Print("\nLoading complete! Starting game.");
-		manager.KickStart(true);
+		manager.KickStart(false);
 		SetupUI();
 	}
 

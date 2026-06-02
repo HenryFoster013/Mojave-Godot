@@ -72,6 +72,9 @@ public abstract partial class MapRenderer : Node {
 			render_order++;
 			territory.OnTerritoryOwnerChanged += RefreshOwnership;
 		}
+		foreach (var region in game_master.Regions.Values) {
+			region.OnCompletionChanged += SetHighlights;
+		}
 	}
 
 	private void BuildIdMap() {

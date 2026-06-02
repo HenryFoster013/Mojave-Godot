@@ -16,6 +16,7 @@ public class GameManager {
 	public Player current_player => current_player_turn > -1 ? players[current_player_turn] : null;
 
 	private readonly Dictionary<Player, HashSet<Territory>> player_territories = new();
+	private HashSet<Territory> free_territories;
 
 	private readonly Dictionary<string, Territory> territories = new();
 	private readonly Dictionary<string, Territory> territories_id = new();
@@ -60,9 +61,9 @@ public class GameManager {
 	private void GenerateTestPlayers() {
 		players = new List<Player>();
 		players.Add(new LocalPlayer(this, "Henry", COLOUR_LEGION_RED));
-		players.Add(new LocalPlayer(this, "Thomas", COLOUR_QUANTUM_BLUE));
-		players.Add(new LocalPlayer(this, "Andre", COLOUR_NUCLEAR_GREEN));
-		players.Add(new LocalPlayer(this, "Arshia", COLOUR_SAND_YELLOW));
+		players.Add(new BotPlayer(this, "Thomas", COLOUR_QUANTUM_BLUE));
+		players.Add(new BotPlayer(this, "Andre", COLOUR_NUCLEAR_GREEN));
+		players.Add(new BotPlayer(this, "Arshia", COLOUR_SAND_YELLOW));
 		OnLog?.Invoke("Test players created.");
 	}
 
@@ -70,7 +71,8 @@ public class GameManager {
 		if (players.Count == 0)
 			return;
 
-		player_territories[null] = new HashSet<Territory>(territories.Values);
+		player_territories.Clear();
+		free_territories= new HashSet<Territory>(territories.Values);
 
 		int initial_currency = Territories.Count / (players.Count + 1);
 		
@@ -195,7 +197,12 @@ public class GameManager {
 	}
 
 	private void SetTerritoryOwnership(Player player, Territory territory){
-        player_territories[territory.Owner].Remove(territory);
+
+		if (territory.Owner == null)
+			free_territories.Remove(territory);
+		else
+			player_territories[territory.Owner].Remove(territory);
+        
 		territory.Owner = player;
 		player_territories[player].Add(territory);
 		territory.region?.CheckCompletion();
@@ -217,13 +224,7 @@ public class GameManager {
 		LoadTurn();
 	}
 
-	private bool AllClaimed() {
-		foreach (Territory territory in territories.Values) {
-			if (territory.Owner == null)
-				return false;
-		}
-		return true;
-	}
+	private bool AllClaimed() => free_territories.Count == 0;
 
 	// ----- // INITIAL PLACEMENT // ----- //
 
@@ -374,43 +375,47 @@ public class GameManager {
 
 	// ----- // SPOKEN FROM PLAYERS // ----- //
 
+	// Claims //
+
 	public bool SpeakClaim(Territory territory) {
 		if (!local_turn)
-			return false;
+			return ErrorWrapper("SpeakClaim Fail: Attempted to claim locally from external source");
 		return SpeakClaim(current_player, territory);
 	}
 
 	public bool SpeakClaim(Player player, Territory territory) {
-		if(territory == null)
-			return false;
-		if (player != players[current_player_turn])
-			return false;
-		if (territory.Owner != null)
-			return false;
 		if (game_state != State.CLAIMANTS)
-			return false;
+			return ErrorWrapper($"SpeakClaim Fail: Game is not in the Claimants State. [{player.name}]");
+		if(territory == null)
+			return ErrorWrapper($"SpeakClaim Fail: Territory is null. [{player.name}]");
+		if (player != players[current_player_turn])
+			return ErrorWrapper($"SpeakClaim Fail: It is not our turn. [{player.name}]");
+		if (territory.Owner != null)
+			return ErrorWrapper($"SpeakClaim Fail: Territory is owned. [{player.name}], Territory: [{territory.name}], [{territory.Owner.name}]");
 		ClaimTerritory(player, territory);
 		LoadTurn();
 		return true;
 	}
 
+	// Placement //
+
 	public bool SpeakPlacement(Territory territory) {
 		if (!local_turn)
-			return false;
+			return ErrorWrapper("SpeakPlacement Fail: .");
 		return SpeakPlacement(current_player, territory);
 	}
 
 	public bool SpeakPlacement(Player player, Territory territory) {
-		if(territory == null)
-			return false;
-		if (player != players[current_player_turn])
-			return false;
-		if (territory.Owner != player)
-			return false;
 		if (game_state != State.INITIAL_PLACEMENT)
-			return false;
+			return ErrorWrapper($"SpeakPlacement Fail: Game is not in Initial Placments state. [{player.name}]");
 		if (AllInitiallyPlaced())
-			return false;
+			return ErrorWrapper($"SpeakPlacement Fail: All initial placements completed. [{player.name}]");
+		if(territory == null)
+			return ErrorWrapper($"SpeakPlacement Fail: The territory is null. [{player.name}]");
+		if (player != players[current_player_turn])
+			return ErrorWrapper($"SpeakPlacement Fail: It is not our turn. [{player.name}]");
+		if (territory.Owner != player)
+			return ErrorWrapper($"SpeakPlacement Fail: Territory is not owned by us. [{player.name}]");
 		InitialPlacementTerritory(territory);
 		LoadTurn();
 		return true;
@@ -424,6 +429,11 @@ public class GameManager {
 			(list[i], list[j]) = (list[j], list[i]);
 		}
 		return list;
+	}
+
+	public bool ErrorWrapper(string message) {
+		OnLog?.Invoke(message);
+		return false;
 	}
 
 	// ----- // GETTERS AND SETTERS // ----- //
@@ -507,4 +517,6 @@ public class GameManager {
 
 		return result;
 	}
+
+	public IReadOnlyCollection<Territory> GetFreeTerritories() => free_territories;
 }

@@ -28,6 +28,8 @@ public class Territory {
     private List<Territory> _neighbours = new();
     public IReadOnlyList<Territory> neighbours => _neighbours;
 
+    public event System.Action<Territory, Player, Player> OnTerritoryOwnerChanged;
+
     // ----- // FUNCTIONALITY // ----- //
 
     public static Territory FromJson(JsonObject data) {
@@ -51,8 +53,6 @@ public class Territory {
     public void AddTroops(int amount) => troop_count += amount;
     public void RemoveTroops(int amount) => troop_count = Math.Max(0, troop_count - amount);
     internal void AddNeighbour(Territory territory) => _neighbours.Add(territory);
-
-    public event System.Action<Territory, Player, Player> OnTerritoryOwnerChanged;
 
     // ----- // GETTERS AND SETTERS // ----- //
 
