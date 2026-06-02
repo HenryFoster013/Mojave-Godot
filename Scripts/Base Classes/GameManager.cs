@@ -100,8 +100,8 @@ public class GameManager {
 	private void FillData(JsonObject root) {
 
 		map_name = root["metadata"]?["name"]?.GetValue<string>() ?? "Unknown";
-    	map_author = root["metadata"]?["author"]?.GetValue<string>() ?? "Unknown";
-    	territories_per_troop = root["metadata"]?["territoriesPerTroop"]?.GetValue<int>() ?? DEFAULT_TERRITORIES_PER_TROOP;
+		map_author = root["metadata"]?["author"]?.GetValue<string>() ?? "Unknown";
+		territories_per_troop = root["metadata"]?["territoriesPerTroop"]?.GetValue<int>() ?? DEFAULT_TERRITORIES_PER_TROOP;
 		init_base_troops = root["metadata"]?["initialBaseTroops"]?.GetValue<int>() ?? DEFAULT_BASE_INIT_TROOPS;
 		init_mult_troops = root["metadata"]?["initialTroopDeduction"]?.GetValue<int>() ?? DEFAULT_MULT_INIT_TROOPS;
 
@@ -203,7 +203,7 @@ public class GameManager {
 			free_territories.Remove(territory);
 		else
 			player_territories[territory.Owner].Remove(territory);
-        
+		
 		territory.Owner = player;
 		player_territories[player].Add(territory);
 		territory.region?.CheckCompletion();
@@ -231,7 +231,7 @@ public class GameManager {
 
 	private void StartInitialPlacement(){
 		total_turn = 0;
-		current_player_turn = -1;
+		current_player_turn = 0;
 		init_placement_max = players.Count * (init_base_troops - (init_mult_troops * players.Count));
 		init_placement_count = 0;
 		sub_turn = SubTurn.PLACE;
@@ -491,14 +491,14 @@ public class GameManager {
 		foreach (Region region in regions.Values) {
 			Territory missing = null;
 			foreach (Territory territory in region.Territories) {
-            	if (!owned.Contains(territory)) {
+				if (!owned.Contains(territory)) {
 					if (missing != null) { 
 						missing = null; 
 						break; 
 					}
 					missing = territory;
 				}
-        	}
+			}
 			if (missing != null)
 				result.Add(missing);
 		}

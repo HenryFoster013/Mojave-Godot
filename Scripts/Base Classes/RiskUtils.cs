@@ -15,18 +15,6 @@ public static class RiskUtils {
     public const int DEFAULT_BASE_INIT_TROOPS = 50;
     public const int DEFAULT_MULT_INIT_TROOPS = 5;
 
-    // ----- // AI DEFAULTS // ----- //
-
-    public const float CLAIM_DELAY = 0.025f;
-    
-    // Claimants //
-
-    public const int MISTAKE_CHANCE = 5;
-    public const int CONSOLIDATION_CHANCE = 70;
-    public const int DISRUPTION_CHANCE = 25;
-    public const int IMMENENT_DISRUPTION_CHANCE = 60;
-    public const int TOTAL_DECISION_CHANCE = MISTAKE_CHANCE + CONSOLIDATION_CHANCE + DISRUPTION_CHANCE;
-
     // ----- // COLOURS // ----- //
 
     public const string COLOUR_SAND_YELLOW       = "#FFE06B";
