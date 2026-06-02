@@ -17,7 +17,7 @@ public static class RiskUtils {
 
     // ----- // AI DEFAULTS // ----- //
 
-    public const float CLAIM_DELAY = 0.34f;
+    public const float CLAIM_DELAY = 0.025f;
     
     // Claimants //
 

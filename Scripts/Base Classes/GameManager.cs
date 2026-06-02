@@ -60,7 +60,8 @@ public class GameManager {
 
 	private void GenerateTestPlayers() {
 		players = new List<Player>();
-		players.Add(new LocalPlayer(this, "Henry", COLOUR_LEGION_RED));
+		//players.Add(new LocalPlayer(this, "Henry", COLOUR_LEGION_RED));
+		players.Add(new BotPlayer(this, "Chuck", COLOUR_LEGION_RED));
 		players.Add(new BotPlayer(this, "Thomas", COLOUR_QUANTUM_BLUE));
 		players.Add(new BotPlayer(this, "Andre", COLOUR_NUCLEAR_GREEN));
 		players.Add(new BotPlayer(this, "Arshia", COLOUR_SAND_YELLOW));

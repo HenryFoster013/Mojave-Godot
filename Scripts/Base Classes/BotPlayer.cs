@@ -141,10 +141,6 @@ public class BotPlayer : Player {
     }
 
     private void ClaimConsolidation() {
-        if (manager.GetPlayerTerritories(this).Count == 0) {
-            ClaimRandom();
-            return;
-        }
 
         Territory target = GetConsolidationTarget(true);
         if(target != null) {
