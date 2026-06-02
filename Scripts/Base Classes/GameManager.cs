@@ -70,6 +70,8 @@ public class GameManager {
 		if (players.Count == 0)
 			return;
 
+		player_territories[null] = new HashSet<Territory>(territories.Values);
+
 		int initial_currency = Territories.Count / (players.Count + 1);
 		
 		for (int i = 0; i < players.Count; i++) {
@@ -193,11 +195,9 @@ public class GameManager {
 	}
 
 	private void SetTerritoryOwnership(Player player, Territory territory){
-		if (territory.Owner != null)
-        	player_territories[territory.Owner].Remove(territory);
+        player_territories[territory.Owner].Remove(territory);
 		territory.Owner = player;
-		if (player != null)
-			player_territories[player].Add(territory);
+		player_territories[player].Add(territory);
 		territory.region?.CheckCompletion();
 	}
 
@@ -428,7 +428,7 @@ public class GameManager {
 
 	// ----- // GETTERS AND SETTERS // ----- //
 
-	// Get Methods //
+	// --- // Get Methods // --- //
 
 	private int CalculatePlayerProfit(Player player) {
 
@@ -462,11 +462,49 @@ public class GameManager {
 		return region;
 	}
 
+	public int GetRemainingPlacementsPerPlayer(){ // Not a true metric, just used by UI
+		return (init_placement_max / players.Count) - ((total_turn - 1) / players.Count);
+	}
+
+	// --- // Territory List Processing // --- //
+
 	public IReadOnlyCollection<Territory> GetPlayerTerritories(Player player) {
 		return player_territories.TryGetValue(player, out var set) ? set : Array.Empty<Territory>();
 	}
 
-	public int GetRemainingPlacementsPerPlayer(){
-		return (init_placement_max / players.Count) - ((total_turn - 1) / players.Count);
+	public IReadOnlyCollection<Territory> GetMissingRegionPieces(Player player) {
+		
+		var result =  new HashSet<Territory>();
+		var owned = player_territories[player];
+
+		foreach (Region region in regions.Values) {
+			Territory missing = null;
+			foreach (Territory territory in region.Territories) {
+            	if (!owned.Contains(territory)) {
+					if (missing != null) { 
+						missing = null; 
+						break; 
+					}
+					missing = territory;
+				}
+        	}
+			if (missing != null)
+				result.Add(missing);
+		}
+
+		return result;
+	}
+
+	public IReadOnlyCollection<Territory> GetOtherMissingRegionPieces(Player player) {
+
+		var result =  new HashSet<Territory>();
+		foreach (Player other_player in players) {
+			if (other_player != player && other_player != null){
+				foreach (Territory territory in GetMissingRegionPieces(other_player)) 
+					result.Add(territory);
+			}
+		}
+
+		return result;
 	}
 }

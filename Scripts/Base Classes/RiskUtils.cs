@@ -15,7 +15,16 @@ public static class RiskUtils {
     public const int DEFAULT_BASE_INIT_TROOPS = 50;
     public const int DEFAULT_MULT_INIT_TROOPS = 5;
 
-    // Default Colours
+    // ----- // AI DEFAULTS // ----- //
+    
+    // Claimants //
+
+    public const int MISTAKE_CHANCE = 5;
+    public const int CONSOLIDATION_CHANCE = 70;
+    public const int DISRUPTION_CHANCE = 25;
+    public const int TOTAL_DECISION_CHANCE = MISTAKE_CHANCE + CONSOLIDATION_CHANCE + DISRUPTION_CHANCE;
+
+    // ----- // COLOURS // ----- //
 
     public const string COLOUR_SAND_YELLOW       = "#FFE06B";
     public const string COLOUR_ARIZONA_GOLD      = "#FFD100";
@@ -28,7 +37,7 @@ public static class RiskUtils {
     public const string COLOUR_LEGION_RED        = "#FF0000";
     public const string COLOUR_MOJAVE_ORANGE     = "#FF5300";
 
-    // Animation Sets
+    // ----- // ANIMATIONS // ----- //
 
     public enum LabelAnimation { BOUNCE }
 }
