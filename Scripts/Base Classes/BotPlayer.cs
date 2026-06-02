@@ -11,6 +11,55 @@ public class BotPlayer : Player {
 
     Random random = new Random();
 
+    // ----- // GENERAL // ----- // 
+
+    public Territory GetConsolidationTarget(bool claimancy_mode) => GetAllConsolidationTargets(claimancy_mode)[0];
+    public List<Territory> GetAllConsolidationTargets(bool claimancy_mode) {
+
+        // Gets the full set of owned territories
+        // Organises them by region, split into seperate groups
+        // Shuffles each group internally then combines them into a single list where in descending group size order
+        // Returns their neighbours in the same order as the previous list (though shuffled within the neighbours)
+        // Can be used to bias consolidation to larger groups of owned land within a single region
+
+        Dictionary<Region, List<Territory>> region_groups = new();
+        foreach (Territory t in manager.GetPlayerTerritories(this)) {
+            Region key = t.region;
+            if (!region_groups.ContainsKey(key))
+                region_groups[key] = new List<Territory>();
+            region_groups[key].Add(t);
+        }
+
+        List<Territory> priority_list = region_groups.Values.Select(group => manager.Shuffle(group)).OrderByDescending(group => group.Count).SelectMany(group => group).ToList();
+        List<Territory> potential_targets = new();
+
+        // Add only if it is within the same region (biases region control)
+
+        foreach (Territory territory in priority_list) {
+            foreach (Territory neighbour in manager.Shuffle(territory.neighbours.ToList())) {
+                if (neighbour.region == territory.region) {
+                    if ((claimancy_mode && neighbour.Owner == null) || (!claimancy_mode && neighbour.Owner != this)) {
+                        if (!potential_targets.Contains(neighbour))
+                                potential_targets.Add(neighbour);
+                    }
+                }
+            }
+        }
+
+        // Add all ignoring region
+
+        foreach (Territory territory in priority_list) {
+            foreach (Territory neighbour in territory.neighbours) {
+                if ((claimancy_mode && neighbour.Owner == null) || (!claimancy_mode && neighbour.Owner != this)) {
+                    if (!potential_targets.Contains(neighbour))
+                            potential_targets.Add(neighbour);
+                }
+            }
+        }
+
+        return potential_targets;
+    }
+
     // ----- // CLAIMS // ----- //
 
     public override async void RequestClaim() {
@@ -90,41 +139,12 @@ public class BotPlayer : Player {
     }
 
     private void ClaimConsolidation() {
-        // Get a list of our owned tiles, pick a random one
-        // Check if it has an unclaimed neighbour
-        // If not, increment and loop round
-        // If so, claim
-        // If the original tile is reached, return ClaimRandom();
-
-        // CHANGE : Needs to bias tiles within the same region.
-
-        IReadOnlyCollection<Territory> owned_territories = manager.GetPlayerTerritories(this);
-
-        if (owned_territories.Count == 0) {
+        if (manager.GetPlayerTerritories(this).Count == 0) {
             ClaimRandom();
             return;
         }
 
-        int start_pointer = random.Next(owned_territories.Count);
-        int current_pointer = start_pointer;
-        IList<Territory> owned_list = owned_territories.ToList();
-
-        do {
-        
-            Territory candidate = owned_list[current_pointer];
-            
-            foreach (Territory neighbour in candidate.neighbours) {
-                if (neighbour.Owner == null){
-                    manager.SpeakClaim(this, neighbour);
-                    return;
-                }
-            }
-
-            current_pointer = (current_pointer + 1) % owned_list.Count;
-            
-        } while (current_pointer != start_pointer);
-
-        ClaimRandom();
+       manager.SpeakClaim(this, GetConsolidationTarget(true));
     }
 
     private void ClaimRandom() {
