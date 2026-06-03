@@ -109,53 +109,53 @@ public class BotPlayer : Player {
 
 		await Task.Delay(TimeSpan.FromSeconds(BASE_DELAY));
 
-        if (RollClaimOurMissingPiece()) return;
-        if (RollClaimTheirMissingPiece()) return;
-        if (RollClaimRandom()) return;
-        if (RollClaimConsolidation()) return;
-        ClaimDisruption();
+		if (RollClaimOurMissingPiece()) return;
+		if (RollClaimTheirMissingPiece()) return;
+		if (RollClaimRandom()) return;
+		if (RollClaimConsolidation()) return;
+		ClaimDisruption();
 	}
 
-    // ----- // ROLLS // ----- //
+	// ----- // ROLLS // ----- //
 
-    private bool RollClaimOurMissingPiece() {
-        List<Territory> our_missing_pieces = manager.GetMissingRegionPieces(this).Where(t => t.Owner == null).ToList();
-        if (our_missing_pieces.Count > 0) {
+	private bool RollClaimOurMissingPiece() {
+		List<Territory> our_missing_pieces = manager.GetMissingRegionPieces(this).Where(t => t.Owner == null).ToList();
+		if (our_missing_pieces.Count > 0) {
 			manager.SpeakClaim(this, our_missing_pieces[random.Next(our_missing_pieces.Count)]);
 			return true;
 		}
-        return false;
-    }
+		return false;
+	}
 
-    private bool RollClaimTheirMissingPiece() {
-        int dice_roll = random.Next(C_TOTAL_DECISION_CHANCE);
-        List<Territory> their_missing_pieces = manager.GetOtherMissingRegionPieces(this).Where(t => t.Owner == null).ToList();
-        if (their_missing_pieces.Count > 0 && dice_roll < C_IMMENENT_DISRUPTION_CHANCE) {
+	private bool RollClaimTheirMissingPiece() {
+		int dice_roll = random.Next(C_TOTAL_DECISION_CHANCE);
+		List<Territory> their_missing_pieces = manager.GetOtherMissingRegionPieces(this).Where(t => t.Owner == null).ToList();
+		if (their_missing_pieces.Count > 0 && dice_roll < C_IMMENENT_DISRUPTION_CHANCE) {
 			manager.SpeakClaim(this, their_missing_pieces[random.Next(their_missing_pieces.Count)]);
 			return true;
 		}
-        return false;
-    }
+		return false;
+	}
 
-    private bool RollClaimRandom() {
-        int dice_roll = random.Next(C_TOTAL_DECISION_CHANCE);
-        if (manager.GetPlayerTerritories(this).Count == 0 || dice_roll < C_MISTAKE_CHANCE) {
+	private bool RollClaimRandom() {
+		int dice_roll = random.Next(C_TOTAL_DECISION_CHANCE);
+		if (manager.GetPlayerTerritories(this).Count == 0 || dice_roll < C_MISTAKE_CHANCE) {
 			ClaimRandom();
 			return true;
 		}
-        return false;
-    }
+		return false;
+	}
 
-    private bool RollClaimConsolidation(){
-        int dice_roll = random.Next(C_TOTAL_DECISION_CHANCE);
-        if (dice_roll < C_MISTAKE_CHANCE + C_CONSOLIDATION_CHANCE) {
+	private bool RollClaimConsolidation(){
+		int dice_roll = random.Next(C_TOTAL_DECISION_CHANCE);
+		if (dice_roll < C_MISTAKE_CHANCE + C_CONSOLIDATION_CHANCE) {
 			ClaimConsolidation();
 			return true;
 		}
-        return false;
-    }
+		return false;
+	}
 
-    // ----- // CLAIMS // ----- //
+	// ----- // CLAIMS // ----- //
 
 	private void ClaimDisruption() {
 
