@@ -20,7 +20,7 @@ public abstract partial class LabelManager : Node {
 
         foreach (var territory in game_master.Territories.Values) {
             var label = map_label.Instantiate<Node>();
-            AddLabelToHolder(tile_label_holder, label, WorldPosition(territory.centroid), 0.75f);
+            AddLabelToHolder(tile_label_holder, label, WorldPosition(territory.centroid), 0.5f);
             SetLabelText(label, territory.name);
 
             var label_troops = map_label.Instantiate<Node>();

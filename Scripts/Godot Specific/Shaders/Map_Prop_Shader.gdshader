@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode ambient_light_disabled, shadows_disabled;
+render_mode ambient_light_disabled, shadows_disabled, cull_disabled;
 
 uniform sampler2D owner_lut : source_color, filter_nearest, repeat_disable;
 uniform sampler2D region_lut : source_color, filter_nearest, repeat_disable;

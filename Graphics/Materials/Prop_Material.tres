@@ -5,5 +5,5 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_j6mh3")
-shader_parameter/colour = Color(0.98039216, 0, 0, 1)
-shader_parameter/highlight = 0.0
+shader_parameter/lut_u = 0.0
+shader_parameter/region_mode = 0
