@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using static RiskUtils;
 using static BotUtils;
 
-public class BotPlayer : Player {
+public partial class BotPlayer : Player {
 
 	////////////////////////////|| INSTANTIATION ||////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// ----- // INSTANTIATION // ----- //
 
 	Random random = new Random();
-	private List<Territory> central_territories;
 
 	public BotPlayer(GameManager _manager, string _name, string _colour) : base(_manager, _name, _colour) { 
 		type = PlayerType.BOT; 
@@ -22,84 +22,6 @@ public class BotPlayer : Player {
 	void SubscribeToBotEvents() {
 		manager.OnInitialPlacement += InitialPlacementStarted;
 	}
-
-	////////////////////////////|| GENERAL ||////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	// ----- // GENERAL // ----- // 
-
-	public Territory GetConsolidationTarget(bool claimancy_mode) {
-		List<Territory> targets = GetAllConsolidationTargets(claimancy_mode);
-		if (targets.Count > 0)
-			return targets[0];
-		return null;
-	}
-
-	public List<Territory> GetAllConsolidationTargets(bool claimancy_mode) {
-
-		
-		/*  Gets all owned territories, groups them by region and shuffles the groups internally.
-			Concats each group (largest first) into a single list.
-			Loops through each territory and checks if they have any unclaimed neighbours inside the same region
-			Loops through again and adds any unclaimed neighbours outside of the same region
-			Returns the list of potential targets.
-		*/
-
-		List<Territory> priority_list = manager.GetPlayerTerritories(this)
-			.GroupBy(t => t.region)
-			.OrderByDescending(g => g.Count())
-			.SelectMany(g => manager.Shuffle(g.ToList()))
-			.ToList();
-
-		List<Territory> potential_targets = new();
-		HashSet<Territory> touched_territories = new();
-
-		void TestAdd(Territory territory) {
-			if (touched_territories.Add(territory)) {
-				if((claimancy_mode && territory.Owner == null) || (!claimancy_mode && territory.Owner != this))
-					potential_targets.Add(territory);
-			}
-		}
-
-		foreach (Territory territory in priority_list) {
-			foreach (Territory neighbour in manager.Shuffle(territory.neighbours.ToList())) {
-				if (neighbour.region == territory.region)
-					TestAdd(neighbour);
-			}
-		}
-
-		foreach (Territory territory in priority_list) {
-			foreach (Territory neighbour in territory.neighbours)
-				TestAdd(neighbour);
-		}
-
-		return potential_targets;
-	}
-
-	private int CalculateOwnedNeighbourScore(Territory territory, int depth) {
-
-		/* Calculates how many neighbours we own, then how many neighbours of the neighbours we own.
-		   Recursive, depth indicates how many sets of neighbours to count.
-		*/
-
-		if (depth < 1) 
-			return 0;
-		return territory.neighbours.Sum(n => (n.Owner == this ? 1 : 0) + CalculateOwnedNeighbourScore(n, depth - 1));
-	}
-
-	private void SelectCentralTerritories() {
-
-		/* Territories are chosen based on their depth score, then their second depth score.
-		   Depth score is counted twice to indicate territories reachable by multiple paths, hence it is more strategically central.
-		   Selects the top few.
-		*/
-
-		central_territories = manager.GetPlayerTerritories(this)
-			.OrderByDescending(territory => CalculateOwnedNeighbourScore(territory, 1))
-			.ThenByDescending(territory => CalculateOwnedNeighbourScore(territory, 2))
-			.Take(CENTRAL_TERRITORIES)
-			.ToList();
-	}
-
 
 	////////////////////////////|| CLAIMS ||////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -202,19 +124,19 @@ public class BotPlayer : Player {
 
 	// ----- // PLACEMENTS // ----- //
 
+	private List<Territory> intial_placement_central = new();
+
 	private void InitialPlacementStarted() {
-
+		initial_placement_central = IdentifyCentralTerritories();
+		IdentifyInvasionTargets();
 	}
 
-	public override void RequestPlacement() {
-
-	}
+	public override void RequestPlacement() { }
 
 	////////////////////////////|| PLAYS ||////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// ----- // PLAYS // ----- //
 
-	public override void RequestPlay() { 
-		
-	}
+	public override void RequestPlay() { }
+
 }

@@ -15,6 +15,6 @@ public static class BotUtils {
 
     // Initial Placements //
 
-
+    public const float P_HOLD_BONUS_THREAT = 3f;
 
 }
