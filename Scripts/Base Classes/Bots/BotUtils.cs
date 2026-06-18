@@ -14,7 +14,7 @@ public static class BotUtils {
     public const int C_TOTAL_DECISION_CHANCE = C_MISTAKE_CHANCE + C_CONSOLIDATION_CHANCE + C_DISRUPTION_CHANCE;
 
     // Initial Placements //
-
+    public const float INITIAL_PLACEMENT_DELAY = 0.05f;
     public const int IP_CONSOLIDATION_CHANCE = 60;
     public const int IP_DEFENSIVE_CHANCE = 25;
     public const int IP_OFFENSIVE_CHANCE = 15;

@@ -125,7 +125,7 @@ public partial class BotPlayer : Player {
 
 	public override async void RequestPlacement() {
 
-		await Task.Delay(TimeSpan.FromSeconds(BASE_DELAY));
+		await Task.Delay(TimeSpan.FromSeconds(INITIAL_PLACEMENT_DELAY));
 
 		int dice_roll = random.Next(IP_TOTAL_DECISION_CHANCE);
 

@@ -204,7 +204,7 @@ public abstract partial class MapRenderer : Node {
 
 	public void DisablePlayerHighlight() => HighlightPlayer(null);
 	public void HighlightPlayer(Player player) {
-		highlighted_player = player;
+		highlighted_player = player is BotPlayer ? null : player;
 		SetHighlights();
 	}
 	
