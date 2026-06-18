@@ -40,8 +40,8 @@ public partial class BotPlayer : Player {
 				.Where(n => n.Owner != this)
 				.Select(n => (source: t, target: n)))
 			.OrderByDescending(pair => pair.target.region.complete)
-			.ThenByDescending(pair => CalculateRegionCompletionThreat(pair.target.region))
-			.ThenByDescending(pair => pair.source.Troops - pair.target.Troops)
+			.ThenByDescending(pair => CalculateRegionCompletionScore(pair.target.region))
+			.ThenByDescending(pair => pair.source.troop_count - pair.target.troop_count)
 			.ToList();
 	}
 

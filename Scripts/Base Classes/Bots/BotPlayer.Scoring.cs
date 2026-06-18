@@ -20,9 +20,9 @@ public partial class BotPlayer : Player {
 	}
 
 	private float CalculateRegionCompletionScore(Region region) {
-		int totalTerritories = region.territories.Count;
+		int totalTerritories = region.Territories.Count;
 
-		return region.territories
+		return region.Territories
 			.Where(t => t.Owner != this && t.Owner != null)
 			.GroupBy(t => t.Owner)
 			.Max(g => (float)g.Count() / totalTerritories);
@@ -51,22 +51,23 @@ public partial class BotPlayer : Player {
 		if (territory.region.complete)
 			bonus_mod = P_HOLD_BONUS_THREAT;
 		
-		Dictionary<Territory, int> owner_dict = new Dictionary<Territory, int>();
-		float total_offensive_troops;
+		Dictionary<Player, int> owner_dict = new Dictionary<Player, int>();
+		float total_offensive_troops = 0;
+
 		foreach (Territory neighbour in territory.neighbours) {
 			if (neighbour.Owner != this) {
 				foreign_neighbours++;
-				if (owner_dict.ContainsKey(territory.Owner))
+				if (owner_dict.ContainsKey(neighbour.Owner))
 					owner_dict[territory.Owner]++;
 				else
 					owner_dict[territory.Owner] = 1;
-				if (neighbour.troops > 1)
-					total_offensive_troops += neighbour.troops - 1;
+				if (neighbour.troop_count > 1)
+					total_offensive_troops += neighbour.troop_count - 1;
 			}
 		}
-		if(owner_dict.Count == 0)
-			foreign_neighbours_cohesion = owner_dict.Average / territory.neighbours.Count;
-		float troop_gradient = territory.troops - total_offensive_troops;
+		if(owner_dict.Count != 0)
+			foreign_neighbours_cohesion = (float)owner_dict.Average(kvp => kvp.Value) / territory.neighbours.Count;
+		float troop_gradient = territory.troop_count - total_offensive_troops;
 		
 		return (foreign_neighbours * foreign_neighbours_cohesion) + bonus_mod + troop_gradient;
 	}

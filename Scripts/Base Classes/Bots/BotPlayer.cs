@@ -124,11 +124,10 @@ public partial class BotPlayer : Player {
 
 	// ----- // PLACEMENTS // ----- //
 
-	private List<Territory> intial_placement_central = new();
+	private List<Territory> buffered_placement_central_territories = new();
 
 	private void InitialPlacementStarted() {
-		initial_placement_central = IdentifyCentralTerritories();
-		IdentifyInvasionTargets();
+		buffered_placement_central_territories = IdentifyCentralTerritories();
 	}
 
 	public override void RequestPlacement() { }
