@@ -49,7 +49,7 @@ public partial class BotPlayer : Player {
 
 		float bonus_mod = 0;
 		if (territory.region.complete)
-			bonus_mod = P_HOLD_BONUS_THREAT;
+			bonus_mod = IP_HOLD_BONUS_THREAT;
 		
 		Dictionary<Player, int> owner_dict = new Dictionary<Player, int>();
 		float total_offensive_troops = 0;

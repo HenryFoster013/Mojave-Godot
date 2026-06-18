@@ -15,6 +15,10 @@ public static class BotUtils {
 
     // Initial Placements //
 
-    public const float P_HOLD_BONUS_THREAT = 3f;
+    public const int IP_CONSOLIDATION_CHANCE = 60;
+    public const int IP_DEFENSIVE_CHANCE = 25;
+    public const int IP_OFFENSIVE_CHANCE = 15;
+    public const int IP_TOTAL_DECISION_CHANCE = IP_CONSOLIDATION_CHANCE + IP_DEFENSIVE_CHANCE + IP_OFFENSIVE_CHANCE;
+    public const float IP_HOLD_BONUS_THREAT = 3f;
 
 }

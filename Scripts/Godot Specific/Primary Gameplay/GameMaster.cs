@@ -53,7 +53,7 @@ public partial class GameMaster : Node {
 		LoadExports();
 
 		GD.Print("\nLoading complete! Starting game.");
-		manager.KickStart(false);
+		manager.KickStart();
 		SetupUI();
 	}
 
@@ -137,7 +137,7 @@ public partial class GameMaster : Node {
 				break;
 
 			case State.INITIAL_PLACEMENT:
-				manager.SpeakPlacement(territory);
+				manager.SpeakInitialPlacement(territory);
 				break;
 			
 			case State.PRIMARY:

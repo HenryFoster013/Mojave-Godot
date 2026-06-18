@@ -85,9 +85,9 @@ public class GameManager {
 		OnLog?.Invoke($"Players consolidated: {players}");
 	}
 
-	public void KickStart(bool random_claims) {
+	public void KickStart() {
 		ResetBaseInfo();
-		StartClaimancy(random_claims);
+		StartClaimancy();
 	}
 
 	// ----- // MAP CREATION // ----- //
@@ -177,13 +177,8 @@ public class GameManager {
 
 	// ----- // CLAIMANCY // ----- //
 
-	void StartClaimancy(bool random_claims) {
+	void StartClaimancy() {
 		total_turn = 0;
-		if (random_claims) {
-			OnLog?.Invoke("Assigning Random Claims.");
-			AssignRandomClaims();
-			return;
-		}
 		OnLog?.Invoke("Starting Claimancy.");
 		game_state = State.CLAIMANTS;
 		OnClaimancy?.Invoke();
@@ -209,22 +204,6 @@ public class GameManager {
 		territory.region?.CheckCompletion();
 	}
 
-	private void AssignRandomClaims() {
-
-		OnLog?.Invoke("Assigning random claims.");
-
-		var shuffled = Shuffle(new List<Territory>(territories.Values));
-		for (int i = 0; i < shuffled.Count; i++) {
-			IterateTurn();
-			ClaimTerritory(current_player, shuffled[i]);
-		}
-
-		// Commenting here to 'skip forward' in the game lols
-		StartInitialPlacement();
-		//StartPrimary();
-		LoadTurn();
-	}
-
 	private bool AllClaimed() => free_territories.Count == 0;
 
 	// ----- // INITIAL PLACEMENT // ----- //
@@ -237,6 +216,7 @@ public class GameManager {
 		sub_turn = SubTurn.PLACE;
 		game_state = State.INITIAL_PLACEMENT;
 		OnInitialPlacement?.Invoke();
+		LoadTurn();
 	}
 
 	private void InitialPlacementTerritory(Territory territory) {
@@ -366,6 +346,7 @@ public class GameManager {
 			StartPrimary();
 			return;
 		}
+		OnLog?.Invoke("ATTEMPTING TURN!!!!!");
 		current_player.RequestPlacement();
 	}
 
@@ -398,15 +379,15 @@ public class GameManager {
 		return true;
 	}
 
-	// Placement //
+	// Initial Placements //
 
-	public bool SpeakPlacement(Territory territory) {
+	public bool SpeakInitialPlacement(Territory territory) {
 		if (!local_turn)
-			return ErrorWrapper("SpeakPlacement Fail: .");
-		return SpeakPlacement(current_player, territory);
+			return ErrorWrapper("SpeakPlacement Fail: Not local player's turn.");
+		return SpeakInitialPlacement(current_player, territory);
 	}
 
-	public bool SpeakPlacement(Player player, Territory territory) {
+	public bool SpeakInitialPlacement(Player player, Territory territory) {
 		if (game_state != State.INITIAL_PLACEMENT)
 			return ErrorWrapper($"SpeakPlacement Fail: Game is not in Initial Placments state. [{player.name}]");
 		if (AllInitiallyPlaced())

@@ -8,19 +8,33 @@ using static BotUtils;
 
 public partial class BotPlayer : Player {
 
-    private List<Territory> IdentifyBorderTerritories() {
+	private Territory GetRandomOwnedTerritory() {
+		List<Territory> possible_territories = manager.GetPlayerTerritories(this).ToList();
+		return possible_territories[random.Next(possible_territories.Count)];
+	}
+
+	private Territory GetRandomFreeTerritory() {
+		List<Territory> null_territories = manager.GetFreeTerritories().ToList();
+		return null_territories[random.Next(null_territories.Count)];
+	}
+
+	private List<Territory> IdentifyBorderTerritories() {
 		return manager.GetPlayerTerritories(this)
 			.Where(t => t.neighbours.Any(n => n.Owner != t.Owner))
 			.ToList();
 	}
 
-	private List<Territory> IdentifyOrderedBorderTerritories() {
+	private List<Territory> IdentifyThreatenedBorderTerritories() {
 		return IdentifyBorderTerritories()
 			.OrderByDescending(t => CalculateThreatScore(t))
 			.ToList();
 	}
 
-    private List<Territory> IdentifyCentralTerritories() {
+	private Territory GetThreatenedBorderTerritory() {
+		return IdentifyThreatenedBorderTerritories()[0];
+	}
+
+	private List<Territory> IdentifyCentralTerritories() {
 
 		/* Territories are chosen based on their depth score, then their second depth score.
 		   Depth score is counted twice to indicate territories reachable by multiple paths, hence it is more strategically central.
@@ -34,7 +48,7 @@ public partial class BotPlayer : Player {
 			.ToList();
 	}
 
-    private List<(Territory source, Territory target)> IdentifyInvasionTargets() {
+	private List<(Territory source, Territory target)> IdentifyInvasionTargets() {
 		return manager.GetPlayerTerritories(this)
 			.SelectMany(t => t.neighbours
 				.Where(n => n.Owner != this)
@@ -45,9 +59,9 @@ public partial class BotPlayer : Player {
 			.ToList();
 	}
 
-    // ----- // CONSOLIDATION // ----- //
+	// ----- // CONSOLIDATION // ----- //
 
-    public Territory GetConsolidationTarget(bool claimancy_mode) {
+	public Territory GetConsolidationTarget(bool claimancy_mode) {
 		List<Territory> targets = GetAllConsolidationTargets(claimancy_mode);
 		if (targets.Count > 0)
 			return targets[0];
@@ -92,5 +106,35 @@ public partial class BotPlayer : Player {
 		}
 
 		return potential_targets;
+	}
+
+	public List<Territory> GetReinforcementTargets() {
+
+		// Uses GetConsolidationTargets to return the best neighbour to attack from
+
+		List<Territory> consolidation_targets = GetAllConsolidationTargets(false);
+		List<Territory> potential_reinforcements = new();
+		HashSet<Territory> touched_territories = new();
+
+		foreach (Territory target in consolidation_targets){
+
+			IEnumerable<Territory> owned_neighbours = target.neighbours
+				.Where(n => n.Owner == this)
+				.OrderBy(n => n.troop_count);
+
+			foreach (Territory neighbour in owned_neighbours) {
+				if (touched_territories.Add(neighbour))
+					potential_reinforcements.Add(neighbour);
+			}
+		}
+
+		return potential_reinforcements;
+	}
+
+	public Territory GetReinforcementTarget() {
+		List<Territory> targets = GetReinforcementTargets();
+		if (targets.Count > 0)
+			return targets[0];
+		return null;
 	}
 }

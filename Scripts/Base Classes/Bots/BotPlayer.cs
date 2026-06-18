@@ -116,21 +116,65 @@ public partial class BotPlayer : Player {
 	}
 
 	private void ClaimRandom() {
-		List<Territory> null_territories = manager.GetFreeTerritories().ToList();
-		manager.SpeakClaim(this, null_territories[random.Next(null_territories.Count)]);
+		manager.SpeakClaim(this, GetRandomFreeTerritory());
 	}
 
 	////////////////////////////|| PLACEMENTS ||////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	// ----- // REQUESTS // ----- //
+
+	public override async void RequestPlacement() {
+
+		await Task.Delay(TimeSpan.FromSeconds(BASE_DELAY));
+
+		int dice_roll = random.Next(IP_TOTAL_DECISION_CHANCE);
+
+		if (dice_roll < IP_CONSOLIDATION_CHANCE)
+			PlacementConsolidation();
+		else if (dice_roll < IP_CONSOLIDATION_CHANCE + IP_DEFENSIVE_CHANCE)
+			PlacementDefensive();
+		else
+			PlacementOffensive();
+		
+	}
+	
 	// ----- // PLACEMENTS // ----- //
 
-	private List<Territory> buffered_placement_central_territories = new();
+	private Territory ip_buffered_central_territory;
 
 	private void InitialPlacementStarted() {
-		buffered_placement_central_territories = IdentifyCentralTerritories();
+		ip_buffered_central_territory = IdentifyCentralTerritories()[0];
 	}
 
-	public override void RequestPlacement() { }
+	private void PlacementConsolidation() {
+		if(ip_buffered_central_territory != null) {
+			manager.SpeakInitialPlacement(this, ip_buffered_central_territory);
+			return;
+		}
+		PlaceRandom();
+	}
+
+	private void PlacementDefensive() {
+		Territory territory = GetThreatenedBorderTerritory();
+		if(territory != null) {
+			manager.SpeakInitialPlacement(this, territory);
+			return;
+		}
+		PlaceRandom();
+	}
+
+	private void PlacementOffensive()  {
+		Territory territory = GetReinforcementTarget();
+		if(territory != null) {
+			manager.SpeakInitialPlacement(this, territory);
+			return;
+		}
+		PlaceRandom();
+	}
+
+	private void PlaceRandom() {
+		manager.SpeakInitialPlacement(this, GetRandomOwnedTerritory());
+	}
 
 	////////////////////////////|| PLAYS ||////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
