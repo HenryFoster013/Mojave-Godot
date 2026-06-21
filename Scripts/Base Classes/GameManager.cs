@@ -422,6 +422,24 @@ public class GameManager {
 
 	// --- // Get Methods // --- //
 
+	public Dictionary<Territory, List<Territory>> CalculateRoutesFromTerritory(Territory starting_territory) {
+			Dictionary<Territory, List<Territory>> routes = new();
+			routes[starting_territory] = new List<Territory> { starting_territory };
+			Queue<Territory> search_queue = new();
+			search_queue.Enqueue(starting_territory);
+
+			while (search_queue.Count > 0) {
+					Territory current = search_queue.Dequeue();
+					foreach (Territory neighbour in current.neighbours) {
+							if (neighbour.Owner == this && !routes.ContainsKey(neighbour)) {
+									routes[neighbour] = new List<Territory>(routes[current]) { neighbour };
+									search_queue.Enqueue(neighbour);
+							}
+					}
+			}
+			return routes;
+	}
+
 	private int CalculatePlayerProfit(Player player) {
 
 		int result = Math.Max(GetPlayerTerritories(player).Count / territories_per_troop, 3);
