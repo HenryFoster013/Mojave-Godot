@@ -2,6 +2,7 @@ using Godot;
 
 public partial class PlayerController3D : PlayerController {
 
+	[ExportGroup("3D Additionals")]
 	[Export] public Camera3D camera;
 	Vector3 cam_pos;
 	float cam_zoom;

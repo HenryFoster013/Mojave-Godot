@@ -1,4 +1,5 @@
 using Godot;
+using static RiskUtils;
 
 public abstract partial class PlayerController : Node {
 	protected GameMaster game_master;
@@ -30,7 +31,7 @@ public abstract partial class PlayerController : Node {
 		label_manager.UpdateLabels();
 	}
 
-	void ToggleRegions(InputEvent e) {
+	private void ToggleRegions(InputEvent e) {
 		if (e.IsActionPressed("ToggleRegions")) {
 			map_renderer.region_mode = !map_renderer.region_mode;
 			GD.Print($"Region mode: {map_renderer.region_mode}");
@@ -40,9 +41,9 @@ public abstract partial class PlayerController : Node {
 	protected void SelectTerritory(Territory territory) {
 		selected_territory = territory;
 		game_master.SelectTerritory(selected_territory);
-		if (selected_territory != null)
+		if (selected_territory != null) 
 			GD.Print($"Selected {selected_territory.name}");
-		else
+		else 
 			GD.Print("Unselected territories");
 	}
 

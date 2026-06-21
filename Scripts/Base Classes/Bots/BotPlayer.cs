@@ -180,10 +180,14 @@ public partial class BotPlayer : Player {
 
 	// ----- // PLAYS // ----- //
 
-	public override void RequestPlay() { 
+	public override async void RequestPlay() { 
+		SkipTurn();
+	}
+
+	private async void SkipTurn() {
+		await Task.Delay(TimeSpan.FromSeconds(BASE_DELAY));
 		manager.SpeakSkip();
 		manager.SpeakSkip();
 		manager.SpeakSkip();
 	}
-
 }

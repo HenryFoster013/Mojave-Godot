@@ -237,6 +237,7 @@ public class GameManager {
 		sub_turn = SubTurn.PLACE;
 		game_state = State.PRIMARY;
 		OnPrimary?.Invoke();
+		LoadTurn();
 	}
 
 	public void CashInTroops(int amount, Territory territory) {
@@ -326,7 +327,7 @@ public class GameManager {
 		switch (sub_turn) {
 			case SubTurn.PLACE: sub_turn = SubTurn.ATTACK; break;
 			case SubTurn.ATTACK: sub_turn = SubTurn.FORTIFY; break;
-			case SubTurn.FORTIFY: IterateTurn(); break;
+			case SubTurn.FORTIFY: LoadTurn(); break;
 		}
 
 		OnUIUpdate?.Invoke();
@@ -367,6 +368,7 @@ public class GameManager {
 	public bool SpeakSkip(Player player) {
 		if (player != current_player) 
 			return ErrorWrapper("SpeakSkip Fail: Attempted skip from non-current player");
+		OnLog?.Invoke($"{player.name} skipped their turn.");
 		IterateSubTurn();
 		return true;
 	}

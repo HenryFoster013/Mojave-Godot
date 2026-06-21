@@ -21,10 +21,17 @@ public partial class GameMaster : Node {
 	[ExportSubgroup("Turn")]
 	[Export] public Label ui_turn_popup;
 	[Export] public Panel ui_turn_popup_bg;
-	[ExportSubgroup("Troop Slider")]
-	[Export] public Control ui_troop_slider_parent;
-	[Export] public Label ui_troop_slider_label;
-	[Export] public HSlider ui_troop_slider;
+	[ExportGroup("Tabs")]
+	[Export] public Control PlacementTab;
+	[Export] public Control AttackTab;
+	[Export] public Control FortifyTab;
+	[Export] public Control SkipTab;
+	[ExportSubgroup("Placement Troop Slider")]
+	[Export] public Label placement_slider_label;
+	[Export] public HSlider placement_slider;
+	[ExportSubgroup("Fortify Troop Slider")]
+	[Export] public Label fortify_slider_label;
+	[Export] public HSlider fortify_slider;
 
 	private GameManager manager;
 	private Player current_player => manager.current_player;
@@ -36,6 +43,7 @@ public partial class GameMaster : Node {
 	private int current_turn => manager.total_turn;
 	public State game_state => manager.game_state;
 	public SubTurn sub_turn => manager.sub_turn;
+	public bool local_turn => manager.local_turn;
 
 	private float turn_popup_time;
 
@@ -54,7 +62,7 @@ public partial class GameMaster : Node {
 
 		GD.Print("\nLoading complete! Starting game.");
 		manager.KickStart();
-		SetupUI();
+		SetupTabs();
 	}
 
 	// JSON
@@ -98,16 +106,27 @@ public partial class GameMaster : Node {
 
 	// UI
 
-	private void SetupUI() {
-		SetupTroopSlider();
+	private void SetupTabs() {
+		SetupPlacementTab();
+		SetupAttackTab();
+		SetupFortifyTab();
+		DeactivateSkipTab();
 	}
 
-	private void SetupTroopSlider() {
-		DeactivateTroopSlider();
-		ui_troop_slider.MinValue = 1;
-		ui_troop_slider.Value = 1;
-		ui_troop_slider.ValueChanged += UpdateTroopSliderText;
-		UpdateTroopSliderText();
+	private void SetupPlacementTab() {
+		DeactivatePlacementTab();
+		placement_slider.MinValue = 1;
+		placement_slider.Value = 1;
+		placement_slider.ValueChanged += UpdatePlacementTabText;
+		UpdatePlacementTabText();
+	}
+
+	private void SetupAttackTab() {
+		DeactivateAttackTab();
+	}
+
+	private void SetupFortifyTab() {
+		DeactivateFortifyTab();
 	}
 
 
@@ -154,19 +173,23 @@ public partial class GameMaster : Node {
 
 	void SelectTerritoryPlace(Territory territory) { 
 
-		if(!manager.local_turn || territory == current_territory)
+		if(!local_turn || territory == current_territory)
 			return;
 
 		if(territory == null || territory.Owner != current_player)
-			DeactivateTroopSlider();
+			DeactivatePlacementTab();
 		else
-			ActivateTroopSlider("PLACE", current_player.currency);
+			ActivatePlacementTab("PLACE", current_player.currency);
 
 	}
 
-	void SelectTerritoryConquest(Territory territory) { }
+	void SelectTerritoryConquest(Territory territory) { 
+		// Fill in!!
+	}
 
-	void SelectTerritoryFortify(Territory territory) { }
+	void SelectTerritoryFortify(Territory territory) { 
+		// Fill in!!
+	}
 
 	// ----- // UI // ----- //
 
@@ -258,18 +281,21 @@ public partial class GameMaster : Node {
 
 	// Troop Slider //
 
-	public void ActivateTroopSlider(string type, int max) {
-		ui_troop_slider_parent.Visible = true;
-		ui_troop_slider.MaxValue = max;
-		ui_troop_slider.TickCount = max;
-		ui_troop_slider.Value = 1;
-		UpdateTroopSliderText();
+	public void ActivatePlacementTab(string type, int max) {
+		PlacementTab.Visible = true;
+		placement_slider.MaxValue = max;
+		placement_slider.TickCount = max;
+		placement_slider.Value = 1;
+		UpdatePlacementTabText();
 	}
 
-	public void DeactivateTroopSlider() => ui_troop_slider_parent.Visible = false;
+	public void DeactivatePlacementTab() => PlacementTab.Visible = false;
+	public void DeactivateAttackTab() => AttackTab.Visible = false;
+	public void DeactivateFortifyTab() => FortifyTab.Visible = false;
+	public void DeactivateSkipTab() => SkipTab.Visible = false;
 
-	void UpdateTroopSliderText() => UpdateTroopSliderText(ui_troop_slider.Value);
-	void UpdateTroopSliderText(double value) {
+	void UpdatePlacementTabText() => UpdatePlacementTabText(placement_slider.Value);
+	void UpdatePlacementTabText(double value) {
 		
 		string s_val = "";
 		string verb = "PLACE";
@@ -282,9 +308,9 @@ public partial class GameMaster : Node {
 				break;
 		}
 
-		if (ui_troop_slider.Value > 1)
+		if (placement_slider.Value > 1)
 			s_val = "S";
-		ui_troop_slider_label.Text = $"{verb} [{value}] TROOP{s_val}";
+		placement_slider_label.Text = $"{verb} [{value}] TROOP{s_val}";
 	}
 
 	// ----- // STATE TRANSITIONS // ----- //

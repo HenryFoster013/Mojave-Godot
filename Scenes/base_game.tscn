@@ -834,7 +834,7 @@ shadow_size = 8
 [node name="World Environment" type="WorldEnvironment" parent="." unique_id=505609779]
 environment = SubResource("Environment_eifla")
 
-[node name="Game Master" type="Node3D" parent="." unique_id=764897770 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_turn", "ui_game_additional", "ui_turn_popup", "ui_turn_popup_bg", "ui_troop_slider_parent", "ui_troop_slider_label", "ui_troop_slider")]
+[node name="Game Master" type="Node3D" parent="." unique_id=764897770 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_turn", "ui_game_additional", "ui_turn_popup", "ui_turn_popup_bg", "PlacementTab", "AttackTab", "FortifyTab", "SkipTab")]
 script = ExtResource("1_dr38s")
 map_renderer = NodePath("../Map Renderer")
 label_manager = NodePath("../Map Renderer/Board/Label Manager")
@@ -846,9 +846,10 @@ ui_game_turn = NodePath("../UI/UI Container/Game Info/Game Status Label/Status T
 ui_game_additional = NodePath("../UI/UI Container/Game Info/Game Command Label/Status Text")
 ui_turn_popup = NodePath("../UI/UI Container/Turn Label/Player Label")
 ui_turn_popup_bg = NodePath("../UI/UI Container/Turn Label/Player Turn")
-ui_troop_slider_parent = NodePath("../UI/UI Container/Placement Tab")
-ui_troop_slider_label = NodePath("../UI/UI Container/Placement Tab/Slider Window/VBoxContainer2/Troop Count")
-ui_troop_slider = NodePath("../UI/UI Container/Placement Tab/Slider Window/VBoxContainer2/HSlider")
+PlacementTab = NodePath("../UI/UI Container/Placement Tab")
+AttackTab = NodePath("../UI/UI Container/Attack Tab")
+FortifyTab = NodePath("../UI/UI Container/Fortify Tab")
+SkipTab = NodePath("../UI/UI Container/Skip Button")
 
 [node name="Player" type="Node3D" parent="." unique_id=1008032272 node_paths=PackedStringArray("camera")]
 script = ExtResource("2_485im")
@@ -1245,7 +1246,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_lkwq1")
 shortcut = SubResource("Shortcut_ge24r")
 text = "CANCEL"
 
-[node name="Reinforce Tab" type="VBoxContainer" parent="UI/UI Container" unique_id=1492001252]
+[node name="Fortify Tab" type="VBoxContainer" parent="UI/UI Container" unique_id=1492001252]
 visible = false
 layout_mode = 1
 anchors_preset = 7
@@ -1263,14 +1264,14 @@ scale = Vector2(1.1, 1.1)
 mouse_filter = 2
 theme_override_constants/separation = 10
 
-[node name="Slider Window" type="Panel" parent="UI/UI Container/Reinforce Tab" unique_id=344775876]
+[node name="Slider Window" type="Panel" parent="UI/UI Container/Fortify Tab" unique_id=344775876]
 custom_minimum_size = Vector2(340, 55)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_wwtvl")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="UI/UI Container/Reinforce Tab/Slider Window" unique_id=1580432626]
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI/UI Container/Fortify Tab/Slider Window" unique_id=1580432626]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1282,7 +1283,7 @@ grow_vertical = 2
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="Header" type="Label" parent="UI/UI Container/Reinforce Tab/Slider Window/VBoxContainer2" unique_id=1097669086]
+[node name="Header" type="Label" parent="UI/UI Container/Fortify Tab/Slider Window/VBoxContainer2" unique_id=1097669086]
 layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 14
@@ -1291,7 +1292,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
-[node name="Subheader" type="Label" parent="UI/UI Container/Reinforce Tab/Slider Window/VBoxContainer2" unique_id=1895982910]
+[node name="Subheader" type="Label" parent="UI/UI Container/Fortify Tab/Slider Window/VBoxContainer2" unique_id=1895982910]
 layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 12
@@ -1299,7 +1300,7 @@ text = "Select a second territory."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="UI/UI Container/Reinforce Tab/Slider Window/VBoxContainer2" unique_id=695155342]
+[node name="HSlider" type="HSlider" parent="UI/UI Container/Fortify Tab/Slider Window/VBoxContainer2" unique_id=695155342]
 visible = false
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -1311,11 +1312,11 @@ tick_count = 12
 ticks_on_borders = true
 ticks_position = 3
 
-[node name="Buttons" type="HBoxContainer" parent="UI/UI Container/Reinforce Tab" unique_id=1801787280]
+[node name="Buttons" type="HBoxContainer" parent="UI/UI Container/Fortify Tab" unique_id=1801787280]
 layout_mode = 2
 theme_override_constants/separation = 7
 
-[node name="Confirm Button" type="Button" parent="UI/UI Container/Reinforce Tab/Buttons" unique_id=2109067609]
+[node name="Confirm Button" type="Button" parent="UI/UI Container/Fortify Tab/Buttons" unique_id=2109067609]
 custom_minimum_size = Vector2(160, 25)
 layout_mode = 2
 size_flags_horizontal = 6
@@ -1327,7 +1328,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_1xrtk")
 shortcut = SubResource("Shortcut_ge24r")
 text = "CONFIRM"
 
-[node name="Cancel Button" type="Button" parent="UI/UI Container/Reinforce Tab/Buttons" unique_id=1942161770]
+[node name="Cancel Button" type="Button" parent="UI/UI Container/Fortify Tab/Buttons" unique_id=1942161770]
 custom_minimum_size = Vector2(160, 25)
 layout_mode = 2
 size_flags_horizontal = 6

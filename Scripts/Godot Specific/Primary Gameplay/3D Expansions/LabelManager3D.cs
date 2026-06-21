@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 using static RiskUtils;
 
 public partial class LabelManager3D : LabelManager {
@@ -33,8 +34,15 @@ public partial class LabelManager3D : LabelManager {
 
 	// Animations //
 
+	private Dictionary<Node, Tween> active_animations = new();
+
 	public override void AnimateLabel(Territory territory, LabelAnimation animation) {
+
 		Node label = troop_labels[territory.render_order];
+
+		if (active_animations.TryGetValue(label, out Tween old))
+			old.Kill();
+
 		switch (animation) {
 			case LabelAnimation.BOUNCE: BounceAnimation(label); break;
 		}
@@ -44,5 +52,6 @@ public partial class LabelManager3D : LabelManager {
 		var tween = CreateTween();
 		(label as Node3D).Scale = Vector3.One * 1.66f;
 		tween.TweenProperty(label, "scale", Vector3.One, 0.5f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+		active_animations[label] = tween;
 	}
 }
