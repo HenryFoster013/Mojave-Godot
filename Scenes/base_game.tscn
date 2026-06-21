@@ -750,6 +750,66 @@ shadow_color = Color(0, 0, 0, 0.40392157)
 shadow_size = 5
 shadow_offset = Vector2(0, 3)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qrvb"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.27539998, 0.46307993, 0.51, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6318, 0.75035995, 0.78, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 1
+shadow_color = Color(0, 0, 0, 0.40392157)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lhtxr"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1806, 0.37211993, 0.42, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6318, 0.75035995, 0.78, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 1
+shadow_color = Color(0, 0, 0, 0.40392157)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rqd7l"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.34559998, 0.5811199, 0.64, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.6318, 0.75035995, 0.78, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 1
+shadow_color = Color(0, 0, 0, 0.40392157)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eifla"]
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -1278,6 +1338,30 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_253gl")
 theme_override_styles/hover = SubResource("StyleBoxFlat_lkwq1")
 shortcut = SubResource("Shortcut_ge24r")
 text = "CANCEL"
+
+[node name="Skip Button" type="Button" parent="UI/UI Container" unique_id=24278858]
+visible = false
+custom_minimum_size = Vector2(90, 25)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -105.0
+offset_top = -40.0
+offset_right = -15.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 3
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_7qrvb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lhtxr")
+theme_override_styles/hover = SubResource("StyleBoxFlat_rqd7l")
+shortcut = SubResource("Shortcut_ge24r")
+text = "SKIP"
 
 [node name="Turn Label" type="Control" parent="UI/UI Container" unique_id=1526128785]
 layout_mode = 1
