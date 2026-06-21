@@ -431,7 +431,7 @@ public class GameManager {
 			while (search_queue.Count > 0) {
 					Territory current = search_queue.Dequeue();
 					foreach (Territory neighbour in current.neighbours) {
-							if (neighbour.Owner == this && !routes.ContainsKey(neighbour)) {
+							if (neighbour.Owner == current_player && !routes.ContainsKey(neighbour)) {
 									routes[neighbour] = new List<Territory>(routes[current]) { neighbour };
 									search_queue.Enqueue(neighbour);
 							}

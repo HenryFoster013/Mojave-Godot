@@ -207,7 +207,6 @@ public abstract partial class MapRenderer : Node {
 		highlighted_player = player is BotPlayer ? null : player;
 		SetHighlights();
 	}
-	
 
 	protected string FormatColour(Color colour)
 		=> "#" + colour.ToHtml(false).ToUpper();
