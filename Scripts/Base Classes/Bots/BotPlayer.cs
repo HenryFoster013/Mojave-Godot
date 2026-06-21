@@ -180,6 +180,10 @@ public partial class BotPlayer : Player {
 
 	// ----- // PLAYS // ----- //
 
-	public override void RequestPlay() { }
+	public override void RequestPlay() { 
+		manager.SpeakSkip();
+		manager.SpeakSkip();
+		manager.SpeakSkip();
+	}
 
 }
