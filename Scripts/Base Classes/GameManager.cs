@@ -7,7 +7,14 @@ using static RiskUtils;
 public class GameManager {
 
 	public State game_state { get; private set; }
-	public SubTurn sub_turn { get; private set; }
+	private SubTurn _sub_turn;
+	public SubTurn sub_turn {
+		get => _sub_turn;
+		private set {
+			_sub_turn = value;
+			OnSubTurnChanged?.Invoke();
+		}
+	}
 	private static readonly Random random = new Random();
 
 	public int current_player_turn { get; private set; }
@@ -33,6 +40,7 @@ public class GameManager {
 	public event Action OnClaimantsTurn;
 	public event Action OnInitialPlacementTurn;
 	public event Action OnPrimaryTurn;
+	public event Action OnSubTurnChanged;
 	public event Action<Territory, TerritoryChangeType> OnTerritoryCountChanged;
 	public event Action<string> OnLog;
 
