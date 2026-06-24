@@ -15,9 +15,11 @@ public partial class MapRenderer3D : MapRenderer {
     private Vector2 noise_offset;
 
     [ExportGroup("Props")]
+    [Export] public Node3D prop_holder;
     [Export] public ShaderMaterial prop_material;
     [Export] public string[] prop_names = {};
     [Export] public MeshInstance3D[] prop_meshes = {};
+    private bool enable_props = true;
 
     protected override void AdditionalSetup() {
         shader_material.SetShaderParameter("debug_mode", false);
@@ -65,6 +67,8 @@ public partial class MapRenderer3D : MapRenderer {
             prop_meshes[i].SetSurfaceOverrideMaterial(0, new_mat);
             region_shaders.Add(new_mat);
         }
+
+        prop_holder.Visible = enable_props;
     }
 
     private void SetupNoise(){

@@ -248,12 +248,22 @@ public class GameManager {
 		LoadTurn();
 	}
 
-	public void CashInTroops(int amount, Territory territory) {
+	public void CashInTroops(Territory territory, int amount) {
+		CashInTroops(current_player, territory, amount);
+	}
+
+	public void CashInTroops(Player player, Territory territory, int amount) {
+
+		if (player != current_player) return;
 		if (sub_turn != SubTurn.PLACE) return;
-		if (!current_player.CanAfford(amount) || territory.Owner != current_player) return;
+		if (!player.CanAfford(amount) || territory.Owner != player) return;
+
 		territory.AddTroops(amount);
-		OnLog?.Invoke($"{current_player.name} cashed in {amount} troops at {territory.name}.");
-		if (!current_player.SpareChange())
+		player.SubCurrency(amount);
+		OnTerritoryCountChanged?.Invoke(territory, TerritoryChangeType.PLACEMENT);
+		OnLog?.Invoke($"{player.name} cashed in {amount} troops at {territory.name}.");
+
+		if (!player.SpareChange())
 			IterateSubTurn();
 	}
 
@@ -407,23 +417,46 @@ public class GameManager {
 
 	public bool SpeakInitialPlacement(Territory territory) {
 		if (!local_turn)
-			return ErrorWrapper("SpeakPlacement Fail: Not local player's turn.");
+			return ErrorWrapper("SpeakInitialPlacement Fail: Not local player's turn.");
 		return SpeakInitialPlacement(current_player, territory);
 	}
 
 	public bool SpeakInitialPlacement(Player player, Territory territory) {
 		if (game_state != State.INITIAL_PLACEMENT)
-			return ErrorWrapper($"SpeakPlacement Fail: Game is not in Initial Placments state. [{player.name}]");
+			return ErrorWrapper($"SpeakInitialPlacement Fail: Game is not in Initial Placments state. [{player.name}]");
 		if (AllInitiallyPlaced())
-			return ErrorWrapper($"SpeakPlacement Fail: All initial placements completed. [{player.name}]");
+			return ErrorWrapper($"SpeakInitialPlacement Fail: All initial placements completed. [{player.name}]");
+		if(territory == null)
+			return ErrorWrapper($"SpeakInitialPlacement Fail: The territory is null. [{player.name}]");
+		if (player != players[current_player_turn])
+			return ErrorWrapper($"SpeakInitialPlacement Fail: It is not our turn. [{player.name}]");
+		if (territory.Owner != player)
+			return ErrorWrapper($"SpeakInitialPlacement Fail: Territory is not owned by us. [{player.name}]");
+		InitialPlacementTerritory(territory);
+		LoadTurn();
+		return true;
+	}
+
+	// Placements //
+
+	public bool SpeakPlacement(Territory territory, int amount) {
+		if (!local_turn)
+			return ErrorWrapper("SpeakPlacement Fail: Not local player's turn.");
+		return SpeakPlacement(current_player, territory, amount);
+	}
+
+	public bool SpeakPlacement(Player player, Territory territory, int amount) {
+		if (game_state != State.PRIMARY)
+			return ErrorWrapper($"SpeakPlacement Fail: Game is not in Primary state. [{player.name}]");
 		if(territory == null)
 			return ErrorWrapper($"SpeakPlacement Fail: The territory is null. [{player.name}]");
 		if (player != players[current_player_turn])
 			return ErrorWrapper($"SpeakPlacement Fail: It is not our turn. [{player.name}]");
 		if (territory.Owner != player)
 			return ErrorWrapper($"SpeakPlacement Fail: Territory is not owned by us. [{player.name}]");
-		InitialPlacementTerritory(territory);
-		LoadTurn();
+		if (amount < 1 || amount > player.currency)
+			return ErrorWrapper($"SpeakPlacement Fail: Invalid amount. [{amount}/{player.currency}]");
+		CashInTroops(player, territory, amount);
 		return true;
 	}
 

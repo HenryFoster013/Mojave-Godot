@@ -684,11 +684,12 @@ shadow_color = Color(0, 0, 0, 0.40392157)
 shadow_size = 5
 shadow_offset = Vector2(0, 3)
 
-[sub_resource type="InputEventKey" id="InputEventKey_wwtvl"]
-keycode = 13
+[sub_resource type="InputEventKey" id="InputEventKey_7qrvb"]
+device = -1
+keycode = 4194309
 
 [sub_resource type="Shortcut" id="Shortcut_ge24r"]
-events = [SubResource("InputEventKey_wwtvl")]
+events = [SubResource("InputEventKey_7qrvb")]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_52jsp"]
 content_margin_left = 0.0
@@ -834,7 +835,7 @@ shadow_size = 8
 [node name="World Environment" type="WorldEnvironment" parent="." unique_id=505609779]
 environment = SubResource("Environment_eifla")
 
-[node name="Game Master" type="Node3D" parent="." unique_id=764897770 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_turn", "ui_game_additional", "ui_turn_popup", "ui_turn_popup_bg", "PlacementTab", "AttackTab", "FortifyTab", "SkipTab")]
+[node name="Game Master" type="Node3D" parent="." unique_id=764897770 node_paths=PackedStringArray("map_renderer", "label_manager", "player_controller", "ui_player_colour", "ui_player_name", "ui_game_state", "ui_game_turn", "ui_game_additional", "ui_turn_popup", "ui_turn_popup_bg", "troop_slider_tab", "conquest_tab", "skip_tab", "troop_slider_header", "troop_slider_subheader", "troop_slider", "conquest_header", "conquest_subheader", "conquest_buttons")]
 script = ExtResource("1_dr38s")
 map_renderer = NodePath("../Map Renderer")
 label_manager = NodePath("../Map Renderer/Board/Label Manager")
@@ -846,10 +847,15 @@ ui_game_turn = NodePath("../UI/UI Container/Game Info/Game Status Label/Status T
 ui_game_additional = NodePath("../UI/UI Container/Game Info/Game Command Label/Status Text")
 ui_turn_popup = NodePath("../UI/UI Container/Turn Label/Player Label")
 ui_turn_popup_bg = NodePath("../UI/UI Container/Turn Label/Player Turn")
-PlacementTab = NodePath("../UI/UI Container/Troop Slider")
-AttackTab = NodePath("../UI/UI Container/Conquest Tab")
-FortifyTab = NodePath("")
-SkipTab = NodePath("../UI/UI Container/Skip Button")
+troop_slider_tab = NodePath("../UI/UI Container/Troop Slider")
+conquest_tab = NodePath("../UI/UI Container/Conquest Tab")
+skip_tab = NodePath("../UI/UI Container/Skip Button")
+troop_slider_header = NodePath("../UI/UI Container/Troop Slider/Slider Window/VBoxContainer2/Header")
+troop_slider_subheader = NodePath("../UI/UI Container/Troop Slider/Slider Window/VBoxContainer2/Subheader")
+troop_slider = NodePath("../UI/UI Container/Troop Slider/Slider Window/VBoxContainer2/HSlider")
+conquest_header = NodePath("../UI/UI Container/Conquest Tab/Slider Window/VBoxContainer2/Header")
+conquest_subheader = NodePath("../UI/UI Container/Conquest Tab/Slider Window/VBoxContainer2/Subheader")
+conquest_buttons = NodePath("../UI/UI Container/Conquest Tab/Buttons")
 
 [node name="Player" type="Node3D" parent="." unique_id=1008032272 node_paths=PackedStringArray("camera")]
 script = ExtResource("2_485im")
@@ -858,12 +864,13 @@ camera = NodePath("Camera")
 [node name="Camera" type="Camera3D" parent="Player" unique_id=1906062012]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.0863328, 0)
 
-[node name="Map Renderer" type="Node3D" parent="." unique_id=397238528 node_paths=PackedStringArray("mesh", "prop_meshes")]
+[node name="Map Renderer" type="Node3D" parent="." unique_id=397238528 node_paths=PackedStringArray("mesh", "prop_holder", "prop_meshes")]
 script = ExtResource("3_7jdad")
 mesh = NodePath("Board")
 map_world_size = Vector2(5, 5)
 noise_material = ExtResource("7_rqd7l")
 noise_gen = ExtResource("8_wditk")
+prop_holder = NodePath("Board/Meshes/Props")
 prop_material = ExtResource("4_7qrvb")
 prop_names = PackedStringArray("BLACK_MOUNTAIN", "CAMP_MCCARRAN", "HELIOS_ONE", "VISITOR_CENTRE", "HOOVER_DAM", "JACOBSTOWN", "THE_STRIP", "NELLIS_ARRAY", "NELLIS_HANGERS", "NIPTON", "NOVAC", "REPCONN_TEST_SITE", "REPCONN_TEST_SITE", "SEARCHLIGHT", "THE_FORT", "YANGTZE_MEMORIAL")
 prop_meshes = [NodePath("Board/Meshes/Props/Black Mountain"), NodePath("Board/Meshes/Props/Camp McCarrran"), NodePath("Board/Meshes/Props/Helios One"), NodePath("Board/Meshes/Props/Hooer Dam Left Side (Visitor Centre)"), NodePath("Board/Meshes/Props/Hoover Dam Right Side (Fort)"), NodePath("Board/Meshes/Props/Jacobstown"), NodePath("Board/Meshes/Props/Lucky 38"), NodePath("Board/Meshes/Props/Nellis Array"), NodePath("Board/Meshes/Props/Nellis Hangers"), NodePath("Board/Meshes/Props/Nipton"), NodePath("Board/Meshes/Props/Novac"), NodePath("Board/Meshes/Props/Repconn Building"), NodePath("Board/Meshes/Props/Repconn Dome"), NodePath("Board/Meshes/Props/Searchlight"), NodePath("Board/Meshes/Props/The Fort"), NodePath("Board/Meshes/Props/Yangtzee Memorial")]
@@ -895,6 +902,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 3.5527137e-15, 0, -3.5527137e-15, 1, 0, 0
 
 [node name="Props" type="Node3D" parent="Map Renderer/Board/Meshes" unique_id=128626088]
 transform = Transform3D(1, 0, 0, 0, 1, -3.5527137e-15, 0, 3.5527137e-15, 1, 0, 0, 0)
+visible = false
 
 [node name="Black Mountain" type="MeshInstance3D" parent="Map Renderer/Board/Meshes/Props" unique_id=765651751]
 transform = Transform3D(-0.24125238, 8.97309, 1.0725001e-06, -9.0211935, -0.2399659, -4.220841e-07, -3.9432902e-07, -1.0805473e-06, 9.000001, 0.048493955, -0.039504215, -1.7267838e-09)
@@ -1084,6 +1092,7 @@ theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 18
 
 [node name="Troop Slider" type="VBoxContainer" parent="UI/UI Container" unique_id=1956191643]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -1118,11 +1127,20 @@ grow_vertical = 2
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="Troop Count" type="Label" parent="UI/UI Container/Troop Slider/Slider Window/VBoxContainer2" unique_id=240224021]
+[node name="Header" type="Label" parent="UI/UI Container/Troop Slider/Slider Window/VBoxContainer2" unique_id=240224021]
 layout_mode = 2
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 14
 text = "Verb [0] Troops"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subheader" type="Label" parent="UI/UI Container/Troop Slider/Slider Window/VBoxContainer2" unique_id=2119255777]
+visible = false
+layout_mode = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 11
+text = "Subheading"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1194,7 +1212,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
-[node name="Sub Header" type="Label" parent="UI/UI Container/Conquest Tab/Slider Window/VBoxContainer2" unique_id=317141853]
+[node name="Subheader" type="Label" parent="UI/UI Container/Conquest Tab/Slider Window/VBoxContainer2" unique_id=317141853]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.54901963)
@@ -1332,3 +1350,5 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="BG" parent="." unique_id=2112562202 instance=ExtResource("14_745nf")]
+
+[connection signal="pressed" from="UI/UI Container/Troop Slider/Confirm Button" to="Game Master" method="TroopSliderTabConfirm"]

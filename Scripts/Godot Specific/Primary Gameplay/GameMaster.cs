@@ -23,12 +23,12 @@ public partial class GameMaster : Node {
 	[Export] public Label ui_turn_popup;
 	[Export] public Panel ui_turn_popup_bg;
 	[ExportGroup("Tabs")]
-	[Export] public Control TroopSliderTab;
-	[Export] public Control ConquestTab;
-	[Export] public Control SkipTab;
+	[Export] public Control troop_slider_tab;
+	[Export] public Control conquest_tab;
+	[Export] public Control skip_tab;
 	[ExportSubgroup("Troop Slider Tab")]
-	[Export] public Label troop_slider_label;
-	[Export] public Label troop_slider_subheading;
+	[Export] public Label troop_slider_header;
+	[Export] public Label troop_slider_subheader;
 	[Export] public HSlider troop_slider;
 	[ExportSubgroup("Conquest Tab")]
 	[Export] public Label conquest_header;
@@ -113,19 +113,7 @@ public partial class GameMaster : Node {
 	private void SetupTabs() {
 		SetupTroopSliderTab();
 		SetupConquestTab();
-		DeactivateSkipTab();
-	}
-
-	private void SetupTroopSliderTab() {
-		DeactivateTroopSliderTab();
-		troop_slider.MinValue = 1;
-		troop_slider.Value = 1;
-		troop_slider.ValueChanged += UpdateTroopSliderText;
-		UpdateTroopSliderText();
-	}
-
-	private void SetupConquestTab() {
-		DeactivateConquestTab();
+		UpdateSkipButton();
 	}
 
 	// ----- // UPDATE LOOP // ----- //
@@ -134,7 +122,7 @@ public partial class GameMaster : Node {
 		UpdateTurnPopup((float)delta);
 	}
 
-	void UpdateTurnPopup(float delta) {
+	private void UpdateTurnPopup(float delta) {
 		float opacity = float.Clamp(turn_popup_time, 0f, 1f);
 		turn_popup_time -= delta;
 		ui_turn_popup.SelfModulate = new Color(1f, 1f, 1f, opacity);
@@ -146,17 +134,9 @@ public partial class GameMaster : Node {
 	// ----- // SELECTION // ----- //
 
 	public void SelectTerritory(Territory territory) {
-
 		switch(game_state){
-
-			case State.CLAIMANTS:
-				manager.SpeakClaim(territory);
-				break;
-
-			case State.INITIAL_PLACEMENT:
-				manager.SpeakInitialPlacement(territory);
-				break;
-			
+			case State.CLAIMANTS: manager.SpeakClaim(territory); break;
+			case State.INITIAL_PLACEMENT: manager.SpeakInitialPlacement(territory); break;
 			case State.PRIMARY:
 				map_renderer.SelectTerritory(territory);
 				switch (sub_turn) {
@@ -164,37 +144,40 @@ public partial class GameMaster : Node {
 					case SubTurn.ATTACK: SelectTerritoryConquest(territory); break;
 					case SubTurn.FORTIFY: SelectTerritoryFortify(territory); break;
 				}
-				current_territory = territory;
 				break;
 		}
 	}
 
-	void SelectTerritoryPlace(Territory territory) { 
-
+	private void SelectTerritoryPlace(Territory territory) { 
 		if(!local_turn || territory == current_territory)
 			return;
-
 		if(territory == null || territory.Owner != current_player)
 			DeactivateTroopSliderTab();
 		else
 			ActivateTroopSliderTab(current_player.currency);
-
+		current_territory = territory;
 	}
 
-	bool InvalidAdditonalCurrentTerritoryClick(Territory territory) {
-		if (current_territory != null) {
-			if (territory == current_territory)
-				return true;
-		}
-		if (additional_territory != null){
-			if (territory == additional_territory)
-				return true;
-		}
-		return false;
+	private void SelectTerritoryConquest(Territory territory) { 
+		if (!local_turn || InvalidAdditonalCurrentTerritoryClick(territory))
+			return;
+		if (AdditionalTerritoryClicks(territory))
+			ActivateConquestTab();
+		else
+			DeactivateConquestTab();
 	}
 
-	bool AdditionalTerritoryClicks(Territory territory) {
-		
+	private void SelectTerritoryFortify(Territory territory) { 
+		if (!local_turn || InvalidAdditonalCurrentTerritoryClick(territory))
+			return;
+		if (AdditionalTerritoryClicks(territory))
+			ActivateTroopSliderTabFortify();
+		else
+			DeactivateTroopSliderTab();
+	}
+
+	private bool AdditionalTerritoryClicks(Territory territory) {
+
 		if (territory == null) {
 			additional_territory = null;
 			current_territory = null;
@@ -204,61 +187,36 @@ public partial class GameMaster : Node {
 		if (territory.Owner == current_player) {
 			current_territory = territory;
 			additional_territory = null;
+			return true;
 		}
+
+		if (current_territory == null || territory == current_territory) {
+			additional_territory = null;
+			return false;
+		}
+
+		List<Territory> valid_additionals = new();
+		switch (sub_turn) {
+			case SubTurn.ATTACK: valid_additionals = current_territory.neighbours.ToList(); break;
+			case SubTurn.FORTIFY: valid_additionals = manager.CalculateRoutesFromTerritory(current_territory).Keys.ToList(); break;
+		}
+		if (valid_additionals.Contains(territory))
+			additional_territory = territory;
 		else {
-			if (current_territory == null) {
-				additional_territory = null;
-				return false;
-			}
-			
-			List<Territory> valid_additionals = new();
-			switch (sub_turn) {
-				case SubTurn.ATTACK:
-					valid_additionals = current_territory.neighbours;
-					break;
-				case SubTurn.FORTIFY:
-					valid_additionals = manager.CalculateRoutesFromTerritory(current_territory).Keys.ToList(); // prolly should buffer this for rendering lol
-					break;
-			}
-
-			if (valid_additionals.Contains(territory))
-				additional_territory = territory;
-			else {
-				current_territory = territory;
-				additional_territory = null;
-			}
+			current_territory = territory;
+			additional_territory = null;
 		}
-
 		return true;
 	}
 
-	void SelectTerritoryConquest(Territory territory) { 
-
-		if (!local_turn || InvalidAdditonalCurrentTerritoryClick(territory))
-			return;
-
-		if (AdditionalTerritoryClicks(territory))
-			ActivateConquestTab();
-		else
-			DeactivateConquestTab();
-	}
-
-	void SelectTerritoryFortify(Territory territory) { 
-		
-		if (!local_turn || InvalidAdditonalCurrentTerritoryClick(territory))
-			return;
-
-		if (AdditionalTerritoryClicks(territory))
-			ActivateTroopSliderTabFortify();
-		else
-			DeactivateTroopSliderTab();
-	}
+	private bool InvalidAdditonalCurrentTerritoryClick(Territory territory) => current_territory != null && territory == additional_territory;
 
 	// ----- // UI // ----- //
 
 	public void UpdateAllUI() {
 		UpdatePlayerLabel();
 		UpdateTurnLabel();
+		UpdateSkipButton();
 	}
 
 	public void LogMessage(string message) => GD.Print(message);
@@ -286,35 +244,41 @@ public partial class GameMaster : Node {
 			return;
 			
 		ui_game_state.Text = "";
-		ui_game_turn.Text = "";
 		ui_game_additional.Text = "";
+		ui_game_turn.Text = TurnText(); 
 		
 		switch (game_state) {
-		
 			case State.NULL: 
 				ui_game_state.Text = "NULL";
 				break;
-			
 			case State.CLAIMANTS:
 				ui_game_state.Text = "Claimants"; 
-				ui_game_additional.Text = "Select a tile to claim";
-				ui_game_turn.Text = TurnText(); 
+				ui_game_additional.Text = "Select a tile to claim.";
 				break;
-
 			case State.INITIAL_PLACEMENT:
 				ui_game_state.Text = "Initial Placements"; 
 				ui_game_additional.Text = $"Select to place a troops. You have {manager.GetRemainingPlacementsPerPlayer()} remaining.";
-				ui_game_turn.Text = TurnText(); 
 				break;
-				
 			case State.PRIMARY:
 				ui_game_state.Text = "Primary"; 
-				ui_game_additional.Text = $"You have {current_player.currency} spare troops";
-				ui_game_turn.Text = TurnText(); 
+				SetPlacementsAdditionalText();
 				break;
-				
 			case State.ENDGAME:
 				ui_game_state.Text = "Endgame"; 
+				break;
+		}
+	}
+
+	private void SetPlacementsAdditionalText() {
+		switch (sub_turn) {
+			case SubTurn.PLACE:
+				ui_game_additional.Text = $"You have {current_player.currency} spare troops.";
+				break;
+			case SubTurn.ATTACK:
+				ui_game_additional.Text = $"Select two tiles to stage an attack.";
+				break;
+			case SubTurn.FORTIFY:
+				ui_game_additional.Text = $"Select a tile to route troops.";
 				break;
 		}
 	}
@@ -344,10 +308,18 @@ public partial class GameMaster : Node {
 
 	// Troop Slider //
 
+	private void SetupTroopSliderTab() {
+		DeactivateTroopSliderTab();
+		troop_slider.MinValue = 1;
+		troop_slider.Value = 1;
+		troop_slider.ValueChanged += UpdateTroopSliderText;
+		UpdateTroopSliderText();
+	}
+
 	public void ActivateTroopSliderTab(int max) {
-		TroopSliderTab.Visible = true;
+		troop_slider_tab.Visible = true;
 		troop_slider.Visible = true;
-		troop_slider_subheading.Visible = false;
+		troop_slider_subheader.Visible = false;
 		troop_slider.MaxValue = max;
 		troop_slider.TickCount = max;
 		troop_slider.Value = 1;
@@ -358,13 +330,34 @@ public partial class GameMaster : Node {
 		if (current_territory == null)
 			return;
 		if (additional_territory == null) {
-			troop_slider_subheading.Visible = true;
+			troop_slider_subheader.Visible = true;
 			troop_slider.Visible = false;
-			troop_slider_label.Text = $"{current_territory.name} [{current_territory.troop_count}] -> ...";
+			troop_slider_header.Text = $"{current_territory.name} [{current_territory.troop_count}] -> ...";
 		}
 		else {
 			ActivateTroopSliderTab(current_territory.troop_count - MIN_TROOPS);
 		}
+	}
+
+	public void DeactivateTroopSliderTab() => troop_slider_tab.Visible = false;
+
+	private void UpdateTroopSliderText() => UpdateTroopSliderText(troop_slider.Value);
+	private void UpdateTroopSliderText(double value) {
+		troop_slider_header.Text = "";
+		if(sub_turn == SubTurn.FORTIFY || sub_turn == SubTurn.ATTACK) {
+			if (additional_territory != null && current_territory != null)
+				troop_slider_header.Text = $"{current_territory.name} [{current_territory.troop_count - (int)value}] -> {additional_territory.name} [{additional_territory.troop_count + (int)value}]";
+			return;
+		}
+		if (sub_turn == SubTurn.PLACE) {
+			troop_slider_header.Text = $"Place [{value}] Troop{(troop_slider.Value > 1 ? "s" : "")}";
+		}
+	}
+
+	// Conquest Tab //
+
+	private void SetupConquestTab() {
+		DeactivateConquestTab();
 	}
 
 	public void ActivateConquestTab() {
@@ -372,7 +365,7 @@ public partial class GameMaster : Node {
 			DeactivateConquestTab();
 			return;
 		}
-		ConquestTab.Visible = true;
+		conquest_tab.Visible = true;
 		bool has_additional = additional_territory != null;
 		conquest_subheader.Visible = !has_additional;
 		conquest_buttons.Visible = has_additional;
@@ -381,29 +374,17 @@ public partial class GameMaster : Node {
 		else
 			conquest_header.Text = $"{current_territory.name} [{current_territory.troop_count}] -> ...";
 	}
-	
-	public void ActivateSkipTab() {
-		SkipTab.Visible = true;
-	}
 
-	public void DeactivateTroopSliderTab() => TroopSliderTab.Visible = false;
-	public void DeactivateConquestTab() => ConquestTab.Visible = false;
-	public void DeactivateSkipTab() => SkipTab.Visible = false;
+	public void DeactivateConquestTab() => conquest_tab.Visible = false;
 
-	void UpdateTroopSliderText() => UpdateTroopSliderText(troop_slider.Value);
-	void UpdateTroopSliderText(double value) {
+	// Skip Button //
 
-		troop_slider_label.Text = "";
-		
-		if(sub_turn == SubTurn.FORTIFY || sub_turn == SubTurn.ATTACK) {
-			if (additional_territory != null && current_territory != null)
-				troop_slider_label.Text = $"{current_territory.name} [{current_territory.troop_count - (int)value}] -> {additional_territory.name} [{additional_territory.troop_count + (int)value}]";
+	private void UpdateSkipButton() {
+		if (current_player == null) {
+			skip_tab.Visible = false;
 			return;
 		}
-
-		if (sub_turn == SubTurn.PLACE) {
-			troop_slider_label.Text = $"Place [{value}] Troop{troop_slider.Value > 1? "s" : ""}";
-		}
+		skip_tab.Visible = (local_turn && game_state == State.PRIMARY && sub_turn != SubTurn.PLACE);
 	}
 
 	// ----- // STATE TRANSITIONS // ----- //
@@ -411,6 +392,7 @@ public partial class GameMaster : Node {
 	private void SubTurnChanged() {
 		current_territory = null;
 		additional_territory = null;
+		UpdateAllUI();
 	}
 
 	private void LoadClaimants() {
@@ -447,16 +429,14 @@ public partial class GameMaster : Node {
 
 	// ----- // UI BUTTONS // ----- //
 
-	public void PlaceTroopsButton() {
-
-	}
-
-	public void AttackButton() {
-
-	}
-
-	public void ReinforceButton() {
-
+	public void TroopSliderTabConfirm() {
+		switch (sub_turn) {
+			case SubTurn.PLACE:
+				manager.SpeakPlacement(current_territory, (int)troop_slider.Value);
+				UpdateTurnLabel();
+				break;
+		}
+		DeactivateTroopSliderTab();
 	}
 
 	public void SkipButton() {
