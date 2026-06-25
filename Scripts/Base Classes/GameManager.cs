@@ -20,7 +20,7 @@ public class GameManager {
 	public int current_player_turn { get; private set; }
 	public int total_turn { get; private set; }
 	private List<Player> players = new();
-	public Player current_player => current_player_turn > -1 ? players[current_player_turn] : null;
+	public Player current_player => current_player_turn > -1 && current_player_turn < players.Count? players[current_player_turn] : null;
 
 	private readonly Dictionary<Player, HashSet<Territory>> player_territories = new();
 	private HashSet<Territory> free_territories;
@@ -64,6 +64,7 @@ public class GameManager {
 		current_player_turn = -1;
 		total_turn = -1;
 		game_state = State.NULL;
+		sub_turn = SubTurn.NULL;
 	}
 
 	private void GenerateTestPlayers() {
@@ -223,7 +224,6 @@ public class GameManager {
 		current_player_turn = 0;
 		init_placement_max = players.Count * (init_base_troops - (init_mult_troops * players.Count));
 		init_placement_count = 0;
-		sub_turn = SubTurn.PLACE;
 		game_state = State.INITIAL_PLACEMENT;
 		OnInitialPlacement?.Invoke();
 		LoadTurn();
@@ -327,14 +327,14 @@ public class GameManager {
 	}
 
 	private void IterateTurn() {
-		sub_turn = SubTurn.PLACE;
+
 		current_player_turn++;
 		total_turn++;
 
-		if (current_player_turn >= players.Count) {
+		if (current_player_turn >= players.Count)
 			current_player_turn = 0;
-		}
 
+		sub_turn = SubTurn.PLACE;
 		OnUIUpdate?.Invoke();
 	}
 

@@ -3,7 +3,7 @@ using System;
 public static class RiskUtils {
 
     public enum State { NULL, CLAIMANTS, INITIAL_PLACEMENT, PRIMARY, ENDGAME }
-	public enum SubTurn { PLACE, ATTACK, FORTIFY }
+	public enum SubTurn { NULL, PLACE, ATTACK, FORTIFY }
     
     public enum PlayerType { NULL, LOCAL, BOT }
 

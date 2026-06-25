@@ -204,6 +204,12 @@ public abstract partial class MapRenderer : Node {
 
 	public void DisablePlayerHighlight() => HighlightPlayer(null);
 	public void HighlightPlayer(Player player) {
+
+		if(player != null)
+			GD.Print($"Highlighted {player.name}.");
+		else
+			GD.Print("Disabled Highlight.");
+
 		highlighted_player = player is BotPlayer ? null : player;
 		SetHighlights();
 	}

@@ -390,9 +390,22 @@ public partial class GameMaster : Node {
 	// ----- // STATE TRANSITIONS // ----- //
 
 	private void SubTurnChanged() {
+
+		if (game_state != State.PRIMARY && sub_turn != SubTurn.NULL)
+			return;
+
 		current_territory = null;
 		additional_territory = null;
 		UpdateAllUI();
+
+		switch (sub_turn) {
+			case SubTurn.PLACE:
+				map_renderer.HighlightPlayer(current_player);
+				break;
+			case SubTurn.ATTACK:
+				map_renderer.DisablePlayerHighlight();
+				break;
+		}
 	}
 
 	private void LoadClaimants() {
@@ -414,7 +427,6 @@ public partial class GameMaster : Node {
 		UpdateAllUI();
 		current_territory = null;
 		additional_territory = null;
-		map_renderer.DisablePlayerHighlight();
 	}
 
 	private void ClaimantsTurn() { }
@@ -437,6 +449,7 @@ public partial class GameMaster : Node {
 				break;
 		}
 		DeactivateTroopSliderTab();
+		SelectTerritory(null);
 	}
 
 	public void SkipButton() {
