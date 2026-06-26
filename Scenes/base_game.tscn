@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://drqt5xs38h4qi" path="res://Graphics/Images/Gradients/Gradient_Vertical.png" id="14_lhtxr"]
 [ext_resource type="Texture2D" uid="uid://dambgr1sw4erq" path="res://Graphics/Images/Gradients/Tick_Icon.png" id="15_52jsp"]
 [ext_resource type="Script" uid="uid://h2bsomih40vo" path="res://Scripts/Godot Specific/UI Effects/FadeIn.cs" id="16_rqd7l"]
+[ext_resource type="Script" uid="uid://c3y6i4k7l4but" path="res://Scripts/Godot Specific/Primary Gameplay/3D Expansions/ArrowRenderer3D.cs" id="18_lhtxr"]
 
 [sub_resource type="Environment" id="Environment_eifla"]
 background_mode = 3
@@ -830,6 +831,26 @@ corner_detail = 5
 shadow_color = Color(1, 1, 1, 0.45490196)
 shadow_size = 8
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lhtxr"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_52jsp"]
+_surfaces = [{
+"aabb": AABB(0, 0.1, -0.05, 2, 1e-05, 2.05),
+"attribute_data": PackedByteArray("AAAAAAAAAAAAAIA/AAAAAAAAgD8AACBBAAAAAAAAIEEAAAAAAAAgQQAAgD8AACBBAACAPwAAoEEAAAAAAACgQQAAAAAAAKBBAACAPwAAoEEAAIA/jJECQgAAAACMkQJCAAAAPwAAAAAAAAAAAACAPwAAgD8AAIA/"),
+"format": 34359742481,
+"index_count": 21,
+"index_data": PackedByteArray("AAABAAIAAAACAAMABAAFAAYABAAGAAcACAAJAAoACAAKAAsADAANAA4A"),
+"material": SubResource("StandardMaterial3D_lhtxr"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 15,
+"vertex_data": PackedByteArray("AAAAAM3MzD3NzEy9AAAAAM3MzD3NzEw9AACAP83MzD3NzEw9AACAP83MzD3NzEy9ZmaGP83MzD0AAAAAMzNzP83MzD0AAAAAMzNzP83MzD0AAIA/ZmaGP83MzD0AAIA/hoaEP83MzD308nY/9PJ2P83MzD2GhoQ/6OXtP83MzD308vY/9PL2P83MzD3o5e0/AAAAQM3MzD0AAABAenn7P83MzD1iX+k/Yl/pP83MzD16efs/")
+}]
+
 [node name="Base Game 3D" type="Node3D" unique_id=204547736]
 
 [node name="World Environment" type="WorldEnvironment" parent="." unique_id=505609779]
@@ -1350,5 +1371,13 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="BG" parent="." unique_id=2112562202 instance=ExtResource("14_745nf")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1305605108]
+mesh = SubResource("ArrayMesh_52jsp")
+script = ExtResource("18_lhtxr")
+width = 0.1
+head_length = 0.15
+head_width = 0.2
+test_points = PackedVector3Array(0, 0, 0, 1, 0, 0, 1, 0, 1, 2, 0, 2)
 
 [connection signal="pressed" from="UI/UI Container/Troop Slider/Confirm Button" to="Game Master" method="TroopSliderTabConfirm"]
