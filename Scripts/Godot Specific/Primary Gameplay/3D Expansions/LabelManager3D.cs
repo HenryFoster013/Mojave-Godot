@@ -6,7 +6,7 @@ public partial class LabelManager3D : LabelManager {
 
 	[Export] public float map_scale = 5f;
 
-	protected override Vector3 WorldPosition(Vector2 centroid) {
+	public override Vector3 WorldPosition(Vector2 centroid) {
 		float x = (centroid.X / 512f) * map_scale - map_scale / 2f;
 		float z = -(centroid.Y / 512f) * map_scale + map_scale / 2f;
 		return new Vector3(x, 0, z);

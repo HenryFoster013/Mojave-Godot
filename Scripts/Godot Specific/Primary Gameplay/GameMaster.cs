@@ -133,6 +133,10 @@ public partial class GameMaster : Node {
 
 	// ----- // SELECTION // ----- //
 
+	private void SelectAdditionalTerritory(Territory territory) {
+		additional_territory = territory;
+	}
+
 	public void SelectTerritory(Territory territory) {
 		switch(game_state){
 			case State.CLAIMANTS: manager.SpeakClaim(territory); break;
@@ -146,6 +150,7 @@ public partial class GameMaster : Node {
 				}
 				break;
 		}
+		GD.Print(sub_turn);
 	}
 
 	private void SelectTerritoryPlace(Territory territory) { 
@@ -180,33 +185,64 @@ public partial class GameMaster : Node {
 
 		if (territory == null) {
 			additional_territory = null;
+			SelectAdditionalTerritory(null);
 			current_territory = null;
 			return false;
 		}
 
+		switch (sub_turn) {
+			case SubTurn.ATTACK: 
+				return AdditionalAttackClicks(territory);
+			case SubTurn.FORTIFY: 
+				return AdditionalFortifyClicks(territory);
+			default: break;
+		}
+
+		return false;
+	}
+
+	private bool AdditionalFortifyClicks(Territory territory) {
+
+		if (territory.Owner != current_player) {
+			current_territory = territory;
+			SelectAdditionalTerritory(null);
+			return false;
+		}
+
+		List<Territory> valid_additionals =  manager.CalculateRoutesFromTerritory(current_territory).Keys.ToList();
+		if (valid_additionals.Contains(territory)) {
+			SelectAdditionalTerritory(territory);
+			return true;
+		}
+
+		current_territory = territory;
+		SelectAdditionalTerritory(null);
+		
+		return false;
+	}
+
+	private bool AdditionalAttackClicks(Territory territory) {
+		
 		if (territory.Owner == current_player) {
 			current_territory = territory;
-			additional_territory = null;
+			SelectAdditionalTerritory(null);
 			return true;
 		}
 
 		if (current_territory == null || territory == current_territory) {
-			additional_territory = null;
+			SelectAdditionalTerritory(null);
 			return false;
 		}
 
-		List<Territory> valid_additionals = new();
-		switch (sub_turn) {
-			case SubTurn.ATTACK: valid_additionals = current_territory.neighbours.ToList(); break;
-			case SubTurn.FORTIFY: valid_additionals = manager.CalculateRoutesFromTerritory(current_territory).Keys.ToList(); break;
+		if (current_territory.neighbours.Contains(territory)) {
+			SelectAdditionalTerritory(territory);
+			return true;
 		}
-		if (valid_additionals.Contains(territory))
-			additional_territory = territory;
-		else {
-			current_territory = territory;
-			additional_territory = null;
-		}
-		return true;
+		
+		current_territory = territory;
+		SelectAdditionalTerritory(null);
+		
+		return false;
 	}
 
 	private bool InvalidAdditonalCurrentTerritoryClick(Territory territory) => current_territory != null && territory == additional_territory;
@@ -327,6 +363,7 @@ public partial class GameMaster : Node {
 	}
 
 	public void ActivateTroopSliderTabFortify() {
+		map_renderer.ClearArrow();
 		if (current_territory == null)
 			return;
 		if (additional_territory == null) {
@@ -336,10 +373,14 @@ public partial class GameMaster : Node {
 		}
 		else {
 			ActivateTroopSliderTab(current_territory.troop_count - MIN_TROOPS);
+			map_renderer.DrawArrowBetween(current_territory, additional_territory);
 		}
 	}
 
-	public void DeactivateTroopSliderTab() => troop_slider_tab.Visible = false;
+	public void DeactivateTroopSliderTab() {
+		troop_slider_tab.Visible = false;
+		map_renderer.ClearArrow();
+	}
 
 	private void UpdateTroopSliderText() => UpdateTroopSliderText(troop_slider.Value);
 	private void UpdateTroopSliderText(double value) {
@@ -361,6 +402,7 @@ public partial class GameMaster : Node {
 	}
 
 	public void ActivateConquestTab() {
+		map_renderer.ClearArrow();
 		if (current_territory == null || current_territory.Owner != current_player || !local_turn) {
 			DeactivateConquestTab();
 			return;
@@ -369,13 +411,19 @@ public partial class GameMaster : Node {
 		bool has_additional = additional_territory != null;
 		conquest_subheader.Visible = !has_additional;
 		conquest_buttons.Visible = has_additional;
-		if (has_additional)
+
+		if (has_additional) {
 			conquest_header.Text = $"{current_territory.name} [{current_territory.troop_count}] -> {additional_territory.name} [{additional_territory.troop_count}]";
+			map_renderer.DrawArrowBetween(current_territory, additional_territory);
+		}
 		else
 			conquest_header.Text = $"{current_territory.name} [{current_territory.troop_count}] -> ...";
 	}
 
-	public void DeactivateConquestTab() => conquest_tab.Visible = false;
+	public void DeactivateConquestTab() {
+		map_renderer.ClearArrow();
+		conquest_tab.Visible = false;
+	}
 
 	// Skip Button //
 
@@ -395,7 +443,7 @@ public partial class GameMaster : Node {
 			return;
 
 		current_territory = null;
-		additional_territory = null;
+		SelectAdditionalTerritory(null);
 		UpdateAllUI();
 
 		switch (sub_turn) {
@@ -412,21 +460,22 @@ public partial class GameMaster : Node {
 		UpdateAllUI();
 		map_renderer.DisablePlayerHighlight();
 		current_territory = null;
-		additional_territory = null;
+		SelectAdditionalTerritory(null);
 		map_renderer.SelectTerritory(null);
 	}
 
 	private void LoadInitialPlacement(){
 		UpdateAllUI();
 		current_territory = null;
-		additional_territory = null;
+		SelectAdditionalTerritory(null);
 		map_renderer.SelectTerritory(null);
 	}
 
 	private void LoadPrimary() {
 		UpdateAllUI();
 		current_territory = null;
-		additional_territory = null;
+		map_renderer.SelectTerritory(null);
+		SelectAdditionalTerritory(null);
 	}
 
 	private void ClaimantsTurn() { }
@@ -464,4 +513,5 @@ public partial class GameMaster : Node {
 	public Territory GetTerritoryByID(string id) => manager.GetTerritoryByID(id);
 	public Region GetRegion(string id) => manager.GetRegion(id);
 	public IReadOnlyCollection<Territory> GetPlayerTerritories(Player player) => manager.GetPlayerTerritories(player);
+	public List<Territory> GetRouteBetweenTerritories(Territory start, Territory end) => manager.GetRouteBetweenTerritories(start, end);
 }

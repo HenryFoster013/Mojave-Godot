@@ -202,6 +202,9 @@ public abstract partial class MapRenderer : Node {
 		SetHighlights();
 	}
 
+	public abstract void DrawArrowBetween(Territory start, Territory end);
+	public abstract void ClearArrow();
+
 	public void DisablePlayerHighlight() => HighlightPlayer(null);
 	public void HighlightPlayer(Player player) {
 

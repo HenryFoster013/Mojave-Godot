@@ -1,85 +1,114 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class MapRenderer3D : MapRenderer {
 
-    [Export] public MeshInstance3D mesh;
-    [Export] public Vector2 map_world_size = new Vector2(2048, 2048);
-    [Export] public Vector2 map_pixel_size = new Vector2(2048, 2048);
+	[Export] public MeshInstance3D mesh;
+	[Export] public Vector2 map_world_size = new Vector2(2048, 2048);
+	[Export] public Vector2 map_pixel_size = new Vector2(2048, 2048);
+	[Export] public ArrowRenderer3D arrow_renderer;
 
-    [ExportGroup("Noise")]
+	[ExportGroup("Noise")]
 	[Export] public ShaderMaterial noise_material;
 	[Export] public FastNoiseLite noise_gen;
 	const float NOISE_SPEED = 0.005f;
-    private Vector2 noise_offset;
+	private Vector2 noise_offset;
 
-    [ExportGroup("Props")]
-    [Export] public Node3D prop_holder;
-    [Export] public ShaderMaterial prop_material;
-    [Export] public string[] prop_names = {};
-    [Export] public MeshInstance3D[] prop_meshes = {};
-    private bool enable_props = true;
+	[ExportGroup("Props")]
+	[Export] public Node3D prop_holder;
+	[Export] public ShaderMaterial prop_material;
+	[Export] public string[] prop_names = {};
+	[Export] public MeshInstance3D[] prop_meshes = {};
 
-    protected override void AdditionalSetup() {
-        shader_material.SetShaderParameter("debug_mode", false);
-        SetupProps();
-        SetupNoise();
-    }
+	private bool enable_props = true;
 
-    public override void _Process(double delta){
+	protected override void AdditionalSetup() {
+		shader_material.SetShaderParameter("debug_mode", false);
+		SetupProps();
+		SetupNoise();
+	}
+
+	public override void _Process(double delta){
 		ScrollNoise(delta);
 	}
 
-    protected override ShaderMaterial GetShaderMaterial()
-        => mesh.GetSurfaceOverrideMaterial(0) as ShaderMaterial;
+	protected override ShaderMaterial GetShaderMaterial()
+		=> mesh.GetSurfaceOverrideMaterial(0) as ShaderMaterial;
 
-    public override Territory GetTerritoryAtCoords(Vector2 world_pos) {
+	public override Territory GetTerritoryAtCoords(Vector2 world_pos) {
 
-        Vector2 normalized = (world_pos + map_world_size / 2f) / map_world_size;
-        Vector2 pixel_pos = normalized * map_pixel_size;
+		Vector2 normalized = (world_pos + map_world_size / 2f) / map_world_size;
+		Vector2 pixel_pos = normalized * map_pixel_size;
 
-        if (pixel_pos.X < 0 || pixel_pos.Y < 0 || pixel_pos.X >= map_pixel_size.X || pixel_pos.Y >= map_pixel_size.Y)
-            return null;
+		if (pixel_pos.X < 0 || pixel_pos.Y < 0 || pixel_pos.X >= map_pixel_size.X || pixel_pos.Y >= map_pixel_size.Y)
+			return null;
 
-        Color colour = colour_map_image.GetPixel((int)pixel_pos.X, (int)pixel_pos.Y);
-        GD.Print($"Coords: {pixel_pos}, Colour: {colour}");
-        return game_master.GetTerritoryByColour(FormatColour(colour));
-    }
+		Color colour = colour_map_image.GetPixel((int)pixel_pos.X, (int)pixel_pos.Y);
+		GD.Print($"Coords: {pixel_pos}, Colour: {colour}");
+		return game_master.GetTerritoryByColour(FormatColour(colour));
+	}
 
-    private void SetupProps() {
-    
-        if (prop_meshes.Length != prop_names.Length) {
-            GD.PushError("Prop names and meshes do not match!");
-            return;
-        }
-    
-        for (int i = 0; i < prop_meshes.Length; i++) {
-            var territory = game_master.GetTerritoryByID(prop_names[i]);
-            ShaderMaterial new_mat = (ShaderMaterial)prop_material.Duplicate();
-            float lut_u = (territory.render_order + 0.5f) / (float)territory_order.Count;
-            
-            new_mat.SetShaderParameter("lut_u", lut_u);
-            new_mat.SetShaderParameter("owner_lut", owner_lut);
-            new_mat.SetShaderParameter("highlight_lut", highlight_lut);
-            new_mat.SetShaderParameter("region_lut", region_lut);
-            
-            prop_meshes[i].SetSurfaceOverrideMaterial(0, new_mat);
-            region_shaders.Add(new_mat);
-        }
+	private void SetupProps() {
+	
+		if (prop_meshes.Length != prop_names.Length) {
+			GD.PushError("Prop names and meshes do not match!");
+			return;
+		}
+	
+		for (int i = 0; i < prop_meshes.Length; i++) {
+			var territory = game_master.GetTerritoryByID(prop_names[i]);
+			ShaderMaterial new_mat = (ShaderMaterial)prop_material.Duplicate();
+			float lut_u = (territory.render_order + 0.5f) / (float)territory_order.Count;
+			
+			new_mat.SetShaderParameter("lut_u", lut_u);
+			new_mat.SetShaderParameter("owner_lut", owner_lut);
+			new_mat.SetShaderParameter("highlight_lut", highlight_lut);
+			new_mat.SetShaderParameter("region_lut", region_lut);
+			
+			prop_meshes[i].SetSurfaceOverrideMaterial(0, new_mat);
+			region_shaders.Add(new_mat);
+		}
 
-        prop_holder.Visible = enable_props;
-    }
+		prop_holder.Visible = enable_props;
+	}
 
-    private void SetupNoise(){
+	private void SetupNoise(){
 		noise_gen.Seed = new Random().Next(0,1000);
 	}
 
-    private void ScrollNoise(double delta){
+	private void ScrollNoise(double delta){
 		noise_offset.X += NOISE_SPEED * (float)delta;
 		noise_offset.Y += NOISE_SPEED * (float)delta;
-        noise_offset.X %= 1.0f;
-        noise_offset.Y %= 1.0f;
+		noise_offset.X %= 1.0f;
+		noise_offset.Y %= 1.0f;
 		noise_material.SetShaderParameter("uv_offset", noise_offset);
+	}
+
+	public override void ClearArrow() => arrow_renderer.ClearArrow();
+
+	public override void DrawArrowBetween(Territory start, Territory end) {
+
+		if (start == null || end == null) {
+			arrow_renderer.ClearArrow();
+			return;
+		}
+
+		List<Territory> route = new();
+
+		if (start.neighbours.Contains(end)) {
+			route.Add(start);
+			route.Add(end);
+		}
+		else
+			route.AddRange(game_master.GetRouteBetweenTerritories(start, end));
+		
+		if (route.Count == 0) return;
+
+		List<Vector3> waypoints = new();
+		foreach (Territory route_part in route)
+			waypoints.Add(label_manager.WorldPosition(route_part.centroid));
+		arrow_renderer.Draw(waypoints);
 	}
 }

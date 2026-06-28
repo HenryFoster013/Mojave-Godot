@@ -5,124 +5,132 @@ using System.Linq;
 [Tool]
 public partial class ArrowRenderer3D : MeshInstance3D {
 	
-    [ExportGroup("Body")]
-    [Export] public float width = 0.05f;
-    [Export] public float vertical_offset = 0.1f;
+	[ExportGroup("Body")]
+	[Export] public float width = 0.05f;
+	[Export] public float vertical_offset = 0.1f;
 
-    [ExportGroup("Head")]
-    [Export] public float head_length = 0.1f;
-    [Export] public float head_width = 0.1f;
+	[ExportGroup("Head")]
+	[Export] public float head_length = 0.1f;
+	[Export] public float head_width = 0.1f;
 
-    [ExportGroup("Testing")]
-    [Export] public Vector3[] test_points;
-    [Export] public Color test_colour = new Color(1.0f, 0f, 1f, 1.0f);
+	[ExportGroup("Testing")]
+	[Export] public Vector3[] test_points;
+	[Export] public Color test_colour = new Color(1.0f, 0f, 1f, 1.0f);
 
-    [ExportToolButton("Draw")] public Callable DrawButton => Callable.From(TestDraw);
+	[ExportToolButton("Draw")] public Callable DrawButton => Callable.From(TestDraw);
+	[ExportToolButton("Clear")] public Callable ClearButton => Callable.From(TestDraw);
 
-    private StandardMaterial3D _mat;
-    private List<Vector3> verts   = new();
-    private List<Vector2> uvs     = new();
-    private List<int>     indices = new();
+	private StandardMaterial3D _mat;
+	private List<Vector3> verts = new();
+	private List<Vector2> uvs = new();
+	private List<int> indices = new();
 
-    // ----- // START // ----- //
+	// ----- // START // ----- //
 
-    public override void _Ready() => ClearArrow();
+	public override void _Ready() {
+		ApplyTestingMaterial();
+		ClearArrow();
+	}
 
-    public void TestDraw() {
-        _mat = new StandardMaterial3D {
-            ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
-            AlbedoColor = test_colour,
-            CullMode    = BaseMaterial3D.CullModeEnum.Disabled,
-            Transparency = BaseMaterial3D.TransparencyEnum.Alpha
-        };
-        Draw(test_points.ToList());
-    }
+	public void TestDraw() {
+		ApplyTestingMaterial();
+		Draw(test_points.ToList());
+	}
 
-    // ----- // DRAW // ----- //
+	private void ApplyTestingMaterial() {
+		_mat = new StandardMaterial3D {
+			ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
+			AlbedoColor = test_colour,
+			CullMode = BaseMaterial3D.CullModeEnum.Disabled,
+			Transparency = BaseMaterial3D.TransparencyEnum.Alpha
+		};
+	}
 
-    public void Draw(List<Vector3> waypoints) {
-        if (waypoints.Count < 2) return;
+	// ----- // DRAW // ----- //
 
-        List<Vector2> flat    = waypoints.Select(p => new Vector2(p.X, p.Z)).ToList();
-        List<Vector2> trimmed = TrimTip(flat, head_length);
+	public void Draw(List<Vector3> waypoints) {
+		if (waypoints.Count < 2) return;
 
-        verts.Clear();
-        uvs.Clear();
-        indices.Clear();
+		List<Vector2> flat    = waypoints.Select(p => new Vector2(p.X, p.Z)).ToList();
+		List<Vector2> trimmed = TrimTip(flat, head_length);
 
-        AppendShaft(trimmed);
-        AppendHead(trimmed[^1], flat[^1]);
+		verts.Clear();
+		uvs.Clear();
+		indices.Clear();
 
-        var arrays = new Godot.Collections.Array();
-        arrays.Resize((int)Mesh.ArrayType.Max);
-        arrays[(int)Mesh.ArrayType.Vertex] = verts.ToArray();
-        arrays[(int)Mesh.ArrayType.TexUV]  = uvs.ToArray();
-        arrays[(int)Mesh.ArrayType.Index]  = indices.ToArray();
+		AppendShaft(trimmed);
+		AppendHead(trimmed[^1], flat[^1]);
 
-        var array_mesh = new ArrayMesh();
-        array_mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
-        array_mesh.SurfaceSetMaterial(0, _mat);
-        Mesh = array_mesh;
-    }
+		var arrays = new Godot.Collections.Array();
+		arrays.Resize((int)Mesh.ArrayType.Max);
+		arrays[(int)Mesh.ArrayType.Vertex] = verts.ToArray();
+		arrays[(int)Mesh.ArrayType.TexUV]  = uvs.ToArray();
+		arrays[(int)Mesh.ArrayType.Index]  = indices.ToArray();
 
-    public void ClearArrow() => Mesh = null;
+		var array_mesh = new ArrayMesh();
+		array_mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+		array_mesh.SurfaceSetMaterial(0, _mat);
+		Mesh = array_mesh;
+	}
 
-    // ----- // HELPERS // ----- //
+	public void ClearArrow() => Mesh = null;
 
-    private Vector3 Lift(Vector2 p) => new Vector3(p.X, vertical_offset, p.Y);
+	// ----- // HELPERS // ----- //
 
-    private Vector2 Perp(Vector2 dir) => new Vector2(-dir.Y, dir.X);
+	private Vector3 Lift(Vector2 p) => new Vector3(p.X, vertical_offset, p.Y);
 
-    // ----- // MESH BUILDING // ----- //
+	private Vector2 Perp(Vector2 dir) => new Vector2(-dir.Y, dir.X);
 
-    private void AppendShaft(List<Vector2> polyline) {
-        float current_uv = 0f;
+	// ----- // MESH BUILDING // ----- //
 
-        for (int i = 0; i < polyline.Count - 1; i++) {
-            Vector2 a     = polyline[i];
-            Vector2 b     = polyline[i + 1];
-            Vector2 right = Perp((b - a).Normalized()) * width * 0.5f;
-            float   next_uv = current_uv + a.DistanceTo(b) / width;
+	private void AppendShaft(List<Vector2> polyline) {
+		float current_uv = 0f;
 
-            int _base = verts.Count;
-            verts.AddRange(new[] { Lift(a - right), Lift(a + right), Lift(b + right), Lift(b - right) });
-            uvs.AddRange(new[] {
-                new Vector2(0f, current_uv), new Vector2(1f, current_uv),
-                new Vector2(1f, next_uv),    new Vector2(0f, next_uv)
-            });
-            indices.AddRange(new[] { _base, _base + 1, _base + 2, _base, _base + 2, _base + 3 });
+		for (int i = 0; i < polyline.Count - 1; i++) {
+			Vector2 a = polyline[i];
+			Vector2 b = polyline[i + 1];
+			Vector2 right = Perp((b - a).Normalized()) * width * 0.5f;
+			float   next_uv = current_uv + a.DistanceTo(b) / width;
 
-            current_uv = next_uv;
-        }
-    }
+			int _base = verts.Count;
+			verts.AddRange(new[] { Lift(a - right), Lift(a + right), Lift(b + right), Lift(b - right) });
+			uvs.AddRange(new[] {
+				new Vector2(0f, current_uv), new Vector2(1f, current_uv),
+				new Vector2(1f, next_uv),    new Vector2(0f, next_uv)
+			});
+			indices.AddRange(new[] { _base, _base + 1, _base + 2, _base, _base + 2, _base + 3 });
 
-    private void AppendHead(Vector2 base_center, Vector2 tip) {
-        Vector2 right = Perp((tip - base_center).Normalized()) * (head_width * 0.5f);
+			current_uv = next_uv;
+		}
+	}
 
-        int _base = verts.Count;
-        verts.AddRange(new[] { Lift(tip), Lift(base_center - right), Lift(base_center + right) });
-        uvs.AddRange(new[] { new Vector2(0.5f, 0f), new Vector2(0f, 1f), new Vector2(1f, 1f) });
-        indices.AddRange(new[] { _base, _base + 1, _base + 2 });
-    }
+	private void AppendHead(Vector2 base_center, Vector2 tip) {
+		Vector2 right = Perp((tip - base_center).Normalized()) * (head_width * 0.5f);
 
-    private List<Vector2> TrimTip(List<Vector2> polyline, float trim_length) {
-        var   trimmed   = new List<Vector2>(polyline);
-        float remaining = trim_length;
+		int _base = verts.Count;
+		verts.AddRange(new[] { Lift(tip), Lift(base_center - right), Lift(base_center + right) });
+		uvs.AddRange(new[] { new Vector2(0.5f, 0f), new Vector2(0f, 1f), new Vector2(1f, 1f) });
+		indices.AddRange(new[] { _base, _base + 1, _base + 2 });
+	}
 
-        while (trimmed.Count > 1) {
-            float seg = trimmed[^1].DistanceTo(trimmed[^2]);
+	private List<Vector2> TrimTip(List<Vector2> polyline, float trim_length) {
+		var   trimmed   = new List<Vector2>(polyline);
+		float remaining = trim_length;
 
-            if (seg <= remaining) {
-                remaining -= seg;
-                trimmed.RemoveAt(trimmed.Count - 1);
-            }
-            else {
-                Vector2 dir = (trimmed[^1] - trimmed[^2]).Normalized();
-                trimmed[^1] -= dir * remaining;
-                break;
-            }
-        }
+		while (trimmed.Count > 1) {
+			float seg = trimmed[^1].DistanceTo(trimmed[^2]);
 
-        return trimmed;
-    }
+			if (seg <= remaining) {
+				remaining -= seg;
+				trimmed.RemoveAt(trimmed.Count - 1);
+			}
+			else {
+				Vector2 dir = (trimmed[^1] - trimmed[^2]).Normalized();
+				trimmed[^1] -= dir * remaining;
+				break;
+			}
+		}
+
+		return trimmed;
+	}
 }

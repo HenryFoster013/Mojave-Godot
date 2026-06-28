@@ -38,8 +38,8 @@ public abstract partial class LabelManager : Node {
         region_mode = false;
     }
 
-    protected virtual Vector3 WorldPosition(System.Numerics.Vector2 centroid_numerics) => WorldPosition(new Godot.Vector2(centroid_numerics.X, centroid_numerics.Y));
-    protected abstract Vector3 WorldPosition(Vector2 centroid);
+    public virtual Vector3 WorldPosition(System.Numerics.Vector2 centroid_numerics) => WorldPosition(new Godot.Vector2(centroid_numerics.X, centroid_numerics.Y));
+    public abstract Vector3 WorldPosition(Vector2 centroid);
 
     protected abstract void SetLabelText(Node labelNode, string text);
     protected abstract void AddLabelToHolder(Node holder, Node label, Vector3 world_pos, float scale);
