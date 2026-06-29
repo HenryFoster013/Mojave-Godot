@@ -60,6 +60,7 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 
 		AppendShaft(trimmed);
 		AppendHead(trimmed[^1], flat[^1]);
+		AverageQuads();
 
 		var arrays = new Godot.Collections.Array();
 		arrays.Resize((int)Mesh.ArrayType.Max);
@@ -132,5 +133,26 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 		}
 
 		return trimmed;
+	}
+
+	private void AverageQuads() {
+
+		int quad_count = (verts.Count - 3) / 4;
+
+		for (int i = 0; i < quad_count - 1; i++) {
+
+			int left_b = i * 4 + 3;
+			int right_b = i * 4 + 2;
+			int left_a_next = (i + 1) * 4 + 0;
+			int right_a_next = (i + 1) * 4 + 1;
+
+			Vector3 avg_left  = (verts[left_b]  + verts[left_a_next])  * 0.5f;
+			Vector3 avg_right = (verts[right_b] + verts[right_a_next]) * 0.5f;
+
+			verts[left_b] = avg_left;
+			verts[left_a_next] = avg_left;
+			verts[right_b] = avg_right;
+			verts[right_a_next] = avg_right;
+		}
 	}
 }

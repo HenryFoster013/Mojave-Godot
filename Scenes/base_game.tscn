@@ -839,8 +839,8 @@ albedo_color = Color(1, 0, 1, 1)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_52jsp"]
 _surfaces = [{
-"aabb": AABB(0, 0.1, -0.05, 2, 1e-05, 2.05),
-"attribute_data": PackedByteArray("AAAAAAAAAAAAAIA/AAAAAAAAgD8AACBBAAAAAAAAIEEAAAAAAAAgQQAAgD8AACBBAACAPwAAoEEAAAAAAACgQQAAAAAAAKBBAACAPwAAoEEAAIA/jJECQgAAAACMkQJCAAAAPwAAAAAAAAAAAACAPwAAgD8AAIA/"),
+"aabb": AABB(0, 0.025, -0.025, 2, 1e-05, 2.025),
+"attribute_data": PackedByteArray("AAAAAAAAAAAAAIA/AAAAAAAAgD8AAKBBAAAAAAAAoEEAAAAAAACgQQAAgD8AAKBBAACAPwAAIEIAAAAAAAAgQgAAAAAAACBCAACAPwAAIEIAAIA/jJGFQgAAAACMkYVCAAAAPwAAAAAAAAAAAACAPwAAgD8AAIA/"),
 "format": 34359742481,
 "index_count": 21,
 "index_data": PackedByteArray("AAABAAIAAAACAAMABAAFAAYABAAGAAcACAAJAAoACAAKAAsADAANAA4A"),
@@ -848,7 +848,7 @@ _surfaces = [{
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 15,
-"vertex_data": PackedByteArray("AAAAAM3MzD3NzEy9AAAAAM3MzD3NzEw9AACAP83MzD3NzEw9AACAP83MzD3NzEy9ZmaGP83MzD0AAAAAMzNzP83MzD0AAAAAMzNzP83MzD0AAIA/ZmaGP83MzD0AAIA/hoaEP83MzD308nY/9PJ2P83MzD2GhoQ/6OXtP83MzD308vY/9PL2P83MzD3o5e0/AAAAQM3MzD0AAABAenn7P83MzD1iX+k/Yl/pP83MzD16efs/")
+"vertex_data": PackedByteArray("AAAAAM3MzDzNzMy8AAAAAM3MzDzNzMw8AACAP83MzDzNzMw8AACAP83MzDzNzMy8MzODP83MzDwAAAAAmpl5P83MzDwAAAAAmpl5P83MzDwAAIA/MzODP83MzDwAAIA/Q0OCP83MzDx6eXs/enl7P83MzDxDQ4I/9PL2P83MzDx6efs/enn7P83MzDz08vY/AAAAQM3MzDwAAABAvbz9P83MzDyxr/Q/sa/0P83MzDy9vP0/")
 }]
 
 [node name="Base Game 3D" type="Node3D" unique_id=204547736]
@@ -1156,6 +1156,7 @@ theme_override_font_sizes/font_size = 14
 text = "Verb [0] Troops"
 horizontal_alignment = 1
 vertical_alignment = 1
+text_overrun_behavior = 3
 
 [node name="Subheader" type="Label" parent="UI/UI Container/Troop Slider/Slider Window/VBoxContainer2" unique_id=2119255777]
 visible = false
@@ -1302,12 +1303,12 @@ grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 3
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_7qrvb")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_lhtxr")
 theme_override_styles/hover = SubResource("StyleBoxFlat_rqd7l")
 shortcut = SubResource("Shortcut_ge24r")
-text = "SKIP"
+text = "CONTINUE"
 
 [node name="Turn Label" type="Control" parent="UI/UI Container" unique_id=1526128785]
 layout_mode = 1
@@ -1376,9 +1377,8 @@ color = Color(0, 0, 0, 1)
 [node name="Arrow Renderer" type="MeshInstance3D" parent="." unique_id=1305605108]
 mesh = SubResource("ArrayMesh_52jsp")
 script = ExtResource("18_lhtxr")
-width = 0.1
-head_length = 0.15
-head_width = 0.2
+vertical_offset = 0.03
+head_width = 0.12
 test_points = PackedVector3Array(0, 0, 0, 1, 0, 0, 1, 0, 1, 2, 0, 2)
 
 [connection signal="pressed" from="UI/UI Container/Troop Slider/Confirm Button" to="Game Master" method="TroopSliderTabConfirm"]

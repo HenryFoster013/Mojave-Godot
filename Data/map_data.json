@@ -2,8 +2,8 @@
   "metadata": {
     "name": "Mojave",
     "author": "Henry Foster",
-    "territoriesPerTroop": 4,
-    "initialBaseTroops": 35,
+    "territoriesPerTroop": 9,
+    "initialBaseTroops": 25,
     "initialTroopDeduction": 5
   },
   "regions": [
