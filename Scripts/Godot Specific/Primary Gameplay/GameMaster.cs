@@ -153,12 +153,11 @@ public partial class GameMaster : Node {
 				map_renderer.SelectTerritory(territory);
 				switch (sub_turn) {
 					case SubTurn.PLACE: SelectTerritoryPlace(territory); break;
-					case SubTurn.ATTACK: SelectTerritoryConquest(territory); break;
-					case SubTurn.FORTIFY: SelectTerritoryFortify(territory); break;
+					case SubTurn.ATTACK: ToggleActionTab(territory, ActivateConquestTab, DeactivateConquestTab); break;
+					case SubTurn.FORTIFY: ToggleActionTab(territory, ActivateTroopSliderTabFortify, DeactivateTroopSliderTab); break;
 				}
 				break;
 		}
-		GD.Print(sub_turn);
 	}
 
 	// Sub-Turn Selections //
@@ -171,18 +170,6 @@ public partial class GameMaster : Node {
 		else
 			ActivateTroopSliderTab(current_player.currency);
 		current_territory = territory;
-	}
-
-	private void SelectTerritoryConquest(Territory territory) { 
-		if (!local_turn) return;
-		MarkAdditonalTerritory(territory);
-		ToggleActionTab(ActivateConquestTab, DeactivateConquestTab);
-	}
-
-	private void SelectTerritoryFortify(Territory territory) { 
-		if (!local_turn) return;
-		MarkAdditonalTerritory(territory);
-		ToggleActionTab(ActivateTroopSliderTabFortify, DeactivateTroopSliderTab);
 	}
 
 	// Additional Territory Management //
@@ -333,7 +320,9 @@ public partial class GameMaster : Node {
 
 	// Generic Action Tabs //
 
-	private void ToggleActionTab(Action valid_action, Action invalid_action) {
+	private void ToggleActionTab(Territory territory, Action valid_action, Action invalid_action) {
+		if (!local_turn) return;
+		MarkAdditonalTerritory(territory);
 		if (current_territory != null && current_territory.Owner == current_player && current_territory.troop_count > 1)
 			valid_action();
 		else
@@ -462,24 +451,20 @@ public partial class GameMaster : Node {
 		}
 	}
 
-	private void LoadClaimants() {
+	// Load States //
+
+	private void PrimitiveReset() {
 		ClearTerritories();
 		UpdateAllUI();
+		map_renderer.SelectTerritory(null);
 		map_renderer.DisablePlayerHighlight();
-		map_renderer.SelectTerritory(null);
 	}
 
-	private void LoadInitialPlacement(){
-		ClearTerritories();
-		UpdateAllUI();
-		map_renderer.SelectTerritory(null);
-	}
+	private void LoadClaimants() => PrimitiveReset();
+	private void LoadInitialPlacement() => PrimitiveReset();
+	private void LoadPrimary() => PrimitiveReset();
 
-	private void LoadPrimary() {
-		ClearTerritories();
-		UpdateAllUI();
-		map_renderer.SelectTerritory(null);
-	}
+	// State Turns //
 
 	private void ClaimantsTurn() { }
 

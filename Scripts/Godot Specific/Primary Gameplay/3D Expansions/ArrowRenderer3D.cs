@@ -51,16 +51,16 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 	public void Draw(List<Vector3> waypoints) {
 		if (waypoints.Count < 2) return;
 
-		List<Vector2> flat    = waypoints.Select(p => new Vector2(p.X, p.Z)).ToList();
-		List<Vector2> trimmed = TrimTip(flat, head_length);
-
 		verts.Clear();
 		uvs.Clear();
 		indices.Clear();
 
-		AppendShaft(trimmed);
-		AppendHead(trimmed[^1], flat[^1]);
-		AverageQuads();
+		List<Vector2> flattened_points = waypoints.Select(p => new Vector2(p.X, p.Z)).ToList();
+		List<Vector2> headless_points = TrimTip(flattened_points, head_length);
+
+		AppendShafts(flattened_points);
+		MergeShafts();
+		AppendHead(headless_points[^1], flattened_points[^1]);
 
 		var arrays = new Godot.Collections.Array();
 		arrays.Resize((int)Mesh.ArrayType.Max);
@@ -78,38 +78,87 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 
 	// ----- // HELPERS // ----- //
 
-	private Vector3 Lift(Vector2 p) => new Vector3(p.X, vertical_offset, p.Y);
+	private Vector3 ThreeDimensional(Vector2 p) => new Vector3(p.X, vertical_offset, p.Y);
+	private Vector2 TwoDimensional(Vector3 p) => new Vector2(p.X p.Z);
 
-	private Vector2 Perp(Vector2 dir) => new Vector2(-dir.Y, dir.X);
+	private Vector2 PerpendicularTo(Vector2 dir) => new Vector2(-dir.Y, dir.X);
 
 	// ----- // MESH BUILDING // ----- //
 
-	private void AppendShaft(List<Vector2> polyline) {
+	private void MergeShafts(List<Vector2> waypoints) {
+
+		if (waypoints.Count < 3) return; // Needs more than one quad
+
+		int quad_count = verts.Count / 4;
+
+		GD.Print($"Quad count: {quad_count}");
+
+		// a/b are the two end verts of the first quad and x/y are the two start verts of the connecting quad
+		int a_index = -1; Vector2 a = new();
+		int b_index = -1; Vector2 b = new();
+		int x_index = -1; Vector2 x = new();
+		int y_index = -1; Vector2 y = new();
+
+		// a_x is the vector between a and x and normal_vector is the direction vector of the quad
+		Vector2 a_x = new();
+		Vector2 normal_vector = new();
+
+		for (int quad = 0; quad < quad_count - 1; quad++) {
+
+			a_index = quad * 4 + 2; a = TwoDimensional(verts[a_index]);
+			b_index = quad * 4 + 3; b = TwoDimensional(verts[a_index]);
+			x_index = quad * 4 + 4; x = TwoDimensional(verts[a_index]);
+			y_index = quad * 4 + 5; y = TwoDimensional(verts[a_index]);
+
+			GD.Print($"Quads {quad} and {quad + 1} combine edges: ({a}, {b}) and ({x}, {y})");
+
+			normal_vector = (waypoints[quad + 1] - waypoints[quad]).Normalized();
+			a_x = x - a;
+
+			if(a_x == 0) return; // Perfectly aligned, edge case, just exit
+
+			// There is a gap between a and x
+			if (Vector2.Dot(a_x, normal_vector) > 0) {
+				JoinAtIntersection(b_index, y_index);
+				AddTriangle(b_index, a_index, x_index);
+			}
+
+			// There is an overlap between a and x
+			else { 
+				JoinAtIntersection(a_index, x_index);
+				AddTriangle(a_index, b_index, y_index);
+			}
+		}
+	}
+
+	private void AppendShafts(List<Vector2> polyline) {
+
 		float current_uv = 0f;
 
 		for (int i = 0; i < polyline.Count - 1; i++) {
 			Vector2 a = polyline[i];
 			Vector2 b = polyline[i + 1];
-			Vector2 right = Perp((b - a).Normalized()) * width * 0.5f;
+			Vector2 right = PerpendicularTo((b - a).Normalized()) * width * 0.5f;
 			float   next_uv = current_uv + a.DistanceTo(b) / width;
 
 			int _base = verts.Count;
-			verts.AddRange(new[] { Lift(a - right), Lift(a + right), Lift(b + right), Lift(b - right) });
-			uvs.AddRange(new[] {
-				new Vector2(0f, current_uv), new Vector2(1f, current_uv),
-				new Vector2(1f, next_uv),    new Vector2(0f, next_uv)
-			});
-			indices.AddRange(new[] { _base, _base + 1, _base + 2, _base, _base + 2, _base + 3 });
+
+			verts.AddRange(new[] { ThreeDimensional(a - right), ThreeDimensional(a + right), ThreeDimensional(b + right), ThreeDimensional(b - right) });
+
+			uvs.AddRange(new[] { new Vector2(0f, current_uv), new Vector2(1f, current_uv),
+								 new Vector2(1f, next_uv),    new Vector2(0f, next_uv)});
+
+			indices.AddRange(new[] { _base, _base + 1, _base + 2, 
+									 _base, _base + 2, _base + 3 });
 
 			current_uv = next_uv;
 		}
 	}
 
 	private void AppendHead(Vector2 base_center, Vector2 tip) {
-		Vector2 right = Perp((tip - base_center).Normalized()) * (head_width * 0.5f);
-
+		Vector2 right = PerpendicularTo((tip - base_center).Normalized()) * (head_width * 0.5f);
 		int _base = verts.Count;
-		verts.AddRange(new[] { Lift(tip), Lift(base_center - right), Lift(base_center + right) });
+		verts.AddRange(new[] { ThreeDimensional(tip), ThreeDimensional(base_center - right), ThreeDimensional(base_center + right) });
 		uvs.AddRange(new[] { new Vector2(0.5f, 0f), new Vector2(0f, 1f), new Vector2(1f, 1f) });
 		indices.AddRange(new[] { _base, _base + 1, _base + 2 });
 	}
@@ -133,56 +182,5 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 		}
 
 		return trimmed;
-	}
-
-	private void AverageQuads() {
-
-		//  Loop through each (ignoring opening and head)
-
-		int quad_count = (verts.Count - 3) / 4;
-		for (int i = 0; i <= quad_count - 2; i++) {
-
-			int left_b = i * 4 + 3;
-			int right_b = i * 4 + 2;
-			int left_a_next = (i + 1) * 4 + 0;
-			int right_a_next = (i + 1) * 4 + 1;
-
-			// Average end sides like in blender, check if they fit better crossed
-
-			float straight_distance = verts[left_b].DistanceTo(verts[left_a_next]) + verts[right_b].DistanceTo(verts[right_a_next]);
-			float crossed_distance  = verts[left_b].DistanceTo(verts[right_a_next]) + verts[right_b].DistanceTo(verts[left_a_next]);
-
-			Vector3 avg_left, avg_right;
-			if (straight_distance <= crossed_distance) {
-				avg_left  = (verts[left_b] + verts[left_a_next])  * 0.5f;
-				avg_right = (verts[right_b] + verts[right_a_next]) * 0.5f;
-			} else {
-				avg_left  = (verts[left_b] + verts[right_a_next]) * 0.5f;
-				avg_right = (verts[right_b] + verts[left_a_next])  * 0.5f;
-				(left_a_next, right_a_next) = (right_a_next, left_a_next);
-			}
-
-			// Even out the width across the seam (doesn't look quite right still)
-
-			/*
-
-			Vector3 seam_vec = avg_right - avg_left;
-			float seam_dist = seam_vec.Length();
-			if (seam_dist > 0.0001f) {
-				Vector3 seam_dir = seam_vec / seam_dist;
-				Vector3 mid = (avg_left + avg_right) * 0.5f;
-				avg_left = mid - seam_dir * (width * 0.5f);
-				avg_right = mid + seam_dir * (width * 0.5f);
-			}
-
-			*/
-
-			// Apply changes
-
-			verts[left_b] = avg_left;
-			verts[left_a_next] = avg_left;
-			verts[right_b] = avg_right;
-			verts[right_a_next] = avg_right;
-		}
 	}
 }
