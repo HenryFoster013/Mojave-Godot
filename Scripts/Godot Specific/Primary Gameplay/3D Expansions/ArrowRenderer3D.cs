@@ -137,17 +137,47 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 
 	private void AverageQuads() {
 
-		int quad_count = (verts.Count - 3) / 4;
+		//  Loop through each (ignoring opening and head)
 
-		for (int i = 0; i < quad_count - 1; i++) {
+		int quad_count = (verts.Count - 3) / 4;
+		for (int i = 0; i <= quad_count - 2; i++) {
 
 			int left_b = i * 4 + 3;
 			int right_b = i * 4 + 2;
 			int left_a_next = (i + 1) * 4 + 0;
 			int right_a_next = (i + 1) * 4 + 1;
 
-			Vector3 avg_left  = (verts[left_b]  + verts[left_a_next])  * 0.5f;
-			Vector3 avg_right = (verts[right_b] + verts[right_a_next]) * 0.5f;
+			// Average end sides like in blender, check if they fit better crossed
+
+			float straight_distance = verts[left_b].DistanceTo(verts[left_a_next]) + verts[right_b].DistanceTo(verts[right_a_next]);
+			float crossed_distance  = verts[left_b].DistanceTo(verts[right_a_next]) + verts[right_b].DistanceTo(verts[left_a_next]);
+
+			Vector3 avg_left, avg_right;
+			if (straight_distance <= crossed_distance) {
+				avg_left  = (verts[left_b] + verts[left_a_next])  * 0.5f;
+				avg_right = (verts[right_b] + verts[right_a_next]) * 0.5f;
+			} else {
+				avg_left  = (verts[left_b] + verts[right_a_next]) * 0.5f;
+				avg_right = (verts[right_b] + verts[left_a_next])  * 0.5f;
+				(left_a_next, right_a_next) = (right_a_next, left_a_next);
+			}
+
+			// Even out the width across the seam (doesn't look quite right still)
+
+			/*
+
+			Vector3 seam_vec = avg_right - avg_left;
+			float seam_dist = seam_vec.Length();
+			if (seam_dist > 0.0001f) {
+				Vector3 seam_dir = seam_vec / seam_dist;
+				Vector3 mid = (avg_left + avg_right) * 0.5f;
+				avg_left = mid - seam_dir * (width * 0.5f);
+				avg_right = mid + seam_dir * (width * 0.5f);
+			}
+
+			*/
+
+			// Apply changes
 
 			verts[left_b] = avg_left;
 			verts[left_a_next] = avg_left;

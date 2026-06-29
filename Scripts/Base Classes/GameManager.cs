@@ -511,6 +511,9 @@ public class GameManager {
 
 	private int CalculatePlayerProfit(Player player) {
 
+		ErrorWrapper($"Territories per troop: {territories_per_troop}");
+		ErrorWrapper($"Player territory count: {GetPlayerTerritories(player).Count}");
+
 		int result = Math.Max(GetPlayerTerritories(player).Count / territories_per_troop, 3);
 
 		foreach (Region region in regions.Values) {

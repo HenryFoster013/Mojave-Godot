@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static RiskUtils;
@@ -133,10 +134,17 @@ public partial class GameMaster : Node {
 
 	// ----- // SELECTION // ----- //
 
-	private void SelectAdditionalTerritory(Territory territory) {
-		additional_territory = territory;
+	private void ClearTerritories() {
+		current_territory = null;
+		additional_territory = null;
 	}
 
+	private bool ResetAdditonalSelection(Territory territory) {
+		current_territory = territory;
+		additional_territory = null;
+		return false;
+	}
+	
 	public void SelectTerritory(Territory territory) {
 		switch(game_state){
 			case State.CLAIMANTS: manager.SpeakClaim(territory); break;
@@ -153,6 +161,8 @@ public partial class GameMaster : Node {
 		GD.Print(sub_turn);
 	}
 
+	// Sub-Turn Selections //
+
 	private void SelectTerritoryPlace(Territory territory) { 
 		if(!local_turn || territory == current_territory)
 			return;
@@ -164,90 +174,67 @@ public partial class GameMaster : Node {
 	}
 
 	private void SelectTerritoryConquest(Territory territory) { 
-		if (!local_turn || InvalidAdditonalCurrentTerritoryClick(territory))
-			return;
-		if (AdditionalTerritoryClicks(territory))
-			ActivateConquestTab();
-		else
-			DeactivateConquestTab();
+		if (!local_turn) return;
+		MarkAdditonalTerritory(territory);
+		ToggleActionTab(ActivateConquestTab, DeactivateConquestTab);
 	}
 
 	private void SelectTerritoryFortify(Territory territory) { 
-		if (!local_turn || InvalidAdditonalCurrentTerritoryClick(territory))
-			return;
-		if (AdditionalTerritoryClicks(territory))
-			ActivateTroopSliderTabFortify();
-		else
-			DeactivateTroopSliderTab();
+		if (!local_turn) return;
+		MarkAdditonalTerritory(territory);
+		ToggleActionTab(ActivateTroopSliderTabFortify, DeactivateTroopSliderTab);
 	}
 
-	private bool AdditionalTerritoryClicks(Territory territory) {
+	// Additional Territory Management //
 
+	private void MarkAdditonalTerritory(Territory territory) {
 		if (territory == null) {
-			additional_territory = null;
-			SelectAdditionalTerritory(null);
-			current_territory = null;
-			return false;
+			ClearTerritories();
+			return;
 		}
-
-		if (current_territory == null || territory == current_territory)
-			return ResetAdditonalSelection(territory);
-
+		if (current_territory == null || territory == current_territory) {
+			ResetAdditonalSelection(territory);
+			return;
+		}
 		switch (sub_turn) {
 			case SubTurn.ATTACK: 
-				return AdditionalAttackClicks(territory);
+				AdditionalAttackClicks(territory);
+				return;
 			case SubTurn.FORTIFY: 
-				return AdditionalFortifyClicks(territory);
+				AdditionalFortifyClicks(territory);
+				return;
 			default: break;
 		}
-
-		return false;
 	}
 
-	private bool AdditionalFortifyClicks(Territory territory) {
-
-		if (territory.Owner != current_player)
-			return ResetAdditonalSelection(territory);
-		
-		if (current_territory.Owner != current_player)
-			return ResetAdditonalSelection(territory);
-		
-		if (current_territory.troop_count < 2)
-			return ResetAdditonalSelection(territory);
-
+	private void AdditionalFortifyClicks(Territory territory) {
+		if (territory.Owner != current_player || current_territory.Owner != current_player || current_territory.troop_count < 2) {
+			ResetAdditonalSelection(territory);
+			return;
+		}
 		List<Territory> valid_additionals =  manager.CalculateRoutesFromTerritory(current_territory).Keys.ToList();
 		if (valid_additionals.Contains(territory)) {
-			SelectAdditionalTerritory(territory);
-			return true;	
+			additional_territory = territory;
+			return;	
 		}
-		
-		return ResetAdditonalSelection(territory);
+		ResetAdditonalSelection(territory);
 	}
 
-	private bool AdditionalAttackClicks(Territory territory) {
-		
-		if (territory.Owner == current_player)
-			return ResetAdditonalSelection(territory);
-
+	private void AdditionalAttackClicks(Territory territory) {
+		if (territory.Owner == current_player) {
+			ResetAdditonalSelection(territory);
+ 			return;
+		}
 		if (current_territory.neighbours.Contains(territory)) {
-
-			if(current_territory.troop_count < 2)
-				return ResetAdditonalSelection(territory);
-
-			SelectAdditionalTerritory(territory);
-			return true;
+			if(current_territory.troop_count < 2) {
+				ResetAdditonalSelection(territory);
+				return;
+			}
+			additional_territory = territory;
+			return;
 		}
-		
-		return ResetAdditonalSelection(territory);
+		ResetAdditonalSelection(territory);
 	}
-
-	private bool ResetAdditonalSelection(Territory territory) {
-		current_territory = territory;
-		SelectAdditionalTerritory(null);
-		return false;
-	}
-
-	private bool InvalidAdditonalCurrentTerritoryClick(Territory territory) => current_territory != null && territory == additional_territory;
 
 	// ----- // UI // ----- //
 
@@ -344,6 +331,15 @@ public partial class GameMaster : Node {
 		}
 	}
 
+	// Generic Action Tabs //
+
+	private void ToggleActionTab(Action valid_action, Action invalid_action) {
+		if (current_territory != null && current_territory.Owner == current_player && current_territory.troop_count > 1)
+			valid_action();
+		else
+			invalid_action();
+	}
+
 	// Troop Slider //
 
 	private void SetupTroopSliderTab() {
@@ -365,11 +361,17 @@ public partial class GameMaster : Node {
 	}
 
 	public void ActivateTroopSliderTabFortify() {
+
 		map_renderer.ClearArrow();
-		if (current_territory == null)
+		if (current_territory == null || current_territory.troop_count < 2 || current_territory.Owner != current_player || !local_turn) {
+			DeactivateTroopSliderTab();
 			return;
+		}
+
 		if (additional_territory == null) {
+			troop_slider_tab.Visible = true;
 			troop_slider_subheader.Visible = true;
+			troop_slider_subheader.Text = "Select a second territory to fortify.";
 			troop_slider.Visible = false;
 			troop_slider_header.Text = $"{current_territory.name} [{current_territory.troop_count}] -> ...";
 		}
@@ -404,11 +406,14 @@ public partial class GameMaster : Node {
 	}
 
 	public void ActivateConquestTab() {
+
 		map_renderer.ClearArrow();
-		if (current_territory == null || current_territory.Owner != current_player || !local_turn) {
+
+		if (current_territory == null || current_territory.Owner != current_player || !local_turn || current_territory.troop_count < 2) {
 			DeactivateConquestTab();
 			return;
 		}
+		
 		conquest_tab.Visible = true;
 		bool has_additional = additional_territory != null;
 		conquest_subheader.Visible = !has_additional;
@@ -444,8 +449,7 @@ public partial class GameMaster : Node {
 		if (game_state != State.PRIMARY && sub_turn != SubTurn.NULL)
 			return;
 
-		current_territory = null;
-		SelectAdditionalTerritory(null);
+		ClearTerritories();
 		UpdateAllUI();
 
 		switch (sub_turn) {
@@ -459,25 +463,22 @@ public partial class GameMaster : Node {
 	}
 
 	private void LoadClaimants() {
+		ClearTerritories();
 		UpdateAllUI();
 		map_renderer.DisablePlayerHighlight();
-		current_territory = null;
-		SelectAdditionalTerritory(null);
 		map_renderer.SelectTerritory(null);
 	}
 
 	private void LoadInitialPlacement(){
+		ClearTerritories();
 		UpdateAllUI();
-		current_territory = null;
-		SelectAdditionalTerritory(null);
 		map_renderer.SelectTerritory(null);
 	}
 
 	private void LoadPrimary() {
+		ClearTerritories();
 		UpdateAllUI();
-		current_territory = null;
 		map_renderer.SelectTerritory(null);
-		SelectAdditionalTerritory(null);
 	}
 
 	private void ClaimantsTurn() { }
