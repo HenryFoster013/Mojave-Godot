@@ -482,6 +482,10 @@ public class GameManager {
 	public Dictionary<Territory, List<Territory>> CalculateRoutesFromTerritory(Territory starting_territory) {
 
 		Dictionary<Territory, List<Territory>> routes = new();
+
+		if (starting_territory == null)
+			return null;
+
 		routes[starting_territory] = new List<Territory> { starting_territory };
 		Queue<Territory> search_queue = new();
 		search_queue.Enqueue(starting_territory);

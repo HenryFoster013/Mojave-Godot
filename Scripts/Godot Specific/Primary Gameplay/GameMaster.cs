@@ -190,6 +190,9 @@ public partial class GameMaster : Node {
 			return false;
 		}
 
+		if (current_territory == null || territory == current_territory)
+			return ResetAdditonalSelection(territory);
+
 		switch (sub_turn) {
 			case SubTurn.ATTACK: 
 				return AdditionalAttackClicks(territory);
@@ -203,45 +206,44 @@ public partial class GameMaster : Node {
 
 	private bool AdditionalFortifyClicks(Territory territory) {
 
-		if (territory.Owner != current_player) {
-			current_territory = territory;
-			SelectAdditionalTerritory(null);
-			return false;
-		}
+		if (territory.Owner != current_player)
+			return ResetAdditonalSelection(territory);
+		
+		if (current_territory.Owner != current_player)
+			return ResetAdditonalSelection(territory);
+		
+		if (current_territory.troop_count < 2)
+			return ResetAdditonalSelection(territory);
 
 		List<Territory> valid_additionals =  manager.CalculateRoutesFromTerritory(current_territory).Keys.ToList();
 		if (valid_additionals.Contains(territory)) {
 			SelectAdditionalTerritory(territory);
-			return true;
+			return true;	
 		}
-
-		current_territory = territory;
-		SelectAdditionalTerritory(null);
 		
-		return false;
+		return ResetAdditonalSelection(territory);
 	}
 
 	private bool AdditionalAttackClicks(Territory territory) {
 		
-		if (territory.Owner == current_player) {
-			current_territory = territory;
-			SelectAdditionalTerritory(null);
-			return true;
-		}
-
-		if (current_territory == null || territory == current_territory) {
-			SelectAdditionalTerritory(null);
-			return false;
-		}
+		if (territory.Owner == current_player)
+			return ResetAdditonalSelection(territory);
 
 		if (current_territory.neighbours.Contains(territory)) {
+
+			if(current_territory.troop_count < 2)
+				return ResetAdditonalSelection(territory);
+
 			SelectAdditionalTerritory(territory);
 			return true;
 		}
 		
+		return ResetAdditonalSelection(territory);
+	}
+
+	private bool ResetAdditonalSelection(Territory territory) {
 		current_territory = territory;
 		SelectAdditionalTerritory(null);
-		
 		return false;
 	}
 
@@ -502,6 +504,8 @@ public partial class GameMaster : Node {
 	}
 
 	public void SkipButton() {
+		DeactivateConquestTab();
+		DeactivateTroopSliderTab();
 		manager.SpeakSkip();
 	}
 
