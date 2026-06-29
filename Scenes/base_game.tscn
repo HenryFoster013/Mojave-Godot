@@ -586,7 +586,7 @@ shadow_mesh = SubResource("ArrayMesh_ek0ls")
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_color = Color(1, 0, 1, 1)
+albedo_color = Color(0, 0, 0, 0.9137255)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_52jsp"]
 _surfaces = [{
@@ -598,7 +598,7 @@ _surfaces = [{
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 15,
-"vertex_data": PackedByteArray("C9Ozu4/C9TwNzse8C9OzO4/C9TwNzsc8Wph+P4/C9TwoYH++8bN6P4/C9TyBZEe+7imDP4/C9Tx9PWq+8bN6P4/C9TyBZEe+lb6QP4/C9Tx66vA+jeqKP4/C9TzG9QA/lb6QP4/C9Tx66vA+L6+OP4/C9TzrSAY/ddOyP4/C9TwGs9Y+3Qi0P4/C9Ty01u8+AADAP4/C9Tyamdk+3/qxP4/C9TwNGsU+c+G0P4/C9TzWtwA/")
+"vertex_data": PackedByteArray("C9Ozu4/C9TwNzse8C9OzO4/C9TwNzsc8Wph+P4/C9TwoYH++8bN6P4/C9TyBZEe+7imDP4/C9Tx9PWq+8bN6P4/C9TyBZEe+lb6QP4/C9Tx26vA+jeqKP4/C9TzG9QA/lb6QP4/C9Tx26vA+L6+OP4/C9TzrSAY/B1e1P4/C9Tz4w9Q+b4y2P4/C9Tym5+0+AADAP4/C9Tyamdk+Yp20P4/C9TyQrsU+FEa3P4/C9TwO/fw+")
 }]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwtvl"]
@@ -1022,8 +1022,10 @@ surface_material_override/0 = ExtResource("12_lkwq1")
 mesh = SubResource("ArrayMesh_52jsp")
 script = ExtResource("18_lhtxr")
 vertical_offset = 0.03
-head_width = 0.12
+head_length = 0.08
+head_width = 0.11
 test_points = PackedVector3Array(0, 0, 0, 1, 0, -0.225, 1.11, 0, 0.5, 1.5, 0, 0.425)
+test_colour = Color(0, 0, 0, 0.9137255)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1547894410]
 layer = 2
