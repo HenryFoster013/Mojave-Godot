@@ -582,6 +582,25 @@ shadow_mesh = SubResource("ArrayMesh_ek0ls")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_eifla"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lhtxr"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_52jsp"]
+_surfaces = [{
+"aabb": AABB(-0.0054878048, 0.03, -0.24939024, 1.5054878, 1e-05, 0.7739404),
+"format": 34359742465,
+"index_count": 27,
+"index_data": PackedByteArray("AAABAAIAAQACAAMABAAFAAYABQAGAAcACAAJAAoACQAKAAsAAwACAAQABgAHAAkADAANAA4A"),
+"material": SubResource("StandardMaterial3D_lhtxr"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 15,
+"vertex_data": PackedByteArray("C9Ozu4/C9TwNzse8C9OzO4/C9TwNzsc8Wph+P4/C9TwoYH++8bN6P4/C9TyBZEe+7imDP4/C9Tx9PWq+8bN6P4/C9TyBZEe+lb6QP4/C9Tx66vA+jeqKP4/C9TzG9QA/lb6QP4/C9Tx66vA+L6+OP4/C9TzrSAY/ddOyP4/C9TwGs9Y+3Qi0P4/C9Ty01u8+AADAP4/C9Tyamdk+3/qxP4/C9TwNGsU+c+G0P4/C9TzWtwA/")
+}]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwtvl"]
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -831,26 +850,6 @@ corner_detail = 5
 shadow_color = Color(1, 1, 1, 0.45490196)
 shadow_size = 8
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lhtxr"]
-transparency = 1
-cull_mode = 2
-shading_mode = 0
-albedo_color = Color(1, 0, 1, 1)
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_52jsp"]
-_surfaces = [{
-"aabb": AABB(0, 0.03, -0.025, 1.025, 1e-05, 0.66422325),
-"attribute_data": PackedByteArray("AAAAAAAAAAAAAIA/AAAAAAAAgD8AAKBBAAAAAAAAoEEAAAAAAACgQQAAgD8AAKBBAACAPwAA8EEAAAAAAADwQQAAAAAAAPBBAACAPwAA8EEAAIA/y8oYQgAAAADLyhhCAAAAPwAAAAAAAAAAAACAPwAAgD8AAIA/"),
-"format": 34359742481,
-"index_count": 21,
-"index_data": PackedByteArray("AAABAAIAAAACAAMABAAFAAYABAAGAAcACAAJAAoACAAKAAsADAANAA4A"),
-"material": SubResource("StandardMaterial3D_lhtxr"),
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 15,
-"vertex_data": PackedByteArray("AAAAAI/C9TzNzMy8AAAAAI/C9TzNzMw8AACAP4/C9TzNzMw8AACAP4/C9TzNzMy8MzODP4/C9TwAAAAAmpl5P4/C9TwAAAAAmpl5P4/C9TwAAAA/MzODP4/C9TwAAAA/qaCAP4/C9TyVRgY/r75+P4/C9TzVcvM+BNkXP4/C9TzBTQ4/plsaP4/C9Tzr2ho/AAAAP4/C9TyamRk/fh0cP4/C9TwjpCM/LBcWP4/C9TyJhAU/")
-}]
-
 [node name="Base Game 3D" type="Node3D" unique_id=204547736]
 
 [node name="World Environment" type="WorldEnvironment" parent="." unique_id=505609779]
@@ -889,7 +888,7 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2
 script = ExtResource("3_7jdad")
 mesh = NodePath("Board")
 map_world_size = Vector2(5, 5)
-arrow_renderer = NodePath("../Arrow Renderer")
+arrow_renderer = NodePath("Arrow Renderer")
 noise_material = ExtResource("7_rqd7l")
 noise_gen = ExtResource("8_wditk")
 prop_holder = NodePath("Board/Meshes/Props")
@@ -997,7 +996,7 @@ mesh = SubResource("ArrayMesh_v851q")
 surface_material_override/0 = ExtResource("4_7qrvb")
 
 [node name="The Fort" type="MeshInstance3D" parent="Map Renderer/Board/Meshes/Props" unique_id=1035528332]
-transform = Transform3D(-4.338489, -3.3804612, -8.0596476e-07, 3.3804612, -4.338489, -1.2747888e-06, 1.4776457e-07, -1.5009435e-06, 5.5, 0.33710706, 0.07331981, 3.2014214e-09)
+transform = Transform3D(-4.3384886, -3.380461, -1.0257734e-06, 3.380461, -4.3384886, -1.6224585e-06, 1.4776447e-07, -1.5009435e-06, 7, 0.33710706, 0.07331981, 3.2014214e-09)
 mesh = SubResource("ArrayMesh_bno1a")
 surface_material_override/0 = ExtResource("4_7qrvb")
 
@@ -1019,7 +1018,15 @@ material_override = ExtResource("12_lkwq1")
 mesh = SubResource("QuadMesh_gg4i8")
 surface_material_override/0 = ExtResource("12_lkwq1")
 
+[node name="Arrow Renderer" type="MeshInstance3D" parent="Map Renderer" unique_id=1305605108]
+mesh = SubResource("ArrayMesh_52jsp")
+script = ExtResource("18_lhtxr")
+vertical_offset = 0.03
+head_width = 0.12
+test_points = PackedVector3Array(0, 0, 0, 1, 0, -0.225, 1.11, 0, 0.5, 1.5, 0, 0.425)
+
 [node name="UI" type="CanvasLayer" parent="." unique_id=1547894410]
+layer = 2
 
 [node name="UI Container" type="Control" parent="UI" unique_id=1117925593]
 layout_mode = 3
@@ -1372,13 +1379,6 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="BG" parent="." unique_id=2112562202 instance=ExtResource("14_745nf")]
-
-[node name="Arrow Renderer" type="MeshInstance3D" parent="." unique_id=1305605108]
-mesh = SubResource("ArrayMesh_52jsp")
-script = ExtResource("18_lhtxr")
-vertical_offset = 0.03
-head_width = 0.12
-test_points = PackedVector3Array(0, 0, 0, 1, 0, 0, 1, 0, 0.5, 0.5, 0, 0.6)
 
 [connection signal="pressed" from="UI/UI Container/Troop Slider/Confirm Button" to="Game Master" method="TroopSliderTabConfirm"]
 [connection signal="pressed" from="UI/UI Container/Skip Button" to="Game Master" method="SkipButton"]

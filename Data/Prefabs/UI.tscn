@@ -134,6 +134,7 @@ shadow_color = Color(1, 1, 1, 0.45490196)
 shadow_size = 8
 
 [node name="UI" type="CanvasLayer" unique_id=1547894410]
+layer = 2
 
 [node name="UI Container" type="Control" parent="." unique_id=1117925593]
 layout_mode = 3
