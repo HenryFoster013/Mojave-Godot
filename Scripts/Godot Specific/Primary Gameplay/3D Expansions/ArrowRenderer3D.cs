@@ -18,11 +18,10 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 	[Export] public Color test_colour = new Color(1.0f, 0f, 1f, 1.0f);
 
 	[ExportToolButton("Draw")] public Callable DrawButton => Callable.From(TestDraw);
-	[ExportToolButton("Clear")] public Callable ClearButton => Callable.From(TestDraw);
+	[ExportToolButton("Clear")] public Callable ClearButton => Callable.From(ClearArrow);
 
 	private StandardMaterial3D _mat;
 	private List<Vector3> verts = new();
-	private List<Vector2> uvs = new();
 	private List<int> indices = new();
 
 	// ----- // START // ----- //
@@ -52,20 +51,19 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 		if (waypoints.Count < 2) return;
 
 		verts.Clear();
-		uvs.Clear();
 		indices.Clear();
 
 		List<Vector2> flattened_points = waypoints.Select(p => new Vector2(p.X, p.Z)).ToList();
 		List<Vector2> headless_points = TrimTip(flattened_points, head_length);
 
-		AppendShafts(flattened_points);
-		MergeShafts();
+		AppendShafts(headless_points);
+		if(waypoints.Count > 2) // Needs more than one quad
+			MergeShafts();
 		AppendHead(headless_points[^1], flattened_points[^1]);
 
 		var arrays = new Godot.Collections.Array();
 		arrays.Resize((int)Mesh.ArrayType.Max);
 		arrays[(int)Mesh.ArrayType.Vertex] = verts.ToArray();
-		arrays[(int)Mesh.ArrayType.TexUV]  = uvs.ToArray();
 		arrays[(int)Mesh.ArrayType.Index]  = indices.ToArray();
 
 		var array_mesh = new ArrayMesh();
@@ -79,89 +77,98 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 	// ----- // HELPERS // ----- //
 
 	private Vector3 ThreeDimensional(Vector2 p) => new Vector3(p.X, vertical_offset, p.Y);
-	private Vector2 TwoDimensional(Vector3 p) => new Vector2(p.X p.Z);
-
+	private Vector2 TwoDimensional(Vector3 p) => new Vector2(p.X, p.Z);
 	private Vector2 PerpendicularTo(Vector2 dir) => new Vector2(-dir.Y, dir.X);
 
 	// ----- // MESH BUILDING // ----- //
 
-	private void MergeShafts(List<Vector2> waypoints) {
+	private void DrawTriangle(int index_a, int index_b, int index_c) {
+		indices.AddRange(new[] { index_a, index_b, index_c });
+	}
 
-		if (waypoints.Count < 3) return; // Needs more than one quad
+	// First iteration, adding the quad shafts //
+
+	private void AppendShafts(List<Vector2> polyline) {
+
+		for (int i = 0; i < polyline.Count - 1; i++) {
+			Vector2 a = polyline[i];
+			Vector2 b = polyline[i + 1];
+			Vector2 right = PerpendicularTo((b - a).Normalized()) * width * 0.5f;
+
+			int _base = verts.Count;
+
+			verts.AddRange(new[] { ThreeDimensional(a - right), ThreeDimensional(a + right), ThreeDimensional(b - right), ThreeDimensional(b + right) });
+
+			DrawTriangle(_base, _base + 1, _base + 2);
+			DrawTriangle(_base + 1, _base + 2, _base + 3);
+		}
+	}
+
+	// Second iteration, connecting the shafts //
+
+	private void MergeShafts() {
 
 		int quad_count = verts.Count / 4;
 
 		GD.Print($"Quad count: {quad_count}");
 
 		// a/b are the two end verts of the first quad and x/y are the two start verts of the connecting quad
-		int a_index = -1; Vector2 a = new();
-		int b_index = -1; Vector2 b = new();
-		int x_index = -1; Vector2 x = new();
-		int y_index = -1; Vector2 y = new();
-
-		// a_x is the vector between a and x and normal_vector is the direction vector of the quad
-		Vector2 a_x = new();
-		Vector2 normal_vector = new();
+		int a_index = -1;
+		int b_index = -1;
+		int x_index = -1;
+		int y_index = -1;
 
 		for (int quad = 0; quad < quad_count - 1; quad++) {
 
-			a_index = quad * 4 + 2; a = TwoDimensional(verts[a_index]);
-			b_index = quad * 4 + 3; b = TwoDimensional(verts[a_index]);
-			x_index = quad * 4 + 4; x = TwoDimensional(verts[a_index]);
-			y_index = quad * 4 + 5; y = TwoDimensional(verts[a_index]);
+			a_index = quad * 4 + 2;
+			b_index = quad * 4 + 3;
+			x_index = quad * 4 + 4;
+			y_index = quad * 4 + 5;
 
-			GD.Print($"Quads {quad} and {quad + 1} combine edges: ({a}, {b}) and ({x}, {y})");
+			GD.Print($"Quads {quad} and {quad + 1} combining edges...");
 
-			normal_vector = (waypoints[quad + 1] - waypoints[quad]).Normalized();
-			a_x = x - a;
-
-			if(a_x == 0) return; // Perfectly aligned, edge case, just exit
-
-			// There is a gap between a and x
-			if (Vector2.Dot(a_x, normal_vector) > 0) {
-				JoinAtIntersection(b_index, y_index);
-				AddTriangle(b_index, a_index, x_index);
-			}
-
-			// There is an overlap between a and x
-			else { 
-				JoinAtIntersection(a_index, x_index);
-				AddTriangle(a_index, b_index, y_index);
-			}
+			CheckJoin(a_index, x_index, b_index, y_index, false);
 		}
 	}
 
-	private void AppendShafts(List<Vector2> polyline) {
+	private void CheckJoin(int a_index, int x_index, int b_index, int y_index, bool second_attempt) {
 
-		float current_uv = 0f;
+		Vector2 a_start = TwoDimensional(verts[a_index - 2]);
+		Vector2 a_end = TwoDimensional(verts[a_index]);
+		Vector2 x_start = TwoDimensional(verts[x_index]);
+		Vector2 x_end = TwoDimensional(verts[x_index + 2]);
 
-		for (int i = 0; i < polyline.Count - 1; i++) {
-			Vector2 a = polyline[i];
-			Vector2 b = polyline[i + 1];
-			Vector2 right = PerpendicularTo((b - a).Normalized()) * width * 0.5f;
-			float   next_uv = current_uv + a.DistanceTo(b) / width;
+		Vector2 a_vec = a_end - a_start;
+		Vector2 x_vec = x_end - x_start;
+		float cross = a_vec.Cross(x_vec);
+		Vector2 a_x = x_start - a_start;
 
-			int _base = verts.Count;
+		GD.Print($"a_start: {a_start}, a_end: {a_end}");
+		GD.Print($"x_start: {x_start}, x_end: {x_end}");
 
-			verts.AddRange(new[] { ThreeDimensional(a - right), ThreeDimensional(a + right), ThreeDimensional(b + right), ThreeDimensional(b - right) });
+		if (Mathf.IsZeroApprox(cross)) return;
 
-			uvs.AddRange(new[] { new Vector2(0f, current_uv), new Vector2(1f, current_uv),
-								 new Vector2(1f, next_uv),    new Vector2(0f, next_uv)});
+		float t = a_x.Cross(x_vec) / cross;
+		float u = a_x.Cross(a_vec) / cross;
 
-			indices.AddRange(new[] { _base, _base + 1, _base + 2, 
-									 _base, _base + 2, _base + 3 });
-
-			current_uv = next_uv;
+		if (t >= 0f && t <= 1f && u >= 0f && u <= 1f) {
+			GD.Print("Intersection found. Merging!");
+			Vector3 intersection_point = ThreeDimensional(a_start + t * a_vec);
+			verts[a_index] = intersection_point;
+			verts[x_index] = intersection_point;
+			DrawTriangle(a_index, b_index, y_index);
+		}
+		else {
+			if(second_attempt) {
+				GD.Print("Merge Failed twice, ABORT!");
+				return;
+			}
+			GD.Print("Merge Failed, Handing over!");
+			CheckJoin(b_index, y_index, a_index, x_index, true);
 		}
 	}
 
-	private void AppendHead(Vector2 base_center, Vector2 tip) {
-		Vector2 right = PerpendicularTo((tip - base_center).Normalized()) * (head_width * 0.5f);
-		int _base = verts.Count;
-		verts.AddRange(new[] { ThreeDimensional(tip), ThreeDimensional(base_center - right), ThreeDimensional(base_center + right) });
-		uvs.AddRange(new[] { new Vector2(0.5f, 0f), new Vector2(0f, 1f), new Vector2(1f, 1f) });
-		indices.AddRange(new[] { _base, _base + 1, _base + 2 });
-	}
+	// Third iteration, adding the triangular head //
 
 	private List<Vector2> TrimTip(List<Vector2> polyline, float trim_length) {
 		var   trimmed   = new List<Vector2>(polyline);
@@ -182,5 +189,12 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 		}
 
 		return trimmed;
+	}
+
+	private void AppendHead(Vector2 base_center, Vector2 tip) {
+		Vector2 right = PerpendicularTo((tip - base_center).Normalized()) * (head_width * 0.5f);
+		int _base = verts.Count;
+		verts.AddRange(new[] { ThreeDimensional(tip), ThreeDimensional(base_center - right), ThreeDimensional(base_center + right) });
+		indices.AddRange(new[] { _base, _base + 1, _base + 2 });
 	}
 }

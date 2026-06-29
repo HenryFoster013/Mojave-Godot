@@ -831,6 +831,26 @@ corner_detail = 5
 shadow_color = Color(1, 1, 1, 0.45490196)
 shadow_size = 8
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lhtxr"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_52jsp"]
+_surfaces = [{
+"aabb": AABB(0, 0.03, -0.025, 1.025, 1e-05, 0.66422325),
+"attribute_data": PackedByteArray("AAAAAAAAAAAAAIA/AAAAAAAAgD8AAKBBAAAAAAAAoEEAAAAAAACgQQAAgD8AAKBBAACAPwAA8EEAAAAAAADwQQAAAAAAAPBBAACAPwAA8EEAAIA/y8oYQgAAAADLyhhCAAAAPwAAAAAAAAAAAACAPwAAgD8AAIA/"),
+"format": 34359742481,
+"index_count": 21,
+"index_data": PackedByteArray("AAABAAIAAAACAAMABAAFAAYABAAGAAcACAAJAAoACAAKAAsADAANAA4A"),
+"material": SubResource("StandardMaterial3D_lhtxr"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 15,
+"vertex_data": PackedByteArray("AAAAAI/C9TzNzMy8AAAAAI/C9TzNzMw8AACAP4/C9TzNzMw8AACAP4/C9TzNzMy8MzODP4/C9TwAAAAAmpl5P4/C9TwAAAAAmpl5P4/C9TwAAAA/MzODP4/C9TwAAAA/qaCAP4/C9TyVRgY/r75+P4/C9TzVcvM+BNkXP4/C9TzBTQ4/plsaP4/C9Tzr2ho/AAAAP4/C9TyamRk/fh0cP4/C9TwjpCM/LBcWP4/C9TyJhAU/")
+}]
+
 [node name="Base Game 3D" type="Node3D" unique_id=204547736]
 
 [node name="World Environment" type="WorldEnvironment" parent="." unique_id=505609779]
@@ -1354,10 +1374,11 @@ color = Color(0, 0, 0, 1)
 [node name="BG" parent="." unique_id=2112562202 instance=ExtResource("14_745nf")]
 
 [node name="Arrow Renderer" type="MeshInstance3D" parent="." unique_id=1305605108]
+mesh = SubResource("ArrayMesh_52jsp")
 script = ExtResource("18_lhtxr")
 vertical_offset = 0.03
 head_width = 0.12
-test_points = PackedVector3Array(0, 0, 0, 1, 0, 0, 1, 0, 1, 2, 0, 2)
+test_points = PackedVector3Array(0, 0, 0, 1, 0, 0, 1, 0, 0.5, 0.5, 0, 0.6)
 
 [connection signal="pressed" from="UI/UI Container/Troop Slider/Confirm Button" to="Game Master" method="TroopSliderTabConfirm"]
 [connection signal="pressed" from="UI/UI Container/Skip Button" to="Game Master" method="SkipButton"]
