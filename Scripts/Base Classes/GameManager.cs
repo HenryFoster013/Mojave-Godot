@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -42,6 +43,7 @@ public class GameManager {
 	public event Action OnPrimaryTurn;
 	public event Action OnSubTurnChanged;
 	public event Action<Territory, TerritoryChangeType> OnTerritoryCountChanged;
+	public event Action<Territory, Territory> OnLocalConquestDivison;
 	public event Action<string> OnLog;
 
 	public bool local_turn => current_player.type == PlayerType.LOCAL;
@@ -267,25 +269,18 @@ public class GameManager {
 			IterateSubTurn();
 	}
 
-	public void AttackTile(Territory from_terri, Territory to_terri) {
+	private void AttackTile(Territory from_terri, Territory to_terri) {
 		if (from_terri.Owner != current_player || to_terri.Owner == current_player) return;
 		if (from_terri.troop_count <= MIN_TROOPS) return;
 		if (!from_terri.IsAdjacentTo(to_terri)) return;
 
 		AttackRound(from_terri, to_terri);
-		
-		// Finish this
-		switch (CheckAttackState(from_terri, to_terri)) {
-			case AttackResult.STANDARD:
-				break;
-			case AttackResult.INVALID:
-				break;
-			case AttackResult.CONQUEST:
-				break;
-		}
+
+		OnTerritoryCountChanged?.Invoke(from_terri, TerritoryChangeType.CONQUEST);
+		OnTerritoryCountChanged?.Invoke(to_terri, TerritoryChangeType.CONQUEST);
 	}
 
-	void AttackRound(Territory from_terri, Territory to_terri) {
+	private void AttackRound(Territory from_terri, Territory to_terri) {
 	
 		int attack_losses = 0;
 		int defense_losses = 0;
@@ -307,7 +302,7 @@ public class GameManager {
 	}
 
 	AttackResult CheckAttackState(Territory from_terri, Territory to_terri) {
-		if (from_terri.troop_count < 1) return AttackResult.INVALID;
+		if (from_terri.troop_count < 2) return AttackResult.FAILED;
 		if (to_terri.troop_count < 1) return AttackResult.CONQUEST;
 		return AttackResult.STANDARD;
 	}
@@ -459,6 +454,77 @@ public class GameManager {
 		CashInTroops(player, territory, amount);
 		return true;
 	}
+
+	// Fortify //
+
+	public bool SpeakFortification(Territory from_territory, Territory to_territory, int amount) {
+		if (game_state != State.PRIMARY)
+			return ErrorWrapper($"SpeakFortification Fail: Game is not in Primary state.");
+		if (amount < 1)
+			return ErrorWrapper($"SpeakFortification Fail: Amount is less than one.");
+		if (from_territory.troop_count - amount < 1)
+			return ErrorWrapper($"SpeakFortification Fail: from_territory cannot sustain the loss.");
+		if (from_territory.Owner != to_territory.Owner)
+			return ErrorWrapper($"SpeakFortification Fail: Territories do not share an owner.");
+		if (from_territory.Owner != current_player)
+			return ErrorWrapper($"SpeakFortification Fail: Not locally owned.");
+		
+		from_territory.RemoveTroops(amount);
+		to_territory.AddTroops(amount);
+		return true;
+	}
+
+	// Conquest //
+
+	public bool SpeakBlitz(Territory from_territory, Territory to_territory) => SpeakBlitz(current_player, from_territory, to_territory);
+	public bool SpeakBlitz(Player player, Territory from_territory, Territory to_territory) {
+		if(!ConquestChecks(player, from_territory, to_territory)) return false;
+		do AttackTile(from_territory, to_territory);
+		while (CheckAttackState(from_territory, to_territory) == AttackResult.STANDARD);
+		EndConquest(from_territory, to_territory);
+		return true;
+	}
+
+	public bool SpeakSingle(Territory from_territory, Territory to_territory) => SpeakSingle(current_player, from_territory, to_territory);
+	public bool SpeakSingle(Player player, Territory from_territory, Territory to_territory) {
+		if(!ConquestChecks(player, from_territory, to_territory)) return false;
+		AttackTile(from_territory, to_territory);
+		EndConquest(from_territory, to_territory);
+		return true;
+	}	
+
+	void EndConquest(Territory from_territory, Territory to_territory) {
+
+		if (CheckAttackState(from_territory, to_territory) != AttackResult.CONQUEST) return;
+
+		from_territory.RemoveTroops(MIN_TROOPS);
+		to_territory.SetTroops(MIN_TROOPS);
+	
+		current_player.RequestConquestDivision(from_territory, to_territory);
+		if (local_turn) OnLocalConquestDivison?.Invoke(from_territory, to_territory);
+	}
+
+	public bool ConquestChecks(Player player, Territory from_territory, Territory to_territory) {
+		if (game_state != State.PRIMARY)
+			return ErrorWrapper($"SpeakSingle Fail: Game is not in Primary state. [{player.name}]");
+		if(from_territory == null)
+			return ErrorWrapper($"SpeakSingle Fail: The attacking territory is null. [{player.name}]");
+		if(to_territory == null)
+			return ErrorWrapper($"SpeakSingle Fail: The defending territory is null. [{player.name}]");
+		if (player != current_player)
+			return ErrorWrapper($"SpeakSingle Fail: It is not our turn. [{player.name}]");
+		if (from_territory.Owner != player)
+			return ErrorWrapper($"SpeakSingle Fail: Attacking territory is not owned by us. [{player.name}]");
+		if (to_territory.Owner != player)
+			return ErrorWrapper($"SpeakSingle Fail: Defending territory is owned by us. [{player.name}]");
+		if (from_territory.troop_count < 2)
+			return ErrorWrapper($"SpeakSingle Fail: Attacking territory does not have enough troops. [{player.name}]");
+		if (to_territory.troop_count < 1)
+			return ErrorWrapper($"SpeakSingle Fail: Defending territory has no troops. [{player.name}]");
+		if (!from_territory.neighbours.Contains(to_territory))
+			return ErrorWrapper($"SpeakSingle Fail: Territories are not neighbours. [{player.name}]");
+		return true;
+	}	
 
 	// ----- // GENERIC METHODS // ----- //
 

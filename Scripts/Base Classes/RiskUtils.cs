@@ -7,7 +7,7 @@ public static class RiskUtils {
     
     public enum PlayerType { NULL, LOCAL, BOT }
 
-    public enum AttackResult { STANDARD, CONQUEST, INVALID }
+    public enum AttackResult { STANDARD, CONQUEST, FAILED }
     public enum TerritoryChangeType { NULL, CLAIM, PLACEMENT, CONQUEST }
 
     public const int MIN_TROOPS = 1; 

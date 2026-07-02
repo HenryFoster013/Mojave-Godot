@@ -50,6 +50,7 @@ public partial class GameMaster : Node {
 	public bool local_turn => manager.local_turn;
 
 	private float turn_popup_time;
+	public bool lock_selection = false;
 
 	// ----- // SETUP // ----- //
 
@@ -106,12 +107,14 @@ public partial class GameMaster : Node {
 		manager.OnPrimaryTurn += PrimaryTurn;
 		manager.OnSubTurnChanged += SubTurnChanged;
 		manager.OnInitialPlacementTurn += InitialPlacementTurn;
+		manager.OnLocalConquestDivison += ConquestDivision;
 		manager.OnLog += LogMessage;
 	}
 
 	// UI
 
 	private void SetupTabs() {
+		lock_selection = false;
 		SetupTroopSliderTab();
 		SetupConquestTab();
 		UpdateSkipButton();
@@ -146,6 +149,7 @@ public partial class GameMaster : Node {
 	}
 	
 	public void SelectTerritory(Territory territory) {
+		if (lock_selection) return;
 		switch(game_state){
 			case State.CLAIMANTS: manager.SpeakClaim(territory); break;
 			case State.INITIAL_PLACEMENT: manager.SpeakInitialPlacement(territory); break;
@@ -421,6 +425,28 @@ public partial class GameMaster : Node {
 		conquest_tab.Visible = false;
 	}
 
+	public void SingleAttack() {
+		EndAttack();
+	}
+
+	public void BlitzAttack() {
+		EndAttack();
+	}
+
+	private void EndAttack() {
+		DeactivateConquestTab();
+		SelectTerritory(null);
+	}
+
+	// Conquest Division //
+
+	private void ConquestDivision(Territory from_territory, Territory to_territory) {
+		lock_selection = true;
+		current_territory = from_territory;
+		additional_territory = to_territory;
+		ActivateTroopSliderTabFortify();
+	}
+
 	// Skip Button //
 
 	private void UpdateSkipButton() {
@@ -482,9 +508,15 @@ public partial class GameMaster : Node {
 		switch (sub_turn) {
 			case SubTurn.PLACE:
 				manager.SpeakPlacement(current_territory, (int)troop_slider.Value);
-				UpdateTurnLabel();
+				break;
+			case SubTurn.ATTACK:
+				manager.SpeakFortification(current_territory, additional_territory, (int)troop_slider.Value);
+				break;
+			case SubTurn.FORTIFY:
+				manager.SpeakFortification(current_territory, additional_territory, (int)troop_slider.Value);
 				break;
 		}
+		UpdateTurnLabel();
 		DeactivateTroopSliderTab();
 		SelectTerritory(null);
 	}

@@ -28,6 +28,7 @@ public class Player {
     public virtual void RequestClaim() { }
     public virtual void RequestPlacement() { }
     public virtual void RequestPlay() { }
+    public virtual void RequestConquestDivision(Territory from_territory, Territory to_territory) { }
 
     // ----- // GETTERS AND SETTERS // ----- //
 
@@ -57,4 +58,5 @@ public class LocalPlayer : Player {
     public override void RequestClaim() { }
     public override void RequestPlacement() { }
     public override void RequestPlay() { }
+    public override void RequestConquestDivision(Territory from_territory, Territory to_territory) { }
 }

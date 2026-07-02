@@ -582,25 +582,6 @@ shadow_mesh = SubResource("ArrayMesh_ek0ls")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_eifla"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lhtxr"]
-transparency = 1
-cull_mode = 2
-shading_mode = 0
-albedo_color = Color(0, 0, 0, 0.9137255)
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_52jsp"]
-_surfaces = [{
-"aabb": AABB(-0.0054878048, 0.03, -0.24939024, 1.5054878, 1e-05, 0.7739404),
-"format": 34359742465,
-"index_count": 27,
-"index_data": PackedByteArray("AAABAAIAAQACAAMABAAFAAYABQAGAAcACAAJAAoACQAKAAsAAwACAAQABgAHAAkADAANAA4A"),
-"material": SubResource("StandardMaterial3D_lhtxr"),
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 15,
-"vertex_data": PackedByteArray("C9Ozu4/C9TwNzse8C9OzO4/C9TwNzsc8Wph+P4/C9TwoYH++8bN6P4/C9TyBZEe+7imDP4/C9Tx9PWq+8bN6P4/C9TyBZEe+lb6QP4/C9Tx26vA+jeqKP4/C9TzG9QA/lb6QP4/C9Tx26vA+L6+OP4/C9TzrSAY/B1e1P4/C9Tz4w9Q+b4y2P4/C9Tym5+0+AADAP4/C9Tyamdk+Yp20P4/C9TyQrsU+FEa3P4/C9TwO/fw+")
-}]
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwtvl"]
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -710,66 +691,6 @@ keycode = 4194309
 
 [sub_resource type="Shortcut" id="Shortcut_ge24r"]
 events = [SubResource("InputEventKey_7qrvb")]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_52jsp"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.6, 0.24600002, 0.25189993, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 0.39999998, 0.40999985, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 1
-shadow_color = Color(0, 0, 0, 0.40392157)
-shadow_size = 5
-shadow_offset = Vector2(0, 3)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_253gl"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.53, 0.2173, 0.22251157, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 0.39999998, 0.40999985, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 1
-shadow_color = Color(0, 0, 0, 0.40392157)
-shadow_size = 5
-shadow_offset = Vector2(0, 3)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lkwq1"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.69, 0.276, 0.2828999, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 0.39999998, 0.40999985, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 1
-shadow_color = Color(0, 0, 0, 0.40392157)
-shadow_size = 5
-shadow_offset = Vector2(0, 3)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qrvb"]
 content_margin_left = 0.0
@@ -1019,13 +940,12 @@ mesh = SubResource("QuadMesh_gg4i8")
 surface_material_override/0 = ExtResource("12_lkwq1")
 
 [node name="Arrow Renderer" type="MeshInstance3D" parent="Map Renderer" unique_id=1305605108]
-mesh = SubResource("ArrayMesh_52jsp")
 script = ExtResource("18_lhtxr")
 vertical_offset = 0.03
 head_length = 0.08
 head_width = 0.11
 test_points = PackedVector3Array(0, 0, 0, 1, 0, -0.225, 1.11, 0, 0.5, 1.5, 0, 0.425)
-test_colour = Color(0, 0, 0, 0.9137255)
+test_colour = Color(0, 0, 0, 0.9411765)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1547894410]
 layer = 2
@@ -1256,12 +1176,12 @@ text_overrun_behavior = 3
 
 [node name="Buttons" type="HBoxContainer" parent="UI/UI Container/Conquest Tab" unique_id=1178446030]
 layout_mode = 2
-theme_override_constants/separation = 7
+size_flags_horizontal = 4
+theme_override_constants/separation = 14
 
 [node name="Manual" type="Button" parent="UI/UI Container/Conquest Tab/Buttons" unique_id=2131518662]
-custom_minimum_size = Vector2(0, 25)
+custom_minimum_size = Vector2(130, 25)
 layout_mode = 2
-size_flags_horizontal = 3
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxFlat_n38fa")
@@ -1271,9 +1191,8 @@ shortcut = SubResource("Shortcut_ge24r")
 text = "SINGLE"
 
 [node name="Blitz" type="Button" parent="UI/UI Container/Conquest Tab/Buttons" unique_id=108237467]
-custom_minimum_size = Vector2(0, 25)
+custom_minimum_size = Vector2(130, 25)
 layout_mode = 2
-size_flags_horizontal = 3
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxFlat_n38fa")
@@ -1281,18 +1200,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_ge24r")
 theme_override_styles/hover = SubResource("StyleBoxFlat_1xrtk")
 shortcut = SubResource("Shortcut_ge24r")
 text = "BLITZ"
-
-[node name="Cancel Button" type="Button" parent="UI/UI Container/Conquest Tab/Buttons" unique_id=1074595395]
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 15
-theme_override_styles/normal = SubResource("StyleBoxFlat_52jsp")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_253gl")
-theme_override_styles/hover = SubResource("StyleBoxFlat_lkwq1")
-shortcut = SubResource("Shortcut_ge24r")
-text = "CANCEL"
 
 [node name="Skip Button" type="Button" parent="UI/UI Container" unique_id=24278858]
 visible = false

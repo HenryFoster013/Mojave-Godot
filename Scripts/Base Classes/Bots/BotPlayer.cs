@@ -123,6 +123,8 @@ public partial class BotPlayer : Player {
 
 	// ----- // REQUESTS // ----- //
 
+	public override void RequestConquestDivision(Territory from_territory, Territory to_territory) { }
+
 	public override async void RequestPlacement() {
 
 		await Task.Delay(TimeSpan.FromSeconds(INITIAL_PLACEMENT_DELAY));
