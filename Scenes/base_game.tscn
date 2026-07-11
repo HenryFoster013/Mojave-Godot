@@ -1290,4 +1290,6 @@ color = Color(0, 0, 0, 1)
 [node name="BG" parent="." unique_id=2112562202 instance=ExtResource("14_745nf")]
 
 [connection signal="pressed" from="UI/UI Container/Troop Slider/Confirm Button" to="Game Master" method="TroopSliderTabConfirm"]
+[connection signal="pressed" from="UI/UI Container/Conquest Tab/Buttons/Manual" to="Game Master" method="SingleAttack"]
+[connection signal="pressed" from="UI/UI Container/Conquest Tab/Buttons/Blitz" to="Game Master" method="BlitzAttack"]
 [connection signal="pressed" from="UI/UI Container/Skip Button" to="Game Master" method="SkipButton"]

@@ -426,10 +426,18 @@ public partial class GameMaster : Node {
 	}
 
 	public void SingleAttack() {
+
+		GD.Print(current_territory.name, additional_territory.name);
+		
+		manager.SpeakSingle(current_territory, additional_territory);
+		
 		EndAttack();
 	}
 
 	public void BlitzAttack() {
+
+		manager.SpeakBlitz(current_territory, additional_territory);
+
 		EndAttack();
 	}
 

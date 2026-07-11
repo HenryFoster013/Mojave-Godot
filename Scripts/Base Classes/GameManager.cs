@@ -499,6 +499,9 @@ public class GameManager {
 
 		from_territory.RemoveTroops(MIN_TROOPS);
 		to_territory.SetTroops(MIN_TROOPS);
+		SetTerritoryOwnership(from_territory.Owner, to_territory);
+		OnTerritoryCountChanged?.Invoke(to_territory, TerritoryChangeType.CONQUEST);
+		OnTerritoryCountChanged?.Invoke(from_territory, TerritoryChangeType.CONQUEST);
 	
 		current_player.RequestConquestDivision(from_territory, to_territory);
 		if (local_turn) OnLocalConquestDivison?.Invoke(from_territory, to_territory);
@@ -515,7 +518,7 @@ public class GameManager {
 			return ErrorWrapper($"SpeakSingle Fail: It is not our turn. [{player.name}]");
 		if (from_territory.Owner != player)
 			return ErrorWrapper($"SpeakSingle Fail: Attacking territory is not owned by us. [{player.name}]");
-		if (to_territory.Owner != player)
+		if (to_territory.Owner == player)
 			return ErrorWrapper($"SpeakSingle Fail: Defending territory is owned by us. [{player.name}]");
 		if (from_territory.troop_count < 2)
 			return ErrorWrapper($"SpeakSingle Fail: Attacking territory does not have enough troops. [{player.name}]");
