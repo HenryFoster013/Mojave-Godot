@@ -444,6 +444,8 @@ public partial class GameMaster : Node {
 	private void EndAttack() {
 		DeactivateConquestTab();
 		SelectTerritory(null);
+		if (lock_selection && current_territory != null && additional_territory != null)
+			map_renderer.DrawArrowBetween(current_territory, additional_territory);
 	}
 
 	// Conquest Division //
@@ -526,6 +528,8 @@ public partial class GameMaster : Node {
 				action_succeeded = manager.SpeakPlacement(current_territory, (int)troop_slider.Value);
 				break;
 			case SubTurn.ATTACK:
+				action_succeeded = manager.SpeakConquestDivision(current_territory, additional_territory, (int)troop_slider.Value);
+				break;
 			case SubTurn.FORTIFY:
 				action_succeeded = manager.SpeakFortification(current_territory, additional_territory, (int)troop_slider.Value);
 				break;
@@ -545,6 +549,7 @@ public partial class GameMaster : Node {
 	}
 
 	public void SkipButton() {
+		lock_selection = false;
 		DeactivateConquestTab();
 		DeactivateTroopSliderTab();
 		manager.SpeakSkip();

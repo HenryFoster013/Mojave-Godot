@@ -25,6 +25,8 @@ public class GameManager {
 
 	private readonly Dictionary<Player, HashSet<Territory>> player_territories = new();
 	private HashSet<Territory> free_territories;
+	private Territory pending_conquest_from;
+	private Territory pending_conquest_to;
 
 	private readonly Dictionary<string, Territory> territories = new();
 	private readonly Dictionary<string, Territory> territories_id = new();
@@ -67,6 +69,8 @@ public class GameManager {
 		total_turn = -1;
 		game_state = State.NULL;
 		sub_turn = SubTurn.NULL;
+		pending_conquest_from = null;
+		pending_conquest_to = null;
 	}
 
 	private void GenerateTestPlayers() {
@@ -381,6 +385,8 @@ public class GameManager {
 	public bool SpeakSkip(Player player) {
 		if (player != current_player) 
 			return ErrorWrapper("SpeakSkip Fail: Attempted skip from non-current player");
+		pending_conquest_from = null;
+		pending_conquest_to = null;
 		OnLog?.Invoke($"{player.name} skipped their turn.");
 		IterateSubTurn();
 		return true;
@@ -460,8 +466,8 @@ public class GameManager {
 	public bool SpeakFortification(Territory from_territory, Territory to_territory, int amount) {
 		if (game_state != State.PRIMARY)
 			return ErrorWrapper($"SpeakFortification Fail: Game is not in Primary state.");
-		if (sub_turn != SubTurn.ATTACK && sub_turn != SubTurn.FORTIFY)
-			return ErrorWrapper($"SpeakFortification Fail: Fortification is not available in this subturn.");
+		if (sub_turn != SubTurn.FORTIFY)
+			return ErrorWrapper($"SpeakFortification Fail: Fortification is only available after attacking.");
 		if (from_territory == null || to_territory == null)
 			return ErrorWrapper($"SpeakFortification Fail: A territory is null.");
 		if (from_territory == to_territory)
@@ -475,15 +481,39 @@ public class GameManager {
 		if (!CalculateRoutesFromTerritory(from_territory).ContainsKey(to_territory))
 			return ErrorWrapper($"SpeakFortification Fail: Territories are not connected.");
 		
+		TransferTroops(from_territory, to_territory, amount);
+		IterateSubTurn();
+
+		return true;
+	}
+
+	public bool SpeakConquestDivision(Territory from_territory, Territory to_territory, int amount) {
+		if (game_state != State.PRIMARY || sub_turn != SubTurn.ATTACK)
+			return ErrorWrapper("SpeakConquestDivision Fail: Troop division is only available after a conquest during attacking.");
+		if (from_territory == null || to_territory == null)
+			return ErrorWrapper("SpeakConquestDivision Fail: A territory is null.");
+		if (from_territory != pending_conquest_from || to_territory != pending_conquest_to)
+			return ErrorWrapper("SpeakConquestDivision Fail: Territories do not match the pending conquest.");
+		if (amount < 1)
+			return ErrorWrapper("SpeakConquestDivision Fail: Amount is less than one.");
+		if (from_territory.troop_count - amount < MIN_TROOPS)
+			return ErrorWrapper("SpeakConquestDivision Fail: Attacking territory cannot sustain the loss.");
+		if (from_territory.Owner != current_player || to_territory.Owner != current_player)
+			return ErrorWrapper("SpeakConquestDivision Fail: Territories are not owned by the current player.");
+		if (!from_territory.IsAdjacentTo(to_territory))
+			return ErrorWrapper("SpeakConquestDivision Fail: Territories are not adjacent.");
+
+		TransferTroops(from_territory, to_territory, amount);
+		pending_conquest_from = null;
+		pending_conquest_to = null;
+		return true;
+	}
+
+	private void TransferTroops(Territory from_territory, Territory to_territory, int amount) {
 		from_territory.RemoveTroops(amount);
 		to_territory.AddTroops(amount);
 		OnTerritoryCountChanged?.Invoke(from_territory, TerritoryChangeType.PLACEMENT);
 		OnTerritoryCountChanged?.Invoke(to_territory, TerritoryChangeType.PLACEMENT);
-
-		if (sub_turn == SubTurn.FORTIFY)
-			IterateSubTurn();
-
-		return true;
 	}
 
 	// Conquest //
@@ -516,7 +546,11 @@ public class GameManager {
 		OnTerritoryCountChanged?.Invoke(from_territory, TerritoryChangeType.CONQUEST);
 	
 		current_player.RequestConquestDivision(from_territory, to_territory);
-		if (local_turn) OnLocalConquestDivison?.Invoke(from_territory, to_territory);
+		if (local_turn && from_territory.troop_count > MIN_TROOPS) {
+			pending_conquest_from = from_territory;
+			pending_conquest_to = to_territory;
+			OnLocalConquestDivison?.Invoke(from_territory, to_territory);
+		}
 	}
 
 	public bool ConquestChecks(Player player, Territory from_territory, Territory to_territory) {
@@ -528,6 +562,10 @@ public class GameManager {
 			return ErrorWrapper($"SpeakSingle Fail: The defending territory is null. [{player.name}]");
 		if (player != current_player)
 			return ErrorWrapper($"SpeakSingle Fail: It is not our turn. [{player.name}]");
+		if (sub_turn != SubTurn.ATTACK)
+			return ErrorWrapper($"SpeakSingle Fail: Attacks are only available during the attack subturn. [{player.name}]");
+		if (pending_conquest_from != null)
+			return ErrorWrapper($"SpeakSingle Fail: Resolve or skip the pending conquest division first. [{player.name}]");
 		if (from_territory.Owner != player)
 			return ErrorWrapper($"SpeakSingle Fail: Attacking territory is not owned by us. [{player.name}]");
 		if (to_territory.Owner == player)
