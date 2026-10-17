@@ -1120,6 +1120,7 @@ shortcut = SubResource("Shortcut_ge24r")
 text = "CONFIRM"
 
 [node name="Conquest Tab" type="VBoxContainer" parent="UI/UI Container" unique_id=728059429]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5

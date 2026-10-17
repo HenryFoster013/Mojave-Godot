@@ -449,6 +449,11 @@ public partial class GameMaster : Node {
 	// Conquest Division //
 
 	private void ConquestDivision(Territory from_territory, Territory to_territory) {
+		if (from_territory.troop_count <= MIN_TROOPS) {
+			lock_selection = false;
+			return;
+		}
+
 		lock_selection = true;
 		current_territory = from_territory;
 		additional_territory = to_territory;
@@ -513,17 +518,27 @@ public partial class GameMaster : Node {
 	// ----- // UI BUTTONS // ----- //
 
 	public void TroopSliderTabConfirm() {
-		switch (sub_turn) {
+		SubTurn action_sub_turn = sub_turn;
+		bool action_succeeded;
+
+		switch (action_sub_turn) {
 			case SubTurn.PLACE:
-				manager.SpeakPlacement(current_territory, (int)troop_slider.Value);
+				action_succeeded = manager.SpeakPlacement(current_territory, (int)troop_slider.Value);
 				break;
 			case SubTurn.ATTACK:
-				manager.SpeakFortification(current_territory, additional_territory, (int)troop_slider.Value);
-				break;
 			case SubTurn.FORTIFY:
-				manager.SpeakFortification(current_territory, additional_territory, (int)troop_slider.Value);
+				action_succeeded = manager.SpeakFortification(current_territory, additional_territory, (int)troop_slider.Value);
 				break;
+			default:
+				return;
 		}
+
+		if (!action_succeeded)
+			return;
+
+		if (action_sub_turn == SubTurn.ATTACK)
+			lock_selection = false;
+
 		UpdateTurnLabel();
 		DeactivateTroopSliderTab();
 		SelectTerritory(null);

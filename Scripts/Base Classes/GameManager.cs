@@ -460,17 +460,29 @@ public class GameManager {
 	public bool SpeakFortification(Territory from_territory, Territory to_territory, int amount) {
 		if (game_state != State.PRIMARY)
 			return ErrorWrapper($"SpeakFortification Fail: Game is not in Primary state.");
+		if (sub_turn != SubTurn.ATTACK && sub_turn != SubTurn.FORTIFY)
+			return ErrorWrapper($"SpeakFortification Fail: Fortification is not available in this subturn.");
+		if (from_territory == null || to_territory == null)
+			return ErrorWrapper($"SpeakFortification Fail: A territory is null.");
+		if (from_territory == to_territory)
+			return ErrorWrapper($"SpeakFortification Fail: Territories must be different.");
 		if (amount < 1)
 			return ErrorWrapper($"SpeakFortification Fail: Amount is less than one.");
-		if (from_territory.troop_count - amount < 1)
+		if (from_territory.troop_count - amount < MIN_TROOPS)
 			return ErrorWrapper($"SpeakFortification Fail: from_territory cannot sustain the loss.");
-		if (from_territory.Owner != to_territory.Owner)
-			return ErrorWrapper($"SpeakFortification Fail: Territories do not share an owner.");
-		if (from_territory.Owner != current_player)
-			return ErrorWrapper($"SpeakFortification Fail: Not locally owned.");
+		if (from_territory.Owner != current_player || to_territory.Owner != current_player)
+			return ErrorWrapper($"SpeakFortification Fail: Territories are not owned by the current player.");
+		if (!CalculateRoutesFromTerritory(from_territory).ContainsKey(to_territory))
+			return ErrorWrapper($"SpeakFortification Fail: Territories are not connected.");
 		
 		from_territory.RemoveTroops(amount);
 		to_territory.AddTroops(amount);
+		OnTerritoryCountChanged?.Invoke(from_territory, TerritoryChangeType.PLACEMENT);
+		OnTerritoryCountChanged?.Invoke(to_territory, TerritoryChangeType.PLACEMENT);
+
+		if (sub_turn == SubTurn.FORTIFY)
+			IterateSubTurn();
+
 		return true;
 	}
 
