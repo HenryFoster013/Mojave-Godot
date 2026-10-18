@@ -330,10 +330,11 @@ public class GameManager {
 		current_player_turn++;
 		total_turn++;
 
-		if (current_player_turn >= players.Count)
-			current_player_turn = 0;
+		if (current_player_turn >= players.Count) current_player_turn = 0;
 
-		sub_turn = SubTurn.PLACE;
+		if (total_turn <= players.Count) sub_turn = SubTurn.ATTACK;
+		else sub_turn = SubTurn.PLACE;
+		
 		OnUIUpdate?.Invoke();
 	}
 

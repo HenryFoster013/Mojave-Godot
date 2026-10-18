@@ -26,8 +26,9 @@ public partial class GameMaster : Node {
 	[ExportGroup("Tabs")]
 	[Export] public Control troop_slider_tab;
 	[Export] public Control conquest_tab;
-	[Export] public Control skip_tab;
+	[Export] public Button skip_tab;
 	[ExportSubgroup("Troop Slider Tab")]
+	[Export] public Control troop_slider_window;
 	[Export] public Label troop_slider_header;
 	[Export] public Label troop_slider_subheader;
 	[Export] public HSlider troop_slider;
@@ -51,6 +52,7 @@ public partial class GameMaster : Node {
 
 	private float turn_popup_time;
 	public bool lock_selection = false;
+	private bool skip_button_cooldown;
 
 	// ----- // SETUP // ----- //
 
@@ -115,6 +117,7 @@ public partial class GameMaster : Node {
 
 	private void SetupTabs() {
 		lock_selection = false;
+		GetTree().CurrentScene.AddButtonAnimations();
 		SetupTroopSliderTab();
 		SetupConquestTab();
 		UpdateSkipButton();
@@ -172,7 +175,7 @@ public partial class GameMaster : Node {
 		if(territory == null || territory.Owner != current_player)
 			DeactivateTroopSliderTab();
 		else
-			ActivateTroopSliderTab(current_player.currency);
+			ActivateTroopSliderTab(current_player.currency, territory.name);
 		current_territory = territory;
 	}
 
@@ -343,10 +346,11 @@ public partial class GameMaster : Node {
 		UpdateTroopSliderText();
 	}
 
-	public void ActivateTroopSliderTab(int max) {
+	public void ActivateTroopSliderTab(int max, string subheading = null) {
+		SetTroopSliderSubheading(subheading);
 		troop_slider_tab.Visible = true;
+		troop_slider_tab.AnimatePanel();
 		troop_slider.Visible = true;
-		troop_slider_subheader.Visible = false;
 		troop_slider.MaxValue = max;
 		troop_slider.TickCount = max;
 		troop_slider.Value = 1;
@@ -363,8 +367,8 @@ public partial class GameMaster : Node {
 
 		if (additional_territory == null) {
 			troop_slider_tab.Visible = true;
-			troop_slider_subheader.Visible = true;
-			troop_slider_subheader.Text = "Select a second territory to fortify.";
+			troop_slider_tab.AnimatePanel();
+			SetTroopSliderSubheading("Select a second territory to fortify.");
 			troop_slider.Visible = false;
 			troop_slider_header.Text = $"{current_territory.name} [{current_territory.troop_count}] -> ...";
 		}
@@ -375,8 +379,18 @@ public partial class GameMaster : Node {
 	}
 
 	public void DeactivateTroopSliderTab() {
+		SetTroopSliderSubheading(null);
 		troop_slider_tab.Visible = false;
 		map_renderer.ClearArrow();
+	}
+
+	private void SetTroopSliderSubheading(string text) {
+		bool visible = !string.IsNullOrEmpty(text);
+		troop_slider_subheader.Visible = visible;
+		troop_slider_subheader.Text = text ?? string.Empty;
+		troop_slider_window.CustomMinimumSize = new Vector2(
+			GodotUtils.TROOP_SLIDER_WIDTH,
+			visible ? GodotUtils.TROOP_SLIDER_HEIGHT_SUBHEADING : GodotUtils.TROOP_SLIDER_HEIGHT_DEFAULT);
 	}
 
 	private void UpdateTroopSliderText() => UpdateTroopSliderText(troop_slider.Value);
@@ -384,7 +398,7 @@ public partial class GameMaster : Node {
 		troop_slider_header.Text = "";
 		if(sub_turn == SubTurn.FORTIFY || sub_turn == SubTurn.ATTACK) {
 			if (additional_territory != null && current_territory != null)
-				troop_slider_header.Text = $"{current_territory.name} [{current_territory.troop_count - (int)value}] -> {additional_territory.name} [{additional_territory.troop_count + (int)value}]";
+				troop_slider_header.Text = $"{current_territory.name} [{current_territory.troop_count - (int)value}][/font_size] -> {additional_territory.name} [{additional_territory.troop_count + (int)value}]";
 			return;
 		}
 		if (sub_turn == SubTurn.PLACE) {
@@ -408,6 +422,7 @@ public partial class GameMaster : Node {
 		}
 		
 		conquest_tab.Visible = true;
+		conquest_tab.AnimatePanel();
 		bool has_additional = additional_territory != null;
 		conquest_subheader.Visible = !has_additional;
 		conquest_buttons.Visible = has_additional;
@@ -548,11 +563,20 @@ public partial class GameMaster : Node {
 		SelectTerritory(null);
 	}
 
-	public void SkipButton() {
+	public async void SkipButton() {
+		if (skip_button_cooldown)
+			return;
+
+		skip_button_cooldown = true;
+		skip_tab.Disabled = true;
 		lock_selection = false;
 		DeactivateConquestTab();
 		DeactivateTroopSliderTab();
 		manager.SpeakSkip();
+
+		await ToSignal(GetTree().CreateTimer(GodotUtils.SKIP_BUTTON_COOLDOWN), SceneTreeTimer.SignalName.Timeout);
+		skip_button_cooldown = false;
+		skip_tab.Disabled = false;
 	}
 
 	// ----- // GETTERS AND SETTERS // ----- //
