@@ -20,17 +20,17 @@ public class GameManager {
 
 	public int current_player_turn { get; private set; }
 	public int total_turn { get; private set; }
-	private List<Player> players = new();
+	private List<Player> players = [];
 	public Player current_player => current_player_turn > -1 && current_player_turn < players.Count? players[current_player_turn] : null;
 
-	private readonly Dictionary<Player, HashSet<Territory>> player_territories = new();
+	private readonly Dictionary<Player, HashSet<Territory>> player_territories = [];
 	private HashSet<Territory> free_territories;
 	private Territory pending_conquest_from;
 	private Territory pending_conquest_to;
 
-	private readonly Dictionary<string, Territory> territories = new();
-	private readonly Dictionary<string, Territory> territories_id = new();
-	private readonly Dictionary<string, Region> regions = new();
+    private readonly Dictionary<string, Territory> territories = [];
+    private readonly Dictionary<string, Territory> territories_id = [];
+	private readonly Dictionary<string, Region> regions = [];
 
 	public IReadOnlyDictionary<string, Territory> Territories => territories;
 	public IReadOnlyDictionary<string, Territory> Territories_ID => territories_id;
@@ -74,13 +74,13 @@ public class GameManager {
 	}
 
 	private void GenerateTestPlayers() {
-		players = new List<Player>();
-
-		players.Add(new LocalPlayer(this, "Henry", COLOUR_LEGION_RED));
-		//players.Add(new BotPlayer(this, "Chuck", COLOUR_LEGION_RED));
-		players.Add(new BotPlayer(this, "Thomas", COLOUR_QUANTUM_BLUE));
-		players.Add(new BotPlayer(this, "Andre", COLOUR_NUCLEAR_GREEN));
-		players.Add(new BotPlayer(this, "Arshia", COLOUR_SAND_YELLOW));
+		players = [
+            new LocalPlayer(this, "Henry", COLOUR_LEGION_RED),
+            //players.Add(new BotPlayer(this, "Chuck", COLOUR_LEGION_RED));
+            new BotPlayer(this, "Thomas", COLOUR_QUANTUM_BLUE),
+            new BotPlayer(this, "Andre", COLOUR_NUCLEAR_GREEN),
+            new BotPlayer(this, "Arshia", COLOUR_SAND_YELLOW),
+        ];
 
 		OnLog?.Invoke("Test players created.");
 	}
@@ -90,14 +90,12 @@ public class GameManager {
 			return;
 
 		player_territories.Clear();
-		free_territories= new HashSet<Territory>(territories.Values);
-
-		int initial_currency = Territories.Count / (players.Count + 1);
+		free_territories = [.. territories.Values];
 		
 		for (int i = 0; i < players.Count; i++) {
 			players[i].SetId(i);
-			players[i].SetCurrency(initial_currency);
-			player_territories[players[i]] = new HashSet<Territory>();
+			players[i].SetCurrency(0);
+			player_territories[players[i]] = [];
 		}
 		OnLog?.Invoke($"Players consolidated: {players}");
 	}
@@ -155,10 +153,10 @@ public class GameManager {
 		}
 	}
 
-	// ----- //  GENERIC FUNCTIONS // ----- //
+    // ----- //  GENERIC FUNCTIONS // ----- //
 
-	int DiceRoll() => random.Next(0, 6) + 1;
-	int[] GetRolls(Territory territory, bool attacking) {
+    static int DiceRoll() => random.Next(0, 6) + 1;
+    static int[] GetRolls(Territory territory, bool attacking) {
 
 		int[] rolls = {0, 0, 0};
 
@@ -178,7 +176,7 @@ public class GameManager {
 		return rolls;
 	}
 
-	bool IsRollEmpty(int[] attacking, int[] defending, int position) {
+    static bool IsRollEmpty(int[] attacking, int[] defending, int position) {
 		if (attacking[position] == 0 || defending[position] == 0)
 			return true;
 		return false;
@@ -228,7 +226,7 @@ public class GameManager {
 	private void StartInitialPlacement(){
 		total_turn = 0;
 		current_player_turn = 0;
-		init_placement_max = players.Count * (init_base_troops - (init_mult_troops * players.Count));
+		init_placement_max = players.Count * Math.Max(init_base_troops - (init_mult_troops * players.Count), MINIMUM_PLACEMENT_TROOPS);
 		init_placement_count = 0;
 		game_state = State.INITIAL_PLACEMENT;
 		OnInitialPlacement?.Invoke();
@@ -305,7 +303,7 @@ public class GameManager {
 		to_terri.RemoveTroops(defense_losses);
 	}
 
-	AttackResult CheckAttackState(Territory from_terri, Territory to_terri) {
+    static AttackResult CheckAttackState(Territory from_terri, Territory to_terri) {
 		if (from_terri.troop_count < 2) return AttackResult.FAILED;
 		if (to_terri.troop_count < 1) return AttackResult.CONQUEST;
 		return AttackResult.STANDARD;
@@ -428,7 +426,7 @@ public class GameManager {
 			return ErrorWrapper($"SpeakInitialPlacement Fail: Game is not in Initial Placments state. [{player.name}]");
 		if (AllInitiallyPlaced())
 			return ErrorWrapper($"SpeakInitialPlacement Fail: All initial placements completed. [{player.name}]");
-		if(territory == null)
+		if (territory == null)
 			return ErrorWrapper($"SpeakInitialPlacement Fail: The territory is null. [{player.name}]");
 		if (player != players[current_player_turn])
 			return ErrorWrapper($"SpeakInitialPlacement Fail: It is not our turn. [{player.name}]");
@@ -582,7 +580,7 @@ public class GameManager {
 
 	// ----- // GENERIC METHODS // ----- //
 
-	public List<T> Shuffle<T>(List<T> list) {
+	public static List<T> Shuffle<T>(List<T> list) {
 		for (int i = list.Count - 1; i > 0; i--) {
 			int j = random.Next(i + 1);
 			(list[i], list[j]) = (list[j], list[i]);
@@ -601,12 +599,12 @@ public class GameManager {
 
 	public Dictionary<Territory, List<Territory>> CalculateRoutesFromTerritory(Territory starting_territory) {
 
-		Dictionary<Territory, List<Territory>> routes = new();
+		Dictionary<Territory, List<Territory>> routes = [];
 
 		if (starting_territory == null)
 			return null;
 
-		routes[starting_territory] = new List<Territory> { starting_territory };
+		routes[starting_territory] = [starting_territory];
 		Queue<Territory> search_queue = new();
 		search_queue.Enqueue(starting_territory);
 
@@ -614,7 +612,7 @@ public class GameManager {
 			Territory current = search_queue.Dequeue();
 			foreach (Territory neighbour in current.neighbours) {
 				if (neighbour.Owner == current_player && !routes.ContainsKey(neighbour)) {
-					routes[neighbour] = new List<Territory>(routes[current]) { neighbour };
+					routes[neighbour] = [.. routes[current], neighbour];
 					search_queue.Enqueue(neighbour);
 				}
 			}

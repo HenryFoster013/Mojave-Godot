@@ -14,6 +14,7 @@ public static class RiskUtils {
     public const int DEFAULT_TERRITORIES_PER_TROOP = 3;
     public const int DEFAULT_BASE_INIT_TROOPS = 50;
     public const int DEFAULT_MULT_INIT_TROOPS = 5;
+    public const int MINIMUM_PLACEMENT_TROOPS = 5;
 
     // ----- // COLOURS // ----- //
 

@@ -9,29 +9,28 @@ using static BotUtils;
 public partial class BotPlayer : Player {
 
 	private Territory GetRandomOwnedTerritory() {
-		List<Territory> possible_territories = manager.GetPlayerTerritories(this).ToList();
+		List<Territory> possible_territories = [.. manager.GetPlayerTerritories(this)];
 		return possible_territories[random.Next(possible_territories.Count)];
 	}
 
 	private Territory GetRandomFreeTerritory() {
-		List<Territory> null_territories = manager.GetFreeTerritories().ToList();
+		List<Territory> null_territories = [.. manager.GetFreeTerritories()];
 		return null_territories[random.Next(null_territories.Count)];
 	}
 
 	private List<Territory> IdentifyBorderTerritories() {
-		return manager.GetPlayerTerritories(this)
-			.Where(t => t.neighbours.Any(n => n.Owner != t.Owner))
-			.ToList();
+		return [.. manager.GetPlayerTerritories(this).Where(t => t.neighbours.Any(n => n.Owner != t.Owner))];
 	}
 
 	private List<Territory> IdentifyThreatenedBorderTerritories() {
-		return IdentifyBorderTerritories()
-			.OrderByDescending(t => CalculateThreatScore(t))
-			.ToList();
+		return [.. IdentifyBorderTerritories().OrderByDescending(t => CalculateThreatScore(t))];
 	}
 
 	private Territory GetThreatenedBorderTerritory() {
-		return IdentifyThreatenedBorderTerritories()[0];
+		List<Territory> threatened = IdentifyThreatenedBorderTerritories();
+		if (threatened.Count > 0)
+			return threatened[0];
+		return null;
 	}
 
 	private List<Territory> IdentifyCentralTerritories() {
@@ -41,22 +40,26 @@ public partial class BotPlayer : Player {
 		   Selects the top few.
 		*/
 
-		return manager.GetPlayerTerritories(this)
-			.OrderByDescending(territory => CalculateOwnedNeighbourScore(territory, 1))
+		return [.. manager.GetPlayerTerritories(this)
+			.OrderByDescending(territory => CalculateRegionPriorityScore(territory.region))
+			.ThenByDescending(territory => CalculateOwnedNeighbourScore(territory, 1))
 			.ThenByDescending(territory => CalculateOwnedNeighbourScore(territory, 2))
-			.Take(CENTRAL_TERRITORIES)
-			.ToList();
+			.Take(CENTRAL_TERRITORIES)];
 	}
 
 	private List<(Territory source, Territory target)> IdentifyInvasionTargets() {
-		return manager.GetPlayerTerritories(this)
+		return [.. manager.GetPlayerTerritories(this)
 			.SelectMany(t => t.neighbours
 				.Where(n => n.Owner != this)
 				.Select(n => (source: t, target: n)))
-			.OrderByDescending(pair => pair.target.region.complete)
+			.OrderByDescending(pair => IsHeldByOpponent(pair.target.region))
 			.ThenByDescending(pair => CalculateRegionCompletionScore(pair.target.region))
-			.ThenByDescending(pair => pair.source.troop_count - pair.target.troop_count)
-			.ToList();
+			.ThenByDescending(pair => pair.source.troop_count - pair.target.troop_count)];
+	}
+
+	private bool IsHeldByOpponent(Region region) {
+		Player first = region.Territories.FirstOrDefault()?.Owner;
+		return first != null && first != this && region.Territories.All(t => t.Owner == first);
 	}
 
 	// ----- // CONSOLIDATION // ----- //
@@ -77,14 +80,23 @@ public partial class BotPlayer : Player {
 			Returns the list of potential targets.
 		*/
 
-		List<Territory> priority_list = manager.GetPlayerTerritories(this)
-			.GroupBy(t => t.region)
-			.OrderByDescending(g => g.Count())
-			.SelectMany(g => manager.Shuffle(g.ToList()))
-			.ToList();
+		/*
+			ToDo:
+			We need to check if we own a full continent, those territories need to be biased.
+			This depends on the size, troop to territory ratio and the value of the continent.
+			A continent that scores more is worth more.
+			A smaller continent that has a low amount of troops is prioritised over a larger contient with a relatively lower amount of troops
+			(as the smaller one is easier to take)
+		*/
 
-		List<Territory> potential_targets = new();
-		HashSet<Territory> touched_territories = new();
+		List<Territory> priority_list = [.. manager.GetPlayerTerritories(this)
+			.GroupBy(t => t.region)
+			.OrderByDescending(g => CalculateRegionPriorityScore(g.Key))
+			.ThenByDescending(g => g.Count())
+			.SelectMany(g => GameManager.Shuffle(g.ToList()))];
+
+		List<Territory> potential_targets = [];
+		HashSet<Territory> touched_territories = [];
 
 		void TestAdd(Territory territory) {
 			if (touched_territories.Add(territory)) {
@@ -94,7 +106,7 @@ public partial class BotPlayer : Player {
 		}
 
 		foreach (Territory territory in priority_list) {
-			foreach (Territory neighbour in manager.Shuffle(territory.neighbours.ToList())) {
+			foreach (Territory neighbour in GameManager.Shuffle(territory.neighbours.ToList())) {
 				if (neighbour.region == territory.region)
 					TestAdd(neighbour);
 			}
@@ -113,8 +125,8 @@ public partial class BotPlayer : Player {
 		// Uses GetConsolidationTargets to return the best neighbour to attack from
 
 		List<Territory> consolidation_targets = GetAllConsolidationTargets(false);
-		List<Territory> potential_reinforcements = new();
-		HashSet<Territory> touched_territories = new();
+		List<Territory> potential_reinforcements = [];
+		HashSet<Territory> touched_territories = [];
 
 		foreach (Territory target in consolidation_targets){
 
@@ -128,7 +140,7 @@ public partial class BotPlayer : Player {
 			}
 		}
 
-		return potential_reinforcements;
+		return [.. potential_reinforcements.OrderByDescending(t => CalculateRegionPriorityScore(t.region))];
 	}
 
 	public Territory GetReinforcementTarget() {

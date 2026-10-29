@@ -1064,6 +1064,7 @@ theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 18
 
 [node name="Troop Slider" type="VBoxContainer" parent="UI/UI Container" unique_id=1956191643]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -1286,7 +1287,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Fade In" type="Control" parent="UI" unique_id=1329449893 node_paths=PackedStringArray("ColourRect")]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

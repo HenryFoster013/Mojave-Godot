@@ -145,7 +145,7 @@ public partial class BotPlayer : Player {
 	private Territory ip_buffered_central_territory;
 
 	private void InitialPlacementStarted() {
-		ip_buffered_central_territory = IdentifyCentralTerritories()[0];
+		ip_buffered_central_territory = IdentifyCentralTerritories().FirstOrDefault();
 	}
 
 	private void PlacementConsolidation() {
