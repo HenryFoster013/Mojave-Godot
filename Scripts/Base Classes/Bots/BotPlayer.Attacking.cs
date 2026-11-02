@@ -49,22 +49,6 @@ public partial class BotPlayer : Player {
 		return candidates[0];
 	}
 
-	private bool IsWorthAttacking(Territory source, Territory target) {
-
-		if (source.troop_count < RiskUtils.MIN_TROOPS + 1)
-			return false;
-
-		int attackers = source.troop_count - RiskUtils.MIN_TROOPS;
-		if (attackers - target.troop_count < A_MIN_TROOP_ADVANTAGE)
-			return false;
-
-		// Don't strip a tile that is under real threat unless the attack is clearly overwhelming.
-		if (CalculateThreatScore(source) > A_MAX_SOURCE_THREAT && attackers < target.troop_count * 2)
-			return false;
-
-		return true;
-	}
-
 	private float CalculateAttackScore(Territory source, Territory target) {
 
 		float score = 0;
