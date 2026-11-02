@@ -123,8 +123,6 @@ public partial class BotPlayer : Player {
 
 	// ----- // REQUESTS // ----- //
 
-	public override void RequestConquestDivision(Territory from_territory, Territory to_territory) { }
-
 	public override async void RequestPlacement() {
 
 		await Task.Delay(TimeSpan.FromSeconds(INITIAL_PLACEMENT_DELAY));
@@ -182,13 +180,8 @@ public partial class BotPlayer : Player {
 
 	// ----- // PLAYS // ----- //
 
-	public override async void RequestPlay() { 
-		SkipTurn();
-	}
-
 	private async void SkipTurn() {
 		await Task.Delay(TimeSpan.FromSeconds(BASE_DELAY));
-		manager.SpeakSkip();
 		manager.SpeakSkip();
 		manager.SpeakSkip();
 	}
