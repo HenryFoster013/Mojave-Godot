@@ -1,6 +1,4 @@
-using Godot;
-using System;
-using System.Collections.Generic;
+namespace MojaveGodot;
 
 public abstract partial class MapRenderer : Node {
 

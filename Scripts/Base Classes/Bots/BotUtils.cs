@@ -1,3 +1,5 @@
+namespace Mojave;
+
 public static class BotUtils {
 
 	// ----- // AI DEFAULTS // ----- //

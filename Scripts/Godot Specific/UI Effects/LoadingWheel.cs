@@ -1,5 +1,4 @@
-using Godot;
-using System;
+namespace MojaveGodot;
 
 public partial class LoadingWheel : Node {
 

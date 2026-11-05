@@ -1,38 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using static BotUtils;
+namespace Mojave;
 
 public partial class BotPlayer : Player {
 
-	////////////////////////////|| ATTACKING ||////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	// ----- // PLAY LOOP // ----- //
-
-	/*  Replace your current RequestPlay / SkipTurn with this.
-		Flow: attack repeatedly while a good attack exists (capped), then skip the remaining phases.
-	*/
-
-	public override async void RequestPlay() {
-
-		int attacks_made = 0;
-
-		while (attacks_made < A_MAX_ATTACKS_PER_TURN) {
-
-			await Task.Delay(TimeSpan.FromSeconds(BASE_DELAY));
-
-			(Territory source, Territory target)? attack = ChooseAttack();
-			if (attack == null) break;
-
-			manager.SpeakBlitz(attack.Value.source, attack.Value.target);
-			attacks_made++;
-		}
-
-		SkipTurn();
-	}
-
-	// ----- // CHOOSING // ----- //
+	// ------ // ------ // ------ // SELECTION // ------ // ------ // ------ //
 
 	private (Territory source, Territory target)? ChooseAttack() {
 
@@ -49,26 +19,7 @@ public partial class BotPlayer : Player {
 		return candidates[0];
 	}
 
-	private float CalculateAttackScore(Territory source, Territory target) {
-
-		float score = 0;
-
-		int attackers = source.troop_count - 1;
-		score += A_ADVANTAGE_WEIGHT * (attackers - target.troop_count);
-
-		if (IsHeldByOpponent(target.region)) score += A_BREAK_BONUS_WEIGHT + (A_BREAK_REGION_VALUE_WEIGHT * target.region.bonus);
-
-		float ownership = CalculateRegionOwnershipScore(target.region);
-		score += A_COMPLETION_WEIGHT * ownership;
-
-		int missing = target.region.Territories.Count(t => t.Owner != this);
-		if (missing == 1) score += A_FINISH_REGION_BONUS;
-		if (target.troop_count == 1) score += A_WEAK_DEFENDER_BONUS;
-
-		return score;
-	}
-
-	// ----- // AFTER CONQUEST // ----- //
+	// ------ // ------ // ------ // TROOP DIVISION // ------ // ------ // ------ //
 
 	public override void RequestConquestDivision(Territory from_territory, Territory to_territory) {
 
@@ -79,11 +30,22 @@ public partial class BotPlayer : Player {
 		bool to_is_exposed   = to_territory.neighbours.Any(n => n.Owner != this);
 
 		int to_move;
-		if (to_is_exposed && !from_is_exposed) // Push all forward
+		if (to_is_exposed && !from_is_exposed) {
+			
+			// Push all forward //
+
 			to_move = available;
-		else if (!to_is_exposed && from_is_exposed) // Leave all behind
+		}
+		else if (!to_is_exposed && from_is_exposed) {
+			
+			// Leave all behind //
+
 			to_move = 1;
-		else { // Divide Evenly
+		}
+		else { 
+			
+			// Divide Evenly //
+
 			float from_exposure = CalculateExposure(from_territory);
 			float to_exposure   = CalculateExposure(to_territory);
 			float to_share = to_exposure / (from_exposure + to_exposure);
@@ -91,11 +53,5 @@ public partial class BotPlayer : Player {
 		}
 
 		manager.SpeakConquestDivision(from_territory, to_territory, to_move);
-	}
-
-
-	// Scores a tile on how exposed it is, counts the troops that neighbour it (ignoring holding troops).
-	private float CalculateExposure(Territory territory) {
-		return 1f + territory.neighbours.Where(n => n.Owner != this).Sum(n => n.troop_count - RiskUtils.MIN_TROOPS);
 	}
 }

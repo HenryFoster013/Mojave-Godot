@@ -1,4 +1,4 @@
-using System;
+namespace Mojave;
 
 public static class RiskUtils {
 

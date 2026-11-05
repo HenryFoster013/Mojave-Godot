@@ -1,6 +1,4 @@
-using Godot;
-using System.Collections.Generic;
-using System.Linq;
+namespace MojaveGodot;
 
 [Tool]
 public partial class ArrowRenderer3D : MeshInstance3D {

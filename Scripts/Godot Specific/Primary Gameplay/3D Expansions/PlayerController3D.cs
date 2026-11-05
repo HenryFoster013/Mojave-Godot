@@ -1,4 +1,4 @@
-using Godot;
+namespace MojaveGodot;
 
 public partial class PlayerController3D : PlayerController {
 

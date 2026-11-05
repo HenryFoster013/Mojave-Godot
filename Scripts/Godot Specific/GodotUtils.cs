@@ -1,5 +1,4 @@
-using Godot;
-using System.Threading.Tasks;
+namespace MojaveGodot;
 
 public static class GodotUtils {
 

@@ -1,5 +1,4 @@
-using Godot;
-using static RiskUtils;
+namespace MojaveGodot;
 
 public abstract partial class PlayerController : Node {
 	protected GameMaster game_master;

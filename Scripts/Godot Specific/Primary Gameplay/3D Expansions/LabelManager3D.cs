@@ -1,6 +1,4 @@
-using Godot;
-using System.Collections.Generic;
-using static RiskUtils;
+namespace MojaveGodot;
 
 public partial class LabelManager3D : LabelManager {
 

@@ -1,9 +1,4 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using static RiskUtils;
+namespace Mojave;
 
 public class GameManager {
 

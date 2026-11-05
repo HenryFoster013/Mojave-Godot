@@ -1,6 +1,4 @@
-using Godot;
-using static GodotUtils;
-using System;
+namespace MojaveGodot;
 
 public partial class FadeIn : Control {
 
