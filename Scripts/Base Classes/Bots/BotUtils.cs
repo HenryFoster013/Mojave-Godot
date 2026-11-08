@@ -38,17 +38,4 @@ public static class BotUtils {
 	public const float REGION_LOW_TROOP_WEIGHT = 3f;  // Scaled by ownership and divided by average troops per owned tile, so thinly defended regions get priority
 	public const float REGION_BONUS_WEIGHT     = 2f;  // Multiplied by region.bonus per territory, so high-value, compact regions score higher
 
-	// Attacking //
-
-	public const int   A_MAX_ATTACKS_PER_TURN      = 10;  // Hard cap so a bot can't loop forever
-	public const int   A_MISTAKE_CHANCE            = 5;   // % chance to pick a random valid attack instead of the best
-	public const int   A_MIN_TROOP_ADVANTAGE       = 2;   // Attackers (source troops - 1) must exceed defenders by at least this
-	public const float A_MAX_SOURCE_THREAT         = 4f;  // Above this threat, the source tile only attacks if heavily outnumbering the target
-	public const float A_ADVANTAGE_WEIGHT          = 1f;  // Score per point of troop advantage
-	public const float A_BREAK_BONUS_WEIGHT        = 6f;  // Flat score for breaking a region an opponent fully holds
-	public const float A_BREAK_REGION_VALUE_WEIGHT = 1f;  // Extra score per point of that region's bonus
-	public const float A_COMPLETION_WEIGHT         = 8f;  // Multiplied by the fraction of the target's region we already own
-	public const float A_FINISH_REGION_BONUS       = 10f; // Flat bonus if the target is the last tile we need in that region
-	public const float A_WEAK_DEFENDER_BONUS       = 2f;  // Flat bonus for a 1-troop defender
-
 }

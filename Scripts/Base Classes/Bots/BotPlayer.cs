@@ -24,23 +24,16 @@ public partial class BotPlayer : Player {
 	}
 
 	private async void PlayPlacements() {
+
+		CollectObjectives();
+
 		await Task.Delay(TimeSpan.FromSeconds(BASE_DELAY));
 		manager.SpeakSkip();
 	}
 
 	private async void PlayAttacks() {
-		
-		int attacks_made = 0;
-		while (attacks_made < A_MAX_ATTACKS_PER_TURN) {
-			
-			await Task.Delay(TimeSpan.FromSeconds(BASE_DELAY));
-			(Territory source, Territory target)? attack = ChooseAttack();
-
-			if (attack == null) break;
-
-			manager.SpeakBlitz(attack.Value.source, attack.Value.target);
-			attacks_made++;
-		}
+		await Task.Delay(TimeSpan.FromSeconds(BASE_DELAY));
+		manager.SpeakSkip();
 	}
 
 	private async void PlayFortify() {
