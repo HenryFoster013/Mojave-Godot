@@ -3,15 +3,15 @@ namespace MojaveGodot;
 public partial class MapRenderer3D : MapRenderer {
 
 	[Export] public MeshInstance3D mesh;
-	[Export] public Vector2 map_world_size = new Vector2(2048, 2048);
-	[Export] public Vector2 map_pixel_size = new Vector2(2048, 2048);
+	[Export] public Godot.Vector2 map_world_size = new Godot.Vector2(2048, 2048);
+	[Export] public Godot.Vector2 map_pixel_size = new Godot.Vector2(2048, 2048);
 	[Export] public ArrowRenderer3D arrow_renderer;
 
 	[ExportGroup("Noise")]
 	[Export] public ShaderMaterial noise_material;
 	[Export] public FastNoiseLite noise_gen;
 	const float NOISE_SPEED = 0.005f;
-	private Vector2 noise_offset;
+	private Godot.Vector2 noise_offset;
 
 	[ExportGroup("Props")]
 	[Export] public Node3D prop_holder;
@@ -34,10 +34,10 @@ public partial class MapRenderer3D : MapRenderer {
 	protected override ShaderMaterial GetShaderMaterial()
 		=> mesh.GetSurfaceOverrideMaterial(0) as ShaderMaterial;
 
-	public override Territory GetTerritoryAtCoords(Vector2 world_pos) {
+	public override Territory GetTerritoryAtCoords(Godot.Vector2 world_pos) {
 
-		Vector2 normalized = (world_pos + map_world_size / 2f) / map_world_size;
-		Vector2 pixel_pos = normalized * map_pixel_size;
+		Godot.Vector2 normalized = (world_pos + map_world_size / 2f) / map_world_size;
+		Godot.Vector2 pixel_pos = normalized * map_pixel_size;
 
 		if (pixel_pos.X < 0 || pixel_pos.Y < 0 || pixel_pos.X >= map_pixel_size.X || pixel_pos.Y >= map_pixel_size.Y)
 			return null;
@@ -103,7 +103,7 @@ public partial class MapRenderer3D : MapRenderer {
 		
 		if (route.Count == 0) return;
 
-		List<Vector3> waypoints = new();
+		List<Godot.Vector3> waypoints = new();
 		foreach (Territory route_part in route)
 			waypoints.Add(label_manager.WorldPosition(route_part.centroid));
 		arrow_renderer.Draw(waypoints);

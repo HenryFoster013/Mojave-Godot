@@ -9,7 +9,7 @@ public class Region {
     public string id { get; init; }
     public string name { get; init; }
     public string colour { get; init; }
-    public Vector2 centroid { get; init; }
+    public System.Numerics.Vector2 centroid { get; init; }
     public IReadOnlyList<string> territory_ids { get; init; }
     public int bonus { get; init; }
     public bool complete { get; private set; }
@@ -38,7 +38,7 @@ public class Region {
             name = data["name"].GetValue<string>(),
             colour = data["color"].GetValue<string>(),
             bonus = data["bonus"].GetValue<int>(),
-            centroid = new Vector2(centroidData["x"].GetValue<float>(), centroidData["y"].GetValue<float>()),
+            centroid = new System.Numerics.Vector2(centroidData["x"].GetValue<float>(), centroidData["y"].GetValue<float>()),
             territory_ids = ids,
         };
     }

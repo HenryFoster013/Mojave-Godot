@@ -384,7 +384,7 @@ public partial class GameMaster : Node {
 		bool visible = !string.IsNullOrEmpty(text);
 		troop_slider_subheader.Visible = visible;
 		troop_slider_subheader.Text = text ?? string.Empty;
-		troop_slider_window.CustomMinimumSize = new Vector2(
+		troop_slider_window.CustomMinimumSize = new Godot.Vector2(
 			GodotUtils.TROOP_SLIDER_WIDTH,
 			visible ? GodotUtils.TROOP_SLIDER_HEIGHT_SUBHEADING : GodotUtils.TROOP_SLIDER_HEIGHT_DEFAULT);
 	}

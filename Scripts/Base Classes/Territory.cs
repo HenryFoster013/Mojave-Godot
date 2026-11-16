@@ -10,7 +10,7 @@ public class Territory {
     public string name { get; init; }
     public string map_colour { get; init; }
     public string owning_region_id { get; init; }
-    public Vector2 centroid { get; init; }
+    public System.Numerics.Vector2 centroid { get; init; }
     public IReadOnlyList<string> neighbour_ids { get; init; }
     public int render_order;
 
@@ -40,7 +40,7 @@ public class Territory {
             name = data["name"].GetValue<string>(),
             map_colour = data["color"].GetValue<string>(),
             owning_region_id = data["regionId"].GetValue<string>(),
-            centroid = new Vector2(centroidData["x"].GetValue<float>(), centroidData["y"].GetValue<float>()),
+            centroid = new System.Numerics.Vector2(centroidData["x"].GetValue<float>(), centroidData["y"].GetValue<float>()),
             neighbour_ids = neighbourIds,
         };
     }

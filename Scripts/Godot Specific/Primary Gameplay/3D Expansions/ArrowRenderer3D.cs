@@ -12,14 +12,14 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 	[Export] public float head_width = 0.1f;
 
 	[ExportGroup("Testing")]
-	[Export] public Vector3[] test_points;
+	[Export] public Godot.Vector3[] test_points;
 	[Export] public Color test_colour = new Color(1.0f, 0f, 1f, 1.0f);
 
 	[ExportToolButton("Draw")] public Callable DrawButton => Callable.From(TestDraw);
 	[ExportToolButton("Clear")] public Callable ClearButton => Callable.From(ClearArrow);
 
 	private StandardMaterial3D _mat;
-	private List<Vector3> verts = new();
+	private List<Godot.Vector3> verts = new();
 	private List<int> indices = new();
 
 	// ----- // START // ----- //
@@ -45,14 +45,14 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 
 	// ----- // DRAW // ----- //
 
-	public void Draw(List<Vector3> waypoints) {
+	public void Draw(List<Godot.Vector3> waypoints) {
 		if (waypoints.Count < 2) return;
 
 		verts.Clear();
 		indices.Clear();
 
-		List<Vector2> flattened_points = waypoints.Select(p => new Vector2(p.X, p.Z)).ToList();
-		List<Vector2> headless_points = TrimTip(flattened_points, head_length);
+		List<Godot.Vector2> flattened_points = waypoints.Select(p => new Godot.Vector2(p.X, p.Z)).ToList();
+		List<Godot.Vector2> headless_points = TrimTip(flattened_points, head_length);
 
 		AppendShafts(headless_points);
 		if(waypoints.Count > 2) // Needs more than one quad
@@ -74,9 +74,9 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 
 	// ----- // HELPERS // ----- //
 
-	private Vector3 ThreeDimensional(Vector2 p) => new Vector3(p.X, vertical_offset, p.Y);
-	private Vector2 TwoDimensional(Vector3 p) => new Vector2(p.X, p.Z);
-	private Vector2 PerpendicularTo(Vector2 dir) => new Vector2(-dir.Y, dir.X);
+	private Godot.Vector3 ThreeDimensional(Godot.Vector2 p) => new Godot.Vector3(p.X, vertical_offset, p.Y);
+	private Godot.Vector2 TwoDimensional(Godot.Vector3 p) => new Godot.Vector2(p.X, p.Z);
+	private Godot.Vector2 PerpendicularTo(Godot.Vector2 dir) => new Godot.Vector2(-dir.Y, dir.X);
 
 	// ----- // MESH BUILDING // ----- //
 
@@ -86,12 +86,12 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 
 	// First iteration, adding the quad shafts //
 
-	private void AppendShafts(List<Vector2> polyline) {
+	private void AppendShafts(List<Godot.Vector2> polyline) {
 
 		for (int i = 0; i < polyline.Count - 1; i++) {
-			Vector2 a = polyline[i];
-			Vector2 b = polyline[i + 1];
-			Vector2 right = PerpendicularTo((b - a).Normalized()) * width * 0.5f;
+			Godot.Vector2 a = polyline[i];
+			Godot.Vector2 b = polyline[i + 1];
+			Godot.Vector2 right = PerpendicularTo((b - a).Normalized()) * width * 0.5f;
 
 			int _base = verts.Count;
 
@@ -131,15 +131,15 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 
 	private void CheckJoin(int a_index, int x_index, int b_index, int y_index, bool second_attempt) {
 
-		Vector2 a_start = TwoDimensional(verts[a_index - 2]);
-		Vector2 a_end = TwoDimensional(verts[a_index]);
-		Vector2 x_start = TwoDimensional(verts[x_index]);
-		Vector2 x_end = TwoDimensional(verts[x_index + 2]);
+		Godot.Vector2 a_start = TwoDimensional(verts[a_index - 2]);
+		Godot.Vector2 a_end = TwoDimensional(verts[a_index]);
+		Godot.Vector2 x_start = TwoDimensional(verts[x_index]);
+		Godot.Vector2 x_end = TwoDimensional(verts[x_index + 2]);
 
-		Vector2 a_vec = a_end - a_start;
-		Vector2 x_vec = x_end - x_start;
+		Godot.Vector2 a_vec = a_end - a_start;
+		Godot.Vector2 x_vec = x_end - x_start;
 		float cross = a_vec.Cross(x_vec);
-		Vector2 a_x = x_start - a_start;
+		Godot.Vector2 a_x = x_start - a_start;
 
 		GD.Print($"a_start: {a_start}, a_end: {a_end}");
 		GD.Print($"x_start: {x_start}, x_end: {x_end}");
@@ -151,7 +151,7 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 
 		if (t >= 0f && t <= 1f && u >= 0f && u <= 1f) {
 			GD.Print("Intersection found. Merging!");
-			Vector3 intersection_point = ThreeDimensional(a_start + t * a_vec);
+			Godot.Vector3 intersection_point = ThreeDimensional(a_start + t * a_vec);
 			verts[a_index] = intersection_point;
 			verts[x_index] = intersection_point;
 			DrawTriangle(a_index, b_index, y_index);
@@ -168,8 +168,8 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 
 	// Third iteration, adding the triangular head //
 
-	private List<Vector2> TrimTip(List<Vector2> polyline, float trim_length) {
-		var   trimmed   = new List<Vector2>(polyline);
+	private List<Godot.Vector2> TrimTip(List<Godot.Vector2> polyline, float trim_length) {
+		var   trimmed   = new List<Godot.Vector2>(polyline);
 		float remaining = trim_length;
 
 		while (trimmed.Count > 1) {
@@ -180,7 +180,7 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 				trimmed.RemoveAt(trimmed.Count - 1);
 			}
 			else {
-				Vector2 dir = (trimmed[^1] - trimmed[^2]).Normalized();
+				Godot.Vector2 dir = (trimmed[^1] - trimmed[^2]).Normalized();
 				trimmed[^1] -= dir * remaining;
 				break;
 			}
@@ -189,8 +189,8 @@ public partial class ArrowRenderer3D : MeshInstance3D {
 		return trimmed;
 	}
 
-	private void AppendHead(Vector2 base_center, Vector2 tip) {
-		Vector2 right = PerpendicularTo((tip - base_center).Normalized()) * (head_width * 0.5f);
+	private void AppendHead(Godot.Vector2 base_center, Godot.Vector2 tip) {
+		Godot.Vector2 right = PerpendicularTo((tip - base_center).Normalized()) * (head_width * 0.5f);
 		int _base = verts.Count;
 		verts.AddRange(new[] { ThreeDimensional(tip), ThreeDimensional(base_center - right), ThreeDimensional(base_center + right) });
 		indices.AddRange(new[] { _base, _base + 1, _base + 2 });

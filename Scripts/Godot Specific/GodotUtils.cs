@@ -32,15 +32,15 @@ public static class GodotUtils {
     public static void AddButtonAnimation(this Button button) {
         if (button == null) return;
 
-        Vector2 base_scale    = button.Scale;
-        Vector2 hover_scale   = base_scale * BUTTON_HOVER_SCALE;
-        Vector2 pressed_scale = base_scale * BUTTON_PRESSED_SCALE;
+        Godot.Vector2 base_scale    = button.Scale;
+        Godot.Vector2 hover_scale   = base_scale * BUTTON_HOVER_SCALE;
+        Godot.Vector2 pressed_scale = base_scale * BUTTON_PRESSED_SCALE;
 
         button.PivotOffset = button.Size / 2f;
         Tween active_tween = null;
         bool hovered = false;
 
-        void AnimateTo(Vector2 target_scale) {
+        void AnimateTo(Godot.Vector2 target_scale) {
             active_tween?.Kill();
             active_tween = button.CreateTween();
             active_tween.TweenProperty(button, "scale", target_scale, BUTTON_ANIM_DURATION)
@@ -56,7 +56,7 @@ public static class GodotUtils {
     public static void AnimatePanel(this Control panel) {
         if (panel == null) return;
 
-        Vector2 target_scale = panel.Scale;
+        Godot.Vector2 target_scale = panel.Scale;
         panel.PivotOffset = panel.Size / 2f;
         panel.Scale = target_scale * PANEL_ANIM_SCALE;
 

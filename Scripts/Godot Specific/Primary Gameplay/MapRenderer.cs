@@ -58,7 +58,7 @@ public abstract partial class MapRenderer : Node {
 	}
 
 	protected abstract ShaderMaterial GetShaderMaterial();
-	public abstract Territory GetTerritoryAtCoords(Vector2 world_pos);
+	public abstract Territory GetTerritoryAtCoords(Godot.Vector2 world_pos);
 
 	// ----- // BUILDING LUTs // ----- //
 
